@@ -1,0 +1,2050 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+INFOH417 - Database Systems Architecture Lab Sessions
+\end_layout
+
+\begin_layout Date
+Fall 2022
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename /home/jose/Dropbox/BDMA/ULB/DM/Summary/1200px-Université_libre_de_Bruxelles_(logo).svg.png
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Mariana Duarte
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.lorencio.abril@ulb.be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand lstlistoflistings
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Lab session 1
+\end_layout
+
+\begin_layout Standard
+Consider the 
+\emph on
+dvdrental
+\emph default
+ entity-relation diagram shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ER-diagram-dvdrental."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado14.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ER-diagram-dvdrental."
+
+\end_inset
+
+ER diagram 
+\emph on
+dvdrental
+\emph default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Write SQL and relational algebra statements to answer the following questions:
+\end_layout
+
+\begin_layout Enumerate
+What are the names and emails of our customers?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT first_name, last_name, email
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational Algebra:
+\begin_inset Formula 
+\[
+\pi_{first\_name,last\_name,email}\left(customer\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+How many movies are rated PG-13?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM film
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE rating = 'PG-13';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\gamma_{count\left(*\right)}\left(\sigma_{rating='PG-13'}\left(film\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+What is the first name of the staff member that did not store a picture
+ in the database?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT first_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM staff
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE picture IS NULL;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra:
+\begin_inset Formula 
+\[
+\pi_{first\_name}\left(\sigma_{picture\ IS\ NULL}\left(staff\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+What are the titles of the movies in which an actor with a last name ending
+ in 'son' has played?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT(title) 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM film f
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN film_actor fa ON fa.film_id = f.film_id
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN actor a ON a.actor_id = fa.film_id
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE a.last_name LIKE '%son';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra:
+\begin_inset Formula 
+\[
+\gamma_{title}\left(\sigma_{a.last\_name\ LIKE\ '\%son'}\left(\rho_{f}\left(film\right)\Join\rho_{fa}\left(film\_actor\right)\Join\rho_{a}\left(actor\right)\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+What are the titles of the movies that have not been rented yet?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT title
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM film f
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT EXISTS 
+\end_layout
+
+\begin_layout Plain Layout
+
+(
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM rental r
+\end_layout
+
+\begin_layout Plain Layout
+
+	INNER JOIN inventory i
+\end_layout
+
+\begin_layout Plain Layout
+
+	USING(inventory_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE f.film_id = i.film_id
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra:
+\begin_inset Formula 
+\[
+\pi_{title}\left(\rho_{f}\left(film\right)\right)-\pi_{title}\left(\rho_{r}\left(rental\right)\Join\rho_{i}\left(inventory\right)\Join\rho_{f}\left(film\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Who are the customers who returned a DVD on May 27th 2005?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT first_name, last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer
+\end_layout
+
+\begin_layout Plain Layout
+
+INNER JOIN rental USING(customer_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE return_date::date = '2005-05-27';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra:
+\begin_inset Formula 
+\[
+\gamma_{\left(first\_name,second\_name\right)}\left(\sigma_{return\_date::date='2005-05-27'}\left(\pi_{customer\_id,return\_date,first\_name,second\_name}\left(customer\right)\Join rental\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Lab session 2
+\end_layout
+
+\begin_layout Standard
+The EXPLAIN statement in PostgreSQL returns the execution plan of a query.
+ By making use of this EXPLAIN statement, answer the following questions.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Query 1 contains a filter on the return_date column.
+ When is this filtering applied in the query plan, and why?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT first_name, last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer
+\end_layout
+
+\begin_layout Plain Layout
+
+INNER JOIN rental USING(customer_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE return_date::da
+\end_layout
+
+\begin_layout Plain Layout
+
+te = '2005-05-27';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We get the following result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado1.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 1: EXPLAIN query result.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The filter is executed in the 
+\begin_inset Formula $7^{th}$
+\end_inset
+
+ step, just after the join has been completed.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+The EXPLAIN statement returns an estimate of the cost of the query (ex.:
+ cost=0.00...1.00).
+ The first value corresponds to the estimated startup cost (cost before
+ we output the first tuple) and the second corresponds to the estimated
+ total cost.
+ In query 1, the startup cost is equivalent to the total cost, whereas Query
+ 2 has an estimated startup cost of 0.00.
+ What causes this diference?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Query 1-
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT first_name, last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer
+\end_layout
+
+\begin_layout Plain Layout
+
+INNER JOIN rental USING(customer_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE return_date::date = '2005-05-27';
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Query 2 - 
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT first_name, last_name, email FROM customer;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Startup cost
+\series default
+: cost to have the first element prepared to be returned.
+\end_layout
+
+\begin_layout Standard
+In query 1, the costs are the same because when we finish the preparation
+ step (joining, filtering,...) we already have all the results prepared to
+ be retrieved.
+\end_layout
+
+\begin_layout Standard
+In query 2, we see a difference in cost instead because in this case the
+ results will be retrieved as the table is scanned.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Query 3 counts the movies rated PG-13.
+ How does this query compare (in execution plan and expected duration) to
+ a query counting all of the movies? Assuming that the number of movies
+ rated PG-13 is very low compared to the total number of movies, what could
+ be done to improve the execution speed of this query?
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT count(*) FROM film WHERE rating = 'PG-13';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado2.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado4.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 3: EXPLAIN query result with WHERE (up) and without (down).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+As we can see, even though the first query counts one forth of the second
+ one, it lasts the same.
+\end_layout
+
+\begin_layout Exercise
+We could use an index on rating to improve this query.
+ To do this, we run:
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE INDEX idx_film_rating ON film(rating);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado5.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 3: EXPLAIN query results after creating an index.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+As we can see, the query plan has changed, from performing a sequential
+ scanning to perform two bitmap scans.
+ The cost has not improved so much, but the less number of films satisfying
+ the condition compare to the total, the greater would the decrease in cost
+ with this strategy.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+These two following queries are almost identical, but still have quite different
+ execution plans.
+ What are the diferences and why does the optimizer choose these plans?
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Query a:
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT a.first_name, a.last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer a, actor b
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE a.first_name = b.first_name AND a.last_name = b.last_name;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Query b:
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT a.first_name, a.last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer a, staff b
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE a.first_name = b.first_name AND a.last_name = b.last_name;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+First, let's execute the EXPLAIN on both queries:
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado6.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado7.png
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 4: EXPLAIN query result from A (up) and B (down).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Apparently, one of them should be planning to do the query using a nested
+ loop.
+ So, what is the difference between hash join and nested loop join?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nested loop
+\series default
+: let's say we want to join tables A and B on attribute attr.
+ Then, a nested loop strategy travels through A and, for each record in
+ A, in travels B, checking for each record in B if the condition is met
+ for the current record in A.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+NESTED LOOP JOIN A, B ON attr:
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	joined = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	for a in A:
+\end_layout
+
+\begin_layout Plain Layout
+
+		for b in B:
+\end_layout
+
+\begin_layout Plain Layout
+
+			if a.attr == b.attr:
+\end_layout
+
+\begin_layout Plain Layout
+
+				joined += join(a,b)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return joined
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So, this approach is quadratic on the size of A and B.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Hash join
+\series default
+: a hash join strategy would traverse table A while creating a hash structure
+ on attr.
+ Later, it will travel table B and will join using the value of each hashed
+ attr.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+HASH JOIN A, B ON attr:
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	joined = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	hash_table = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	for a in A:
+\end_layout
+
+\begin_layout Plain Layout
+
+		hash_table += (key: hashing(a.attr),value: pointer to a)
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	for b in B:
+\end_layout
+
+\begin_layout Plain Layout
+
+		if hashing(b.attr) in hash_table.keys:
+\end_layout
+
+\begin_layout Plain Layout
+
+			joined += join(b, hash_table(hashing(b.attr)))
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	return joined
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This, approach, in contrast to the previous one, is linear on the size of
+ A and B.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, let's move on to the second part of the lab session.
+\end_layout
+
+\begin_layout Standard
+To determine the best execution plan for a query, the optimizer makes use
+ of statistics computed on the diferent tables.
+ These statistics can be found in the pg_statistic table or the more user-friend
+ly pg_stats view.
+ These can be accessed by the queries:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select * from pg_statistic
+\end_layout
+
+\begin_layout Plain Layout
+
+select * from pg_stats view
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the pg_stats view to answer the following questions.
+ Additionally, give the query used to answer the question.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What is the most common rating in the 'film' table?
+\end_layout
+
+\begin_layout Standard
+Using the query
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM pg_stats view
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE tablename = 'film' and attname = 'rating'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We obtain the following result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 5: query result.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So the most common rating is 'PG-13'.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What fraction (in %) of the DVD's have not been returned yet (return date
+ is NULL)?
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT null_frac*100 as percentage
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM pg_stats view
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE tablename = 'rental' and attname = 'return_date'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado9.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+exercise 6: query result.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's now go for the third (and last) part of the session: Indexes.
+\end_layout
+
+\begin_layout Standard
+Indexes are special database objects used to speed up data access.
+ We will focus on the Btree index.
+ Read the blog Indexes in PostgreSQL — (Btree) to answer the following questions
+: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://postgrespro.com/blog/pgsql/4161516
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What data is stored in the elements of the leaf nodes in a Btree?
+\end_layout
+
+\begin_layout Exercise
+The leaf nodes store:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Pairs of keys (the data/value to be indexed).
+\end_layout
+
+\begin_layout Itemize
+TIDs (references to table rows).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What data is stored in the elements of the internal and root nodes?
+\end_layout
+
+\begin_layout Exercise
+The elemetns of the internal and root nodes contain:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+References to a child page.
+\end_layout
+
+\begin_layout Itemize
+Minimum key in that page.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What is required for a type to be indexed using a Btree index? That is:
+ if we define a new type and want to be able to create a Btree index on
+ it, what operators also need to be defined for this type? Why is this necessary
+?
+\end_layout
+
+\begin_layout Exercise
+The type needs to have the operators less than, less than or equal, equal,
+ greater than and greater than or equal.
+\end_layout
+
+\begin_layout Exercise
+These operators are required to be able to sort the values of the given
+ type, and this sorting is required for the creation of the Btree index,
+ as it is an ordered sparse index.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Lab 3
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What properties of the Btree allows us to answer inequality (<,<=, >,>=)
+ or range searches (between) efficiently?
+\end_layout
+
+\begin_layout Itemize
+B-trees are balanced: it takes the same time to get to all keys (leaf-nodes).
+\end_layout
+
+\begin_layout Itemize
+B-trees are multi-branched: each page contains hundreds of TIDs, so they
+ are short in depth.
+\end_layout
+
+\begin_layout Itemize
+Data is sorted in non-decreasing order and same level-pages are connected
+ to one another by bidirectional list
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Could we use the same index for a query of the form: SELECT ...
+ FROM ...
+ ORDER BY col DESC?
+\end_layout
+
+\begin_layout Exercise
+Yes, as it is already ordered, it can help us achieve the same result in
+ a faster way.
+ But if we are using a multi-column index, we will only be able to use it
+ to order the table in the same order or its inverse, but not one of the
+ columns in the same order and the other reversed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+How are NULL values handled by Btree indexes?
+\end_layout
+
+\begin_layout Exercise
+NULLs are located on one or the other end of leaf nodes depending on how
+ the index was created (NULLS FIRST or NULLS LAST).
+ This is important if a query includes sorting: the index can be used if
+ the SELECT command specifies the same order of NULLS in its ORDER BY clause
+ as the order specified for the built index.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Let’s create indexes.
+ We would like to query:
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT first_name, last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer
+\end_layout
+
+\begin_layout Plain Layout
+
+INNER JOIN rental USING(customer_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE return_date::date = '2005-05-27';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Where would you create indexes? Would the index help?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+How about this query:
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT first_name, last_name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer
+\end_layout
+
+\begin_layout Plain Layout
+
+INNER JOIN rental USING(customer_id);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Where would you create indexes?
+\end_layout
+
+\begin_layout Exercise
+In this case, we get
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado10.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado11.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Exercise-5.-Explain"
+
+\end_inset
+
+Exercise 5.
+ Explain result before index (left) and after (right).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+So, now we don't need to check any condition on the rental, which means
+ we can directly apply an index, in the following manner:
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE INDEX idx_rental_customer_id ON rental(customer_id); 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+If we now execute the query again, we will see the plan in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Exercise-5.-Explain"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ As we can see, the sequential scan changes to an index only scan.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What is an index only scan and when is it used? Give an example of a query
+ where an index only scan would be used.
+\end_layout
+
+\begin_layout Exercise
+An index only scan is an index scan that does not need to access the table
+ the index is pointing at, because the information that is needed from the
+ table is already stored in the index itself.
+ The index needs to meet some requirements to be able to make this type
+ of scan:
+\end_layout
+
+\begin_layout Itemize
+The index type needs to be compatible with index only scans (B-trees are).
+\end_layout
+
+\begin_layout Itemize
+The query must reference only columns that is indexed (otherwise we would
+ need to access the original table).
+\end_layout
+
+\begin_layout Standard
+An example would be as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE INDEX idx_id_name ON customer(customer_id) INCLUDE(first_name);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT customer_id 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customer;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here it can be used, although it's not very useful because we need to scan
+ the whole table anyway.
+ A better example is the query in exercise 5.
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Let’s assume we have a table city (city, city_id) and we create two multi-column
+ indexes on it.
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE INDEX idx_ab ON city(city, city_id);
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE INDEX idx_ba ON city(city_id, city);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Which of the two indexes will be used to answer the following queries, and
+ why?
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+SELECT city, city_id FROM city WHERE city = ’Alessandria’;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+idx_ab, because we are filtering on city.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+SELECT city, city_id FROM city WHERE city = ’alessandria’ AND city_id =5;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Anyone, as we are using both fields as filter, so we need to acces both
+ of them.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+SELECT city, city_id FROM city WHERE city_id = 30;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+idx_ba, as we are filtering by city_id.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+What if we drop index idx_ab.
+ 
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+Considering we still have the index idx_ba ON city(city_id, city) What would
+ happen with query
+\end_layout
+
+\begin_layout Itemize
+SELECT city, city_id FROM city WHERE city = ’Alessandria’;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+It will do a seq scan.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+SELECT city, city_id FROM city WHERE city = ’alessandria’ AND city_id =5;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+It will surely use idx_ba.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+SELECT city, city_id FROM city WHERE city_id = 30;
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+It will execute in the same way as before.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+
+\series bold
+We want to query 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+What are the titles of the movies in which an actor with a last name ending
+ in 'son' has played?
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+ What index do you create and why?
+\end_layout
+
+\begin_layout Exercise
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT m.title
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM film m
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN film_actor c ON m.film_id = c.film_id
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN ACTOR a ON c.actor_id = a.actor_id
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE a.last_name LIKE '%son';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Getting
+\end_layout
+
+\begin_layout Exercise
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado13.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Exercise 9.
+ Explain result.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+So an index does not help in this situation, the optimizer is going to use
+ the primary key as index.
+\end_layout
+
+\end_body
+\end_document

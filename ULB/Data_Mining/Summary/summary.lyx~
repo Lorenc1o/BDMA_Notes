@@ -1,0 +1,2492 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=marineblue, citecolor=green, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+INFOH423 - Data Mining
+\end_layout
+
+\begin_layout Date
+Fall 2022
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename 1200px-Université_libre_de_Bruxelles_(logo).svg.png
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Mahmoud Sakr
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.lorencio.abril@ulb.be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Data Mining
+\emph default
+, taught at the Université Libre de Bruxelles by Professor Mahmoud Sakr
+ in the academic year 22/23.
+ Most of the content of this document is adapted from the course notes by
+ Sakr, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sakr2022"
+literal "false"
+
+\end_inset
+
+, and the basic bibliographic source of the course, the book of Aggarwal,
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Aggarwal_2015"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand lstlistoflistings
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Introduction
+\end_layout
+
+\begin_layout Section
+What is data mining?
+\end_layout
+
+\begin_layout Standard
+Even though there is not a formal-accepted-by-all definition of data mining,
+ most of them are in agreement that data mining is a field of study that
+ focuses on the collection, cleaning, processing, analysis and gaining of
+ useful insights from the data that we have access to.
+\end_layout
+
+\begin_layout Standard
+As wider as these topics are, is also the data mining domain, which is nowadays
+ a really hot topic both in academia and industry.
+\end_layout
+
+\begin_layout Standard
+In academia, there exist many goals to achieve in this field:
+\end_layout
+
+\begin_layout Itemize
+Developing new models.
+\end_layout
+
+\begin_layout Itemize
+Developing new ways to deal with real world data.
+\end_layout
+
+\begin_layout Itemize
+Understading what some complex models are actually doing.
+\end_layout
+
+\begin_layout Itemize
+Developing the mathematical tools to be able to better describe the models
+ that are made by computer scientist in a less formalized way (it is not
+ rare that scientific models come before their mathematical formalization
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For example, for Newton, differential calculus was just a tool he developed
+ to be able to better understand some physical processes that were kind
+ of obvious to him.
+ Afterwards, it became one of the widest branches of mathematics and led
+ to other mathematical tools, theories and developments in many other fields.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Using of data mining to gain a better understanding of medical, biological,
+ chemical, economic,...
+ data than we are able to gain using just traditional statistic techniques.
+\end_layout
+
+\begin_layout Standard
+In the industry, the focus is mainly in two fields (disregarding research
+ companies, which would have similar objectives as academia):
+\end_layout
+
+\begin_layout Itemize
+Using well known models to understand what happened in the past.
+\end_layout
+
+\begin_layout Itemize
+Using well known models to try to predict what will happen in the future.
+\end_layout
+
+\begin_layout Standard
+These usages are made with the aim of improving the business processes and,
+ ultimately, maximize profit.
+\end_layout
+
+\begin_layout Subsection
+Why is data mining important today, if it was not yesterday?
+\end_layout
+
+\begin_layout Standard
+Because the computing power has increased enormously, so now we are able
+ to run algorithms that enable us to train models in a decent time, and
+ this task was practically undoable a few years ago.
+\end_layout
+
+\begin_layout Standard
+Not only that, but the data technology is rapidly evolving, too.
+ We produce more data and store more data, so...
+ we have more data! This data is potential knowledge and we know many tools
+ to get this knowledge from it.
+ 
+\end_layout
+
+\begin_layout Standard
+In fact, the amount of data is so vast, that not only we have to develop
+ techniques to analyze data, but also to manage huge amounts of data.
+\end_layout
+
+\begin_layout Section
+The Data Mining Process
+\end_layout
+
+\begin_layout Standard
+The data mining process is a pipeline constructed around the basic steps:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Data collection
+\series default
+: obtention of data from real world sources.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Feature extraction 
+\series default
+and 
+\series bold
+data cleaning
+\series default
+: among all data retrieved from the real world, we have to select those
+ characteristics or 
+\series bold
+features
+\series default
+ that are relevant for our purposes (feature extraction) and to decide what
+ to do with mistaken/noisy/lost data (data cleaning).
+ Also, as we might be collecting data from different sources, it is important
+ to decide how to aggregate the data into a unified format for later processing.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Analytical processing 
+\series default
+and 
+\series bold
+algorithms
+\series default
+: we now must develop suitable methods for analyzing our data.
+ That is, we should decide what mathematical models to use to describe our
+ data, and what algorithms to use in order to 
+\emph on
+train
+\emph default
+ the desired model
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We will see what is specifically the meaning of 
+\emph on
+train
+\emph default
+, but in the meanwhile we can think of it as how we make a general model
+ adapt to our particular data.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+After these steps, we would enter a phase of analyzing the obtained results
+ to obtain knowledge from data, as well as a iterative procedure, in which
+ we could return to any previous step and try to improve different parts
+ of the process
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Usually, data is constantly updating, so at least it will necessary to produce
+ checks of correctness and updates.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Data Types
+\end_layout
+
+\begin_layout Standard
+Not all data have have the same nature nor characteristic, so it is important
+ to understand the differences between them and what techniques are applicable
+ to what types of data.
+\end_layout
+
+\begin_layout Standard
+We can characterize data in different levels of detail, and the most basic
+ classification would distinguish between 
+\emph on
+nondependency-oriented
+\emph default
+ data and 
+\emph on
+dependency-oriented
+\emph default
+ data:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nondependency-oriented data
+\series default
+: simple data types with no specified dependencies between the data items
+ or the attributes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dependency-oriented data
+\series default
+: implicit or explicit relationships may exist between data items.
+ 
+\end_layout
+
+\begin_layout Standard
+Dependency-oriented data are normally more complex to study because of the
+ need to study not only the data itself, but also the relationships between
+ different data items.
+\end_layout
+
+\begin_layout Standard
+We will now define different subtypes of data that we can find.
+\end_layout
+
+\begin_layout Subsection
+Nondependency-oriented data
+\end_layout
+
+\begin_layout Standard
+The term nondependency-oriented data is interchangeable with the term 
+\series bold
+multidimensional data:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+We will call 
+\series bold
+source space
+\series default
+, 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+, to the set of all possible values that our data can take.
+ This set does not have neccessarily to take any particular form.
+ 
+\end_layout
+
+\begin_layout Definition
+If 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ is a product space, then each component is called a 
+\series bold
+feature
+\series default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+If we are measuring the name, age, height and gender of the students of
+ a school, then we will have
+\begin_inset Formula 
+\[
+\mathcal{S}=\mathcal{T}\times\mathbb{N}\cap\left[0,150\right]\times\left(0,3\right)\times\left\{ M,F\right\} ,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ represents the set of possible names and 
+\begin_inset Formula $\left\{ M,F\right\} $
+\end_inset
+
+ are the two possible values of the gender.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+record
+\series default
+ (
+\emph on
+data point, instance, tuple
+\emph default
+) is just a point 
+\begin_inset Formula $X=\left(x^{i}\right)_{i=1}^{d}\in\mathcal{S}$
+\end_inset
+
+ that we measure and store in some form.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Following the previous example, some records of 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ are represented in the following table:
+\end_layout
+
+\begin_layout Example
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset CommandInset label
+LatexCommand label
+name "table:records_example"
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+index
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Height
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Gender
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Josh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.77
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+M
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.62
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+F
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Larry
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.58
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+M
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Records and multidimensional data set example
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Note that we added an index column, because it is a common practice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+multidimensional data set
+\series default
+, 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, is a set of 
+\begin_inset Formula $n$
+\end_inset
+
+ records, 
+\begin_inset Formula $\left\{ X_{j}\right\} _{j=1}^{n}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:records_example"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ represents an example of a dataset, too.
+\end_layout
+
+\begin_layout Standard
+As we can see, Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:records_example"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ contains attributes of different types (very obvious from the definition
+ of the source space 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+).
+ Thus, we have to take into account also the type of each attributes of
+ our data:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Quantitative multidimensional data
+\series default
+: numerical data features, as age or height.
+ If a data set is wholy compound of this kind of features, it is said to
+ be a quantitative multidimensional data.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This type of data is the easiest to analyze, as mathematical tools are directly
+ applicable and most algorithms are developed assuming this type of data.
+ For this reason, it is common to try to transform all non-quantitative
+ data into quantitative data.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Categorical and Mixed Attribute data
+\series default
+: a 
+\series bold
+categorical
+\series default
+ feature is such that it can only take values among a finite set (unordered)
+ of options, as the gender.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+If we encounter a data set compound of categorial data, we would say it
+ is a categorical multidimensional data.
+\end_layout
+
+\begin_layout Standard
+A dataset with both quantitative and categorical features is called a mixed
+ multidimensional data.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Binary and Set data
+\series default
+: binary data take values in 
+\begin_inset Formula $\left\{ 0,1\right\} $
+\end_inset
+
+ and it can be considered a special case of both numerical data (obviously)
+ and categorical data (as if have a categorical feature which can only take
+ two values, then it is easy to map these values to the set 
+\begin_inset Formula $\left\{ 0,1\right\} $
+\end_inset
+
+).
+ For example, the gender is an obvious case of binary data.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Moreover, binary data can be seen as setwise data, where 1 indicates that
+ the instance is in the set, while 0 indicates it is not.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Text data
+\series default
+: usually a string, such as the name.
+\end_layout
+
+\begin_layout Subsection
+Dependency-oriented data
+\end_layout
+
+\begin_layout Standard
+As outlined before, we can find implicit or explicit dependencies between
+ instances:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Implicit dependencies
+\series default
+: the dependencies between instancies are not explicitly specified but are
+ known to exist.
+ For example, if we measure the number of students in the library every
+ 5 minutes, we would find that different instances are related via the temporal
+ dimension, so measures with little time delay between them would be similar.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Explicit dependencies
+\series default
+: this term usually refers to graph or network data, in which edges represents
+ relationships between nodes.
+\end_layout
+
+\begin_layout Standard
+As before, let deepen a bit in some types of this kind of data:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Time-Series data
+\series default
+: it contains data that are generated by continuous measurement over time.
+ This means that our source space has a temporal component.
+ This dependency is implicit.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Formally, a 
+\series bold
+time series of length 
+\begin_inset Formula $\boldsymbol{n}$
+\end_inset
+
+ and dimensionality 
+\begin_inset Formula $\boldsymbol{d}$
+\end_inset
+
+ 
+\series default
+contains 
+\begin_inset Formula $d$
+\end_inset
+
+ numeric features at each of 
+\begin_inset Formula $n$
+\end_inset
+
+ time stamps 
+\begin_inset Formula $t_{1},...,t_{n}$
+\end_inset
+
+.
+ Each time stamp contains a component for each of the 
+\begin_inset Formula $d$
+\end_inset
+
+ series.
+ Therefore, the set of values received at time stamp 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+ es 
+\begin_inset Formula $Y_{i}=\left(y_{i}^{1},...,y_{i}^{d}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Discrete sequences
+\series default
+: these are the categorical analog of time-series data.
+ We will now have categorical or text features along the temporal dimension.
+ This dependency is implicit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Spatial data
+\series default
+: in this type of data, the dependance of the instances is given by their
+ proximity in space.
+ For example, if we measure the temperature in a room per 
+\begin_inset Formula $cm^{3}$
+\end_inset
+
+, we will find that points that are nearby show more similar temperature
+ than points that are far away from each other.
+ This dependency is implicit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Spatiotemporal data
+\series default
+: this data captures both spatial and temporal dimension, so we have to
+ deal with both relationships.
+ As before, this dependency is implicit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Network and graph data
+\series default
+: now, data values may correspond to nodes in the network, and the relationships
+ between them would correspond to the edges between the nodes.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Formally, a 
+\series bold
+network
+\series default
+ is a pair 
+\begin_inset Formula $G=\left(N,E\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $N$
+\end_inset
+
+ is a set of nodes and 
+\begin_inset Formula $E\subset N\times N$
+\end_inset
+
+ is a set of edges, that represent the relationships between the nodes.
+ There can be attributes associated to both nodes or edges.
+\end_layout
+
+\begin_layout Standard
+Edges may be directed or indirected, depending on wether the link is bidirection
+al or not.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Classification
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+classification problem
+\series default
+ consists in learning the structure of a dataset of examples, already partitione
+d into groups, referred as 
+\series bold
+class
+\series default
+.
+ This learning is typically achieved with a 
+\series bold
+model
+\series default
+, which is used to estimate the 
+\series bold
+class labels
+\series default
+ of unseen data examples with unknown labels.
+ Thus, one of the inputs to the classification problem is the example dataset
+ with known labels, 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, called 
+\series bold
+training data
+\series default
+, while the unseen data points to be classified are the 
+\series bold
+test data
+\series default
+.
+ The model learnt is referred to as 
+\series bold
+training model
+\series default
+.
+ The algorithm used to create the model is the 
+\series bold
+learner
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The output of the classification algorithm can be of two types:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Label prediction
+\series default
+: a label is predicted for each test instance.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Numerical score
+\series default
+: the learner assigns a score to each instance-label possible combination.
+ This score measures the propensity of the instance to belong to a particular
+ class.
+\end_layout
+
+\begin_layout Section
+Decision Trees
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Decision trees
+\series default
+ are a classification methodology, which uses a tree structure to partition
+ the feature space.
+ Each node of the tree represents a decision to make according to the data,
+ called the 
+\series bold
+split criterion
+\series default
+, and is a condition on one or more features variables in the training data.
+\end_layout
+
+\begin_layout Standard
+The goal is to identify a split criterion such that the level of 
+\emph on
+mixing
+\emph default
+ of the class variables in each branch of the tree is reduced as much as
+ possible.
+\end_layout
+
+\begin_layout Standard
+The splits can be 
+\series bold
+univariate
+\series default
+, if they use a single attribute in the condition, or 
+\series bold
+multivariate
+\series default
+, if more than one attribute are used in the condition.
+\end_layout
+
+\begin_layout Standard
+The nodes can be of two types:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Internal node
+\series default
+: each internal node represents a partition of the space according to a
+ certain condition.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Leaf node
+\series default
+: they are labeled with the dominant class of the remaining partition of
+ the training set at that node.
+\end_layout
+
+\begin_layout Standard
+The general algorithm for constructing a decision tree is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "breaklines=true,morekeywords={Algorithm, begin, repeat, until, end},escapechar={<@}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	Create root node containing D;
+\end_layout
+
+\begin_layout Plain Layout
+
+	repeat
+\end_layout
+
+\begin_layout Plain Layout
+
+		Select an eligible node in tree;
+\end_layout
+
+\begin_layout Plain Layout
+
+		<@
+\backslash
+textcolor{red}{Split the selected node into two or more nodes based on the
+ split criterion};<@
+\end_layout
+
+\begin_layout Plain Layout
+
+	until no more eligible nodes for split;
+\end_layout
+
+\begin_layout Plain Layout
+
+	<@
+\backslash
+textcolor{red}{Prune overfitting nodes from tree};<@
+\end_layout
+
+\begin_layout Plain Layout
+
+	Label each leaf node with its dominant class;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+GenericDecisionTree(Dataset: D)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The red lines indicate what changes accross the different algorithms to
+ produce a specific decision tree.
+\end_layout
+
+\begin_layout Subsection
+Split criteria
+\end_layout
+
+\begin_layout Standard
+The split criterion aims to maximize the separation of the different classes
+ among the children nodes.
+ Its design depends on the attributes of the data:
+\end_layout
+
+\begin_layout Itemize
+Binary attributes: produce a binary tree.
+\end_layout
+
+\begin_layout Itemize
+Categorical attribute: there several approaches:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $r$
+\end_inset
+
+-way split: we split the branch in as many branches as distinct values of
+ the attribute.
+\end_layout
+
+\begin_layout Itemize
+binary split: testing each of the 
+\begin_inset Formula $2^{r}-1$
+\end_inset
+
+ groupings of categorical attributes, and selecting the best one.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Numeric attribute: we have, again, several possibilities:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If it contains a small number 
+\begin_inset Formula $r$
+\end_inset
+
+ of ordered values, we can treat it as a categorial attribute and apply
+ 
+\begin_inset Formula $r$
+\end_inset
+
+-way split.
+\end_layout
+
+\begin_layout Itemize
+For continuous numeric attributes, the split is performed using a binary
+ condition, like 
+\begin_inset Formula $x\le a$
+\end_inset
+
+ for a certain contant 
+\begin_inset Formula $a$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+These methods require to determine the best split among a set of different
+ splits, so we need a way to measure which one is better than other.
+\end_layout
+
+\begin_layout Standard
+For this end, we are using the 
+\series bold
+entropy
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Entropy
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ be the fraction of data points belonging to the class 
+\begin_inset Formula $j$
+\end_inset
+
+ for the attribute value 
+\begin_inset Formula $v_{j}$
+\end_inset
+
+.
+ Then, the 
+\series bold
+class-based entroy
+\series default
+, 
+\begin_inset Formula $E\left(v_{i}\right)$
+\end_inset
+
+, 
+\series bold
+for the attribute
+\series default
+ value 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+E\left(v_{i}\right)=-\sum_{j=1}^{k}p_{j}\log_{2}\left(p_{j}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+\begin_inset Formula $E\left(v_{i}\right)\in\left[0,\log_{2}k\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Higher values of the entropy imply greater 
+\emph on
+mixing
+\emph default
+ of different classes, while a value of 0 implies perfect separation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+overal entropy
+\series default
+ 
+\series bold
+of an attribute
+\series default
+, 
+\begin_inset Formula $E$
+\end_inset
+
+, is defined as the weighted average over the 
+\begin_inset Formula $r$
+\end_inset
+
+ different attribute values:
+\begin_inset Formula 
+\[
+E=\sum_{i=1}^{r}\frac{n_{i}}{n}E\left(v_{i}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $n_{i}$
+\end_inset
+
+ is the frequency of attribute value 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The entropy is used in the ID3 algorithm for constructing decision trees.
+\end_layout
+
+\begin_layout Standard
+The overall entropy for an 
+\begin_inset Formula $r$
+\end_inset
+
+-way split of set 
+\begin_inset Formula $S$
+\end_inset
+
+ into sets 
+\begin_inset Formula $S_{1},...,S_{r}$
+\end_inset
+
+ may be computed as the weighted average of the entropy values of each 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+, being its weigth 
+\begin_inset Formula $\left|S_{i}\right|$
+\end_inset
+
+.
+ This is called the 
+\series bold
+entropy-split
+\series default
+:
+\begin_inset Formula 
+\[
+Entropy-Split\left(S\implies S_{1},...,S_{r}\right)=\sum_{i=1}^{r}\frac{\left|S_{i}\right|}{\left|S\right|}E\left(S_{i}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In relation to this, the 
+\series bold
+information gain
+\series default
+ is defined as the reduction of entropy due to the split:
+\begin_inset Formula 
+\[
+IG\left(S\implies S_{1},...,S_{r}\right)=E\left(S\right)-Entropy-Split\left(S\implies S_{1},...,S_{r}\right).
+\]
+
+\end_inset
+
+ Note that lower values of the entropy-split and higher values of the informatio
+n gain are more desirable.
+\end_layout
+
+\begin_layout Standard
+Sometimes, there are attributes with lots of distinct values, so using them
+ to split the data reduces the entropy a lot, but are not very useful for
+ prediction
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Think, for example, in an ID.
+\end_layout
+
+\end_inset
+
+.
+ To account for this, we can divide the overall information gain with the
+ normalization factor 
+\begin_inset Formula 
+\[
+-\sum_{i=1}^{r}\frac{\left|S_{i}\right|}{\left|S\right|}\log_{2}\left(\frac{\left|S_{i}\right|}{\left|S\right|}\right),
+\]
+
+\end_inset
+
+ which helps adjusting for the varying number of categorical values.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Entropy of the dataset 'Weather data'
+\end_layout
+
+\begin_layout Example
+Consider the following dataset:
+\end_layout
+
+\begin_layout Example
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+outlook
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+temperature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+humidity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+windi
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+play
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sunny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sunny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+overcast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rainy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rainy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cool
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rainy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cool
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+overcast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cool
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sunny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sunny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cool
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rainy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sunny
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+overcast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+overcast
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+false
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rainy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mild
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+true
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The weather data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Model validation and data preparation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Clustering
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Frequent pattern and association rule mining
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Stream data mining
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Outlier mining
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Applications
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "dm_bib"
+options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
