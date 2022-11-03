@@ -1463,7 +1463,7 @@ Let
 .
  Then, the 
 \series bold
-class-based entroy
+class-based entropy
 \series default
 , 
 \begin_inset Formula $E\left(v_{i}\right)$
@@ -1488,6 +1488,25 @@ E\left(v_{i}\right)=-\sum_{j=1}^{k}p_{j}\log_{2}\left(p_{j}\right).
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+When 
+\begin_inset Formula $p_{j}=0$
+\end_inset
+
+, it is assumed that 
+\begin_inset Formula $p_{j}\log_{2}\left(p_{j}\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
 \end_inset
 
 
@@ -1593,7 +1612,7 @@ entropy-split
 :
 \begin_inset Formula 
 \[
-Entropy-Split\left(S\implies S_{1},...,S_{r}\right)=\sum_{i=1}^{r}\frac{\left|S_{i}\right|}{\left|S\right|}E\left(S_{i}\right).
+Entropy-Split\left(S\implies S_{1},...,S_{r}\right)=\sum_{k=1}^{r}\frac{\left|S_{k}\right|}{\left|S\right|}E\left(v_{i}|S_{k}\right).
 \]
 
 \end_inset
@@ -1702,7 +1721,7 @@ humidity
 \begin_inset Text
 
 \begin_layout Plain Layout
-windi
+windy
 \end_layout
 
 \end_inset
@@ -2403,13 +2422,538 @@ literal "false"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+If the class attribute is 
+\emph on
+play
+\emph default
+, what is the entropy of this source?
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\begin{align*}
+E\left(play\right)= & -p_{yes}\log_{2}\left(p_{yes}\right)-p_{no}\log_{2}\left(p_{no}\right)\\
+= & -\frac{9}{14}\log_{2}\left(\frac{9}{14}\right)-\frac{5}{14}\log_{2}\left(\frac{5}{14}\right)\\
+= & 0.94.
+\end{align*}
+
+\end_inset
+
+ What if the Entropy-Split of the attribute 
+\emph on
+humidity
+\emph default
+?
+\begin_inset Formula 
+\begin{align*}
+ES\left(S\implies S_{hum=high},S_{hum=normal}\right)= & \frac{\left|S_{hum=high}\right|}{\left|S\right|}E\left(play|hum=high\right)+\frac{\left|S_{hum=normal}\right|}{\left|S\right|}E\left(play|hum=normal\right)\\
+= & \frac{7}{14}\left[-\frac{3}{7}\log_{2}\left(\frac{3}{7}\right)-\frac{4}{7}\log_{2}\left(\frac{4}{7}\right)\right]+\frac{7}{14}\left[-\frac{6}{7}\log_{2}\left(\frac{6}{7}\right)-\frac{1}{7}\log_{2}\left(\frac{1}{7}\right)\right]\\
+= & 0.7885.
+\end{align*}
+
+\end_inset
+
+ And the information gain?
+\begin_inset Formula 
+\begin{align*}
+IG\left(S\implies S_{hum=high},S_{hum=normal}\right)= & E\left(play\right)-ES\left(S\implies S_{hum=high},S_{hum=normal}\right)\\
+= & 0.94-0.79=0.15.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+ID3 Tree Induction Algorithm
+\end_layout
+
+\begin_layout Standard
+ID3 is an algorithm to construct decision trees, in which the split criterion
+ is the maximization of the information gain and the prunning strategy is
+ to stop if all the records in a node are of the same class.
+ The algorithm is more detailed in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:ID3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
 \begin_layout Plain Layout
+\begin_inset listings
+lstparams "morekeywords={if, then, is, in, return, for, Let},morecomment={[f][\color{purple}]{\#}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# I is the set of input attributes
+\end_layout
+
+\begin_layout Plain Layout
+
+# O is the output attribute
+\end_layout
+
+\begin_layout Plain Layout
+
+# T is a set of training data
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if (T is empty) then
+\end_layout
+
+\begin_layout Plain Layout
+
+	return a single node with value 
+\begin_inset Quotes eld
+\end_inset
+
+Failure
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if (all records  in T have the same value for O) then
+\end_layout
+
+\begin_layout Plain Layout
+
+	return a single node with that value
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+if (I is empty) then
+\end_layout
+
+\begin_layout Plain Layout
+
+	return a single node with the most frequent value of O in T
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# else
+\end_layout
+
+\begin_layout Plain Layout
+
+compute IG for each attribute in I using data in T
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Let X = argmin{IG(attr) for attr in I}
+\end_layout
+
+\begin_layout Plain Layout
+
+Let {x_j for j=1,...,m} be the values in X
+\end_layout
+
+\begin_layout Plain Layout
+
+Let {T_j for j=1,...,m} be the subsets of T when partitioned
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+return a tree with:
+\end_layout
+
+\begin_layout Plain Layout
+
+	root node labelled X
+\end_layout
+
+\begin_layout Plain Layout
+
+	arcs labelled x_1,...,x_m
+\end_layout
+
+\begin_layout Plain Layout
+
+	connected to 
+\end_layout
+
+\begin_layout Plain Layout
+
+	ID3(I-{X}, O, T_1),...,ID3(I-{X}, O, T_m)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:ID3"
+
+\end_inset
+
+ID3(I, O, T) : Decision Tree
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Example
+Compute the decision tree of the data in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "table:records_example"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ using ID3 algorithm.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 1: Root
+\end_layout
+
+\begin_layout Example
+We start by computing IG for each attribute.
+ To simplify notation, let 
+\begin_inset Formula $P=play,\ O=outlook,\ T=temperature,\ H=humidity$
+\end_inset
+
+ and 
+\begin_inset Formula $W=windy$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+We already know that 
+\begin_inset Formula $E\left(P\right)=0.94$
+\end_inset
+
+ and 
+\begin_inset Formula $IG\left(S\implies S_{H=high},S_{H=normal}\right)=0.15$
+\end_inset
+
+.
+ Let's compute the rest of the values:
+\begin_inset Formula 
+\begin{align*}
+ES\left(S\implies S_{O=sunny},S_{O=overcast},S_{O=rainy}\right)= & -\frac{5}{14}\left(\frac{3}{5}\log\frac{3}{5}+\frac{2}{5}\log\frac{2}{5}\right)\cdot2-0\\
+= & 0.69.
+\end{align*}
+
+\end_inset
+
+ Which implies that 
+\begin_inset Formula $IG\left(S\implies S_{O=sunny},S_{O=overcast},S_{O=rainy}\right)=0.25$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Repeating this process with temerature, we get 
+\begin_inset Formula $IG\left(S\implies S_{T=hot},S_{T=mild},S_{T=cold}\right)=0.03$
+\end_inset
+
+ and with windy, we get 
+\begin_inset Formula $IG\left(S\implies S_{W=True},S_{W=False}\right)=0.05$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+This means that we label the root node with 
+\begin_inset Formula $X=O$
+\end_inset
+
+ and we create three arcs, each of them with one of the values from 
+\begin_inset Formula $O$
+\end_inset
+
+.
+ So we have the following Tree:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado1.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 2: Outlook=sunny
+\end_layout
+
+\begin_layout Example
+Now, we are going to do the same thing, restricting ourselves to the records
+ for which 
+\emph on
+Outlook=sunny
+\emph default
+.
+ Now, we have to recompute the entropy and the gain for each of the rest
+ of the attributes.
+\end_layout
+
+\begin_layout Example
+Let's start with the entropy:
+\begin_inset Formula 
+\begin{align*}
+E\left(P|O=sunny\right)= & -\left[\frac{3}{5}\log\frac{3}{5}+\frac{2}{3}\log\frac{2}{5}\right]=0.97.
+\end{align*}
+
+\end_inset
+
+ Now, the Information Gain:
+\begin_inset Formula 
+\begin{align*}
+IG\left(S_{O=sunny}\implies S_{O=sunny,H=high},S_{O=sunny,H=normal}\right)=\\
+\frac{3}{5}E\left(P\land O=sunny|H=high\right)+\frac{2}{5}E\left(P\land O=sunny|H=normal\right)=\\
+-\frac{3}{5}\left[\frac{3}{3}\log\frac{3}{3}+0\right]-\frac{2}{5}\left[\frac{2}{2}\log\frac{2}{2}+0\right]= & 0.
+\end{align*}
+
+\end_inset
+
+ Which means that 
+\begin_inset Formula $IG\left(S_{O=sunny}\implies S_{O=sunny,H=high},S_{O=sunny,H=normal}\right)=0.97$
+\end_inset
+
+.
+ As this cannot be improved, we can savely not compute the rest of the values.
+ This way, the Tree will now look as follows:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado2.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 3: Outlook=Sunny, Humidity=Normal
+\end_layout
+
+\begin_layout Example
+Note that we are proceeding heightwise, but doing this breadthwise is also
+ possible.
+\end_layout
+
+\begin_layout Example
+This time, all the values for 
+\begin_inset Formula $P$
+\end_inset
+
+ are 
+\begin_inset Formula $Yes$
+\end_inset
+
+, so we enter the third 
+\begin_inset Formula $if$
+\end_inset
+
+ of the algorithm and label the node as 
+\begin_inset Formula $Yes$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 4: Outlook=Sunny, Humidity=High
+\end_layout
+
+\begin_layout Example
+Same, now 
+\begin_inset Formula $P=No$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 5: Outlook=Overcast
+\end_layout
+
+\begin_layout Example
+Same, now 
+\begin_inset Formula $P=Yes$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Example
+So, now we have the following tree:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado3.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 6: Outlook=rainy
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\[
+E\left(P|O=rainy\right)=0.97
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+IG\left(S_{O=rainy}\implies S_{O=rainy,W=True},S_{O=rainy,W=False}\right)=0.97,
+\]
+
+\end_inset
+
+ so, again, it is maximum and we can continue using it as label:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado4.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 7: Outlook=rainy, Windy=False
+\end_layout
+
+\begin_layout Example
+All records have 
+\begin_inset Formula $P=Yes$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Step 8: Outlook=rainy, Windy=True
+\end_layout
+
+\begin_layout Example
+All record have 
+\begin_inset Formula $P=No$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+So, we have the tree
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado5.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+And as there are no more nodes to analyze, this is the final decision tree.
 \end_layout
 
 \begin_layout Standard
