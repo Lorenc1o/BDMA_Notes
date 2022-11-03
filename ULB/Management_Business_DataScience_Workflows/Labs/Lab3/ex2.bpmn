@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0609zzl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="10.2.0">
+  <bpmn:process id="Process_0323xjv" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_1ilzqc6" name="Car accident occurred">
+      <bpmn:outgoing>Flow_13s5dob</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_1at1t0e" name="Wait for  witness statement">
+      <bpmn:incoming>Flow_13s5dob</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h7lmdy</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_13s5dob" sourceRef="StartEvent_1ilzqc6" targetRef="Activity_1at1t0e" />
+    <bpmn:task id="Activity_1fhf21c" name="Lodge claim">
+      <bpmn:incoming>Flow_0h7lmdy</bpmn:incoming>
+      <bpmn:outgoing>Flow_07los6v</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0h7lmdy" sourceRef="Activity_1at1t0e" targetRef="Activity_1fhf21c" />
+    <bpmn:endEvent id="Event_1w2u789" name="Claim lodged">
+      <bpmn:incoming>Flow_07los6v</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_07los6v" sourceRef="Activity_1fhf21c" targetRef="Event_1w2u789" />
+    <bpmn:textAnnotation id="TextAnnotation_17pnj68">
+      <bpmn:text>Repeated until we have 2 statements</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0n3lf8v" sourceRef="Activity_1at1t0e" targetRef="TextAnnotation_17pnj68" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0323xjv">
+      <bpmndi:BPMNShape id="TextAnnotation_17pnj68_di" bpmnElement="TextAnnotation_17pnj68">
+        <dc:Bounds x="350" y="80" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1ilzqc6">
+        <dc:Bounds x="156" y="191" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="143" y="234" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1at1t0e_di" bpmnElement="Activity_1at1t0e">
+        <dc:Bounds x="250" y="169" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fhf21c_di" bpmnElement="Activity_1fhf21c">
+        <dc:Bounds x="410" y="169" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1w2u789_di" bpmnElement="Event_1w2u789">
+        <dc:Bounds x="572" y="191" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="558" y="234" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0n3lf8v_di" bpmnElement="Association_0n3lf8v">
+        <di:waypoint x="335" y="169" />
+        <di:waypoint x="365" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13s5dob_di" bpmnElement="Flow_13s5dob">
+        <di:waypoint x="192" y="209" />
+        <di:waypoint x="250" y="209" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h7lmdy_di" bpmnElement="Flow_0h7lmdy">
+        <di:waypoint x="350" y="209" />
+        <di:waypoint x="410" y="209" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07los6v_di" bpmnElement="Flow_07los6v">
+        <di:waypoint x="510" y="209" />
+        <di:waypoint x="572" y="209" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
