@@ -1507,7 +1507,7 @@ These operators are required to be able to sort the values of the given
 \end_layout
 
 \begin_layout Section
-Lab 3
+Lab session 3
 \end_layout
 
 \begin_layout Exercise
@@ -2044,6 +2044,1664 @@ Exercise 9.
 \begin_layout Exercise
 So an index does not help in this situation, the optimizer is going to use
  the primary key as index.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Lab session 4
+\end_layout
+
+\begin_layout Standard
+In this session, we are going to create a new extension and data type for
+ PostgreSQL.
+ To do this, we'll need to define:
+\end_layout
+
+\begin_layout Itemize
+C file
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado15.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+SQL file
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado16.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This avoids beeing used as a sql file instead of a library file.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+extension.control
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado17.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Makefile
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado18.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+When we run 
+\begin_inset Formula $make$
+\end_inset
+
+ we will create the necessary objects to use our extension.
+ More precisely, we will have created the example.o and the example.so files.
+\end_layout
+
+\begin_layout Standard
+Then, we have to run 
+\begin_inset Formula $make\ install$
+\end_inset
+
+ to install the library.
+\end_layout
+
+\begin_layout Standard
+After this, we enter 
+\begin_inset Formula $psql$
+\end_inset
+
+ and run: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE EXTENSION example;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This will get the extension 
+\begin_inset Formula $example$
+\end_inset
+
+ to work in the current DB.
+\end_layout
+
+\begin_layout Subsection
+Base36 type extension
+\end_layout
+
+\begin_layout Standard
+We are given the following templates:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- complain if script is sourced in psql, rather than via CREATE EXTENSION
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+echo Use "CREATE EXTENSION base36" to load this file.
+ 
+\backslash
+quit
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_in(cstring)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS base36
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_out(base36)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_recv
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_send
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE TYPE base36 (
+\end_layout
+
+\begin_layout Plain Layout
+
+	INPUT          = base36_in,
+\end_layout
+
+\begin_layout Plain Layout
+
+	OUTPUT         = base36_out,
+\end_layout
+
+\begin_layout Plain Layout
+
+	RECEIVE        = base36_recv,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SEND           = base36_send,
+\end_layout
+
+\begin_layout Plain Layout
+
+	LIKE           = bigint,
+\end_layout
+
+\begin_layout Plain Layout
+
+	CATEGORY       = 'N'
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+COMMENT ON TYPE base36 IS 'bigint written in base36: [0-9A-Z]+';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SQL template.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=C"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*Base36 PostgreSQL input/output function for bigint*/
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdio.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "postgres.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "access/gist.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "access/skey.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/elog.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/palloc.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/builtins.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "libpq/pqformat.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/date.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/datetime.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/guc.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <sys/time.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <time.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdlib.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <ctype.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_MODULE_MAGIC;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#define BASE36_LENGTH      13
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+typedef long long int base36;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static int base36_digits[36] =
+\end_layout
+
+\begin_layout Plain Layout
+
+  {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'U', 'V', 'W', 'X', 'Y', 'Z'
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static base36 base36_powers[BASE36_LENGTH] = {
+\end_layout
+
+\begin_layout Plain Layout
+
+    1ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    36ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    1296ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    46656ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    1679616ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    60466176ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    2176782336ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	78364164096ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	2821109907456ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	101559956668416ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	3656158440062976ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	131621703842267136ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	4738381338321616896ULL
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static inline base36 base36_from_str(const char *str){
+\end_layout
+
+\begin_layout Plain Layout
+
+  //code
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_in(PG_FUNCTION_ARGS);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_in);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_in(PG_FUNCTION_ARGS){
+\end_layout
+
+\begin_layout Plain Layout
+
+    char *str = PG_GETARG_CSTRING(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+    PG_RETURN_INT64(base36_from_str(str));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+C template.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# base36 extension
+\end_layout
+
+\begin_layout Plain Layout
+
+comment = 'Base46 input/ouput functions for bigint'
+\end_layout
+
+\begin_layout Plain Layout
+
+default_version = '1.0'
+\end_layout
+
+\begin_layout Plain Layout
+
+module_pathname = '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+relocatable = true
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+control file.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+EXTENSION   = base36
+\end_layout
+
+\begin_layout Plain Layout
+
+MODULES     = base36
+\end_layout
+
+\begin_layout Plain Layout
+
+DATA        = base36--1.0.sql base36.control
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+LDFLAGS=-lrt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_CONFIG ?= pg_config
+\end_layout
+
+\begin_layout Plain Layout
+
+PGXS = $(shell $(PG_CONFIG) --pgxs)
+\end_layout
+
+\begin_layout Plain Layout
+
+include $(PGXS)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Makefile.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are asked to complete the datatype.
+\end_layout
+
+\begin_layout Standard
+Final result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- complain if script is sourced in psql, rather than via CREATE EXTENSION
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+echo Use "CREATE EXTENSION base36" to load this file.
+ 
+\backslash
+quit
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_encode(integer) 
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS cstring 
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_in(cstring)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS base36
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_out(base36)
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_out(base36)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS cstring
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_recv
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_recv(internal) RETURNS base36
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--base36_send
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE OR REPLACE FUNCTION base36_send(base36) RETURNS bytea
+\end_layout
+
+\begin_layout Plain Layout
+
+AS '$libdir/base36'
+\end_layout
+
+\begin_layout Plain Layout
+
+LANGUAGE C IMMUTABLE STRICT;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE TYPE base36 (
+\end_layout
+
+\begin_layout Plain Layout
+
+	INPUT          = base36_in,
+\end_layout
+
+\begin_layout Plain Layout
+
+	OUTPUT         = base36_out,
+\end_layout
+
+\begin_layout Plain Layout
+
+	RECEIVE        = base36_recv,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SEND           = base36_send,
+\end_layout
+
+\begin_layout Plain Layout
+
+	LIKE           = bigint,
+\end_layout
+
+\begin_layout Plain Layout
+
+	CATEGORY       = 'N'
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+COMMENT ON TYPE base36 IS 'bigint written in base36: [0-9A-Z]+';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SQL file.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+/*
+\end_layout
+
+\begin_layout Plain Layout
+
+ * Base36 PostgreSQL input/output function for bigint
+\end_layout
+
+\begin_layout Plain Layout
+
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdio.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "postgres.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "access/gist.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "access/skey.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/elog.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/palloc.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/builtins.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "libpq/pqformat.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/date.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/datetime.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include "utils/guc.h"
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <sys/time.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <time.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <stdlib.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+#include <ctype.h>
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_MODULE_MAGIC;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#define BASE36_LENGTH      13
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+typedef long long int base36;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static int base36_digits[36] =
+\end_layout
+
+\begin_layout Plain Layout
+
+  {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+\end_layout
+
+\begin_layout Plain Layout
+
+   'U', 'V', 'W', 'X', 'Y', 'Z'
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static base36 base36_powers[BASE36_LENGTH] = {
+\end_layout
+
+\begin_layout Plain Layout
+
+    1ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    36ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    1296ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    46656ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    1679616ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    60466176ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+    2176782336ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	78364164096ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	2821109907456ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	101559956668416ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	3656158440062976ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	131621703842267136ULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	4738381338321616896ULL
+\end_layout
+
+\begin_layout Plain Layout
+
+  };
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static inline base36 base36_from_str(const char *str){
+\end_layout
+
+\begin_layout Plain Layout
+
+  //code
+\end_layout
+
+\begin_layout Plain Layout
+
+  base36 result = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+  int length = strlen(str);
+\end_layout
+
+\begin_layout Plain Layout
+
+  if(length > BASE36_LENGTH){
+\end_layout
+
+\begin_layout Plain Layout
+
+    elog(ERROR, "base36 string too long");
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  for(int i=0; i<length; i++){
+\end_layout
+
+\begin_layout Plain Layout
+
+    int digit = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    if(str[i] == '
+\backslash
+0'){
+\end_layout
+
+\begin_layout Plain Layout
+
+      break;
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    if(!isalnum(str[i])){
+\end_layout
+
+\begin_layout Plain Layout
+
+      elog(ERROR, "Invalid character in base36 string");
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    if(isdigit(str[i])){
+\end_layout
+
+\begin_layout Plain Layout
+
+      digit = str[i] - '0';
+\end_layout
+
+\begin_layout Plain Layout
+
+    }else{
+\end_layout
+
+\begin_layout Plain Layout
+
+      digit = toupper(str[i]) - 'A' + 10;
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    result += digit * base36_powers[length - i - 1];
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  return result;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+static inline char* base36_to_str(base36 value){
+\end_layout
+
+\begin_layout Plain Layout
+
+  //code
+\end_layout
+
+\begin_layout Plain Layout
+
+  char *result = palloc(BASE36_LENGTH + 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+  int digit = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+  for(int i=0; i<BASE36_LENGTH; i++){
+\end_layout
+
+\begin_layout Plain Layout
+
+    digit = value / base36_powers[BASE36_LENGTH - i - 1];
+\end_layout
+
+\begin_layout Plain Layout
+
+    result[i] = base36_digits[digit];
+\end_layout
+
+\begin_layout Plain Layout
+
+    value -= digit * base36_powers[BASE36_LENGTH - i - 1];
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+  result[BASE36_LENGTH] = '
+\backslash
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+  return result;
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_encode(PG_FUNCTION_ARGS);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_encode);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_encode(PG_FUNCTION_ARGS){
+\end_layout
+
+\begin_layout Plain Layout
+
+    base36 num = PG_GETARG_INT64(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+    PG_RETURN_CSTRING(base36_to_str(num));
+\end_layout
+
+\begin_layout Plain Layout
+
+}  
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_in(PG_FUNCTION_ARGS);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_in);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_in(PG_FUNCTION_ARGS){
+\end_layout
+
+\begin_layout Plain Layout
+
+    char *str = PG_GETARG_CSTRING(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+    PG_RETURN_INT64(base36_from_str(str));
+\end_layout
+
+\begin_layout Plain Layout
+
+}   
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_out);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_out(PG_FUNCTION_ARGS)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+ base36 c = PG_GETARG_INT64(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+ PG_RETURN_CSTRING(base36_to_str(c));
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_recv);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_recv(PG_FUNCTION_ARGS)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+  StringInfo buf = (StringInfo) PG_GETARG_POINTER(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  const char *str = pq_getmsgstring(buf);
+\end_layout
+
+\begin_layout Plain Layout
+
+  pq_getmsgend(buf);
+\end_layout
+
+\begin_layout Plain Layout
+
+  PG_RETURN_INT64(base36_from_str(str));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+PG_FUNCTION_INFO_V1(base36_send);
+\end_layout
+
+\begin_layout Plain Layout
+
+Datum base36_send(PG_FUNCTION_ARGS)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+  base36 c = PG_GETARG_INT64(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+  StringInfoData buf;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  pq_begintypsend(&buf);
+\end_layout
+
+\begin_layout Plain Layout
+
+  pq_sendstring(&buf, base36_to_str(c));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  PG_RETURN_BYTEA_P(pq_endtypsend(&buf));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the encode function is not compulsory, I just did it for testing:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado19.png
+
+\end_inset
+
+
 \end_layout
 
 \end_body
