@@ -3109,6 +3109,526 @@ The removal of irrelevant features or records improves the quality of the
 \end_layout
 
 \end_deeper
+\begin_layout Subsection
+Feature extraction
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Image feature extraction
+\end_layout
+
+\begin_layout Example
+Image data are represented as pixel.
+ Nonetheless, we know that pixels are related between each others and that
+ combinations of pixels carry information about what we are seeing in the
+ image.
+ This is not straighforward for a computer to understand, as the computer
+ only 'sees' a matrix of triplets.
+\end_layout
+
+\begin_layout Example
+At a higher level, 
+\series bold
+color histograms
+\series default
+ can be used to represent the features in different segments of an image.
+\end_layout
+
+\begin_layout Example
+Also, 
+\series bold
+visual words
+\series default
+ are used to extract features from images.
+ A visual word is a semantically rich representation of parts of an image.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Document feature extraction
+\end_layout
+
+\begin_layout Example
+Document data is often available in raw and unstructured form, and the data
+ may contain rich linguistic relations between different entities.
+ 
+\end_layout
+
+\begin_layout Example
+One approach is to remove stop words, stem the data, and use bag-of-words
+ representation.
+\end_layout
+
+\begin_layout Example
+Other methods use entity extraction to determine linguistic relationships.
+ 
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Named-entity
+\series default
+ 
+\series bold
+recognition
+\series default
+ is an important subtask of information extraction.
+ It consists in locating and classifying atomic elements in text into predefined
+ expressions of names of persons, organizations,...
+\end_layout
+
+\begin_layout Subsection
+Data Type Portability
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Numerical to categorizal data: discretizacion
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The process of discretization divides the ranges of the numeric attribute
+ into 
+\begin_inset Formula $m$
+\end_inset
+
+ ranges.
+ Then, the attribute is assumed to contain 
+\begin_inset Formula $m$
+\end_inset
+
+ different categorical labeled values from 1 to 
+\begin_inset Formula $m$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Variations within a range are not ditinguishable after discretization (some
+ information is lost).
+\end_layout
+
+\begin_layout Standard
+One challenge is that data may be nonuniformly distributed across the different
+ intervals.
+ Thus, there are several ways to perform the division:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equi-width ranges
+\series default
+: the interval is divided into 
+\begin_inset Formula $m$
+\end_inset
+
+ subintervals of equal length.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equi-log ranges
+\series default
+: the interval is divided in such a way that the log-length is constant.
+ If we want to divide the interval 
+\begin_inset Formula $\left[a,b\right]$
+\end_inset
+
+ into 
+\begin_inset Formula $m$
+\end_inset
+
+ equi-log ranges 
+\begin_inset Formula $\left\{ \left[a_{i},b_{i}\right]\right\} _{i=1}^{m}$
+\end_inset
+
+, we have to ensure that
+\begin_inset Formula 
+\[
+\log\left(b_{i}\right)-\log\left(a_{i}\right)=\log\left(b_{j}\right)-\log\left(a_{j}\right),\ \forall i,j=1,...,m
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equi-depth ranges
+\series default
+: the ranges are selected so that each range has an equal number of records.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Categorical to numeric data: binarization
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Suppose a categorical attribute with 
+\begin_inset Formula $m$
+\end_inset
+
+ different values.
+ Then, we can binarize it by creating 
+\begin_inset Formula $m$
+\end_inset
+
+ attributes, and the record will have all of them set to 0, except the one
+ corresponding to the value that it has, which will be set to 1.
+ For example:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pedro
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CEO
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Formula $\implies$
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Role:CEO
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Role:Employee
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Role:Director
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pedro
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Text to numeric data: Latent Semantic Analysis (LSA)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+LSA transforms the text collection to a nonsparse representation with lower
+ dimensionality.
+ After transformation, each document 
+\begin_inset Formula $X=\left(x_{1},...,x_{d}\right)$
+\end_inset
+
+ needs to be scaled to
+\begin_inset Formula 
+\[
+\frac{1}{\sqrt{\sum_{i=1}^{d}x_{i}²}}\left(x_{1},...,x_{d}\right).
+\]
+
+\end_inset
+
+ This is necessary to ensure that documents of varying length are treated
+ in uniform way.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Time series to Discrete Sequence Data: Symbolic Aggregate Approximation
+ (SAX)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Two steps:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Window-based averaging: 
+\series default
+the series is divided into windows of length 
+\begin_inset Formula $w$
+\end_inset
+
+, and the average time-series value over each window is computed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Value-based discretization:
+\series default
+ the averaged time-series values are discretized into a smaller number of
+ equi-depth intervals.
+ 
+\series bold
+Idea
+\series default
+: ensure that each symbol has an approximately equal frequency in the time-serie
+s.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Time series to Numeric Data: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Discrete Wavelet Transform (DWT)
+\series default
+: converts the time series data to multidimensional data, as a set of coefficien
+ts that represent averaged differences between different portions of the
+ series.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Discrete Fourier Transform (DFT)
+\series default
+: similar, using Fourier series' theory.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Discrete Sequence to Numeric Data:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Two steps:
+\end_layout
+
+\begin_layout Itemize
+Convert the discrete sequence to a set of binary time series, with as many
+ time series as the number of values the discrete sequence can take.
+\end_layout
+
+\begin_layout Itemize
+H each of these time series into a multidimensional vector using the DWT.
+ This combines the features from the different series, creating a single
+ multidimensional record.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Spatial to Numeric Data:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The approach is the same as the one used for time-series data, but now there
+ are two contextual attributes instead of one, so the DWT has to be modified
+ to be two-dimensional.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Data Cleaning
+\end_layout
+
+\begin_layout Standard
+Data in the real world is
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+incomplete
+\series default
+: there are values for some attributes that are missing.
+ This can happen because some measures were not always taken of because
+ of human/computer errors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+noisy
+\series default
+: there are errors.
+ This can happen because the instruments used to collect data are not working
+ properly, because errors in the data transmission occur or because of human/com
+puter errors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+inconsistent
+\series default
+: there are discrepancies between different attributes that are related.
+ This can happen when data from different sources needs to be combined or
+ when some calculated values are not updated after changing their source
+ values.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+duplicate
+\series default
+: there are duplicate values.
+\end_layout
+
+\begin_layout Subsubsection
+Handling Missing Entries
+\end_layout
+
 \begin_layout Section
 Model evaluation
 \end_layout
