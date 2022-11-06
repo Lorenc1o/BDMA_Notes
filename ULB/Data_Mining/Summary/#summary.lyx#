@@ -3403,44 +3403,7 @@ A better strategy is the
 leave-one-out bootstrap
 \series default
 , in which the accuracy of each labeled instance is computed using the classifie
-r performance on only the subset of the bootstraped samples in which the
- instance is not part of.
-\end_layout
-
-\begin_layout Standard
-This approach provides a pessimistic accuracy estimate, 
-\begin_inset Formula $A_{l}$
-\end_inset
-
-, given by the mean value of the accuracy computed for each labeled instance.
-\end_layout
-
-\begin_layout Standard
-The 
-\series bold
-0.632-bootstrap
-\series default
- improves the accuracy estimate with a compromise approach.
- The average training-data accuracy 
-\begin_inset Formula $A_{t}$
-\end_inset
-
- over 
-\begin_inset Formula $b$
-\end_inset
-
- bootstrapped samples is computed.
- This is a highly optimistic estimate.
- The overall accuracy is a weighted average of the leave-one-out accuracy
- and the training-data accuracy:
-\begin_inset Formula 
-\[
-A=\left(0.632\right)\cdot A_{l}+\left(0.368\right)\cdot A_{t}.
-\]
-
-\end_inset
-
-
+r performance on only the subset of the bootstr
 \end_layout
 
 \begin_layout Standard
