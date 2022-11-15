@@ -1617,5 +1617,62 @@ Unit sales by promotion and store, for stores in the states of California
  and Washington.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+View Materialization
+\end_layout
+
+\begin_layout Exercise
+An important technique to speed up analytical queries is by pre-computing
+ and materializing aggregations.
+ Consider the following lattice of views that can be requested by the user,
+ along with the number of rows in each view.
+\end_layout
+
+\begin_layout Exercise
+#TODO insert image
+\end_layout
+
+\begin_layout Standard
+A is the view representing the base relation.
+ The edges indicate the relation 'can be computed from'.
+\end_layout
+
+\begin_layout Itemize
+Suppose that only the top-view A has been materialized.
+ Select three additional views from the views B,C,D,E,F,G,H,I and J to materiali
+ze.
+ Apply the greedy method described by 
+\emph on
+Harinarayan, Rajaraman, and Ullman
+\emph default
+ in their seminar paper 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Implementing Data Cubes Efficiently
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (SIGMOD 1996).
+\end_layout
+
 \end_body
 \end_document

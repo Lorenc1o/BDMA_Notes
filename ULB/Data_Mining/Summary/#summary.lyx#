@@ -213,8 +213,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset toc
-LatexCommand lstlistoflistings
+\begin_inset FloatList algorithm
 
 \end_inset
 
@@ -3629,6 +3628,17 @@ duplicate
 Handling Missing Entries
 \end_layout
 
+\begin_layout Standard
+#TODO
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Model evaluation
 \end_layout
@@ -3972,6 +3982,220 @@ A=\left(0.632\right)\cdot A_{l}+\left(0.368\right)\cdot A_{t}.
 
 \begin_layout Part
 Clustering
+\end_layout
+
+\begin_layout Standard
+Some applications require to divide the data into different groups, that
+ share some characteristics.
+ The problem many of these times is that we don't know which characteristics
+ or at how much extend are useful to characterize the data.
+ The general (unsupervised) approach to tackle this problem is 
+\series bold
+clustering
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Clustering problem (Informal)
+\end_layout
+
+\begin_layout Definition
+Given a set of data points, partition them into groups containing similar
+ data points.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This definition is informal and general, but gives enough information to
+ understand the problem, as well as enough freedom to tackle it from different
+ perspectives.
+\end_layout
+
+\begin_layout Section
+Representative-Based Algorithms
+\end_layout
+
+\begin_layout Standard
+These are the simplest of all clustering algorithms, as they directly use
+ distances or similarities to cluster the data.
+ They not capture hierarchical relationships and use a set of 
+\series bold
+representatives
+\series default
+ to cluster the data.
+ The main insight is that the discovery of good clusters equates to the
+ discovery of good representatives.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Representative-Based general clustering problem
+\end_layout
+
+\begin_layout Definition
+Given a data set 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ with 
+\begin_inset Formula $n$
+\end_inset
+
+ data points 
+\begin_inset Formula $X_{1},...,X_{n}$
+\end_inset
+
+ in a 
+\begin_inset Formula $d$
+\end_inset
+
+-dimensional space and a specified number of clusters, 
+\begin_inset Formula $k$
+\end_inset
+
+, the goal of a representative-based algorithm is to determine 
+\begin_inset Formula $k$
+\end_inset
+
+ representatives 
+\begin_inset Formula $Y_{1},...,Y_{n}$
+\end_inset
+
+ such that the objective function
+\begin_inset Formula 
+\[
+O=\sum_{i=1}^{n}\left[\min_{j}\ Dist\left(X_{i},Y_{j}\right)\right]
+\]
+
+\end_inset
+
+ is minimized, i.e., the sum of the distances of the different data points
+ to their closest representative needs to be miminized.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The representatives 
+\begin_inset Formula $Y_{1},...,Y_{k}$
+\end_inset
+
+ and the optimal assigmnent of data points to representatives are unknown
+ a priori, but they depend on each other in a circular way.
+ This fact allows us to develop a iterative approach to solve the problem.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+generic 
+\begin_inset Formula $k$
+\end_inset
+
+-representative approach
+\series default
+ is as in Listing 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Generic-k-representative-approach"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "morekeywords={if, then, is, in, return, for, Let},morecomment={[f][\color{purple}]{\#}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Initialize Y = {Y_1,...,Y_k} #Using heuristics
+\end_layout
+
+\begin_layout Plain Layout
+
+do
+\end_layout
+
+\begin_layout Plain Layout
+
+	#Assign step
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(X in D):
+\end_layout
+
+\begin_layout Plain Layout
+
+		assign X to Y_j such that D
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Generic-k-representative-approach"
+
+\end_inset
+
+Generic 
+\begin_inset Formula $k$
+\end_inset
+
+-representative approach (Data D, int k, threshold eps) : Set of representatives
+ Y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Standard
