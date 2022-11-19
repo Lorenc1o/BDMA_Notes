@@ -103,7 +103,7 @@ theorems-sec-bytype
 \papercolumns 1
 \papersides 1
 \paperpagestyle fancy
-\listings_params "morekeywords={if, then, is, in, return, for, Let, do, while, all, Initialize},morecomment={[f][\color{purple}]{\#}},escapechar={<@}"
+\listings_params "morekeywords={if, then, is, in, return, for, Let, do, while, all, Initialize,or},morecomment={[f][\color{purple}]{\#}},escapechar={<@}"
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -6734,6 +6734,1153 @@ end{matlabcode}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+The k-Medians Algorithm
+\end_layout
+
+\begin_layout Standard
+In this case the Manhattan distance (
+\begin_inset Formula $L_{1}$
+\end_inset
+
+-norm) is used:
+\begin_inset Formula 
+\[
+Dist\left(X_{i},Y_{j}\right)=\left\Vert X_{i}-Y_{j}\right\Vert _{1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+The optimal representative 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+ for each of the optimize iterative steps is the median of the data points
+ along each dimension in cluster 
+\begin_inset Formula $C_{j}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+In this case, the objective function is
+\begin_inset Formula 
+\[
+O\left(X,Y\right)=\sum_{j=1}^{k}\sum_{X_{i}\in C_{j}}\left\Vert X_{i}-Y_{j}\right\Vert _{1}.
+\]
+
+\end_inset
+
+ Now, the 
+\begin_inset Formula $L_{1}$
+\end_inset
+
+-norm is obtained by summing the absolute value in each dimension.
+ The problem is that this function is not differentiable.
+ Nonetheless, it is differentiable almost everywhere.
+ We can obtain the sub-gradient of 
+\begin_inset Formula $O$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\frac{d}{dY_{j}}O\left(X,Y\right)=\sum_{X_{i}\in C_{j}}sign\left(X_{i}-Y_{j}\right).
+\]
+
+\end_inset
+
+ For this to equal 0, we need as many negative signs as positive signs:
+ the median in each direction achieves exactly this, as it has as many values
+ to its left as to its right.
+\end_layout
+
+\begin_layout Example
+Repeat the example using the k-Medians algorithm.
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% This LaTeX was auto-generated from MATLAB code.
+\end_layout
+
+\begin_layout Plain Layout
+
+% To make changes, update the MATLAB code and export to LaTeX again.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{k-Medians algorithm example (Example 7.2)}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Introduce the data
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X1 = [2,10];
+\end_layout
+
+\begin_layout Plain Layout
+
+X2 = [2,5];
+\end_layout
+
+\begin_layout Plain Layout
+
+X3 = [8,4];
+\end_layout
+
+\begin_layout Plain Layout
+
+X4 = [5,8];
+\end_layout
+
+\begin_layout Plain Layout
+
+X5 = [7,5];
+\end_layout
+
+\begin_layout Plain Layout
+
+X6 = [6,4];
+\end_layout
+
+\begin_layout Plain Layout
+
+X7 = [1,2];
+\end_layout
+
+\begin_layout Plain Layout
+
+X8 = [4,9];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+D = [X1;X2;X3;X4;X5;X6;X7;X8];
+\end_layout
+
+\begin_layout Plain Layout
+
+z = zeros([8,1]);
+\end_layout
+
+\begin_layout Plain Layout
+
+D = [D,z]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+D = 8x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+     2    10     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     2     5     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     8     4     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     5     8     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     7     5     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     6     4     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     1     2     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     4     9     0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = [X5; X6; X8]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+     7     5
+\end_layout
+
+\begin_layout Plain Layout
+
+     6     4
+\end_layout
+
+\begin_layout Plain Layout
+
+     4     9
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Apply k-Medians
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%First iteration
+\end_layout
+
+\begin_layout Plain Layout
+
+[D,Ynext] = kMediansIter(D,Y,3);
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_2_images/figure_0.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = Ynext;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%Second iteration
+\end_layout
+
+\begin_layout Plain Layout
+
+%First iteration
+\end_layout
+
+\begin_layout Plain Layout
+
+[D,Ynext] = kMediansIter(D,Y,3);
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_2_images/figure_1.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = Ynext;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%Third iteration
+\end_layout
+
+\begin_layout Plain Layout
+
+[D,Ynext] = kMediansIter(D,Y,3);
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_2_images/figure_2.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = Ynext;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function d = distance(X, Y, m)
+\end_layout
+
+\begin_layout Plain Layout
+
+    n = length(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:n
+\end_layout
+
+\begin_layout Plain Layout
+
+        d = d + abs(X(i)-Y(i))^m;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = sqrt(d);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function [D2,Ynext] = kMediansIter(D,Y,k)
+\end_layout
+
+\begin_layout Plain Layout
+
+    dist = zeros(k);
+\end_layout
+
+\begin_layout Plain Layout
+
+    [n,m] = size(D);
+\end_layout
+
+\begin_layout Plain Layout
+
+    %Distances
+\end_layout
+
+\begin_layout Plain Layout
+
+    for j=1:k
+\end_layout
+
+\begin_layout Plain Layout
+
+        for i=1:n
+\end_layout
+
+\begin_layout Plain Layout
+
+            dist(i,j)=distance(D(i,1:2),Y(j,:),2);
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+    %Assign
+\end_layout
+
+\begin_layout Plain Layout
+
+    [v, idx] = min(dist, [], 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    D2 = D;
+\end_layout
+
+\begin_layout Plain Layout
+
+    D2(:,3) = idx;
+\end_layout
+
+\begin_layout Plain Layout
+
+    %Optimize
+\end_layout
+
+\begin_layout Plain Layout
+
+    Ynext = Y;
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+        ci = D2(:,3) == i;
+\end_layout
+
+\begin_layout Plain Layout
+
+        x = median(D(ci,1));
+\end_layout
+
+\begin_layout Plain Layout
+
+        y = median(D(ci,2));
+\end_layout
+
+\begin_layout Plain Layout
+
+        Ynext(i,:)=[x,y];
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The k-Medoids Algorithm
+\end_layout
+
+\begin_layout Standard
+In this algorithm the representatives are always selected from the database
+ 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, and this makes the structure of the algorithm different from the one we
+ have seen before.
+\end_layout
+
+\begin_layout Standard
+Reasons:
+\end_layout
+
+\begin_layout Itemize
+This approach makes outlier handling easier than with 
+\begin_inset Formula $k$
+\end_inset
+
+-means.
+\end_layout
+
+\begin_layout Itemize
+It is sometimes difficult to compute the central representative of a complex
+ data type (text or categorical data).
+ The 
+\begin_inset Formula $k$
+\end_inset
+
+-medoids algorithm can be defined in any datatype in which we are able to
+ define a proper distance function.
+\end_layout
+
+\begin_layout Standard
+The algorithm is as in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:k-medoids"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "morekeywords={if, then, is, in, return, for, Let},morecomment={[f][\color{purple}]{\#}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Initialize Y = {Y_1,...,Y_k} <@
+\backslash
+textcolor{purple}{
+\backslash
+#Using heuristics}<@
+\end_layout
+
+\begin_layout Plain Layout
+
+Initialize clusters C_1 = {},...
+ C_k = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+do
+\end_layout
+
+\begin_layout Plain Layout
+
+# Assign step
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(X in D):
+\end_layout
+
+\begin_layout Plain Layout
+
+		assign X to Y_j such that <@
+\backslash
+textcolor{blue}{$Dist(X,Y_j) = 
+\backslash
+min_i Dist(X,Y_i)$}<@
+\end_layout
+
+\begin_layout Plain Layout
+
+		C_j.add(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+# Optimize step
+\end_layout
+
+\begin_layout Plain Layout
+
+	Determine a pair X_i in D and Y_j in Y such that 
+\end_layout
+
+\begin_layout Plain Layout
+
+		replacing Y_j with X_i leads to the 
+\end_layout
+
+\begin_layout Plain Layout
+
+		greatest possible improvement in the objective function
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	Perform the exchange between X_i and Y_j only if improvement is positive.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+while <@$O=
+\backslash
+sum_{i=1}^{n}
+\backslash
+left[
+\backslash
+min_{j}
+\backslash
+ Dist
+\backslash
+left(X_{i},Y_{j}
+\backslash
+right)
+\backslash
+right]$<@ > eps 
+\end_layout
+
+\begin_layout Plain Layout
+
+		or no improvement in current iteration
+\end_layout
+
+\begin_layout Plain Layout
+
+return {C_1, Y_1},...,{C_k, Y_k}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:k-medoids"
+
+\end_inset
+
+
+\begin_inset Formula $k$
+\end_inset
+
+-medoids(Data D, int k, threshold eps) : Set of representatives Y and Clusters
+ C
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+In this algorithm we use a hill climbing strategy to obtain the best representat
+ives.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+We can try all possible changes or sample points from the database to try
+ with.
+ The latter approach is often more desirable for time issues.
+\end_layout
+
+\begin_layout Subsection
+Practical issues
 \end_layout
 
 \begin_layout Standard
