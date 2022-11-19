@@ -6,7 +6,15 @@
 \origin unavailable
 \textclass article
 \begin_preamble
-
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{epstopdf}
+\usepackage{matlab}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -4288,7 +4296,2443 @@ Generic
 
 \end_layout
 
+\begin_layout Remark
+The idea is to improve the objective function over multiple iterations.
+ The increase is usually greater in early iterations, and decreases rapidly.
+\end_layout
+
 \begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The main computational bottleneck is the assignment step, where distances
+ need to be computed between all point to the representatives.
+\end_layout
+
+\begin_layout Subsection
+The k-Means algorithm
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $k-means$
+\end_inset
+
+ algorithm is a representative clustering method in which the distance used
+ is the squared Euclidean distance (or squared 
+\begin_inset Formula $L_{2}-$
+\end_inset
+
+norm):
+\begin_inset Formula 
+\[
+Dist\left(X_{i},Y_{j}\right)=\left\Vert X_{i}-Y_{j}\right\Vert _{2}^{2}.
+\]
+
+\end_inset
+
+ Thus, the objective function minimizes the sum of square errors over the
+ data points, this is called the 
+\begin_inset Formula $SSE$
+\end_inset
+
+ (Sum of Squared Errors).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+The optimal representative 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+ for each of the optimize iterative steps is the mean of the data points
+ in cluster 
+\begin_inset Formula $C_{j}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+In the current step, we have a fixed clustering asssignment from the last
+ step, 
+\begin_inset Formula $C_{1},...,C_{k}$
+\end_inset
+
+.
+ The overall clustering objective function is
+\begin_inset Formula 
+\[
+O\left(X,Y\right)=\sum_{j=1}^{k}\sum_{X_{i}\in C_{j}}\left\Vert X_{i}-Y_{j}\right\Vert _{2}^{2},
+\]
+
+\end_inset
+
+ so its gradient for each 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\frac{d}{dY_{j}}O\left(X,Y\right)=2\sum_{X_{i}\in C_{j}}\left(X_{i}-Y_{j}\right).
+\]
+
+\end_inset
+
+ When imposing the gradient equals to 0 (for optimization purposes), we
+ get 
+\begin_inset Formula 
+\[
+\sum_{X_{i}\in C_{j}}X_{i}-Y_{j}=0,
+\]
+
+\end_inset
+
+ or, equivalently, 
+\begin_inset Formula 
+\[
+\sum_{X_{i}\in C_{j}}X_{i}=\left|C_{j}\right|Y_{j}\implies Y_{j}=\frac{\sum_{X_{i}\in C_{j}}X_{i}}{\left|C_{j}\right|}=mean\left(C_{j}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Note that the obtained representatives could be a point which is not a point
+ in the data.
+ This property sometimes is undesirable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Note also that for the proof, we have suposed a numerical attribute.
+ Computing the mean of different (for example) texts does not seem easy
+ (think for example in the words 
+\begin_inset Formula $classification$
+\end_inset
+
+ and 
+\begin_inset Formula $regression$
+\end_inset
+
+, they could be certainly clustered inside 
+\begin_inset Formula $data\ mining\ techniques$
+\end_inset
+
+, but the latter is hardly the mean of the two former words).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Regarding time complexity:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The assign step is 
+\begin_inset Formula $O\left(n\cdot k\right),$
+\end_inset
+
+ as we have to compute for each point, 
+\begin_inset Formula $k$
+\end_inset
+
+ distances.
+\end_layout
+
+\begin_layout Itemize
+The optimize step is 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+, as we have to compute the 
+\begin_inset Formula $k$
+\end_inset
+
+ different means using all 
+\begin_inset Formula $n$
+\end_inset
+
+ points.
+\end_layout
+
+\begin_layout Itemize
+Overall, then, it is 
+\begin_inset Formula $O\left(n\cdot k\right)$
+\end_inset
+
+ per iteration.
+ But usually few iterations are needed.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Disadvantages:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+All points are clustered and taken into account equally for the objective
+ function.
+ This makes 
+\begin_inset Formula $k-means$
+\end_inset
+
+ sensitive to outliers, which introduces bias.
+\end_layout
+
+\begin_layout Itemize
+In some situations we cannot compute the mean of the data points (as the
+ previous example).
+\end_layout
+
+\begin_layout Itemize
+We need to know 
+\begin_inset Formula $k$
+\end_inset
+
+ in advance.
+\end_layout
+
+\begin_layout Itemize
+As we are minimizing the Euclidean distance, the algorithm is biased towards
+ finding spherical clusters, because the sphere is the shape whose maximum
+ distance to its center is constant:
+\begin_inset Formula 
+\[
+\mathbb{S}^{n}\left(y,r\right)=\left\{ x\in\mathbb{R}^{n+1}:\sum_{i=1}^{n+1}\left|x_{i}-y_{i}\right|\leq r^{2}\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Apply the 
+\begin_inset Formula $k-means$
+\end_inset
+
+ algorithm with 
+\begin_inset Formula $k=3$
+\end_inset
+
+ to the dataset
+\begin_inset Formula 
+\[
+D=\left\{ A_{1}=\left(2,10\right),A_{2}=\left(2,5\right),A_{3}=\left(8,4\right),A_{4}=\left(5,8\right),A_{5}=\left(7,5\right),A_{6}=\left(6,4\right),A_{7}=\left(1,2\right),A_{8}=\left(4,9\right)\right\} 
+\]
+
+\end_inset
+
+ and using the seed 
+\begin_inset Formula $Y_{1}=A_{5},\ Y_{2}=A_{6}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{3}=A_{8}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% This LaTeX was auto-generated from MATLAB code.
+\end_layout
+
+\begin_layout Plain Layout
+
+% To make changes, update the MATLAB code and export to LaTeX again.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+sloppy
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{k-Means algorithm example (Example 7.1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Introduce the data
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X1 = [2,10];
+\end_layout
+
+\begin_layout Plain Layout
+
+X2 = [2,5];
+\end_layout
+
+\begin_layout Plain Layout
+
+X3 = [8,4];
+\end_layout
+
+\begin_layout Plain Layout
+
+X4 = [5,8];
+\end_layout
+
+\begin_layout Plain Layout
+
+X5 = [7,5];
+\end_layout
+
+\begin_layout Plain Layout
+
+X6 = [6,4];
+\end_layout
+
+\begin_layout Plain Layout
+
+X7 = [1,2];
+\end_layout
+
+\begin_layout Plain Layout
+
+X8 = [4,9];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+D = [X1;X2;X3;X4;X5;X6;X7;X8]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+D = 8x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+     2    10
+\end_layout
+
+\begin_layout Plain Layout
+
+     2     5
+\end_layout
+
+\begin_layout Plain Layout
+
+     8     4
+\end_layout
+
+\begin_layout Plain Layout
+
+     5     8
+\end_layout
+
+\begin_layout Plain Layout
+
+     7     5
+\end_layout
+
+\begin_layout Plain Layout
+
+     6     4
+\end_layout
+
+\begin_layout Plain Layout
+
+     1     2
+\end_layout
+
+\begin_layout Plain Layout
+
+     4     9
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = [X5; X6; X8]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+     7     5
+\end_layout
+
+\begin_layout Plain Layout
+
+     6     4
+\end_layout
+
+\begin_layout Plain Layout
+
+     4     9
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Compute the distance between all points
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+dist = zeros(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for j=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:8
+\end_layout
+
+\begin_layout Plain Layout
+
+        dist(i,j)=distance(D(i,:),Y(j,:),2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Select, for each point, the point that minimizes the distance
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[v, idx] = min(dist, [], 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+D = [D,idx];
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Plot the clusters:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = 8x1 logical array    
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_1_images/figure_0.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Compute the new 
+\backslash
+texttt{Y:}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    ci = D(:,3) == i;
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = mean(D(ci,1));
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = mean(D(ci,2));
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y(i,:)=[x,y];
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+Y
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.5000    4.5000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.0000    3.6667
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.6667    9.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Repeat the process:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Distances
+\end_layout
+
+\begin_layout Plain Layout
+
+for j=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:8
+\end_layout
+
+\begin_layout Plain Layout
+
+        dist(i,j)=distance(D(i,1:2),Y(j,:),2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+dist
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+dist = 8x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.7782    6.4118    1.9437
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.5227    1.6667    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.7071    5.0111    6.6165
+\end_layout
+
+\begin_layout Plain Layout
+
+    4.3012    4.7726    1.6667
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.7071    4.2164    5.2068
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.5811    3.0185    5.5176
+\end_layout
+
+\begin_layout Plain Layout
+
+    6.9642    2.6034    7.4907
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.7009    5.4263    0.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Assign
+\end_layout
+
+\begin_layout Plain Layout
+
+[v, idx] = min(dist, [], 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+D(:,3) = idx;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = 8x1 logical array    
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_1_images/figure_1.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Optimize
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    ci = D(:,3) == i;
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = mean(D(ci,1));
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = mean(D(ci,2));
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y(i,:)=[x,y];
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+Y
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.0000    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.5000    3.5000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.6667    9.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Again:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Distances
+\end_layout
+
+\begin_layout Plain Layout
+
+for j=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:8
+\end_layout
+
+\begin_layout Plain Layout
+
+        dist(i,j)=distance(D(i,1:2),Y(j,:),2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+dist
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+dist = 8x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.5572    6.5192    1.9437
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.0442    1.5811    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0541    6.5192    6.6165
+\end_layout
+
+\begin_layout Plain Layout
+
+    4.1767    5.7009    1.6667
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.6667    5.7009    5.2068
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0541    4.5277    5.5176
+\end_layout
+
+\begin_layout Plain Layout
+
+    6.4377    1.5811    7.4907
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.5478    6.0415    0.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Assign
+\end_layout
+
+\begin_layout Plain Layout
+
+[v, idx] = min(dist, [], 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+D(:,3) = idx;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = 8x1 logical array    
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_1_images/figure_2.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Optimize
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    ci = D(:,3) == i;
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = mean(D(ci,1));
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = mean(D(ci,2));
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y(i,:)=[x,y];
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+Y
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.0000    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.5000    3.5000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.6667    9.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+At this point we see how the clusters are the ones that we see naturally
+ with our eyes.
+ If we execute it again, we can see that the changes are very slight now:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Distances
+\end_layout
+
+\begin_layout Plain Layout
+
+for j=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:8
+\end_layout
+
+\begin_layout Plain Layout
+
+        dist(i,j)=distance(D(i,1:2),Y(j,:),2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+dist
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+dist = 8x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.5572    6.5192    1.9437
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.0442    1.5811    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0541    6.5192    6.6165
+\end_layout
+
+\begin_layout Plain Layout
+
+    4.1767    5.7009    1.6667
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.6667    5.7009    5.2068
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0541    4.5277    5.5176
+\end_layout
+
+\begin_layout Plain Layout
+
+    6.4377    1.5811    7.4907
+\end_layout
+
+\begin_layout Plain Layout
+
+    5.5478    6.0415    0.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Assign
+\end_layout
+
+\begin_layout Plain Layout
+
+[v, idx] = min(dist, [], 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+D(:,3) = idx;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Plot
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = 8x1 logical array    
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   1
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+   0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+c3 = D(:,3) == 3;
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(1,1),Y(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(2,1),Y(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c3,1),D(c3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(Y(3,1),Y(3,2), 'MarkerFaceColor', 'r');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example7_1_images/figure_3.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Optimize
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:3
+\end_layout
+
+\begin_layout Plain Layout
+
+    ci = D(:,3) == i;
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = mean(D(ci,1));
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = mean(D(ci,2));
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y(i,:)=[x,y];
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+Y
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = 3x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    7.0000    4.3333
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.5000    3.5000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.6667    9.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+In fact, Y is not changing anymore!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabheadingthree{Functions}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hfill 
+\backslash
+break
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function d = distance(X, Y, m)
+\end_layout
+
+\begin_layout Plain Layout
+
+    n = length(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:n
+\end_layout
+
+\begin_layout Plain Layout
+
+        d = d + (X(i)-Y(i))^m;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = sqrt(d);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
