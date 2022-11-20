@@ -103,7 +103,7 @@ theorems-sec-bytype
 \papercolumns 1
 \papersides 1
 \paperpagestyle fancy
-\listings_params "morekeywords={if, then, is, in, return, for, Let, do, while, all, Initialize,or},morecomment={[f][\color{purple}]{\#}},escapechar={<@}"
+\listings_params "morekeywords={if, then, is, in, return, for, Let, do, while, all, Initialize,or, function, mark, as, not, any},morecomment={[f][\color{purple}]{\#}},escapechar={<@}"
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -7881,6 +7881,696 @@ We can try all possible changes or sample points from the database to try
 
 \begin_layout Subsection
 Practical issues
+\end_layout
+
+\begin_layout Itemize
+The initialization of the initial representative is not a trivial task.
+ Normally they are selected randomly among the points of the datasets and
+ most times the initialization step does not change the outcome of the algorithm
+: the representative based algorithm are very robust to this selection.
+ Nonetheless, sometimes suboptimal clusters arise because of a bad choice
+ of initial representatives.
+\end_layout
+
+\begin_layout Itemize
+Outliers can make a detrimental impact on the algorithms.
+ If one outlier is selected as initial representative it is possible to
+ obtain a singleton cluster with no meaning for the application.
+\end_layout
+
+\begin_layout Itemize
+The number of clusters, 
+\begin_inset Formula $k$
+\end_inset
+
+, is difficult to determine using automated methods.
+ As it is not known a priori, a common approach is to start with larger
+ values for 
+\begin_inset Formula $k$
+\end_inset
+
+ than the one we think should be correct.
+ Some natural clusters may split, but we can merge some of them as a postprocess
+ing step.
+\end_layout
+
+\begin_layout Section
+Grid and Density based Algorithms
+\end_layout
+
+\begin_layout Standard
+One of the major problems with distance-based algorithms is that the shape
+ of the clusters is implicitly enforced by the distance function.
+ Thus, it can be hard to detect natural cluster of arbitrary form.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Density-based algorithms
+\series default
+ are useful for this.
+ The idea is to identify dense regions in the data, and use the positions
+ of the different regions to determine the clusters.
+\end_layout
+
+\begin_layout Subsection
+Grid-based methods
+\end_layout
+
+\begin_layout Standard
+The data is discretized into 
+\begin_inset Formula $p$
+\end_inset
+
+ intervals, typically equi-width.
+ If the data has 
+\begin_inset Formula $d$
+\end_inset
+
+ dimensions, we will obtain 
+\begin_inset Formula $p^{d}$
+\end_inset
+
+ hyper-cubes.
+ These are the building blocks for the clusters.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+density threshold 
+\begin_inset Formula $\tau$
+\end_inset
+
+ 
+\series default
+is used to determine the dense hyper-cubes.
+ In most real data-sets, an arbitrarily shaped cluster will result in multiple
+ dense regions connected together by a side or a corner.
+\end_layout
+
+\begin_layout Standard
+Two hyper-cubes are said to be 
+\series bold
+adjacently connected
+\series default
+ if they share a side (sometimes corners are also considered).
+\end_layout
+
+\begin_layout Standard
+Two hyper-cubes are said to be 
+\series bold
+density connected
+\series default
+ if a path can be found from one to another containing only a sequence of
+ adjacently connected grid regions.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+goal
+\series default
+ is to determine the density connected regions.
+ Using a graph representation, the problem is equivalent to finding the
+ connected components of the graph, being the hyper-cubes the nodes and
+ an edge is defined between every pair of adjacent cubes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Advantages
+\end_layout
+
+\begin_layout Plain Layout
+The number of clusters is not pre-defined, so we don't need to bother with
+ the estimation of 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Disadvantages
+\end_layout
+
+\begin_layout Plain Layout
+We have to define 
+\begin_inset Formula $p$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau$
+\end_inset
+
+, which is not easy.
+ 
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $p$
+\end_inset
+
+ (number of ranges) is too small, the data points from multiple clusters
+ will be present in the same hyper-cube.
+ We will obtain undesired merged clusters.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $p$
+\end_inset
+
+ is too large, there will be many empty grid cells, so we may split a natural
+ cluster.
+ It also will be computationally expensive.
+\end_layout
+
+\begin_layout Itemize
+The choice of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ has similar consecuences.
+\end_layout
+
+\begin_layout Plain Layout
+Also, if the clusters present different densities, it is even more difficult
+ to determine 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $p$
+\end_inset
+
+ because each cluster is 'asking' for different values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The generic algorithm is as follows:
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Discretize each dimension into p ranges
+\end_layout
+
+\begin_layout Plain Layout
+
+Determine grid cells at density level tau
+\end_layout
+
+\begin_layout Plain Layout
+
+Create graph in which dense grids are connected if they are adjacent
+\end_layout
+
+\begin_layout Plain Layout
+
+Determine connected components of the graph
+\end_layout
+
+\begin_layout Plain Layout
+
+return points in each connected component as a cluster
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+GenericGrid(Data D, Ranges p, Density tau) : clusters C
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+DBSCAN
+\end_layout
+
+\begin_layout Standard
+The idea behind DBSCAN is similar to the one we have seen, but density is
+ considered at a pointwise level:
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+density of a data point
+\series default
+ is defined as the number of points that lie within a radius 
+\begin_inset Formula $eps$
+\end_inset
+
+ from it, i.e.
+ their neighbourhood of radius 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ The densities are used to classify the points:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Core point
+\series default
+: its neighbourhood contains at least 
+\begin_inset Formula $\tau$
+\end_inset
+
+ points.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Border point
+\series default
+: its neighbourhood contains less than 
+\begin_inset Formula $\tau$
+\end_inset
+
+ points, but it contains one or more core points.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Noise points
+\series default
+: any other case.
+\end_layout
+
+\begin_layout Standard
+And we define some relations between points:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(p_{i},p_{j}\right)$
+\end_inset
+
+ are 
+\series bold
+directly density reachable
+\series default
+ if 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ is a core point, and 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ is in the neighbourhood of 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(p_{i},p_{j}\right)$
+\end_inset
+
+ are 
+\series bold
+density reachable
+\series default
+ is 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ is a core point, and there exists a chain of core points 
+\begin_inset Formula $p_{i+1},...,p_{n}$
+\end_inset
+
+ where 
+\begin_inset Formula $\left(p_{k},p_{k+1}\right)$
+\end_inset
+
+ are directly density reachable for 
+\begin_inset Formula $k=i,...,n-1$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ is in the neighbourhood of 
+\begin_inset Formula $p_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(p_{i},p_{j}\right)$
+\end_inset
+
+ are 
+\series bold
+density connected
+\series default
+ if both 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+ are density reachable from some point 
+\begin_inset Formula $p_{k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After the points have been classified, a connectivity graph is constructed
+ as a maximal set of points that are all reachable from one another under
+ any of these definitions.
+\end_layout
+
+\begin_layout Standard
+Now, we identify the connected components of the graph, which are the clusters.
+\end_layout
+
+\begin_layout Standard
+The detailed algorithm is as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Clusters = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+for each unvisited point P in D
+\end_layout
+
+\begin_layout Plain Layout
+
+	Neihbourhood = regionQuery(P, eps)
+\end_layout
+
+\begin_layout Plain Layout
+
+	if sizeof(Neihbourhood) < tau
+\end_layout
+
+\begin_layout Plain Layout
+
+		mark P as visited
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		C = next cluster
+\end_layout
+
+\begin_layout Plain Layout
+
+		expandCluster(P, Neighbourhood, C, eps, tau)
+\end_layout
+
+\begin_layout Plain Layout
+
+		if C not in Clusters
+\end_layout
+
+\begin_layout Plain Layout
+
+			Clusters.add(C)
+\end_layout
+
+\begin_layout Plain Layout
+
+return Clusters
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function expandCluster(P, Neighbourhood, C, eps, tau)
+\end_layout
+
+\begin_layout Plain Layout
+
+	mark P as visited
+\end_layout
+
+\begin_layout Plain Layout
+
+	C.add(P)
+\end_layout
+
+\begin_layout Plain Layout
+
+	for Q in Neighbourhood
+\end_layout
+
+\begin_layout Plain Layout
+
+		if Q not visited
+\end_layout
+
+\begin_layout Plain Layout
+
+			mark Q as visited
+\end_layout
+
+\begin_layout Plain Layout
+
+			Neighbourhood_Q = regionQuery(Q, eps)
+\end_layout
+
+\begin_layout Plain Layout
+
+			if sizeof(Neighbourhood_Q >= tau)
+\end_layout
+
+\begin_layout Plain Layout
+
+				Neighbourhood.addAll(Neighbourhood_Q)
+\end_layout
+
+\begin_layout Plain Layout
+
+			if Q is not in any cluster
+\end_layout
+
+\begin_layout Plain Layout
+
+				C.add(Q)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+DBSCAN(Data D, Radius eps, Density tau) : clusters C
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Advantages
+\end_layout
+
+\begin_layout Plain Layout
+This method is not very different from the graph method, and it can also
+ discover clusters of any shape, without the need of knowing the number
+ of clusters in advance.
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Disadvantages
+\end_layout
+
+\begin_layout Plain Layout
+Again, determining the correct values for 
+\begin_inset Formula $eps$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is a complex task.
+ Also, the existence of clusters with different densities makes it even
+ harder.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+colback=green!5!white,colframe=cyan!75!black,title=Complexity
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The major time complexity is finding the neighbours: 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+In some special cases, an spatial index can reduce it to 
+\begin_inset Formula $O\left(n\cdot\log n\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Usually, grid based methods are more efficient because they partition the
+ space, which makes the procedure less computationally expensive.
+\end_layout
+
+\begin_layout Subsubsection
+Progressive DBSCAN
+\end_layout
+
+\begin_layout Standard
+The idea is using the same value for 
+\begin_inset Formula $\tau$
+\end_inset
+
+, apply DBSCAN in a progressive way, increasing the value of 
+\begin_inset Formula $eps$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Start with a small 
+\begin_inset Formula $eps$
+\end_inset
+
+ to find dense clusters.
+\end_layout
+
+\begin_layout Enumerate
+Iteratively relax the 
+\begin_inset Formula $eps$
+\end_inset
+
+ value to find less dense clusters.
+\end_layout
+
+\begin_layout Enumerate
+After every iteration, the points that already belong to a cluster are removed
+ from the dataset.
+\end_layout
+
+\begin_layout Subsection
+DENCLUE
 \end_layout
 
 \begin_layout Standard
