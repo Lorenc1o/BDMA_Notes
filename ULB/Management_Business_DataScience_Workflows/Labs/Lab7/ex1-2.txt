@@ -1,0 +1,3 @@
+Principle 1: the labour of the clerk is substituted with an automated catalog. This catalog should be updated by the publishers and accessed by the users.
+
+Principle 3: the user is the one who must find the book in the catalog and order it.

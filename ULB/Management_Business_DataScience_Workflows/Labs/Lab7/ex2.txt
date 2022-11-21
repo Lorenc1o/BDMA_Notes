@@ -1,0 +1,7 @@
+Principle 2: the employee that finishes the work can deliver it to the client. There is no need for always having a Level1 employee doing this. This way, information produced by Level2 does not need to be known by Level1.
+
+Principle 4: we could let Level1 employees to assess the difficulty of the problem, so Level2 employees does not need to do it.
+
+Principle 1: in relation to the previous change, we would capture the information of the difficulty only once (in the original process it is done twice, although slightly differently).
+
+Principle 3: we could eliminate Level1 employees and use a database to store previously developed solutions, so the client can search for them. This way, the client will drive the process unless there is not a previously similar solution.
