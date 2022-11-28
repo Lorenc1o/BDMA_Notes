@@ -2165,5 +2165,629 @@ Temporal databases
 Spatial databases
 \end_layout
 
+\begin_layout Section
+Lab 10
+\end_layout
+
+\begin_layout Standard
+In the directory 
+\series bold
+tp10
+\series default
+, perform:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+// Initialization
+\end_layout
+
+\begin_layout Plain Layout
+
+$ createdb infoh415
+\end_layout
+
+\begin_layout Plain Layout
+
+$ psql infoh415 -c 
+\begin_inset Quotes eld
+\end_inset
+
+CREATE EXTENSION postgis;
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// Tables creation
+\end_layout
+
+\begin_layout Plain Layout
+
+$ psql infoh415
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ 
+\backslash
+i create_tables.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// Tables population
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ 
+\backslash
+i insertion.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ 
+\backslash
+i create_index.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// Importing and exporting
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ quit
+\end_layout
+
+\begin_layout Plain Layout
+
+$ cd shapefiles/ 
+\end_layout
+
+\begin_layout Plain Layout
+
+$ pgsql2shp infoh415 regions 
+\end_layout
+
+\begin_layout Plain Layout
+
+$ pgsql2shp infoh415 cities
+\end_layout
+
+\begin_layout Plain Layout
+
+$ shp2pgsql -W "latin1" bel_city.shp >  ../shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+$ shp2pgsql -W "latin1" bel_dist.shp >> ../shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+$ shp2pgsql -W "latin1" bel_prov.shp >> ../shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+$ shp2pgsql -W "latin1" bel_regn.shp >> ../shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+$ shp2pgsql -W "latin1" belriver.shp >> ../shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+$ cd ..
+\end_layout
+
+\begin_layout Plain Layout
+
+$ psql infoh415
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ 
+\backslash
+i shp_insert.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+// Specify the SRID to use WGS84
+\end_layout
+
+\begin_layout Plain Layout
+
+infoh415$ 
+\backslash
+i update_srid.sql 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Write down and execute the following queries:
+\end_layout
+
+\begin_layout Enumerate
+Get the SRID from table cities.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select st_srid(geom) as SRID 
+\end_layout
+
+\begin_layout Plain Layout
+
+from bel_city 
+\end_layout
+
+\begin_layout Plain Layout
+
+limit 5;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get a textual description for this SRID.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select srtext 
+\end_layout
+
+\begin_layout Plain Layout
+
+from spatial_ref_sys 
+\end_layout
+
+\begin_layout Plain Layout
+
+where srid=4326;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the dimension of geographical objects in that table.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select distinct st_dimension(geom) as dim, st_coorddim(geom) as coorddim
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+from bel_city;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the geometry type of these objects.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select distinct st_geometrytype(geom) as type 
+\end_layout
+
+\begin_layout Plain Layout
+
+from bel_city;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the distance between the cities of IXELLES and BRUGGE.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select st_distance(
+\end_layout
+
+\begin_layout Plain Layout
+
+	st_transform((select geom from bel_city where name = 'Ixelles'),3812),
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+	st_transform((select geom from bel_city where name = 'Brugge'),3812)) as
+ dist, 
+\end_layout
+
+\begin_layout Plain Layout
+
+st_distancesphere(
+\end_layout
+
+\begin_layout Plain Layout
+
+	(select geom from bel_city where name = 'Ixelles'), 
+\end_layout
+
+\begin_layout Plain Layout
+
+	(select geom from bel_city where name = 'Brugge')) as dist_sphere
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The number 3812 in the transform function refers to Belgian Lambert 2008,
+ which is a conic representation adapted for Belgium.
+ If we don't apply this transformation, we get a distance measured in degrees,
+ which has little meaning for us.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the bounding rectangle for the BRABANT province.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+create table boundbox as 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select st_envelope(geom) 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from bel_prov 
+\end_layout
+
+\begin_layout Plain Layout
+
+	where name = 'Brabant';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We create the table to be able to visualize the result in QGis:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado7.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the geographical union of the bel_regn and bel_prov tables.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+create table geom_union as 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select st_union(geom) 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from (select geom from bel_regn 
+\end_layout
+
+\begin_layout Plain Layout
+
+		  union 
+\end_layout
+
+\begin_layout Plain Layout
+
+		  select geom from bel_prov) 
+\end_layout
+
+\begin_layout Plain Layout
+
+		  as tmp;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the length of each river.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select st_length2dspheroid(geom, 'SPHEROID["GRS_1980",6378137,298.257222101]')
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+from belriver;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second argument is the spheroid that the function should use to compute
+ the lengths, as its definition is 
+\begin_inset Formula $ST\_Length2DSpheroid(geometry\ geom,spheroid\ sp)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Create a table containing all cities that stand less than 1000m from a river.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select name, dist 
+\end_layout
+
+\begin_layout Plain Layout
+
+from 
+\end_layout
+
+\begin_layout Plain Layout
+
+	(select c.name as name, min(st_distancesphere(c.geom, r.geom)) as dist 
+\end_layout
+
+\begin_layout Plain Layout
+
+	 from bel_city c, belriver r 
+\end_layout
+
+\begin_layout Plain Layout
+
+	 group by c.name) as tmp 
+\end_layout
+
+\begin_layout Plain Layout
+
+where dist < 1000; 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- or
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+select c.name as name, min(st_distancesphere(c.geom, r.geom)) as dist 
+\end_layout
+
+\begin_layout Plain Layout
+
+from bel_city c 
+\end_layout
+
+\begin_layout Plain Layout
+
+	 join belriver r on st_distancesphere(c.geom, r.geom) < 1000 
+\end_layout
+
+\begin_layout Plain Layout
+
+group by c.name; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+For each river, compute the length of its path inside each province it traverses.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select r.name as river, p.name as province, 
+\end_layout
+
+\begin_layout Plain Layout
+
+	st_length2dspheroid(st_intersection(r.geom, p.geom),
+\end_layout
+
+\begin_layout Plain Layout
+
+					'SPHEROID["GRS_1980",6378137,298.257222101]') as inside_len 
+\end_layout
+
+\begin_layout Plain Layout
+
+from belriver r 
+\end_layout
+
+\begin_layout Plain Layout
+
+join bel_prov p on st_intersects(r.geom, p.geom); 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
