@@ -1,0 +1,23 @@
+# 3.1 Initialisation:
+export PGDATA=/volatile/pgdata
+initdb 
+pg_ctl start
+createdb tp11                                 
+psql tp11 -c "CREATE EXTENSION postgis;" 
+psql tp11 -c "CREATE EXTENSION postgis_raster;"        
+psql tp11 -f generate.sql    
+
+cd bel_alt/
+raster2pgsql BEL_alt.vrt > insert_bel_alt.sql 
+psql tp11 -f insert_bel_alt.sql
+cd ../alt_10m_bil/
+raster2pgsql alt.bil > insert_alt.sql    
+psql tp11 -f insert_alt.sql               
+cd ..
+
+
+# 3.2 Update rasters
+psql tp11
+SELECT UpdateRasterSRID('alt', 'rast', 4326);
+SELECT UpdateRasterSRID('bel_alt', 'rast', 4326);
+

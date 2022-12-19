@@ -2789,5 +2789,1326 @@ join bel_prov p on st_intersects(r.geom, p.geom);
 \end_layout
 
 \end_deeper
+\begin_layout Section
+Lab 11
+\end_layout
+
+\begin_layout Standard
+Download 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://biogeo.ucdavis.edu/data/climate/worldclim/1_4/grid/cur/alt_10m_bil.zip
+\end_layout
+
+\end_inset
+
+ and extract it to 
+\series bold
+tp11
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+In the directory 
+\series bold
+tp11
+\series default
+ perform:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+createdb tp11                                 
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11 -c "CREATE EXTENSION postgis;" 
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11 -c "CREATE EXTENSION postgis_raster;"        
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11 -f generate.sql    
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cd bel_alt/
+\end_layout
+
+\begin_layout Plain Layout
+
+raster2pgsql BEL_alt.vrt > insert_bel_alt.sql 
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11 -f insert_bel_alt.sql
+\end_layout
+
+\begin_layout Plain Layout
+
+cd ../alt_10m_bil/
+\end_layout
+
+\begin_layout Plain Layout
+
+raster2pgsql alt.bil > insert_alt.sql    
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11 -f insert_alt.sql               
+\end_layout
+
+\begin_layout Plain Layout
+
+cd ..
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# 3.2 Update rasters
+\end_layout
+
+\begin_layout Plain Layout
+
+psql tp11
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT UpdateRasterSRID('alt', 'rast', 4326);
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT UpdateRasterSRID('bel_alt', 'rast', 4326);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Write down and execute the following queries:
+\end_layout
+
+\begin_layout Enumerate
+Compute the difference between the two altitude datasets.
+ Try to perform this exercice first without using ST_Resample.
+ Export the result and visualize it in QGIS:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+gdal_translate -of GTiff PG:"dbname=tp11 schema=public table=sol1" sol1.tiff
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+create table sol1 as 
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ST_MapAlgebra( a.rast, 1, b.rast, 1, '[rast2] - [rast1]') AS rast 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM 
+\end_layout
+
+\begin_layout Plain Layout
+
+    (select b.RID, ST_Resample(b.rast, a.rast) as rast
+\end_layout
+
+\begin_layout Plain Layout
+
+     from bel_alt b,  alt a) 
+\end_layout
+
+\begin_layout Plain Layout
+
+as b, alt a;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once we have the table, we execute the command to export the raster and
+ then we import it to QGIS.
+ The result is (not very awesome):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado10.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the maximum altitude in Belgium.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT (ST_SummaryStats(rast)).max as max
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM bel_alt;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the altitudes of all cities in Belgium.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name, ST_Value(rast, geom) 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM bel_alt 
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN bel_city ON ST_Intersects(geom, rast);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the maximum and minimum altitudes for each province.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name, (stats).max, (stats).min 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT name, ST_SummaryStats(ST_Clip(rast, 1, geom, TRUE)) AS stats   
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM alt 
+\end_layout
+
+\begin_layout Plain Layout
+
+	JOIN bel_prov ON ST_Intersects(geom,rast)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AS foo;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Create a new raster table restraining the alt_16 raster to Belgium.
+ (Hint: use ST_Intersection.)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE alt_16_belgium AS
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT rid, ST_Clip(rast, 1, geom, TRUE) AS rast
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (SELECT ST_UNION(ARRAY(SELECT geom FROM bel_regn)) AS geom) AS belgium
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN alt ON ST_Intersects(geom, rast);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute the altitude along each river.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name, ST_AsText((position).geom), ST_Value(rast, (position).geom)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (SELECT name, rast, ST_DumpPoints(ST_Segmentize(geom, 0.1)) AS position
+\end_layout
+
+\begin_layout Plain Layout
+
+      FROM belriver 
+\end_layout
+
+\begin_layout Plain Layout
+
+	  JOIN bel_alt on ST_Intersects(geom, rast)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+	  AS dp;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+Spatial functions reference
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ST_CLIP
+\series default
+: Returns a raster that is clipped by the input geometry geom.
+ If band index is not specified, all bands are processed.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Rasters resulting from ST_Clip must have a nodata value assigned for areas
+ clipped, one for each band.
+ If none are provided and the input raster do not have a nodata value defined,
+ nodata values of the resulting raster are set to ST_MinPossibleValue(ST_BandPix
+elType(rast, band)).
+ When the number of nodata value in the array is smaller than the number
+ of band, the last one in the array is used for the remaining bands.
+ If the number of nodata value is greater than the number of band, the extra
+ nodata values are ignored.
+ All variants accepting an array of nodata values also accept a single value
+ which will be assigned to each band.
+\end_layout
+
+\begin_layout Standard
+If crop is not specified, true is assumed meaning the output raster is cropped
+ to the intersection of the geomand rast extents.
+ If crop is set to false, the new raster gets the same extent as rast.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Clip the first band of an aerial tile by a 20 meter buffer.
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ST_Clip(rast, 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ST_Buffer(ST_Centroid(ST_Envelope(rast)),20)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ) from aerials.boston
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE rid = 4;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Demonstrate effect of crop on final dimensions of raster
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Note how final extent is clipped to that of the geometry
+\end_layout
+
+\begin_layout Plain Layout
+
+-- if crop = true
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ST_XMax(ST_Envelope(ST_Clip(rast, 1, clipper, true))) As xmax_w_trim,
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_XMax(clipper) As xmax_clipper,
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_XMax(ST_Envelope(ST_Clip(rast, 1, clipper, false))) As xmax_wo_trim,
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_XMax(ST_Envelope(rast)) As xmax_rast_orig
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (SELECT rast, ST_Buffer(ST_Centroid(ST_Envelope(rast)),6) As clipper
+\end_layout
+
+\begin_layout Plain Layout
+
+    FROM aerials.boston
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE rid = 6) As foo;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+   xmax_w_trim    |   xmax_clipper   |   xmax_wo_trim   |  xmax_rast_orig
+\end_layout
+
+\begin_layout Plain Layout
+
+------------------+------------------+------------------+------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+ 230657.436173996 | 230657.436173996 | 230666.436173996 | 230666.436173996
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado9.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_DUMPPOINTS
+\series default
+: A set-returning function (SRF) that extracts the coordinates (vertices)
+ of a geometry.
+ It returns a set of geometry_dump rows, each containing a geometry (geom
+ field) and an array of integers (path field).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+the geom field POINTs represent the coordinates of the supplied geometry.
+\end_layout
+
+\begin_layout Itemize
+the path field (an integer[]) is an index enumerating the coordinate positions
+ in the elements of the supplied geometry.
+ The indices are 1-based.
+ For example, for a LINESTRING the paths are {i} where i is the nth coordinate
+ in the LINESTRING.
+ For a POLYGON the paths are {i,j} where i is the ring number (1 is outer;
+ inner rings follow) and j is the coordinate position in the ring.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT edge_id, (dp).path[1] As index, ST_AsText((dp).geom) As wktnode
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (SELECT 1 As edge_id
+\end_layout
+
+\begin_layout Plain Layout
+
+	, ST_DumpPoints(ST_GeomFromText('LINESTRING(1 2, 3 4, 10 10)')) AS dp
+\end_layout
+
+\begin_layout Plain Layout
+
+     UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+     SELECT 2 As edge_id
+\end_layout
+
+\begin_layout Plain Layout
+
+	, ST_DumpPoints(ST_GeomFromText('LINESTRING(3 5, 5 6, 9 10)')) AS dp
+\end_layout
+
+\begin_layout Plain Layout
+
+   ) As foo;
+\end_layout
+
+\begin_layout Plain Layout
+
+ edge_id | index |    wktnode
+\end_layout
+
+\begin_layout Plain Layout
+
+---------+-------+--------------
+\end_layout
+
+\begin_layout Plain Layout
+
+       1 |     1 | POINT(1 2)
+\end_layout
+
+\begin_layout Plain Layout
+
+       1 |     2 | POINT(3 4)
+\end_layout
+
+\begin_layout Plain Layout
+
+       1 |     3 | POINT(10 10)
+\end_layout
+
+\begin_layout Plain Layout
+
+       2 |     1 | POINT(3 5)
+\end_layout
+
+\begin_layout Plain Layout
+
+       2 |     2 | POINT(5 6)
+\end_layout
+
+\begin_layout Plain Layout
+
+       2 |     3 | POINT(9 10)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_INTERSECTS
+\series default
+: Compares two geometries and returns true if they intersect.
+ Geometries intersect if they have any point in common.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT ST_Intersects('POINT(0 0)'::geometry, 'LINESTRING ( 2 0, 0 2 )'::geometry
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+ st_intersects
+\end_layout
+
+\begin_layout Plain Layout
+
+---------------
+\end_layout
+
+\begin_layout Plain Layout
+
+ f
+\end_layout
+
+\begin_layout Plain Layout
+
+(1 row)
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ST_Intersects('POINT(0 0)'::geometry, 'LINESTRING ( 0 0, 0 2 )'::geometry
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+ st_intersects
+\end_layout
+
+\begin_layout Plain Layout
+
+---------------
+\end_layout
+
+\begin_layout Plain Layout
+
+ t
+\end_layout
+
+\begin_layout Plain Layout
+
+(1 row)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Look up in table.
+ Make sure table has a GiST index on geometry column for faster lookup.
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT id, name FROM cities WHERE ST_Intersects(geom, 'SRID=4326;POLYGON((28
+ 53,27.707 52.293,27 52,26.293 52.293,26 53,26.293 53.707,27 54,27.707 53.707,28
+ 53))');
+\end_layout
+
+\begin_layout Plain Layout
+
+ id | name
+\end_layout
+
+\begin_layout Plain Layout
+
+----+-------
+\end_layout
+
+\begin_layout Plain Layout
+
+  2 | Minsk
+\end_layout
+
+\begin_layout Plain Layout
+
+(1 row)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_MAPALGEBRA
+\series default
+: Returns a one-band raster given one or two input rasters, band indexes
+ and one or more user-specified SQL expressions.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+With one ruster: Creates a new one band raster formed by applying a valid
+ PostgreSQL algebraic operation defined by the expression on the input raster
+ (rast).
+ If nband is not provided, band 1 is assumed.
+ The new raster will have the same georeference, width, and height as the
+ original raster but will only have one band.
+\end_layout
+
+\begin_layout Itemize
+With two rusters: Creates a new one band raster formed by applying a valid
+ PostgreSQL algebraic operation to the two bands defined by the expression
+ on the two input raster bands (rast1, rast2).
+ If no band1, band2 is specified band 1 is assumed.
+ The resulting raster will be aligned (scale, skew and pixel corners) on
+ the grid defined by the first raster.
+ The resulting raster will have the extent defined by the extenttype parameter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+WITH foo AS (
+\end_layout
+
+\begin_layout Plain Layout
+
+    SELECT 1 AS rid, ST_AddBand(ST_AddBand(ST_AddBand(ST_MakeEmptyRaster(2,
+ 2, 0, 0, 1, -1, 0, 0, 0), 1, '16BUI', 1, 0), 2, '8BUI', 10, 0), 3, '32BUI'::tex
+t, 100, 0) AS rast UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+    SELECT 2 AS rid, ST_AddBand(ST_AddBand(ST_AddBand(ST_MakeEmptyRaster(2,
+ 2, 0, 1, 1, -1, 0, 0, 0), 1, '16BUI', 2, 0), 2, '8BUI', 20, 0), 3, '32BUI'::tex
+t, 300, 0) AS rast
+\end_layout
+
+\begin_layout Plain Layout
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_MapAlgebra(
+\end_layout
+
+\begin_layout Plain Layout
+
+        t1.rast, 2,
+\end_layout
+
+\begin_layout Plain Layout
+
+        t2.rast, 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+        '([rast2] + [rast1.val]) / 2'
+\end_layout
+
+\begin_layout Plain Layout
+
+    ) AS rast
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM foo t1
+\end_layout
+
+\begin_layout Plain Layout
+
+CROSS JOIN foo t2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE t1.rid = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+    AND t2.rid = 2;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_RESAMPLE
+\series default
+: Resample a raster using a specified resampling algorithm, new dimensions
+ (width & height), a grid corner (gridx & gridy) and a set of raster georeferenc
+ing attributes (scalex, scaley, skewx & skewy) defined or borrowed from
+ another raster.
+ If using a reference raster, the two rasters must have the same SRID.
+ New pixel values are computed using the NearestNeighbor (English or American
+ spelling), Bilinear, Cubic, CubicSpline or Lanczos resampling algorithm.
+ Default is NearestNeighbor which is the fastest but produce the worst interpola
+tion.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_Width(orig) AS orig_width,
+\end_layout
+
+\begin_layout Plain Layout
+
+    ST_Width(reduce_100) AS new_width
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (
+\end_layout
+
+\begin_layout Plain Layout
+
+    SELECT
+\end_layout
+
+\begin_layout Plain Layout
+
+        rast AS orig,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ST_Resample(rast,100,100) AS reduce_100
+\end_layout
+
+\begin_layout Plain Layout
+
+    FROM aerials.boston
+\end_layout
+
+\begin_layout Plain Layout
+
+    WHERE ST_Intersects(rast,
+\end_layout
+
+\begin_layout Plain Layout
+
+        ST_Transform(
+\end_layout
+
+\begin_layout Plain Layout
+
+            ST_MakeEnvelope(-71.128, 42.2392,-71.1277, 42.2397, 4326),26986)
+\end_layout
+
+\begin_layout Plain Layout
+
+    )
+\end_layout
+
+\begin_layout Plain Layout
+
+    LIMIT 1
+\end_layout
+
+\begin_layout Plain Layout
+
+) AS foo;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ orig_width | new_width
+\end_layout
+
+\begin_layout Plain Layout
+
+------------+-------------
+\end_layout
+
+\begin_layout Plain Layout
+
+        200 |         100
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_SEGMENTIZE
+\series default
+: Returns a modified geometry having no segment longer than the given max_segmen
+t_length.
+ Distance computation is performed in 2d only.
+ For geometry, length units are in units of spatial reference.
+ For geography, units are in meters.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT ST_AsText(ST_Segmentize(
+\end_layout
+
+\begin_layout Plain Layout
+
+ST_GeomFromText('MULTILINESTRING((-29 -27,-30 -29.7,-36 -31,-45 -33),(-45
+ -33,-46 -32))')
+\end_layout
+
+\begin_layout Plain Layout
+
+		,5)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+st_astext
+\end_layout
+
+\begin_layout Plain Layout
+
+--------------------------------------------------------------------------------
+------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+MULTILINESTRING((-29 -27,-30 -29.7,-34.886615700134 -30.758766735029,-36 -31,
+\end_layout
+
+\begin_layout Plain Layout
+
+-40.8809353009198 -32.0846522890933,-45 -33),
+\end_layout
+
+\begin_layout Plain Layout
+
+(-45 -33,-46 -32))
+\end_layout
+
+\begin_layout Plain Layout
+
+(1 row)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ST_AsText(ST_Segmentize(ST_GeomFromText('POLYGON((-29 28, -30 40,
+ -29 28))'),10));
+\end_layout
+
+\begin_layout Plain Layout
+
+st_astext
+\end_layout
+
+\begin_layout Plain Layout
+
+-----------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+POLYGON((-29 28,-29.8304547985374 37.9654575824488,-30 40,-29.1695452014626
+ 30.0345424175512,-29 28))
+\end_layout
+
+\begin_layout Plain Layout
+
+(1 row)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_SUMMARYSTATS
+\series default
+: Returns summarystats consisting of count, sum, mean, stddev, min, max
+ for a given raster band of a raster or raster coverage.
+ If no band is specified nband defaults to 1.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT rid, band, (stats).*
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM (SELECT rid, band, ST_SummaryStats(rast, band) As stats
+\end_layout
+
+\begin_layout Plain Layout
+
+    FROM dummy_rast CROSS JOIN generate_series(1,3) As band
+\end_layout
+
+\begin_layout Plain Layout
+
+     WHERE rid=2) As foo;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ rid | band | count | sum  |    mean    |  stddev   | min | max
+\end_layout
+
+\begin_layout Plain Layout
+
+-----+------+-------+------+------------+-----------+-----+-----
+\end_layout
+
+\begin_layout Plain Layout
+
+   2 |    1 |    23 | 5821 | 253.086957 |  1.248061 | 250 | 254
+\end_layout
+
+\begin_layout Plain Layout
+
+   2 |    2 |    25 | 3682 |     147.28 | 59.862188 |  78 | 254
+\end_layout
+
+\begin_layout Plain Layout
+
+   2 |    3 |    25 | 3290 |      131.6 | 61.647384 |  62 | 254
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_UNION
+\series default
+: Unions the input geometries, merging geometry to produce a result geometry
+ with no overlaps.
+ The output may be an atomic geometry, a MultiGeometry, or a Geometry Collection.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT id,
+\end_layout
+
+\begin_layout Plain Layout
+
+       ST_Union(geom) as singlegeom
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM sometable f
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY id;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+ST_VALUE
+\series default
+: Returns the value of a given band in a given columnx, rowy pixel or at
+ a given geometry point.
+ Band numbers start at 1 and band is assumed to be 1 if not specified.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- get raster values at particular postgis geometry points
+\end_layout
+
+\begin_layout Plain Layout
+
+-- the srid of your geometry should be same as for your raster
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT rid, ST_Value(rast, foo.pt_geom) As b1pval, ST_Value(rast, 2, foo.pt_geom)
+ As b2pval
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM dummy_rast CROSS JOIN (SELECT ST_SetSRID(ST_Point(3427927.77, 5793243.76),
+ 0) As pt_geom) As foo
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE rid=2;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ rid | b1pval | b2pval
+\end_layout
+
+\begin_layout Plain Layout
+
+-----+--------+--------
+\end_layout
+
+\begin_layout Plain Layout
+
+   2 |    252 |     79
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- general fictitious example using a real table
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT rid, ST_Value(rast, 3, sometable.geom) As b3pval
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM sometable
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE ST_Intersects(rast,sometable.geom);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
