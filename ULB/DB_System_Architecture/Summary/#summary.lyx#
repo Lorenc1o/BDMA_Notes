@@ -1,0 +1,1839 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+INFOH417 - Database Systems Architecture
+\end_layout
+
+\begin_layout Date
+Fall 2022
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../Data_Mining/Summary/1200px-Université_libre_de_Bruxelles_(logo).svg.png
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Mahmoud Sakr
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.lorencio.abril@ulb.be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Database Systems Architecture
+\emph default
+, taught at the Université Libre de Bruxelles by Professor Mahmoud Sakr
+ in the academic year 22/23.
+ Most of the content of this document is adapted from the course notes by
+ Sakr, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Sakr2022"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList algorithm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Query Planning: Translating SQL into Relational Algebra
+\end_layout
+
+\begin_layout Section
+Relational Algebra
+\end_layout
+
+\begin_layout Standard
+We are going to start with some definitions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+relation
+\series default
+ is a table whose columns have names, called 
+\series bold
+attributes
+\series default
+.
+ The set of all attributes is called the 
+\series bold
+schema of the relation
+\series default
+.
+ The rows of the table are tuples of values for each of the attributes,
+ and are called simply 
+\series bold
+tuples
+\series default
+.
+ We are going to denote 
+\begin_inset Formula $R$
+\end_inset
+
+ a relation, and we will express it as 
+\begin_inset Formula $R\sim\left[A_{1},...,A_{n}\right]$
+\end_inset
+
+ to indicate the schema of the relation, 
+\begin_inset Formula $A_{i},i=1,...,n$
+\end_inset
+
+ are the attributes of the schema.
+ If two relations, 
+\begin_inset Formula $R$
+\end_inset
+
+ and 
+\begin_inset Formula $R'$
+\end_inset
+
+, share the same schema, we will simply write 
+\begin_inset Formula $R\simeq R'$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that the relationship 
+\begin_inset Formula $\simeq$
+\end_inset
+
+ defines an equivalence relationship whose equivalence groups are all relations
+ with the same schema.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+A relation is 
+\series bold
+set-based
+\series default
+ if there are no duplicate tuples in it.
+ If this is not the case, the relation is 
+\series bold
+bag-based
+\series default
+.
+\end_layout
+
+\begin_layout Definition
+A 
+\series bold
+relational algebra operator
+\series default
+ takes as input 1 or more relations and produces as output a new relation.
+ More formally, if we have a set of relations 
+\begin_inset Formula $\Sigma=\left\{ R_{1},...,R_{n}\right\} \subset\mathcal{U}$
+\end_inset
+
+, where 
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+ identifies the set of all possible relations, a relational algebra operator
+ is a function
+\begin_inset Formula 
+\[
+Op:\mathcal{P}\left(\Sigma\right)\rightarrow\mathcal{U},
+\]
+
+\end_inset
+
+ being 
+\begin_inset Formula $\mathcal{P}\left(\Sigma\right)$
+\end_inset
+
+ the power set of 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:1-1"
+
+\end_inset
+
+As an example, we can take 
+\begin_inset Formula $\Sigma=\left\{ StarsIn,MovieStar\right\} $
+\end_inset
+
+, 
+\begin_inset Formula $StartsIn=\left[starName,filmName\right]$
+\end_inset
+
+, 
+\begin_inset Formula $MovieStar=\left[name,birthDate\right]$
+\end_inset
+
+.
+ In this case, an operator 
+\begin_inset Formula $Op$
+\end_inset
+
+ could be such that produces the relation that contains all names of films
+ in which some movie stars in 
+\begin_inset Formula $MovieStar$
+\end_inset
+
+ born in 1960 participated.
+\end_layout
+
+\begin_layout Standard
+In this example, we have explained what we would like our operator to do,
+ but we need some way to actually compute this.
+ For this, there are some basic operators that can be combined to create
+ complex operators.
+\end_layout
+
+\begin_layout Subsection
+The extended relational algebra
+\end_layout
+
+\begin_layout Standard
+Let's define a set of operators that are useful:
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+union
+\series default
+ of two relations with the same schema returns another relation with the
+ same schema and all tuples in any of the two input relations: Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ such that 
+\begin_inset Formula $R_{i}\simeq R_{j}$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+R_{i}\cup R_{j}=\left\{ x|x\in R_{i}\ \lor\ x\in R_{j}\right\} \simeq R_{i}\simeq R_{j}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note, nonetheless, that the result of the operator 
+\begin_inset Formula $\cup$
+\end_inset
+
+ is different in set-based relations than in bag-based relations.
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\cup$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6
+\end{array}\right]\bigcup\left[\begin{array}{cc}
+A & B\\
+3 & 4\\
+1 & 5
+\end{array}\right]=\left\{ \overset{set-based}{\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6\\
+1 & 5
+\end{array}\right]},\overset{bag-based}{\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6\\
+1 & 5\\
+3 & 4
+\end{array}\right]}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+intersection
+\series default
+ of two relations with the same schema returns another relation with the
+ same schema and all tuples in both of the two input relations: Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ such that 
+\begin_inset Formula $R_{i}\simeq R_{j}$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+R_{i}\cap R_{j}=\left\{ x|x\in R_{i}\ \land\ x\in R_{j}\right\} \simeq R_{i}\simeq R_{j}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\cap$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6
+\end{array}\right]\bigcap\left[\begin{array}{cc}
+A & B\\
+3 & 4\\
+1 & 5
+\end{array}\right]=\left[\begin{array}{cc}
+A & B\\
+3 & 4
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+difference
+\series default
+ of two relations with the same schema returns another relation with the
+ same schema and all tuples in the first input relations which don't appear
+ in the second input relation: Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ such that 
+\begin_inset Formula $R_{i}\simeq R_{j}$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+R_{i}-R_{j}=\left\{ x|x\in R_{i}\ \land\ x\notin R_{j}\right\} \simeq R_{i}\simeq R_{j}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $-$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6
+\end{array}\right]-\left[\begin{array}{cc}
+A & B\\
+3 & 4\\
+1 & 5
+\end{array}\right]=\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+5 & 6
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+selection
+\series default
+ operator applies a condition on the values of the tuples of the input relation
+ and returns only those tuples that fullfil the condition: Let 
+\begin_inset Formula $R\in\Sigma$
+\end_inset
+
+ and 
+\begin_inset Formula $P$
+\end_inset
+
+ a condition, then
+\begin_inset Formula 
+\[
+\sigma_{P}\left(R\right)=\left\{ x|x\in R\ \land\ P\left(R\right)==true\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\sigma_{P}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\sigma_{A\geq3}\left(\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 6
+\end{array}\right]\right)=\left[\begin{array}{cc}
+A & B\\
+3 & 4\\
+5 & 6
+\end{array}\right].
+\]
+
+\end_inset
+
+ In this case, the condition 
+\begin_inset Formula $P$
+\end_inset
+
+ is: '
+\emph on
+the value of 
+\begin_inset Formula $A$
+\end_inset
+
+ is bigger than or equal than 3
+\emph default
+'.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+projection
+\series default
+ operator returns all tuples of the input relation, but deleting all unspecified
+ attributes: Let 
+\begin_inset Formula $R\in\Sigma$
+\end_inset
+
+ and 
+\begin_inset Formula $A_{j_{1}},...,A_{j_{k}}\in\left[A_{1},...,A_{n}\right]\sim R$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\pi_{A_{j_{1}},...,A_{j_{k}}}\left(R\right)=R_{\left[A_{j_{1}},...,A_{j_{k}}\right]}^{'}=\left\{ y|\exists x\in R\ s.t.\ x\left(A_{j_{1}},...,A_{j_{k}}\right)=y\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The result of this operation also depends on the type of relations used.
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\pi_{\left[A_{j_{1}},...,A_{j_{k}}\right]}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\pi_{A,C}=\left(\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 3 & 5\\
+3 & 4 & 3 & 6\\
+5 & 6 & 5 & 9\\
+1 & 6 & 3 & 5
+\end{array}\right]\right)=\left\{ \overset{set-based}{\left[\begin{array}{cc}
+A & C\\
+1 & 3\\
+3 & 3\\
+5 & 5
+\end{array}\right]},\overset{bag-based}{\left[\begin{array}{cc}
+A & C\\
+1 & 3\\
+3 & 3\\
+5 & 5\\
+1 & 3
+\end{array}\right]}\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+cartesian product
+\series default
+ of two relations with disjoint schemas returns a relation with the schema
+ resulting of combining both schemas and with all possible tuples made out
+ of tuples from the first relation and tuples from the second relation:
+ Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ such that their schemas are disjoint, then
+\begin_inset Formula 
+\[
+R_{i}\times R_{j}=\left\{ z=\left(x,y\right)|x\in R_{i}\ \land\ y\in R_{j}\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\times$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4
+\end{array}\right]\times\left[\begin{array}{cc}
+C & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 2 & 6\\
+1 & 2 & 3 & 7\\
+1 & 2 & 4 & 9\\
+3 & 4 & 2 & 6\\
+3 & 4 & 3 & 7\\
+3 & 4 & 4 & 9
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+natural join
+\series default
+ of two tuples whose schemas share at most one attribute returns a relation
+ with the schema resulting of combining both schemas and with all possible
+ tuples made out of tuples from the first relation and tuples from the second
+ relation with the condition that they have the same value for the shared
+ attribute: Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ such that their schemas share at most one attribute, 
+\begin_inset Formula $A$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+R_{i}\bowtie R_{j}=\left\{ z=\left(x,y\right)|x\in R_{i}\ \land\ y\in R_{j}\ \land x\left(A\right)=y\left(A\right)\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that if the relations are disjoint, the natural join gives the same
+ results as the cartesian product.
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\bowtie$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4
+\end{array}\right]\bowtie\left[\begin{array}{cc}
+B & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{ccc}
+A & B & D\\
+1 & 2 & 6\\
+3 & 4 & 9
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+theta join
+\series default
+ of two relations given a condition 
+\begin_inset Formula $P$
+\end_inset
+
+ returns all the tuples in the cartesian product of the two relations that
+ fullfil the condition 
+\begin_inset Formula $P$
+\end_inset
+
+: Let 
+\begin_inset Formula $R_{i},R_{j}\in\Sigma$
+\end_inset
+
+ and 
+\begin_inset Formula $P$
+\end_inset
+
+ a condition, then
+\begin_inset Formula 
+\[
+R_{i}\bowtie_{P}R_{j}=\left\{ x|x\in R_{i}\times R_{j}\ \land\ P\left(x\right)==true\right\} =\sigma_{P}\left(R_{i}\times R_{j}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\bowtie_{P}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4
+\end{array}\right]\bowtie_{B=C}\left[\begin{array}{cc}
+C & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 2 & 6\\
+3 & 4 & 4 & 9
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+left/right/full outer join
+\series default
+ operators are similar to the theta join, but for those tuples in the left/right
+/both relation that does not find a match in the other relation, it returns
+ a new tuples with the values of the tuple and the rest of the attributes
+ empty.
+\end_layout
+
+\begin_layout Example
+An example of 
+\begin_inset Formula $=\bowtie,\ \bowtie=,=\bowtie=$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 5
+\end{array}\right]=\bowtie_{B=C}\left[\begin{array}{cc}
+C & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 2 & 6\\
+3 & 4 & 4 & 9\\
+5 & 5
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 5
+\end{array}\right]\bowtie=_{B=C}\left[\begin{array}{cc}
+C & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 2 & 6\\
+3 & 4 & 4 & 9\\
+ &  & 3 & 7
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+3 & 4\\
+5 & 5
+\end{array}\right]=\bowtie=_{B=C}\left[\begin{array}{cc}
+C & D\\
+2 & 6\\
+3 & 7\\
+4 & 9
+\end{array}\right]=\left[\begin{array}{cccc}
+A & B & C & D\\
+1 & 2 & 2 & 6\\
+3 & 4 & 4 & 9\\
+5 & 5\\
+ &  & 3 & 7
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+renaming operator 
+\series default
+changes the name of a relation, 
+\begin_inset Formula $\rho\left(R\right)=R'$
+\end_inset
+
+.
+ The 
+\series bold
+feature rename operator
+\series default
+ changes the name of an attribute in a relation, 
+\begin_inset Formula $A\rightarrow A'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+aggregation operator 
+\series default
+of a relation returns another relation in which the tuples that share the
+ value of the aggregating attribute are merged using an 
+\series bold
+aggregate function
+\series default
+: Let 
+\begin_inset Formula $R\in\Sigma$
+\end_inset
+
+, with 
+\begin_inset Formula $R\sim\left[A_{1},...,A_{n},A\right]$
+\end_inset
+
+, 
+\begin_inset Formula $A$
+\end_inset
+
+ the aggregating attribute and 
+\begin_inset Formula $f_{1},...,f_{n}$
+\end_inset
+
+ the aggregating functions for the rest of the attributes, then
+\begin_inset Formula 
+\[
+\gamma_{A,f_{1}\left(A_{1}\right),...,f_{n}\left(A_{n}\right)}\left(R\right)=\left\{ z=\left(v_{A},f_{1}\left(A_{1}^{v_{A}}\right),...f_{n}\left(A_{n}^{v_{A}}\right)\right)|v_{A}\in R\left(A\right)\right\} ,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $A_{j}^{v_{A}}$
+\end_inset
+
+ is a short notation for
+\begin_inset Formula 
+\[
+A_{j}^{v_{A}}=\pi_{A_{j}}\left(\sigma_{A=v_{A}}\left(R\right)\right),
+\]
+
+\end_inset
+
+ i.e.
+ all values in 
+\begin_inset Formula $R\left(A_{j}^{v_{A}}\right)$
+\end_inset
+
+ such that come from a tuple whose values for the attribute 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\begin_inset Formula $v$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+An example of the operator 
+\begin_inset Formula $\gamma_{A,f_{1}\left(A_{1}\right),...,f_{n}\left(A_{n}\right)\left(R\right)}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\gamma_{A,min\left(B\right)}\left[\begin{array}{cc}
+A & B\\
+1 & 2\\
+1 & 1\\
+3 & 7\\
+3 & 9\\
+4 & 4
+\end{array}\right]=\left[\begin{array}{cc}
+A & min\left(B\right)\\
+1 & 1\\
+3 & 7\\
+4 & 4
+\end{array}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Relational algebra expressions
+\end_layout
+
+\begin_layout Standard
+Now, we can build expressions in relational algebra to get new relations
+ from current ones.
+ Let's return to Example 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:1-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can define the operator 
+\begin_inset Formula $Op$
+\end_inset
+
+ such that produces the relation that contains all names of films in which
+ some movie stars in 
+\begin_inset Formula $MovieStar$
+\end_inset
+
+ born in 1960 participated as:
+\begin_inset Formula 
+\[
+R'=Op\left(MovieStar,StarsIn\right)=\pi_{filmName}\left(\sigma_{birthDate.year=1960}\left(MovieStar\bowtie_{name=starName}StarsIn\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Relational algebra is the theoretical basis of the 
+\series bold
+SQL language
+\series default
+, meaning SQL is designed as an implementation of the relational algebra
+ operators that we have seen so far.
+ The equivalent SQL sentence to the last RA operator, 
+\begin_inset Formula $OP$
+\end_inset
+
+, is
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT filmName
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM StarsIn
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN MovieStar ON name=starName
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE birthDate.year = 1960;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SQLtoRA"
+literal "false"
+
+\end_inset
+
+, translating an arbitrary SQL query into a 
+\series bold
+logical query plan
+\series default
+, or, equivalently, a relational algebra expression, is a complex task.
+ Let's first give some examples.
+\end_layout
+
+\begin_layout Example
+We are going to work with some examples now.
+ Let's our database have the following relations:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Movie(title: string, year: int, length: int, genre: string, studioName:
+ string, producerCERT: int)
+\end_layout
+
+\begin_layout Itemize
+MovieStar(name: string, address: string, gender: char, birthdate:date)
+\end_layout
+
+\begin_layout Itemize
+StarsIn(movieTitle: string, movieYear: string, starName: string)
+\end_layout
+
+\begin_layout Itemize
+MovieExec(name: string, address: string, CERT: int, netWorth: int)
+\end_layout
+
+\begin_layout Itemize
+Studio(name: string, address: string, presCERT: int)
+\end_layout
+
+\begin_layout Standard
+SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle, count(S.starName) AS numStars
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM StarsIn S, MovieStar M
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.starName = M.name
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY movieTitle;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+RA:
+\begin_inset Formula 
+\[
+\gamma_{M.movieTitle,\ count\left(S.starName\right)\rightarrow numStars}\left(\rho_{S}\left(StarsIn\right)\bowtie_{S.starName=M.name}\rho_{M}\left(MovieStar\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+SQL:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle, count(S.starName) AS numStars
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM StarsIn S, MovieStar M
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.starName = M.name
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY movieTitle
+\end_layout
+
+\begin_layout Plain Layout
+
+HAVING count(S.starName) > 5;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+RA:
+\begin_inset Formula 
+\[
+\sigma_{numStars>5}\left(\gamma_{M.movieTitle,\ count\left(S.starName\right)\rightarrow numStars}\left(\rho_{S}\left(StarsIn\right)\bowtie_{S.starName=M.name}\rho_{M}\left(MovieStar\right)\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+At this point, one can understand that it is not easy at all to automatize
+ this procedure of translating from SQL to RA.
+ Not only the process is not trivial as is, but it is also needed to take
+ into consideration that one SQL sentence can be translated into several
+ equivalent RA expressions, which will ultimately be executed in a computer
+ and the election of the translation to execute will affect the efficiency
+ of the program.
+ Let's review the paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SQLtoRA"
+literal "false"
+
+\end_inset
+
+, explaining each of the translations.
+\end_layout
+
+\begin_layout Subsection
+SELECT-FROM-WHERE statemets without subqueries
+\end_layout
+
+\begin_layout Standard
+A query of the form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1 T1,..., Rn Tn
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE condition;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in which the condition does not involve subqueries, we can translate it
+ as
+\begin_inset Formula 
+\[
+\pi_{select-list}\left(\sigma_{condition}\left(\rho_{T1}\left(R1\right)\times...\times\rho_{Tn}\left(Rn\right)\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Normalizing WHERE-subqueries into EXISTS and NOT EXISTS form
+\end_layout
+
+\begin_layout Standard
+In general, queries in which there are subqueries in the WHERE clause can
+ arise, and they need to be translated, too.
+ The property used in these cases is that subqueries occurring in the WHERE
+ clause that use the operators 
+\begin_inset Formula $=,<,>,<=,>=,<>,EXISTS,IN,NOT\ EXISTS,NOT\ IN$
+\end_inset
+
+ or the quantifiers 
+\begin_inset Formula $ANY$
+\end_inset
+
+ or 
+\begin_inset Formula $ALL$
+\end_inset
+
+ can all be rewritten to use the operators 
+\begin_inset Formula $EXISTS$
+\end_inset
+
+ and 
+\begin_inset Formula $NOT\ EXISTS$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+All conditions using a subquery can be rewritten using only 
+\begin_inset Formula $EXISTS$
+\end_inset
+
+ and 
+\begin_inset Formula $NOT\ EXISTS$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Let's proof some of the results:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The result using the 
+\begin_inset Formula $EXISTS$
+\end_inset
+
+ and 
+\begin_inset Formula $NOT\ EXISTS$
+\end_inset
+
+ operators is obvious.
+\end_layout
+
+\begin_layout Itemize
+Case 
+\begin_inset Formula $=ANY$
+\end_inset
+
+: a query would look like the following:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE R1.A = ANY (SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+				  FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+				  WHERE cond);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+An equivalent query is:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE EXISTS(SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+			 FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+			 WHERE cond AND R2.B = R1.A);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Case 
+\begin_inset Formula $=ALL$
+\end_inset
+
+:
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE R1.A = ALL (SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+				  FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+				  WHERE cond);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+An equivalent query is:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT EXISTS(SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+				 FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+				 WHERE cond AND R2.B <> R1.A);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The rest of the cases 
+\begin_inset Formula $binaryOP+ANY|ALL$
+\end_inset
+
+ is similar.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Case 
+\begin_inset Formula $IN$
+\end_inset
+
+:
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE R1.A IN (SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+			   FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+			   WHERE cond);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+An equivalent query is:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE EXISTS(SELECT B
+\end_layout
+
+\begin_layout Plain Layout
+
+			 FROM R2
+\end_layout
+
+\begin_layout Plain Layout
+
+			 WHERE cond AND R2.B = R1.A);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The case 
+\begin_inset Formula $NOT\ IN$
+\end_inset
+
+ is analogous.
+\end_layout
+
+\begin_layout Example
+Let's see some examples from the paper:
+\end_layout
+
+\begin_layout Example
+The query
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle FROM StarsIn
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE starName IN (SELECT name
+\end_layout
+
+\begin_layout Plain Layout
+
+				   FROM MovieStar
+\end_layout
+
+\begin_layout Plain Layout
+
+				   WHERE birthdate = 1960);
+\end_layout
+
+\end_inset
+
+is equivalent to:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle FROM StarsIn
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE EXISTS (SELECT name
+\end_layout
+
+\begin_layout Plain Layout
+
+			  FROM MovieStar
+\end_layout
+
+\begin_layout Plain Layout
+
+			  WHERE birthdate = 1960 AND name = starName);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The query
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name FROM MovieExec
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE netWorth >= ALL (SELECT name
+\end_layout
+
+\begin_layout Plain Layout
+
+				   	FROM MovieStar
+\end_layout
+
+\begin_layout Plain Layout
+
+				   WHERE birthdate = 1960);
+\end_layout
+
+\end_inset
+
+is equivalent to:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle FROM StarsIn
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE EXISTS (SELECT name
+\end_layout
+
+\begin_layout Plain Layout
+
+			  FROM MovieStar
+\end_layout
+
+\begin_layout Plain Layout
+
+			  WHERE birthdate = 1960 AND name = starName);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "dbsa_bib"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
