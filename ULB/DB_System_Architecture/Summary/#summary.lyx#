@@ -1320,11 +1320,22 @@ literal "false"
 
 \end_inset
 
-, explaining each of the translations.
+, explaining each of the translations, assuming set-based relations.
+\end_layout
+
+\begin_layout Section
+Translating SQL into Relational Algebra
 \end_layout
 
 \begin_layout Subsection
 SELECT-FROM-WHERE statemets without subqueries
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:SELECT-FROM-WHERE-statemets-without-SUB"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1465,12 +1476,12 @@ WHERE R1.A = ANY (SELECT B
 
 \begin_layout Plain Layout
 
-				  FROM R2
+		  FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-				  WHERE cond);
+		  WHERE cond);
 \end_layout
 
 \end_inset
@@ -1502,12 +1513,12 @@ WHERE EXISTS(SELECT B
 
 \begin_layout Plain Layout
 
-			 FROM R2
+		 FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-			 WHERE cond AND R2.B = R1.A);
+		 WHERE cond AND R2.B = R1.A);
 \end_layout
 
 \end_inset
@@ -1547,12 +1558,12 @@ WHERE R1.A = ALL (SELECT B
 
 \begin_layout Plain Layout
 
-				  FROM R2
+			FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-				  WHERE cond);
+			WHERE cond);
 \end_layout
 
 \end_inset
@@ -1583,12 +1594,12 @@ WHERE NOT EXISTS(SELECT B
 
 \begin_layout Plain Layout
 
-				 FROM R2
+			FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-				 WHERE cond AND R2.B <> R1.A);
+			WHERE cond AND R2.B <> R1.A);
 \end_layout
 
 \end_inset
@@ -1636,12 +1647,12 @@ WHERE R1.A IN (SELECT B
 
 \begin_layout Plain Layout
 
-			   FROM R2
+		   FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-			   WHERE cond);
+		   WHERE cond);
 \end_layout
 
 \end_inset
@@ -1672,12 +1683,12 @@ WHERE EXISTS(SELECT B
 
 \begin_layout Plain Layout
 
-			 FROM R2
+		 FROM R2
 \end_layout
 
 \begin_layout Plain Layout
 
-			 WHERE cond AND R2.B = R1.A);
+		 WHERE cond AND R2.B = R1.A);
 \end_layout
 
 \end_inset
@@ -1715,12 +1726,12 @@ WHERE starName IN (SELECT name
 
 \begin_layout Plain Layout
 
-				   FROM MovieStar
+		   FROM MovieStar
 \end_layout
 
 \begin_layout Plain Layout
 
-				   WHERE birthdate = 1960);
+		   WHERE birthdate = 1960);
 \end_layout
 
 \end_inset
@@ -1742,12 +1753,12 @@ WHERE EXISTS (SELECT name
 
 \begin_layout Plain Layout
 
-			  FROM MovieStar
+	  FROM MovieStar
 \end_layout
 
 \begin_layout Plain Layout
 
-			  WHERE birthdate = 1960 AND name = starName);
+	  WHERE birthdate = 1960 AND name = starName);
 \end_layout
 
 \end_inset
@@ -1771,17 +1782,12 @@ SELECT name FROM MovieExec
 
 \begin_layout Plain Layout
 
-WHERE netWorth >= ALL (SELECT name
+WHERE netWorth >= ALL (SELECT E.networth
 \end_layout
 
 \begin_layout Plain Layout
 
-				   	FROM MovieStar
-\end_layout
-
-\begin_layout Plain Layout
-
-				   WHERE birthdate = 1960);
+			FROM MovieExec E);
 \end_layout
 
 \end_inset
@@ -1793,7 +1799,91 @@ status open
 
 \begin_layout Plain Layout
 
-SELECT movieTitle FROM StarsIn
+SELECT name FROM MovieExec
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT EXISTS (SELECT E.networth
+\end_layout
+
+\begin_layout Plain Layout
+
+		  FROM MovieExec E
+\end_layout
+
+\begin_layout Plain Layout
+
+		  WHERE netWorth < E.netWorth);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Without loss of generality, we can now assume that all subqueries in the
+ where clause are of the form 
+\begin_inset Formula $EXISTS$
+\end_inset
+
+ or 
+\begin_inset Formula $NOT\ EXISTS$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, to translate a query with subqueries, in which an arbitrary number
+ of subqueries inside the subqueries may arise, it seems logical to proceed
+ recursively.
+ The idea is to translate into RA from inner queries to outer queries.
+ For subqueries that do not contain more subqueries, we could translate
+ them as in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:SELECT-FROM-WHERE-statemets-without-SUB"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The problem in this case is that the subqueries can refer to attributes
+ of relations appearing in the FROM clause of the outer queries.
+ This is known as 
+\series bold
+correlated queries
+\series default
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:A-correlated-query."
+
+\end_inset
+
+A correlated query.
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT movieTitle
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM StarsIn
 \end_layout
 
 \begin_layout Plain Layout
@@ -1803,16 +1893,844 @@ WHERE EXISTS (SELECT name
 
 \begin_layout Plain Layout
 
-			  FROM MovieStar
+		FROM MovieStar
 \end_layout
 
 \begin_layout Plain Layout
 
-			  WHERE birthdate = 1960 AND name = starName);
+		WHERE birthdate = 1960 AND name = starName);
 \end_layout
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
+The outer relations from which a correlated subquery uses certain attributes
+ are called 
+\series bold
+context relations
+\series default
+.
+ The attributes of the context relations are the 
+\series bold
+parameters
+\series default
+ of the subquery
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that not all the parameters must appear in the subquery.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Translating SELECT-FROM-WHERE subqueries
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Translating-SELECT-FROM-WHERE-suB"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To translate a SELECT-FROM-WHERE statement that is used as a subquery, we
+ must make the following modifications to the method from Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:SELECT-FROM-WHERE-statemets-without-SUB"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+We must add all context relations to the cartesian product of the relations
+ in the FROM list.
+\end_layout
+
+\begin_layout Itemize
+We must add all parameters as attributes to the projection 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+The subquery from Example 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:A-correlated-query."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM MovieStar
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE birthdate = 1960 AND name = starName
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+is translated into
+\begin_inset Formula 
+\[
+\pi_{movieTitle,movieYear,starName,name}\left(\sigma_{birthdate=1960\ \land\ name=starName}\left(StarsIn\times MovieStar\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+De-correlation of subqueries appearing in a conjunctive WHERE condition
+\end_layout
+
+\begin_layout Standard
+Now, let's focus on a particular case:
+\end_layout
+
+\begin_layout Standard
+Suppose we have a query of the general form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT Select-list
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM from-list
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE condition;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the following assumption: 
+\emph on
+the condition is a conjunction (AND) of SELECT-FROM-WHERE subqueries, possibly
+ with an additional condition that does not contain subqueries
+\emph default
+, i.e., the condition is of the form
+\begin_inset Formula 
+\[
+\phi\ AND\ EXISTS(Q_{1})\ AND\ EXISTS\left(Q_{2}\right)\ AND...\ AND\ NOT\ EXISTS\ \left(P_{1}\right)\ AND...
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ denotes the subquery-free condition and 
+\begin_inset Formula $Q_{1},...,Q_{n},P_{1},...,P_{m}$
+\end_inset
+
+ are select statements.
+ The translation is done in four steps:
+\end_layout
+
+\begin_layout Enumerate
+Translate 
+\begin_inset Formula $\phi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+De-correlate the EXISTS subqueries.
+\end_layout
+
+\begin_layout Enumerate
+De-correlate the NOT EXISTS subqueries.
+\end_layout
+
+\begin_layout Enumerate
+Apply the projection 
+\begin_inset Formula $\pi_{Select-list}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Translating 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is translated using the method of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:SELECT-FROM-WHERE-statemets-without-SUB"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, but the following context relations must be included:
+\end_layout
+
+\begin_layout Itemize
+All context relations for which parameters occur in 
+\begin_inset Formula $\phi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+All context relations for which parameters only occur in NOT EXISTS subqueries.
+\end_layout
+
+\begin_layout Standard
+We will obtain a expression of the form
+\begin_inset Formula 
+\[
+\sigma_{\phi}\left(E\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $E$
+\end_inset
+
+ is a cartesian product of all the context relations involved.
+ From now on, we are going to adapt and refine 
+\begin_inset Formula $E$
+\end_inset
+
+ gradually when de-correlating the subqueries.
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:decorr-ex1"
+
+\end_inset
+
+Consider the following query, with relations 
+\begin_inset Formula $R\left(A,B\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $S\left(C\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT R1.A, R1.B
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R R1, S
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE EXISTS
+\end_layout
+
+\begin_layout Plain Layout
+
+	(SELECT R2.A, R2.B
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM R R2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE R2.A = R1.B AND EXISTS
+\end_layout
+
+\begin_layout Plain Layout
+
+			(SELECT R3.A, R3.B
+\end_layout
+
+\begin_layout Plain Layout
+
+			FROM R R3
+\end_layout
+
+\begin_layout Plain Layout
+
+			WHERE R3.A = R2.B AND R3.B = S.C));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's denote the queries, from outer to inner: 
+\begin_inset Formula $Q_{1},Q_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $Q_{3}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+ does not have a subquery-free part, so we continue with 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+.
+ The subquery-free part of 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM R R2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE R2.A = R1.B;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+So it can be translated as
+\begin_inset Formula 
+\[
+\sigma_{R2.A=R1.B}\left(\rho_{R2}\left(R\right)\times\rho_{R1}\left(R\right)\right).
+\]
+
+\end_inset
+
+ Note that 
+\begin_inset Formula $S$
+\end_inset
+
+ is a context relation for this subquery-free part, but no parameter from
+ it is needed and it is not only used in NOT EXISTS clauses, so it is not
+ added.
+\end_layout
+
+\begin_layout Subsubsection
+De-correlating EXISTS subqueries
+\end_layout
+
+\begin_layout Standard
+After translating the subquery-free part, we translate all the subqueries
+ 
+\begin_inset Formula $EXISTS\left(Q_{i}\right)$
+\end_inset
+
+ as explained in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Translating-SELECT-FROM-WHERE-suB"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, obtaining an algebra expression 
+\begin_inset Formula $E_{Q_{i}}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $A_{1},...,A_{p}$
+\end_inset
+
+ be the list of parameters of context relations of 
+\begin_inset Formula $Q_{i}$
+\end_inset
+
+.
+ We can translate 
+\begin_inset Formula $EXISTS\left(Q_{i}\right)$
+\end_inset
+
+ by joining 
+\begin_inset Formula $E$
+\end_inset
+
+ with the space of parameters for 
+\begin_inset Formula $E_{Q_{i}}$
+\end_inset
+
+, namely 
+\begin_inset Formula $\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right):$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+E:=E\bowtie\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's continue the translation of 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+ from Example 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:decorr-ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Now, we have to translate 
+\begin_inset Formula $Q_{3}$
+\end_inset
+
+ as:
+\begin_inset Formula 
+\[
+\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+At this point, we have
+\begin_inset Formula 
+\[
+E=\rho_{R_{2}}\left(R\right)\times\rho_{R_{1}}\left(R\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+E_{Q_{3}}=\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right),
+\]
+
+\end_inset
+
+ and by joining 
+\begin_inset Formula $E$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{Q_{3}}$
+\end_inset
+
+ on the parameters of 
+\begin_inset Formula $Q_{3}$
+\end_inset
+
+ we ensure that we are taking the correct tuples from 
+\begin_inset Formula $E$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{Q_{3}}$
+\end_inset
+
+.
+ In particular, we are taking the tuples in 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ for which tuples in 
+\begin_inset Formula $R_{2},R_{3}$
+\end_inset
+
+ and 
+\begin_inset Formula $S$
+\end_inset
+
+ exist that satisfy the requirements of 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\rho_{R_{2}}\left(R\right)\times\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right).
+\]
+
+\end_inset
+
+ Note that this expression can be simplified:
+\begin_inset Formula 
+\[
+E:=\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right),
+\]
+
+\end_inset
+
+ because we are joining 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ with a subset of itself, so we will obtain the entire subset.
+\end_layout
+
+\begin_layout Remark
+This simplification can always be done.
+ Before joining with 
+\begin_inset Formula $\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right),$
+\end_inset
+
+ we can remove from 
+\begin_inset Formula $E$
+\end_inset
+
+ all context relations for 
+\begin_inset Formula $Q_{i}$
+\end_inset
+
+, because they are already present in the parameter space.
+ This way, denoting by 
+\begin_inset Formula $\hat{E}$
+\end_inset
+
+ the adapted 
+\begin_inset Formula $E$
+\end_inset
+
+, we can change what we explained later for
+\begin_inset Formula 
+\[
+E:=\hat{E}\bowtie\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now we can translate 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+ as follows:
+\begin_inset Formula 
+\[
+E_{2}:=\sigma_{R_{2}.A=R_{1}.B}\left(E\right)=
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{R_{2}.A=R_{1}.B}\left(\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right)\right).
+\]
+
+\end_inset
+
+ Notice how 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ has been removed from the cartesian product of the subquery-free part of
+ 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+ that we translated in the first of the examples.
+\end_layout
+
+\begin_layout Example
+Finally, the translation of the entire 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\pi_{R_{1}.A,R_{1}.B}\left(E_{2}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\rho_{R_{1}}\left(R\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $S$
+\end_inset
+
+ have been removed from the cartesian product originating from the translation
+ of the subquery-free part of 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+ (the FROM clause).
+\end_layout
+
+\begin_layout Subsubsection
+De-correlating NOT EXISTS subqueries
+\end_layout
+
+\begin_layout Standard
+Now we can de-correlate the 
+\begin_inset Formula $NOT\ EXISTS\left(P_{j}\right)$
+\end_inset
+
+ subqueries.
+ We start translating 
+\begin_inset Formula $P_{j}$
+\end_inset
+
+ into a RA expression 
+\begin_inset Formula $E_{P_{j}}$
+\end_inset
+
+.
+ Again, we consider the parameters 
+\begin_inset Formula $A_{1},...,A_{p}$
+\end_inset
+
+ of the context relations of 
+\begin_inset Formula $P_{j}$
+\end_inset
+
+.
+ The difference now is that we don't join 
+\begin_inset Formula $E$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{P_{j}}$
+\end_inset
+
+, but we perform an anti-join:
+\begin_inset Formula 
+\[
+E:=E\overline{\bowtie}\pi_{A_{1},...,A_{p}}\left(E_{P_{j}}\right),
+\]
+
+\end_inset
+
+ where
+\begin_inset Formula 
+\[
+R\overline{\bowtie}S=R-\left(R\bowtie S\right).
+\]
+
+\end_inset
+
+ In this anti-join, it necessary that 
+\begin_inset Formula $R$
+\end_inset
+
+ contains all attributes of 
+\begin_inset Formula $S$
+\end_inset
+
+, and this is the reason why it is needed to add all context relations appearing
+ only in NOT EXISTS clauses to the cartesian product of the subquery-free
+ part of the query.
+\end_layout
+
+\begin_layout Subsubsection
+Translating the Select-list
+\end_layout
+
+\begin_layout Standard
+Finally, we apply the projection 
+\begin_inset Formula $\pi_{Select-list}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Flattening subqueries in bag-based relations
+\end_layout
+
+\begin_layout Standard
+Until now, we have supposed that all relations involved are set-based, but
+ this is not the case in real databases, where duplicates can occur.
+ In this case, the requirements for flattening into a normal join are:
+\end_layout
+
+\begin_layout Itemize
+There is a uniqueness condition that ensures that the subquery does not
+ introduce any duplicates if it is flattened into the outer query block.
+ 
+\end_layout
+
+\begin_layout Itemize
+Each table in the subquery's FROM list (after any view, derived table, or
+ subquery flattening) must be a base table.
+ 
+\end_layout
+
+\begin_layout Itemize
+The subquery is not under an OR.
+ 
+\end_layout
+
+\begin_layout Itemize
+The subquery is not in the SELECT list of the outer query block.
+ 
+\end_layout
+
+\begin_layout Itemize
+The subquery type is EXISTS, IN, or ANY, or it is an expression subquery
+ on the right side of a comparison operator.
+ 
+\end_layout
+
+\begin_layout Itemize
+There are no aggregates in the SELECT list of the subquery.
+ 
+\end_layout
+
+\begin_layout Itemize
+The subquery does not have a GROUP BY clause.
+ 
+\end_layout
+
+\begin_layout Itemize
+The subquery does not have an ORDER BY, result offset, or fetch first clause.
+ 
+\end_layout
+
+\begin_layout Itemize
+If there is a WHERE clause in the subquery, there is at least one table
+ in the subquery whose columns are in equality predicates with expressions
+ that do not include any column references from the subquery block.
+ These columns must be a superset of the key columns for any unique index
+ on the table.
+ For all other tables in the subquery, the columns in equality predicates
+ with expressions that do not include columns from the same table are a
+ superset of the unique columns for any unique index on the table.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Query Optimization
+\end_layout
+
+\begin_layout Section
+System-R
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
