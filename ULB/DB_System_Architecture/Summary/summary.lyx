@@ -2804,9 +2804,18 @@ Relational Data System (RDS)
 \series default
 : supports the RDI, provides authorization, integrity enforcement and support
  for alternative views of data.
- The RDS contains an optimizer which plans the execution of each RDI command,
- choosing a low cost access path to data from among those provided by the
- RSS.
+ The RDS contains an 
+\series bold
+optimizer
+\series default
+ which plans the execution of each RDI command, choosing a low cost access
+ path to data from among those provided by the RSS.
+ The RDS also maintains a set of 
+\series bold
+catalog relations
+\series default
+ which describe the other relations, views, images, links, assertions, and
+ triggers known to the system.
 \end_layout
 
 \begin_layout Standard
@@ -2867,6 +2876,10 @@ Architecture of System R
 
 \begin_layout Subsection
 Query language
+\end_layout
+
+\begin_layout Subsubsection
+Data manipulation
 \end_layout
 
 \begin_layout Standard
@@ -3382,8 +3395,245 @@ RELEASE
  operator or until the holding transaction has ended.
 \end_layout
 
+\begin_layout Subsubsection
+Data definition
+\end_layout
+
+\begin_layout Standard
+The SQL statement 
+\series bold
+CREATE TABLE
+\series default
+ is used to create a new base relation.
+ For each field, the field name and data type are specified.
+ When a relation is no longer useful, it may be deleted by issuing a 
+\series bold
+DROP TABLE
+\series default
+ statement.
+\end_layout
+
+\begin_layout Standard
+Access paths include images and binary links.
+ 
+\series bold
+Images
+\series default
+ are value orderings maintained on base relations by the RSS, using multilevel
+ index structures
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Images are today called just indexes.
+\end_layout
+
+\end_inset
+
+, associating a value with one or more 
+\series bold
+tuple identifiers (TIDs)
+\series default
+, which are internal addresses allowing rapid access to a tuple.
+ One image per relation can have the 
+\series bold
+clustering property
+\series default
+, which causes tuples whose sort field values are close to be physically
+ stored near each other.
+ 
+\series bold
+Binary paths
+\series default
+ are access paths in the RSS which link tuples in one relation to related
+ tuples of another relation through pointer chains.
+ They are employed in a value dependent manner: the user specifies that
+ each tuple of Relation 1 is to be linked to the tuples in Relation 2 which
+ have matching values in some field/s, and that the tuples on the link are
+ to be ordered in some way
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+So, binary paths are essentialy join indexes.
+\end_layout
+
+\end_inset
+
+.
+ A link may be declared to have the clustering property.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+view
+\series default
+ is a relation derived from one or more relations, and can be used in the
+ same way as a base table.
+ It can be defined using the 
+\series bold
+DEFINE VIEW 
+\series default
+statement.
+ Views are updated automatically when changes are made to the base tables
+ on which they are defined.
+ When the statement 
+\series bold
+DROP VIEW
+\series default
+ is issued, the indicated view and all other views defined in terms of it
+ disappear from the system.
+ Modifications to views are only allowed if the tuples of the view are associate
+d one-to-one with tuples of an underlying base relation.
+\end_layout
+
+\begin_layout Standard
+The statement 
+\series bold
+KEEP TABLE
+\series default
+ causes a temporary table to become permanent.
+\end_layout
+
+\begin_layout Standard
+The statement 
+\series bold
+EXPAND TABLE
+\series default
+ is used to add a new field to an existing table.
+\end_layout
+
+\begin_layout Subsubsection
+Data Control
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+transaction
+\series default
+ is a series of RDI calls which the user wishes to be processed as an atomic
+ act.
+ A transaction starts when the user issues a 
+\series bold
+BEGIN_TRANS
+\series default
+ statement and ends when 
+\series bold
+END_TRANS
+\series default
+ is called.
+ Save points may be specified by means of the operator 
+\series bold
+SAVE
+\series default
+.
+ When a transaction is active, the user may go back to the beginning of
+ it, or to any save point using 
+\series bold
+RESTORE
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Regarding 
+\series bold
+authorization
+\series default
+, System R does not require a particular individual to be the DB administrator,
+ but allows each user to create his own data objects by executing the create
+ staatements.
+ The creator of an object has full authorization on it.
+ The user can gran selected capabilities for his objects to other users
+ with the statement 
+\series bold
+GRANT
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+About 
+\series bold
+integrity assertions
+\series default
+, any SQL predicate may be stated as an assertion about the integrity of
+ data in a base table or view.
+ When an assertion is made by an 
+\series bold
+ASSERT 
+\series default
+statement, its truth is checked.
+ If true, the assertion is atuomatically enforced until it is explicitly
+ dropped by a 
+\series bold
+DROP ASSERTION
+\series default
+ statement.
+ Assertions may describe the permissible states of the database or the permissib
+le transitions in the database.
+ For this latter purpose, the keywords 
+\series bold
+OLD
+\series default
+ and 
+\series bold
+NEW
+\series default
+ are used in SQL to denote data values before and after modification.
+\end_layout
+
+\begin_layout Standard
+If an assertion is 
+\series bold
+IMMEDIATE
+\series default
+, it cannot be suspended within a transaction, but is enforced after each
+ data modification.
+ Also, 
+\emph on
+integrity
+\emph default
+ 
+\emph on
+points 
+\emph default
+may be established by the SQL 
+\series bold
+ENFORCE INTEGRITY
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Triggers
+\series default
+ are a generalization of the concept of assertion, causing a prespecified
+ sequence of SQL statements to be executed when some triggering event occurs.
+\end_layout
+
 \begin_layout Subsection
 Catalogues
+\end_layout
+
+\begin_layout Standard
+Catalogues are maintained by the RDS, and they describe the information
+ of the relations, views, images, links, assertions and triggers known to
+ the system.
+ Each user may access a set of views of the system catalogs which contain
+ information pertinent to him.
+ Users cannot modify a catalog directly, but it is modified indirectly,
+ when tables are created, an image is dropped, etc.
+ A user can enter commments into his various catalog entries by means of
+ the 
+\series bold
+COMMENT
+\series default
+ statement.
 \end_layout
 
 \begin_layout Subsection
@@ -3398,6 +3648,9 @@ cursors
  are pointers to specific tuples on a resulting table from a query.
  They can be used to retrieve the values of the tuples individually or to
  store the tables into the database as permanent relations.
+ Cursors are still used, although they are often a low level feature that
+ is not directly used by users, by it is used by the DBMS to provide higher
+ level features to the user.
 \end_layout
 
 \begin_layout Standard
@@ -3488,16 +3741,914 @@ CALL SEQUEL('UPDATE EMP
 Clustering images
 \end_layout
 
+\begin_layout Standard
+Clustering images, as we have explained, are images (indexes) that can be
+ used to physically store the data in the same order as it is indexed.
+ At most one image per relation can have the clustering property.
+ The reason is simple: it is not possible to store the same data physically
+ in two different orders.
+\end_layout
+
 \begin_layout Subsection
 Optimizer
 \end_layout
 
-\begin_layout Subsection
-Cost estimation
+\begin_layout Standard
+The objective of the optimizer is to find a low cost means of executing
+ a SQL statement, given the data structures and access paths available.
+ For this, it attempts to minimize the expected number of pages to be fetches
+ from disk into the RSS buffers.
+ The cost of CPU instructions is also taken into account by means of an
+ adjustable coefficient, 
+\begin_inset Formula $H$
+\end_inset
+
+, which is multiplied by the number of tuple comparison operations to convert
+ equivalent page accesses.
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ is useful to adjust the metric for compute-bounded systems or disk access-bound
+ed systems.
 \end_layout
 
-\begin_layout Subsection
-Access paths
+\begin_layout Standard
+The optimizers follows some steps when it receives a SQL statement:
+\end_layout
+
+\begin_layout Enumerate
+Classify the SQL statement into one of several statement types.
+\end_layout
+
+\begin_layout Enumerate
+Examine the system catalogs to find the set of images and links which are
+ pertinent to the given statement.
+\end_layout
+
+\begin_layout Enumerate
+A rough decision procedure is executed to find the set of reasonable methods
+ of executing the statement.
+\end_layout
+
+\begin_layout Enumerate
+If there is more than one reasonable method, the 
+\series bold
+expected cost formula
+\series default
+ is evaluated for each method, and the minimizing method is choosing.
+\end_layout
+
+\begin_layout Standard
+The following parameters, available in the system catalogues, are taken
+ into account:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+relation cardinality
+\series default
+: number of tuples
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+D
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+number of pages occupied by the relation
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+average number of tuples per page:
+\begin_inset Formula 
+\[
+T=\frac{R}{D}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+I
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+image cardinality
+\series default
+: number of distinct sort fields values in a given image.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+H
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+coefficient of CPU cost
+\series default
+: 
+\begin_inset Formula $\frac{1}{H}$
+\end_inset
+
+ is the number of tuple comparisons which are considered equivalent in cost
+ to one disk page access.
+\end_layout
+
+\begin_layout Standard
+An image 
+\series bold
+match
+\series default
+ a predicate if the sort field of the image is the field which is tested
+ by the predicate.
+\end_layout
+
+\begin_layout Subsubsection
+Simple query optimization
+\end_layout
+
+\begin_layout Standard
+In the case of a simple query on a single relation, the optimizer compares
+ the available images with the predicates of the query, in order to determine
+ which of the following eight methods are available:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 1
+\end_layout
+
+\end_inset
+
+: use a clustering image which matches a predicate whose comparison operator
+ is '='.
+ The expected cost, 
+\begin_inset Formula $C$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+C=\frac{R}{T\times I},
+\]
+
+\end_inset
+
+ that is: from 
+\begin_inset Formula $I$
+\end_inset
+
+ values, we want one, so we need to retrieve 
+\begin_inset Formula $\frac{R}{I}$
+\end_inset
+
+ tuples on average.
+ These fit in 
+\begin_inset Formula $\frac{R}{T\times I}$
+\end_inset
+
+ pages.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 2
+\end_layout
+
+\end_inset
+
+: use a clustering image which matches a predicate whose comparison operator
+ is not '='.
+ Assuming half the tuples satisfy the predicate, we have
+\begin_inset Formula 
+\[
+C=\frac{R}{T\times2}.
+\]
+
+\end_inset
+
+ The idea is the same as before, but now we are assuming to retrieve 
+\begin_inset Formula $\frac{R}{2}$
+\end_inset
+
+ tuples on average.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 3
+\end_layout
+
+\end_inset
+
+: use a non-clustering image which matches a predicate whose comparison
+ operator is '='.
+ In this case, we have
+\begin_inset Formula 
+\[
+C=\frac{R}{I},
+\]
+
+\end_inset
+
+ because now we might find only one correct tuple per page.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 4
+\end_layout
+
+\end_inset
+
+: use a non-clustering image which matches a predicate whose comparison
+ operator is not '='.
+ It is
+\begin_inset Formula 
+\[
+C=\frac{R}{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 5
+\end_layout
+
+\end_inset
+
+: use a clustering image which does not match any predicate.
+ We would scan the image and test each tuple against all predicates.
+ The expected cost is
+\begin_inset Formula 
+\[
+C=\frac{R}{T}+H\times R\times N,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of predicates.
+ So, we recover 
+\begin_inset Formula $R$
+\end_inset
+
+ tuples, distributed in 
+\begin_inset Formula $\frac{R}{T}$
+\end_inset
+
+ pages.
+ In addition to this, we need to perform 
+\begin_inset Formula $R\times N$
+\end_inset
+
+ comparisons (
+\begin_inset Formula $N$
+\end_inset
+
+ predicates per tuple), which are weighted by the coefficient of CPU, 
+\begin_inset Formula $H$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 6
+\end_layout
+
+\end_inset
+
+: use a non-clustering image which does not match any predicate:
+\begin_inset Formula 
+\[
+C=R+H\times R\times N.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 7
+\end_layout
+
+\end_inset
+
+: use a relation scan, where this relation is the only one in its segment
+ and test each tupple agains all predicates:
+\begin_inset Formula 
+\[
+C=\frac{R}{T}+H\times R\times N.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 8
+\end_layout
+
+\end_inset
+
+: use a relation scan, where there are other relations sharing the segment.
+ The cost is unknown, but is greater than 
+\begin_inset Formula $\frac{R}{T}+H\times R\times N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The optimizer then chooses a method from this set, according to the following
+ rules:
+\end_layout
+
+\begin_layout Enumerate
+If 
+\series bold
+Method 1
+\series default
+ is available, it is chose.
+\end_layout
+
+\begin_layout Enumerate
+If exactly one among 
+\series bold
+Methods 2,3,5 and 7
+\series default
+ are available, it is chosen.
+ If more than one method is available in this class, the expected cost formulas
+ for these methods are evaluated and the method of minimum cost is chosen.
+\end_layout
+
+\begin_layout Enumerate
+If none of the above methods are available, the optimizer chooses 
+\series bold
+Method 4
+\series default
+, if available.
+\end_layout
+
+\begin_layout Enumerate
+Else, 
+\series bold
+Method 6
+\series default
+, if available.
+\end_layout
+
+\begin_layout Enumerate
+Else, 
+\series bold
+Method 8
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Join query optimization
+\end_layout
+
+\begin_layout Standard
+In the release paper, only 4 methods are explained, although they say the
+ system takes more methods into account.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 1
+\end_layout
+
+\end_inset
+
+: use images on join fields.
+ A simultaneous scan of the image on 
+\begin_inset Formula $R1.A$
+\end_inset
+
+ and the image of 
+\begin_inset Formula $R2.A$
+\end_inset
+
+.
+ The idea is having two pointers, and advance them coordinately, using the
+ fact that images are ordered to find matches.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 2
+\end_layout
+
+\end_inset
+
+: sort both relations.
+ 
+\begin_inset Formula $R1$
+\end_inset
+
+ and 
+\begin_inset Formula $R2$
+\end_inset
+
+ are ordered using their cluster images and two files, 
+\begin_inset Formula $F1$
+\end_inset
+
+ and 
+\begin_inset Formula $F2$
+\end_inset
+
+ are created.
+ 
+\begin_inset Formula $F1$
+\end_inset
+
+ and 
+\begin_inset Formula $F2$
+\end_inset
+
+ are sorted on field 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ The resulting sorted files are scanned simultaneously and the join is performed.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 3
+\end_layout
+
+\end_inset
+
+: multiple passes.
+ 
+\begin_inset Formula $R1$
+\end_inset
+
+ is scanned, storing the pertinent fields into a main memory data structure,
+ 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ If space in main memory is available to insert a subtuple, 
+\begin_inset Formula $S$
+\end_inset
+
+, it is inserted.
+ If there is no space and 
+\begin_inset Formula $S.A$
+\end_inset
+
+ is less than the current highest value of 
+\begin_inset Formula $A$
+\end_inset
+
+ in 
+\begin_inset Formula $W$
+\end_inset
+
+, 
+\begin_inset Formula $S$
+\end_inset
+
+ is discarded.
+ After completing the scan of 
+\begin_inset Formula $R1$
+\end_inset
+
+, 
+\begin_inset Formula $R2$
+\end_inset
+
+ is scanned using its clustering image and a tuple 
+\begin_inset Formula $S'$
+\end_inset
+
+ of 
+\begin_inset Formula $R2$
+\end_inset
+
+ is obtained.
+ Then, 
+\begin_inset Formula $W$
+\end_inset
+
+ is checked for the presence of 
+\begin_inset Formula $S'.A$
+\end_inset
+
+.
+ If present, 
+\begin_inset Formula $S'$
+\end_inset
+
+ is joined to the appropriate subtuple in 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ This process continues until all tuples of 
+\begin_inset Formula $R2$
+\end_inset
+
+ have been examined.
+ If any 
+\begin_inset Formula $R1$
+\end_inset
+
+ subtuples were discarded, another scan of 
+\begin_inset Formula $R1$
+\end_inset
+
+ is made to form a new 
+\begin_inset Formula $W$
+\end_inset
+
+ consisting of subtuples with 
+\begin_inset Formula $A$
+\end_inset
+
+ value greater than the current highest.
+ 
+\begin_inset Formula $R2$
+\end_inset
+
+ is scanned again and the process is repeated.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Method 4
+\end_layout
+
+\end_inset
+
+: the TID algorithm.
+ Basically, it works as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Obtain the TIDs of tuples from 
+\begin_inset Formula $R1$
+\end_inset
+
+ which satisfy additional restrictions to the join.
+ Sort them and store the TIDs in a file 
+\begin_inset Formula $F1$
+\end_inset
+
+.
+ Do the same with 
+\begin_inset Formula $R2$
+\end_inset
+
+, storing the TIDs in 
+\begin_inset Formula $F2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Perform a simultaneous scan over the images on 
+\begin_inset Formula $R1.A$
+\end_inset
+
+ and 
+\begin_inset Formula $R2.A$
+\end_inset
+
+, finding the TID pairs of tuples whose values for 
+\begin_inset Formula $A$
+\end_inset
+
+ match.
+\end_layout
+
+\begin_layout Enumerate
+Check each pair 
+\begin_inset Formula $\left(TID1,TID2\right)$
+\end_inset
+
+ to see if 
+\begin_inset Formula $TID1$
+\end_inset
+
+ is present in 
+\begin_inset Formula $W1$
+\end_inset
+
+ and 
+\begin_inset Formula $TID2$
+\end_inset
+
+ is present in 
+\begin_inset Formula $W2$
+\end_inset
+
+.
+ If they are, the tuples are fetched and joined.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+A method cannot be applied unless the appropriate access paths are available.
+ The 
+\series bold
+performance of a method
+\series default
+ depends strongly on the clustering of the relations with respect to the
+ access paths.
+ In the paper, four situation are presented in which the optimizer would
+ decide between the four methods, but they claim to detail the cost formulas
+ on a later paper:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Situation 1
+\end_layout
+
+\end_inset
+
+: there are clustering images on both 
+\begin_inset Formula $R1.A$
+\end_inset
+
+ and 
+\begin_inset Formula $R2.A$
+\end_inset
+
+, but not no images on 
+\begin_inset Formula $R1.B$
+\end_inset
+
+ or 
+\begin_inset Formula $R2.C$
+\end_inset
+
+, which are additional conditions.
+ 
+\series bold
+Method 1
+\series default
+ is always chosen.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Situation 2
+\end_layout
+
+\end_inset
+
+: there are non-clustering images on 
+\begin_inset Formula $R1.A$
+\end_inset
+
+ and 
+\begin_inset Formula $R2.A$
+\end_inset
+
+, but no images on 
+\begin_inset Formula $R1.B$
+\end_inset
+
+ or 
+\begin_inset Formula $R2.C$
+\end_inset
+
+.
+ 
+\series bold
+Method 3
+\series default
+ is chosen if 
+\begin_inset Formula $W$
+\end_inset
+
+ fits into the main memory buffer at once.
+ Otherwise, 
+\series bold
+Method 2
+\series default
+ is chosen.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Situation 3
+\end_layout
+
+\end_inset
+
+: there are clustering images on 
+\begin_inset Formula $R1.A$
+\end_inset
+
+ and 
+\begin_inset Formula $R2.A$
+\end_inset
+
+ and non-clustering images on 
+\begin_inset Formula $R1.B$
+\end_inset
+
+ or 
+\begin_inset Formula $R2.C$
+\end_inset
+
+.
+ 
+\series bold
+Method 4 
+\series default
+is always chosen.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Situation 4
+\end_layout
+
+\end_inset
+
+: there are non-clustering images on 
+\begin_inset Formula $R1.A,R2.A,R1.B$
+\end_inset
+
+ and 
+\begin_inset Formula $R2.C$
+\end_inset
+
+.
+ 
+\series bold
+Method 3
+\series default
+ is chosen if 
+\begin_inset Formula $W$
+\end_inset
+
+ fits into the main memory buffer.
+ Otherwise, 
+\series bold
+Method 2
+\series default
+ is chosen if more than one tuple per disk page is expected to satisfy the
+ restriction predicates.
+ In other cases, 
+\series bold
+Method 4
+\series default
+ is chosen.
+\end_layout
+
+\begin_layout Subsubsection
+Optimized Packages
+\end_layout
+
+\begin_layout Standard
+After analyzing a SQL statement, the optimizer produces an 
+\series bold
+Optimized Package (OP)
+\series default
+ containing the parse tree and a plan for executing the statement.
+ 
+\end_layout
+
+\begin_layout Itemize
+If the statement is a query, the OP is used to materialize tuples as they
+ are called for by the FECTH command.
+\end_layout
+
+\begin_layout Itemize
+If the statement is a view definition, the OP is stored in the form of a
+ 
+\series bold
+Pre-Optimized Package (POP)
+\series default
+, which can be fetched and utilized whenever an access is made via the specified
+ view.
+ If any change is made to the structure of a base relation or to the access
+ paths maintained on it, the POPs of all views defined on that relation
+ are invalidated, and each view must be reoptimized to form a new POP.
+\end_layout
+
+\begin_layout Itemize
+When a view is accessed via the RDI operators OPEN and FETCH, the POP for
+ the view can be used directly to materialize the tuples of the view.
 \end_layout
 
 \begin_layout Standard
