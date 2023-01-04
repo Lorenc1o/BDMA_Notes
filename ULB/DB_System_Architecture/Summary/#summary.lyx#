@@ -2731,7 +2731,735 @@ System-R
 \end_layout
 
 \begin_layout Standard
+In this section, we are going to explain System R, which is a pioneering
+ SQL system developed by IBM Research and which was released in 1976, with
+ an accompanying paper, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "systemR"
+literal "false"
 
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+System R was an experimental prototype database management system, with
+ complete capability, including application programming, query capability,
+ conccurent access support, system recovery, etc.
+\end_layout
+
+\begin_layout Subsection
+Architecture Components
+\end_layout
+
+\begin_layout Standard
+System R is composed by several parts:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Relational Storage Interface
+\series default
+ 
+\series bold
+(RSI)
+\series default
+: internal interface which handles access to single tuples of base relations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Relational Storage System (RSS)
+\series default
+: the supporting system of the RSI.
+ It is a complete storage subsystem in the sense that it manages devices,
+ space allocation, deadlock detection,...
+ It maintain indexes on selected fields of base relations, and pointer chains
+ across relations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Relational Data Interface (RDI)
+\series default
+: the external interface that can be called directly from a programming
+ language.
+ The 
+\series bold
+SQL language
+\series default
+ is embedded within the RDI, and is used as the basis for all data definition
+ and manipulation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Relational Data System (RDS)
+\series default
+: supports the RDI, provides authorization, integrity enforcement and support
+ for alternative views of data.
+ The RDS contains an optimizer which plans the execution of each RDI command,
+ choosing a low cost access path to data from among those provided by the
+ RSS.
+\end_layout
+
+\begin_layout Standard
+A logical diagram of this architecture is depicted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Architecture-of-System-R"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename systemR.drawio.png
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Architecture-of-System-R"
+
+\end_inset
+
+Architecture of System R
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Query language
+\end_layout
+
+\begin_layout Standard
+The RDI interfaces SQL to a host programming language by means of a concept
+ called a 
+\series bold
+cursor
+\series default
+, which is a name used at the RDI to identify a set of tuples called its
+ 
+\series bold
+active set
+\series default
+, and to maintain a position on one tuple of the set.
+ The cursor is associted with a set of tuples by means of the RDI operator
+ 
+\series bold
+SEQUEL
+\series default
+; the tuples may then be retrieved, one at a time, by the RDI operator 
+\series bold
+FETCH
+\series default
+.
+ The program must first give the system the addresses of the program variables
+ to be used by means of the RDI operator 
+\series bold
+BIND
+\series default
+.
+\end_layout
+
+\begin_layout Example
+Here, the host program identifies variables X and Y to the system and then
+ issues a query whose results are to be placed in these variables:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language={PL/I},showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CALL BIND('X', ADDR(X));
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL BIND('Y', ADDR(Y));
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL SEQUEL(C1, 'SELECT NAME:X, SAL:Y
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM EMP
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE JOB = 
+\begin_inset Quotes eld
+\end_inset
+
+PROGRAMMER
+\begin_inset Quotes erd
+\end_inset
+
+');
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL FETCH(C1);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The SEQUEL operator is associating the cursor C1 with the set of tuples
+ which satisfy the query and positioning it just before the first such tuple.
+ The optimizer is invoked to choose an access path whereby the tuples may
+ be materialized, but no tuples are actually materialized in response to
+ the SEQUEL call.
+ The materialization is done as they are called for, one at a time, by the
+ FETCH operator.
+ Each call to FETCH deliver the next tuple of the active set into program
+ variables X and Y.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:exampleSystemR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ we can see an example of the stored data in the relation EMP and the resulting
+ Active Set.
+ In this case, after calling FETCH(C1), the values of the variables would
+ be X=
+\begin_inset Quotes erd
+\end_inset
+
+Mike
+\begin_inset Quotes erd
+\end_inset
+
+ and Y=800.
+ If another call to FECTH(C1) were made, then the variables would be overrided
+ to X=
+\begin_inset Quotes erd
+\end_inset
+
+Sarah
+\begin_inset Quotes erd
+\end_inset
+
+ and Y=810.
+\end_layout
+
+\begin_layout Example
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+EMP
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NAME
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SAL
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+JOB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+John
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+CEO
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Mike
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+800
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+PROGRAMMER
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Sarah
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+810
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+PROGRAMMER
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Active Set
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NAME
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SAL
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Mike
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+800
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Sarah
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+810
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:exampleSystemR"
+
+\end_inset
+
+Result of the program.
+ Stored data in EMP (left).
+ Active Set (right).
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+DESCRIBE
+\series default
+ operator returns the degree and the data types of the active set.
+ The degree is the number of attributes.
+ It is useful when this information is not known in advanced, so it can
+ be inputted to the FETCH operator.
+\end_layout
+
+\begin_layout Standard
+The operator 
+\series bold
+OPEN
+\series default
+ is used to associate a cursor with an entire relation.
+\end_layout
+
+\begin_layout Standard
+Each cursor remains active until an RDI operator 
+\series bold
+CLOSE
+\series default
+ or 
+\series bold
+KEEP
+\series default
+ is issued on it.
+ CLOSE deactivates the cursor, while KEEP causes the tuples identified by
+ a cursor to be copied to form a new permanent relation in the database.
+\end_layout
+
+\begin_layout Standard
+The operator 
+\series bold
+FETCH_HOLD
+\series default
+ is as FETCH, but it also acquires a 
+\emph on
+hold
+\emph default
+ on the tuple returned, which prevents other users from updating or deleting
+ it until it is explicitly released by the 
+\series bold
+RELEASE
+\series default
+ operator or until the holding transaction has ended.
+\end_layout
+
+\begin_layout Subsection
+Catalogues
+\end_layout
+
+\begin_layout Subsection
+Cursors
+\end_layout
+
+\begin_layout Standard
+As we have seen, 
+\series bold
+cursors
+\series default
+ are pointers to specific tuples on a resulting table from a query.
+ They can be used to retrieve the values of the tuples individually or to
+ store the tables into the database as permanent relations.
+\end_layout
+
+\begin_layout Standard
+In addition, SQL can be used to maniputale either one tuple at a time or
+ a set of tuples with a single command.
+ The current tuple of a particular cursor may be selected for some operation
+ using the predicate 
+\series bold
+CURRENT TUPLE OF CURSOR
+\series default
+.
+\end_layout
+
+\begin_layout Example
+Give a 10% raise to all employees in Dept.
+ 50.
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language={PL/I},showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CALL SEQUEL('UPDATE EMP
+\end_layout
+
+\begin_layout Plain Layout
+
+		SET SAL = SAL*1.1
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE DNO = 50');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Subsection
+Clustering images
+\end_layout
+
+\begin_layout Subsection
+Optimizer
+\end_layout
+
+\begin_layout Subsection
+Cost estimation
+\end_layout
+
+\begin_layout Subsection
+Access paths
 \end_layout
 
 \begin_layout Standard
