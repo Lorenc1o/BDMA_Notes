@@ -6,7 +6,7 @@
 \origin unavailable
 \textclass article
 \begin_preamble
-
+\usepackage[all]{xy}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -658,7 +658,7 @@ projection
 , then
 \begin_inset Formula 
 \[
-\pi_{A_{j_{1}},...,A_{j_{k}}}\left(R\right)=R_{\left[A_{j_{1}},...,A_{j_{k}}\right]}^{'}=\left\{ y|\exists x\in R\ s.t.\ x\left(A_{j_{1}},...,A_{j_{k}}\right)=y\right\} .
+\Pi_{A_{j_{1}},...,A_{j_{k}}}\left(R\right)=R_{\left[A_{j_{1}},...,A_{j_{k}}\right]}^{'}=\left\{ y|\exists x\in R\ s.t.\ x\left(A_{j_{1}},...,A_{j_{k}}\right)=y\right\} .
 \]
 
 \end_inset
@@ -672,13 +672,13 @@ The result of this operation also depends on the type of relations used.
 
 \begin_layout Example
 An example of the operator 
-\begin_inset Formula $\pi_{\left[A_{j_{1}},...,A_{j_{k}}\right]}$
+\begin_inset Formula $\Pi_{\left[A_{j_{1}},...,A_{j_{k}}\right]}$
 \end_inset
 
 :
 \begin_inset Formula 
 \[
-\pi_{A,C}=\left(\left[\begin{array}{cccc}
+\Pi_{A,C}\left(\left[\begin{array}{cccc}
 A & B & C & D\\
 1 & 2 & 3 & 5\\
 3 & 4 & 3 & 6\\
@@ -1034,7 +1034,7 @@ aggregate function
  is a short notation for
 \begin_inset Formula 
 \[
-A_{j}^{v_{A}}=\pi_{A_{j}}\left(\sigma_{A=v_{A}}\left(R\right)\right),
+A_{j}^{v_{A}}=\Pi_{A_{j}}\left(\sigma_{A=v_{A}}\left(R\right)\right),
 \]
 
 \end_inset
@@ -1112,7 +1112,7 @@ noprefix "false"
  born in 1960 participated as:
 \begin_inset Formula 
 \[
-R'=Op\left(MovieStar,StarsIn\right)=\pi_{filmName}\left(\sigma_{birthDate.year=1960}\left(MovieStar\bowtie_{name=starName}StarsIn\right)\right).
+R'=Op\left(MovieStar,StarsIn\right)=\Pi_{filmName}\left(\sigma_{birthDate.year=1960}\left(MovieStar\bowtie_{name=starName}StarsIn\right)\right).
 \]
 
 \end_inset
@@ -1372,7 +1372,7 @@ in which the condition does not involve subqueries, we can translate it
  as
 \begin_inset Formula 
 \[
-\pi_{select-list}\left(\sigma_{condition}\left(\rho_{T1}\left(R1\right)\times...\times\rho_{Tn}\left(Rn\right)\right)\right).
+\Pi_{select-list}\left(\sigma_{condition}\left(\rho_{T1}\left(R1\right)\times...\times\rho_{Tn}\left(Rn\right)\right)\right).
 \]
 
 \end_inset
@@ -2012,7 +2012,7 @@ WHERE birthdate = 1960 AND name = starName
 is translated into
 \begin_inset Formula 
 \[
-\pi_{movieTitle,movieYear,starName,name}\left(\sigma_{birthdate=1960\ \land\ name=starName}\left(StarsIn\times MovieStar\right)\right).
+\Pi_{movieTitle,movieYear,starName,name}\left(\sigma_{birthdate=1960\ \land\ name=starName}\left(StarsIn\times MovieStar\right)\right).
 \]
 
 \end_inset
@@ -2101,7 +2101,7 @@ De-correlate the NOT EXISTS subqueries.
 
 \begin_layout Enumerate
 Apply the projection 
-\begin_inset Formula $\pi_{Select-list}.$
+\begin_inset Formula $\Pi_{Select-list}.$
 \end_inset
 
 
@@ -2355,7 +2355,7 @@ Let
 \end_inset
 
 , namely 
-\begin_inset Formula $\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right):$
+\begin_inset Formula $\Pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right):$
 \end_inset
 
 
@@ -2457,7 +2457,7 @@ E_{Q_{3}}=\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times
 :
 \begin_inset Formula 
 \[
-\rho_{R_{2}}\left(R\right)\times\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right).
+\rho_{R_{2}}\left(R\right)\times\rho_{R_{1}}\left(R\right)\bowtie\Pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right).
 \]
 
 \end_inset
@@ -2465,7 +2465,7 @@ E_{Q_{3}}=\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times
  Note that this expression can be simplified:
 \begin_inset Formula 
 \[
-E:=\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right),
+E:=\rho_{R_{1}}\left(R\right)\bowtie\Pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right),
 \]
 
 \end_inset
@@ -2480,7 +2480,7 @@ E:=\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=
 \begin_layout Remark
 This simplification can always be done.
  Before joining with 
-\begin_inset Formula $\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right),$
+\begin_inset Formula $\Pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right),$
 \end_inset
 
  we can remove from 
@@ -2503,7 +2503,7 @@ This simplification can always be done.
 , we can change what we explained later for
 \begin_inset Formula 
 \[
-E:=\hat{E}\bowtie\pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right).
+E:=\hat{E}\bowtie\Pi_{A_{1},...,A_{p}}\left(E_{Q_{i}}\right).
 \]
 
 \end_inset
@@ -2527,7 +2527,7 @@ E_{2}:=\sigma_{R_{2}.A=R_{1}.B}\left(E\right)=
 
 \begin_inset Formula 
 \[
-\sigma_{R_{2}.A=R_{1}.B}\left(\rho_{R_{1}}\left(R\right)\bowtie\pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right)\right).
+\sigma_{R_{2}.A=R_{1}.B}\left(\rho_{R_{1}}\left(R\right)\bowtie\Pi_{R_{2}.A,R_{2}.B,S.C}\left(\sigma_{R3.A=R2.B\ \land\ R3.B=S.C}\left(\rho_{R3}\left(R\right)\times\rho_{R2}\left(R\right)\times S\right)\right)\right).
 \]
 
 \end_inset
@@ -2552,7 +2552,7 @@ Finally, the translation of the entire
  is
 \begin_inset Formula 
 \[
-\pi_{R_{1}.A,R_{1}.B}\left(E_{2}\right),
+\Pi_{R_{1}.A,R_{1}.B}\left(E_{2}\right),
 \]
 
 \end_inset
@@ -2612,7 +2612,7 @@ Now we can de-correlate the
 , but we perform an anti-join:
 \begin_inset Formula 
 \[
-E:=E\overline{\bowtie}\pi_{A_{1},...,A_{p}}\left(E_{P_{j}}\right),
+E:=E\overline{\bowtie}\Pi_{A_{1},...,A_{p}}\left(E_{P_{j}}\right),
 \]
 
 \end_inset
@@ -2644,7 +2644,7 @@ Translating the Select-list
 
 \begin_layout Standard
 Finally, we apply the projection 
-\begin_inset Formula $\pi_{Select-list}$
+\begin_inset Formula $\Pi_{Select-list}$
 \end_inset
 
 .
@@ -4649,6 +4649,1305 @@ Pre-Optimized Package (POP)
 \begin_layout Itemize
 When a view is accessed via the RDI operators OPEN and FETCH, the POP for
  the view can be used directly to materialize the tuples of the view.
+\end_layout
+
+\begin_layout Subsection
+PostgreSQL in relation to System R
+\end_layout
+
+\begin_layout Standard
+Here, we are going to examine how PostgreSQL is similar or different to
+ the characteristics of System R:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Catalog
+\series default
+: PostgreSQL also maintains a catalog, with similar information about the
+ relations, indexes, views,...
+ of the system.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tuple Identifier (TID)
+\series default
+: PostgreSQL also has the concept of TID, being it a pair 
+\begin_inset Formula $\left(b,e\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $b$
+\end_inset
+
+ indicates the memory block in which the tuple is stored, and 
+\begin_inset Formula $e$
+\end_inset
+
+ is the position where the tuple starts.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Image / Clustering image
+\series default
+: the concept of image is called just index in PostgreSQL, but they are
+ extended.
+ PostgreSQL defines several types of indexes, and not all of them are ordered.
+ For instance, a Hash Index is an unordered index, but a BTree index is
+ an ordered index, which would be the most similar one to the concept of
+ image in System R.
+ PostgreSQL also allows to cluster, but the clustering is made at one point
+ in time, using a particular index: this means that subsequent insertions
+ will not be done to maintain the clustering property
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+If one wishes to do this, the clustering would need to be redone.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+View
+\series default
+: views in PostgreSQL are very similar to views in System R.
+ They can be thought as a stored query, very similar to what happens in
+ System R.
+ Views are automatically updated when the underlying tables are updated.
+ The difference comes when one tries to directly modify a view.
+ PostgreSQL has the concept of 
+\series bold
+Updatable view
+\series default
+, which are views that can be modified with INSERT, UPDATE or DELETE.
+ This views are views that meet the conditions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The defining query of the view must have exactly one entry in the FROM clause,
+ which can be a table or another updatable view.
+\end_layout
+
+\begin_layout Itemize
+The defining query must not contain one of the following clauses at the
+ top level: GROUP BY, HAVING, LIMIT, OFFSET, DISTINCT, WITH, UNION, INTERSECT,
+ and EXCEPT.
+ 
+\end_layout
+
+\begin_layout Itemize
+The selection list must not contain any window function , any set-returning
+ function, or any aggregate function such as SUM, COUNT, AVG, MIN, and MAX.
+\end_layout
+
+\begin_layout Standard
+If one tries to modify a updatable view, the system will automatically generate
+ the query that performs the appropriate modification in the base table.
+ Note that there are some columns that are not modifiable: if one tried
+ to modify one of these columns, an error would be raised.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Cost-based query optimization
+\series default
+: PostgreSQL also has an optimizer that select the best execution plan among
+ several equivalent plans with the objective of minimizing the expected
+ cost.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Access path
+\series default
+: access path specify the path chosen by the system to retrieve the requested
+ tuples from a relation.
+ As we have seen so far, System R has basically five types of access paths:
+ sequential scan, images, binary paths, order-and-scan and TID-scan.
+ PostgreSQL defines a wider variety of access path: sequential scan, order-and-s
+can, TID-scan, hash indexes, BTree indexes, BitMap indexes,...
+\end_layout
+
+\begin_layout Section
+Query Optimization
+\end_layout
+
+\begin_layout Standard
+As we have seen until now, there are alternative ways to evaluate a given
+ query: there are equivalent RA expression for the same query, and also
+ there are different methods that can physically execute a given query.
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+evaluation plan 
+\series default
+defines exactly what algorithm is ued for each operation and how the execution
+ of the operations is coordinated.
+\end_layout
+
+\begin_layout Subsection
+Cost-based query optimization
+\end_layout
+
+\begin_layout Standard
+Cost difference between evaluation plans for a query can be enormous.
+ The general steps in cost-based query optimization are as in System R:
+\end_layout
+
+\begin_layout Enumerate
+Generate logically equivalent expressions using equivalence rules.
+\end_layout
+
+\begin_layout Enumerate
+Annotate resultant expressions to get alternative query plans.
+\end_layout
+
+\begin_layout Enumerate
+Choose the cheapest plan based on the estimated cost.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+estimation of the cost
+\series default
+ is based on:
+\end_layout
+
+\begin_layout Itemize
+Statistical information about relations.
+\end_layout
+
+\begin_layout Itemize
+Statistics estimation for intermediate result.
+\end_layout
+
+\begin_layout Itemize
+Cost formulae for algorithms, computed using statistics.
+\end_layout
+
+\begin_layout Subsection
+Viewing query evaluation plans
+\end_layout
+
+\begin_layout Standard
+Most database support the 
+\series bold
+EXPLAIN <QUERY>
+\series default
+ statement, which displays the plan chosen by the optimizer, along with
+ the cost estimates that it uses for decision.
+\end_layout
+
+\begin_layout Standard
+Some databases also support 
+\series bold
+EXPLAIN ANALYSE <QUERY>
+\series default
+, which shows actual runtime statistics found by running the query, in addition
+ to showing the plan.
+\end_layout
+
+\begin_layout Standard
+Some databases show the cost as
+\begin_inset Formula 
+\[
+f..l
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $f$
+\end_inset
+
+ is the cost of delivering the first tuple and 
+\begin_inset Formula $l$
+\end_inset
+
+ is the cost of delivering all results.
+\end_layout
+
+\begin_layout Subsection
+Generating equivalent expressions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Two relational algebra expressions are 
+\series bold
+equivalent
+\series default
+ if the two expressions generate the same set/bag of tuples on every legal
+ database instance.
+\end_layout
+
+\begin_layout Definition
+An 
+\series bold
+equivalence rule
+\series default
+ between two expressions ensure that both expressions are equivalent.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, we are going to list some equivalence rules:
+\end_layout
+
+\begin_layout Enumerate
+Conjunctive selection can be deconstructed into a sequence of individual
+ selections:
+\begin_inset Formula 
+\[
+\sigma_{P_{1}\land P_{2}}\left(E\right)\equiv\sigma_{P_{1}}\left(\sigma_{P_{2}}\left(E\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Selection is commutative:
+\begin_inset Formula 
+\[
+\sigma_{P_{1}}\left(\sigma_{P_{2}}\left(E\right)\right)\equiv\sigma_{P_{2}}\left(\sigma_{P_{1}}\left(E\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+In a sequence of projections, where 
+\begin_inset Formula $L_{1}\subset L_{2}\subset...\subset L_{n}$
+\end_inset
+
+, only the outermost one is needed:
+\begin_inset Formula 
+\[
+\Pi_{L_{1}}\left(\pi_{L_{2}}\left(...\left(\pi_{L_{n}}\left(E\right)\right)\right)\right)\equiv\Pi_{L_{1}}\left(E\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Selections can be combined with cartesian products and theta joins:
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}\times E_{2}\right)\equiv E_{1}\bowtie_{P}E_{2},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{P_{1}}\left(E_{1}\bowtie_{P_{2}}E_{2}\right)\equiv E_{1}\bowtie_{P_{1}\land P_{2}}E_{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Theta join operations are commutative
+\begin_inset Formula 
+\[
+E_{1}\bowtie E_{2}\equiv E_{2}\bowtie E_{1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+And they are associative, in a soft manner:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The natural join is associative:
+\begin_inset Formula 
+\[
+\left(E_{1}\bowtie E_{2}\right)\bowtie E_{3}\equiv E_{1}\bowtie\left(E_{2}\bowtie E_{3}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The thetha join is associative in a soft sense:
+\begin_inset Formula 
+\[
+\left(E_{1}\bowtie_{P_{1}}E_{2}\right)\bowtie_{P_{2}\land P_{3}}E_{3}\equiv E_{1}\bowtie_{P_{1}\land P_{3}}\left(E_{2}\bowtie_{P_{2}}E_{3}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $P_{3}$
+\end_inset
+
+ involves attributes that are present in the three relations.
+\end_layout
+
+\begin_layout Standard
+When we can decide the order of the joins, we would choose the smaller join
+ to be performed before, so that we compute and store a smaller temporary
+ relation.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The selection operation distributes over the theta join operation in the
+ following two situations:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+When all the attributes in 
+\begin_inset Formula $P_{0}$
+\end_inset
+
+ involve only the attributes of one of the expressions being joined:
+\begin_inset Formula 
+\[
+\sigma_{P_{0}}\left(E_{1}\bowtie_{P}E_{2}\right)\equiv\sigma_{P_{0}}\left(E_{1}\right)\bowtie_{P}E_{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+When 
+\begin_inset Formula $P_{1}$
+\end_inset
+
+ involves only the attributes of 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{2}$
+\end_inset
+
+ involves only the attributes of 
+\begin_inset Formula $E_{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\sigma_{P_{1}\land P_{2}}\left(E_{1}\bowtie_{P}E_{2}\right)\equiv\sigma_{P_{1}}\left(E_{1}\right)\bowtie_{P}\sigma_{P_{2}}\left(E_{2}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The projection operation distributes over the theta join operation as follows:
+ If 
+\begin_inset Formula $P$
+\end_inset
+
+ involves only attributes from 
+\begin_inset Formula $L_{1}\cup L_{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\Pi_{L_{1}\cup L_{2}}\left(E_{1}\bowtie_{P}E_{2}\right)\equiv\Pi_{L_{1}}\left(E_{1}\right)\bowtie_{P}\Pi_{L_{2}}\left(E_{2}\right).
+\]
+
+\end_inset
+
+ Similar equivalences hold for outerjoin operations.
+\end_layout
+
+\begin_layout Enumerate
+Union and intersection are commutative:
+\begin_inset Formula 
+\[
+E_{1}\cup E_{2}\equiv E_{2}\cup E_{1},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+E_{1}\cap E_{2}\equiv E_{2}\cap E_{1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Union and intersection are associative:
+\begin_inset Formula 
+\[
+\left(E_{1}\cup E_{2}\right)\cup E_{3}\equiv E_{1}\cup\left(E_{2}\cup E_{3}\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left(E_{1}\cap E_{2}\right)\cap E_{3}\equiv E_{1}\cap\left(E_{2}\cap E_{3}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The selection operation distributes over 
+\begin_inset Formula $\cup,\cap$
+\end_inset
+
+ and 
+\begin_inset Formula $-$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}\cup E_{2}\right)\equiv\sigma_{P}\left(E_{1}\right)\cup\sigma_{P}\left(E_{2}\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}\cap E_{2}\right)\equiv\sigma_{P}\left(E_{1}\right)\cap\sigma_{P}\left(E_{2}\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}-E_{2}\right)\equiv\sigma_{P}\left(E_{1}\right)-\sigma_{P}\left(E_{2}\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}\cap E_{2}\right)\equiv\sigma_{P}\left(E_{1}\right)\cap E_{2},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{P}\left(E_{1}-E_{2}\right)\equiv\sigma_{P}\left(E_{1}\right)-E_{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The projection operation distributes over union:
+\begin_inset Formula 
+\[
+\Pi_{L}\left(E_{1}\cup E_{2}\right)\equiv\Pi_{L}\left(E_{1}\right)\cup\Pi_{L}\left(E_{2}\right).
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Example
+Pushing selections.
+\end_layout
+
+\begin_layout Example
+Query: find the names of all instructors in the Music department, along
+ with the title of the courses that they teach.
+\end_layout
+
+\begin_layout Example
+A first RA expression could be the following:
+\begin_inset Formula 
+\[
+\Pi_{name,title}\left(\sigma_{dpt\_name='Music'}\left(Instructor\bowtie\left(Teaches\bowtie\Pi_{course\_id,title}\left(Course\right)\right)\right)\right).
+\]
+
+\end_inset
+
+ It can be transformed using rule 7a:
+\begin_inset Formula 
+\[
+\Pi_{name,title}\left(\left(\sigma_{dpt\_name='Music'}\left(Instructor\right)\right)\bowtie\left(Teaches\right)\bowtie\Pi_{course\_id,title}\left(Course\right)\right).
+\]
+
+\end_inset
+
+ The advantage of doing this is taht by performing the selection as early
+ as possible we are reducing the size of the relation to be joined.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Pushing projections.
+\end_layout
+
+\begin_layout Example
+We start with the RA expression:
+\begin_inset Formula 
+\[
+\Pi_{name,title}\left(\left(\sigma_{dpt\_name='Music'}\left(Instructor\right)\bowtie Teaches\right)\bowtie\Pi_{course\_id,title}\left(Course\right)\right).
+\]
+
+\end_inset
+
+ When we compute 
+\begin_inset Formula 
+\[
+\sigma_{dpt\_name='Music'}\left(Instructor\right)\bowtie Teaches,
+\]
+
+\end_inset
+
+ we obtain a relation with schema 
+\begin_inset Formula $\left(ID,name,dpt\_name,salary,course\_id,sec\_id,semester,year\right)$
+\end_inset
+
+.
+ Equivalence rule 8 allows to push projections, eeliminating unneeded attributes
+ from intermediate results to get:
+\begin_inset Formula 
+\[
+\Pi_{name,title}\left(\left(\Pi_{name,course\_id}\left(\sigma_{dpt\_name='Music'}\left(Instructor\right)\bowtie Teaches\right)\right)\bowtie\Pi_{course\_id,title}\left(Course\right)\right).
+\]
+
+\end_inset
+
+ This is useful because performing the projection as early as possible reduces
+ the size of the relation to be joined.
+ Note that 
+\begin_inset Formula $course\_id$
+\end_inset
+
+ needs to be projected because it is needed for the join.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Join ordering.
+\end_layout
+
+\begin_layout Example
+Consider the expression
+\begin_inset Formula 
+\[
+\Pi_{name,title}\left(\left(\sigma_{dpt\_name='Music'}\left(Instructor\right)\bowtie Teaches\right)\bowtie\Pi_{course\_id,title}\left(Course\right)\right).
+\]
+
+\end_inset
+
+ In this case, we could compute
+\begin_inset Formula 
+\[
+Teaches\bowtie\Pi_{course\_id,title}\left(Course\right)
+\]
+
+\end_inset
+
+ first, and then join the result with the left relation.
+ The problem with this approach is that doing this join first seems more
+ likely to be large, as only a small fraction of the university's instructor
+ are going to be from the Music department.
+ So it is better to leave the query as is.
+\end_layout
+
+\begin_layout Subsection
+Enumeration of equivalent expressions
+\end_layout
+
+\begin_layout Standard
+Query optimizers use equivalence rules to systematically generate expressions
+ equivalent to the given expression, which is a first translation of the
+ query.
+\end_layout
+
+\begin_layout Standard
+All the equivalent expressions can be generated with the following approach:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "morekeywords={REPEAT,APPLY,ADD,ON,UNTIL,TO}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+REPEAT
+\end_layout
+
+\begin_layout Plain Layout
+
+	APPLY all applicable equivalence rules 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON every subexpression of every equivalent expression found so far
+\end_layout
+
+\begin_layout Plain Layout
+
+	ADD newly generated expressions 
+\end_layout
+
+\begin_layout Plain Layout
+
+		TO the set of equivalent expressions
+\end_layout
+
+\begin_layout Plain Layout
+
+UNTIL no new equivalent expressions are generated
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Cost estimation
+\end_layout
+
+\begin_layout Standard
+The optimizer takes into account the cost of each operator and the statistics
+ of the input relations, such as the number of tuples and the sizes of the
+ tuples.
+ Also, inputs can be results of sub-expressions, so we need to estimate
+ estatistics of these results.
+ For this purpose, more statistics, such as the number of distinct values
+ for an attribute, are used.
+\end_layout
+
+\begin_layout Subsection
+Choice of execution plan
+\end_layout
+
+\begin_layout Standard
+Once we have generated different equivalent expressions, we need to decide
+ which one to use to execute the query and get the results.
+ For this, we must consider the interaction of evaluation techniques, because
+ choosing the cheapest algorithm for each operation disregarding the others
+ may not yield best overall algorithm.
+ For example, a merge-join may be costlier than a hash-join, but may provide
+ a sorted output which could reduce the cost for an outer level aggregation.
+\end_layout
+
+\begin_layout Standard
+Practical query optimizers incorporate elements of two broad approaches:
+\end_layout
+
+\begin_layout Enumerate
+Search all the plans and choose the best plan in a cost-based fashion.
+\end_layout
+
+\begin_layout Enumerate
+Uses heuristics to choose a plan.
+\end_layout
+
+\begin_layout Subsubsection
+Best join-order problem
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Problem:
+\series default
+ find the best join-order for
+\begin_inset Formula 
+\[
+R_{1}\bowtie R_{2}\bowtie...\bowtie R_{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A first idea could be to check all possibilities and choose the cheapest
+ one.
+ But...
+\end_layout
+
+\begin_layout Proposition
+For the best join-order problem, with 
+\begin_inset Formula $n$
+\end_inset
+
+ relations involved, there are
+\begin_inset Formula 
+\[
+\frac{\left(2\left(n-1\right)\right)!}{n-1}
+\]
+
+\end_inset
+
+ different possible join orders.
+\end_layout
+
+\begin_layout Proof
+First, we need to count all possible orderings, i.e.
+ the number of permutations, which is known to be 
+\begin_inset Formula $n!$
+\end_inset
+
+.
+ Now, we have to count all possible ways to assign the 
+\begin_inset Formula $n-1$
+\end_inset
+
+ needed parenthesis.
+ This is known to be the Catalan number
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+See 
+\begin_inset CommandInset href
+LatexCommand href
+name "Catalan Numbers"
+target "https://en.wikipedia.org/wiki/Catalan_number#Applications_in_combinatorics"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\#()_{n-1}=C_{n-1}=\frac{\left(2\left(n-1\right)\right)!}{n!\left(n-1\right)!}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Thus, the total amount is
+\begin_inset Formula 
+\[
+n!\cdot C_{n-1}=n!\times\frac{\left(2\left(n-1\right)\right)!}{n!\left(n-1\right)!}=\frac{\left(2\left(n-1\right)\right)!}{\left(n-1\right)!}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This number is huge, and it is unfeasable to check the whole search space.
+ Thus, a different approach is needed.
+\end_layout
+
+\begin_layout Subsubsection*
+Dynamic programming approach
+\end_layout
+
+\begin_layout Standard
+Using dynamic programming, the least-cost join for any subset of 
+\begin_inset Formula $\left\{ R_{1},...,R_{n}\right\} $
+\end_inset
+
+ is computed only once and stored for future use.
+ The algorithm works as follows:
+\end_layout
+
+\begin_layout Itemize
+Consider all possible plans of the form
+\begin_inset Formula 
+\[
+S_{1}\bowtie\left(S-S_{1}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $S_{1}$
+\end_inset
+
+ is any non-empty subset of 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Recursively compute costs for joinin subsets of 
+\begin_inset Formula $S$
+\end_inset
+
+ to find the cost of each plan.
+ Choose the cheapest of the 
+\begin_inset Formula $2^{n}-2$
+\end_inset
+
+ alternatives.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Base case
+\series default
+: single relation access plan.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Apply all selections on 
+\begin_inset Formula $R_{i}$
+\end_inset
+
+ using best choice of indices on 
+\begin_inset Formula $R_{i}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+When the plan for any subset is computed, we store it and reuse it when
+ it is required again, instead of recomputing it.
+\end_layout
+
+\begin_layout Standard
+The pseudocode is shown in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:procedure-findbestplan(S)"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "morekeywords={if, return, set, and, else, for, each, of}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+if (bestplan[S].cost != infty)
+\end_layout
+
+\begin_layout Plain Layout
+
+	return bestplan[S]¯
+\end_layout
+
+\begin_layout Plain Layout
+
+// else it has not been computed yet
+\end_layout
+
+\begin_layout Plain Layout
+
+if (S contains only 1 relation)
+\end_layout
+
+\begin_layout Plain Layout
+
+	set bestplan[S].plan and bestplan[S].cost 
+\end_layout
+
+\begin_layout Plain Layout
+
+		based on the best way to access S
+\end_layout
+
+\begin_layout Plain Layout
+
+else for each non-empty proper subset S1 of S
+\end_layout
+
+\begin_layout Plain Layout
+
+	P1 = findbestplan(S1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	P2 = findbestplan(S - S1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	A = best algorithm for joining P1 and P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	cost = P1.cost + P2.cost + A.cost
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	if cost < bestplan[S].cost
+\end_layout
+
+\begin_layout Plain Layout
+
+		bestplan[S].cost = cost
+\end_layout
+
+\begin_layout Plain Layout
+
+		bestplan[S].plan = plan
+\end_layout
+
+\begin_layout Plain Layout
+
+	return bestplan[S]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:procedure-findbestplan(S)"
+
+\end_inset
+
+procedure 
+\series default
+findbestplan(S)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The time complexity of this algorithm is 
+\begin_inset Formula $O\left(3^{n}\right)$
+\end_inset
+
+ and the space complexity is 
+\begin_inset Formula $O\left(2^{n}\right)$
+\end_inset
+
+.
+ This is a huge gain with respect to checking the whole search space, but
+ it is still a very high cost.
+\end_layout
+
+\begin_layout Subsubsection*
+Left-deep join trees
+\end_layout
+
+\begin_layout Standard
+In left-deep join trees, the right-hand-side input for each join is a relation,
+ not the result of an intermediate join.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:A-left-deep-join"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ we can see an example of what is a left-deep join tree, and what is not.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\[
+\xymatrix{ &  &  &  & \bowtie\ar@{-}[dl]\ar@{-}[dr]\\
+ &  &  & \bowtie\ar@{-}[dl]\ar@{-}[dr] &  & R_{5}\\
+ &  & \bowtie\ar@{-}[dl]\ar@{-}[dr] &  & R_{4}\\
+ & \bowtie\ar@{-}[dl]\ar@{-}[dr] &  & R_{3}\\
+R_{1} &  & R_{2}
+}
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\xymatrix{ &  &  & \bowtie\ar@{-}[dl]\ar@{-}[dr]\\
+ &  & \bowtie\ar@{-}[dl]\ar@{-}[dr] &  & \bowtie\ar@{-}[d]\ar@{-}[dr]\\
+ & \bowtie\ar@{-}[dl]\ar@{-}[dr] &  & R_{3} & R_{4} & R_{5}\\
+R_{1} &  & R_{2}\\
+\\
+}
+\]
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:A-left-deep-join"
+
+\end_inset
+
+A left-deep join tree (top) and not a left-deep join tree (bottom).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With this structure, we can reduce the cost of the optimization problem.
+\end_layout
+
+\begin_layout Standard
+For a set of 
+\begin_inset Formula $n$
+\end_inset
+
+ relations, we can consider 
+\begin_inset Formula $n$
+\end_inset
+
+ alternatives with one relation as right-hand-side input and the other relations
+ as left-hand-side input.
+\end_layout
+
+\begin_layout Standard
+The time complexity of finding the best join order is in this case 
+\begin_inset Formula $O\left(n2^{n}\right)$
+\end_inset
+
+ and the space complexity remains the same.
+\end_layout
+
+\begin_layout Standard
+At this points, one might think that it is of no use bothering with optimizing
+ the order of queries, if it so costful, but, in reality, typical queries
+ have a small 
+\begin_inset Formula $n$
+\end_inset
+
+, usually less than 10, and a good ordering can change a query from being
+ unfeasable to being executed in an acceptable time.
+\end_layout
+
+\begin_layout Subsubsection*
+Heuristic optimization
+\end_layout
+
+\begin_layout Standard
+As we have seen, cost-based optimization is expensive, even using dynamic
+ programming.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Heuristic optimization
+\series default
+ transforms the query-tree by using a set of rules that typically improve
+ execution performance.
+ These rules can include:
+\end_layout
+
+\begin_layout Itemize
+Perform selection early.
+\end_layout
+
+\begin_layout Itemize
+Perform projection early.
+\end_layout
+
+\begin_layout Itemize
+Peform most restrictive selection and join operations before other similar
+ operations.
+\end_layout
+
+\begin_layout Standard
+Some systems use only heuristics, while others combine the two approaches.
+ A frequently used approach is the following:
+\end_layout
+
+\begin_layout Enumerate
+Heuristic rewriting of nested block structure and aggregation.
+\end_layout
+
+\begin_layout Enumerate
+A cost-based join-order optimization for each block.
+\end_layout
+
+\begin_layout Standard
+There is usually an 
+\series bold
+optimization cost budget
+\series default
+ to stop optimization early if the cost of the plan is less than the cost
+ of the optimizations to be made.
+\end_layout
+
+\begin_layout Standard
+Also, it can be useful to implement 
+\series bold
+plan caching
+\series default
+ to reuse previouly computed plans if queries are resubmitted.
+\end_layout
+
+\begin_layout Standard
+It is worth to note that even with the use of heuristics, cost-based query
+ optimization imposes a substantial overhead in the computations, but it
+ is worthy for expensive queries.
+ For this reason, optimizers often use simple heristics for cheap queries,
+ and perform a more exhaustive enumeration for more expensive queries.
 \end_layout
 
 \begin_layout Standard
