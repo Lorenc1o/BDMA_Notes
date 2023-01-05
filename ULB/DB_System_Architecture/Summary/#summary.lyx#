@@ -5950,10 +5950,6 @@ It is worth to note that even with the use of heuristics, cost-based query
  and perform a more exhaustive enumeration for more expensive queries.
 \end_layout
 
-\begin_layout Section
-Statistics for cost estimation
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -7533,7 +7529,7 @@ Now, let's say we want to retrieve all employees in the department 'Toy'
 \begin_layout Example
 \begin_inset Graphics
 	filename bucket_intersection.png
-	scale 35
+	scale 50
 
 \end_inset
 
@@ -7541,8 +7537,7 @@ Now, let's say we want to retrieve all employees in the department 'Toy'
 \end_layout
 
 \begin_layout Example
-As we can see, it is possible to use both indexes and then fetch only those
- records that are return by the two of them!
+As we
 \end_layout
 
 \begin_layout Section
