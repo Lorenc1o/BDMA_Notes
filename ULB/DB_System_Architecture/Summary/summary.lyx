@@ -5955,6 +5955,674 @@ Statistics for cost estimation
 \end_layout
 
 \begin_layout Standard
+Statistics of relations are of great importance for improving the performance
+ of the system, because they allow to estimate the cost more accurately.
+\end_layout
+
+\begin_layout Standard
+Some statistical information that is used:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n_{r}$
+\end_inset
+
+ the number of tuples in relation 
+\begin_inset Formula $r$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $b_{r}$
+\end_inset
+
+ the number of blocks containing tuples of 
+\begin_inset Formula $r$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $l_{r}$
+\end_inset
+
+ the size of a tuple of 
+\begin_inset Formula $r$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f_{r}$
+\end_inset
+
+ the blocking factor, or the number of tuples that fit into one block.
+ If the tuples of 
+\begin_inset Formula $r$
+\end_inset
+
+ are stored together physically in a file, then it is
+\begin_inset Formula 
+\[
+b_{r}=\left\lceil \frac{n_{r}}{f_{r}}\right\rceil .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V\left(A,r\right)$
+\end_inset
+
+ the number of distinct values that appear in 
+\begin_inset Formula $r$
+\end_inset
+
+ for attribute 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Histograms
+\end_layout
+
+\begin_layout Standard
+Histograms are useful for cost estimation.
+ Histogram can be of two types:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equi-width
+\series default
+: the space is divided into 
+\begin_inset Formula $M$
+\end_inset
+
+ buckets of the same size.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equi-depth
+\series default
+: the space is divided into 
+\begin_inset Formula $M$
+\end_inset
+
+ buckets, in such a way that all buckets have the same number of tuples
+ inside.
+\end_layout
+
+\begin_layout Standard
+Many databases store the 
+\begin_inset Formula $n$
+\end_inset
+
+ most frequent values and their counts, and they construct histogram for
+ the remaining values.
+ Usually, they are computed not on all the actual values, but on a sample
+ of them.
+\end_layout
+
+\begin_layout Standard
+This sampling approach make it possible for the statistics to be outdated,
+ so they need to be recomputed:
+\end_layout
+
+\begin_layout Itemize
+Some databases require a ANALYZE (VACUUM) command to be explicitly executed
+ to update statistics.
+\end_layout
+
+\begin_layout Itemize
+Others automatically perform the recomputation.
+\end_layout
+
+\begin_layout Subsection
+Estimation of selection size
+\end_layout
+
+\begin_layout Standard
+We want to estimate the size of a selection, but this depends on the conditions
+ to fullfil:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{A=v}\left(r\right)$
+\end_inset
+
+: a simple equality condition size is estimated as the size of the relation,
+ divided by the number of distinct values for attribute 
+\begin_inset Formula $A$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+C=\frac{n_{r}}{V\left(A,r\right)}.
+\]
+
+\end_inset
+
+ Nonetheless:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If the attribute is a key attribute: the estimation is 1.
+\end_layout
+
+\begin_layout Itemize
+If the value 
+\begin_inset Formula $v$
+\end_inset
+
+ is among the most frequent values of attribute 
+\begin_inset Formula $A$
+\end_inset
+
+, we can give more accurate estimations.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{A\leq v}\left(r\right)$
+\end_inset
+
+: a simple inequality condition is more complex than before.
+ Let 
+\begin_inset Formula $c$
+\end_inset
+
+ denote the estimated number of tuples satisfying the condition.
+ If 
+\begin_inset Formula $m=\min\left(A,r\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $M=\max\left(A,r\right)$
+\end_inset
+
+ are available in the catalog then:
+\begin_inset Formula 
+\[
+c=\begin{cases}
+0, & if\ v<m\ \lor\ v>M\\
+n_{r}\frac{v-m}{M-m}, & otherwise
+\end{cases}
+\]
+
+\end_inset
+
+ So, we approximate by a linear interpolation over the total number of records.
+ Note that if histograms are available, this estimation can be refined by
+ summing all buckets below 
+\begin_inset Formula $v$
+\end_inset
+
+ and interpolating only in the bucket in which 
+\begin_inset Formula $v$
+\end_inset
+
+ lies.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+When there is a lack of statistical information, 
+\begin_inset Formula $c$
+\end_inset
+
+ is assumed to be 
+\begin_inset Formula $\frac{n_{r}}{2}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+For more complex conditions, we need a new definition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+selectivity
+\series default
+ of a condition 
+\begin_inset Formula $P$
+\end_inset
+
+ is the probability that a tuple in the relation 
+\begin_inset Formula $r$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $P$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $s_{P}$
+\end_inset
+
+ is the number of tuples satisfying the condition, then the selectivity
+ is given by
+\begin_inset Formula 
+\[
+S_{P}=\frac{s_{P}}{n_{r}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Conjunction
+\series default
+, 
+\begin_inset Formula $\sigma_{P_{1}\land...\land P_{k}}\left(r\right)$
+\end_inset
+
+: assuming independence, we have
+\begin_inset Formula 
+\[
+c=n_{r}\times S_{P_{1}}\times...\times S_{P_{k}}=n_{r}\frac{s_{P_{1}}\cdot...\cdot s_{P_{k}}}{n_{r}^{n}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disjunction
+\series default
+, 
+\begin_inset Formula $\sigma_{P_{1}\lor...\lor P_{k}}\left(r\right)$
+\end_inset
+
+: we do the following
+\begin_inset Formula 
+\[
+Prob\left(A_{1}\lor...\lor A_{k}\right)=Prob\left(\overline{\overline{A_{1}\lor...\lor A_{k}}}\right)=Prob\left(\overline{\overline{A_{1}}\land...\land\overline{A_{k}}}\right)=1-Prob\left(\overline{A_{1}}\land...\land\overline{A_{k}}\right),
+\]
+
+\end_inset
+
+ which, assuming independence is equal to
+\begin_inset Formula 
+\[
+1-Prob\left(\overline{A_{1}}\right)\cdot...\cdot Prob\left(\overline{A_{k}}\right)=1-\left(1-Prob\left(A_{1}\right)\right)\cdot...\cdot\left(1-Prob\left(A_{k}\right)\right).
+\]
+
+\end_inset
+
+ So, it is
+\begin_inset Formula 
+\[
+c=n_{r}\times\left[1-\left(1-\frac{s_{P_{1}}}{n_{r}}\right)\cdot...\cdot\left(1-\frac{s_{P_{k}}}{n_{r}}\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Negation
+\series default
+, 
+\begin_inset Formula $\sigma_{\lnot P}\left(R\right)$
+\end_inset
+
+: this is just
+\begin_inset Formula 
+\[
+c=n_{r}\cdot\left(1-S_{P}\right)=n_{r}-n_{r}S_{P}=n_{r}-s_{p}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estimation of the size of joins
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+cartesian product
+\series default
+ of two relations 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+ contains exactly 
+\begin_inset Formula $n_{r_{1}}\times n_{r_{2}}$
+\end_inset
+
+ tuples, and each tuple occupies 
+\begin_inset Formula $l_{r_{1}}+l_{r_{2}}$
+\end_inset
+
+ bytes.
+\end_layout
+
+\begin_layout Standard
+About the join:
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $r_{1}\cap r_{2}=\emptyset$
+\end_inset
+
+, then 
+\begin_inset Formula $r_{1}\bowtie r_{2}$
+\end_inset
+
+ is the same as 
+\begin_inset Formula $r_{1}\times r_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $r_{1}\cap r_{2}$
+\end_inset
+
+ is a key for 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+, then a tuple of 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+ will join with at most one tuple from 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+, so the number of tuples in 
+\begin_inset Formula $r_{1}\bowtie r_{2}$
+\end_inset
+
+ is, at most, the number of tuples in 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $r_{1}\cap r_{2}$
+\end_inset
+
+ is a foreign key in 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+ referencing 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+, then the number of tuples in 
+\begin_inset Formula $r_{1}\bowtie r_{2}$
+\end_inset
+
+ is exactly the same as the number of tuples in 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $r_{1}\cap r_{2}=\left\{ A\right\} $
+\end_inset
+
+ is not a key for 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ nor 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+: let assume that every tuple 
+\begin_inset Formula $t$
+\end_inset
+
+ in 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ produces tuples in the join, then the number of tuples in the join is estimated
+ to be
+\begin_inset Formula 
+\[
+c=\frac{n_{r_{1}}\cdot n_{r_{2}}}{V\left(A,r_{2}\right)},
+\]
+
+\end_inset
+
+ i.e., the number of tuples in the cartesian product, divided by the number
+ of different values for the attribute 
+\begin_inset Formula $A$
+\end_inset
+
+ in the second relation.
+ This is because each value in 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ will join with more or less 
+\begin_inset Formula $\frac{n_{r_{2}}}{V\left(A,r_{2}\right)}$
+\end_inset
+
+ values.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+If we assume the reverse, i.e., every tuple in 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+ produces tuples, then we get
+\begin_inset Formula 
+\[
+c=\frac{n_{r_{1}}\cdot n_{r_{2}}}{V\left(A,r_{1}\right)},
+\]
+
+\end_inset
+
+ for the same reason.
+\end_layout
+
+\begin_layout Standard
+The lower of these two estimates is probably the most accurate one, so both
+ are computed and the best one is chosen.
+\end_layout
+
+\begin_layout Standard
+This estimates can be improved using histograms, by using the same formula
+ but on each bucket, and summing them up.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Estimating the size of a join.
+\end_layout
+
+\begin_layout Example
+Let perform 
+\begin_inset Formula 
+\[
+student\bowtie takes
+\]
+
+\end_inset
+
+ with the following information:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n_{student}=5000,f_{student}=50$
+\end_inset
+
+ so 
+\begin_inset Formula $b_{student}=\frac{5000}{50}=100$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n_{takes}=10000,f_{takes}=25$
+\end_inset
+
+ so 
+\begin_inset Formula $b_{takes}=\frac{10000}{25}=400$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V\left(ID,takes\right)=2500$
+\end_inset
+
+, so, on average, each student that has taken a course, has taken 4 courses.
+ 
+\end_layout
+
+\begin_layout Itemize
+The attribute 
+\begin_inset Formula $ID$
+\end_inset
+
+ in takes is a foreign key referencing 
+\begin_inset Formula $student$
+\end_inset
+
+, in which it is a primary key: 
+\begin_inset Formula $V\left(ID,student\right)=5000$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The most accurate estimation in this case is the one using the fact that
+ 
+\begin_inset Formula $ID$
+\end_inset
+
+ is a foreign key, which implies that the number of tuples is the same as
+ the number of the referencing relation, 
+\begin_inset Formula $takes$
+\end_inset
+
+, so
+\begin_inset Formula 
+\[
+c=n_{takes}=10000.
+\]
+
+\end_inset
+
+ Let's nonetheless compute an estimate disregarding this:
+\begin_inset Formula 
+\[
+c_{1}=\frac{5000\cdot10000}{2500}=20000,
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+c_{2}=\frac{5000\cdot10000}{5000}=10000.
+\]
+
+\end_inset
+
+ We choose the lower estimate, 
+\begin_inset Formula $c_{2}$
+\end_inset
+
+, which in this case is the same as the one we chose before! But this is
+ no surprise, this will always happen with foreign keys, because 
+\begin_inset Formula $V\left(A,r_{1}\right)=n_{r_{1}}$
+\end_inset
+
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is key, so we would have
+\begin_inset Formula 
+\[
+c_{2}=\frac{n_{r_{1}}\cdot n_{r_{2}}}{n_{r_{1}}}=n_{r_{2}},
+\]
+
+\end_inset
+
+ which is the same value that we get using the other estimation.
+ Also, 
+\begin_inset Formula $V\left(A,r_{2}\right)$
+\end_inset
+
+ will be at most 
+\begin_inset Formula $n_{r_{1}}$
+\end_inset
+
+, because it is a foreign key, so it cannot have more values than the referenced
+ attribute!
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
