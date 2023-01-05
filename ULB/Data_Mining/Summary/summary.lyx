@@ -8574,6 +8574,1195 @@ DENCLUE
 \end_layout
 
 \begin_layout Standard
+The DENCLUE algorithm is based on kernel-density estimation, which can be
+ used to create a smooth profile of the density distribution, by defining
+ the density 
+\begin_inset Formula $f\left(X\right)$
+\end_inset
+
+ at coordinate 
+\begin_inset Formula $X$
+\end_inset
+
+ as 
+\begin_inset Formula 
+\[
+f\left(X\right)=\frac{1}{n}\sum_{i=1}^{n}K\left(X-X_{i}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $K$
+\end_inset
+
+ is the kernel function 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ are 
+\begin_inset Formula $n$
+\end_inset
+
+ different data points.
+ A commonly used kernel function is the 
+\series bold
+Gaussian Kernel
+\series default
+:
+\begin_inset Formula 
+\[
+K\left(X-X_{i}\right)=\left(\frac{1}{h\sqrt{2\pi}}\right)^{d}e^{-\frac{\left\Vert X-X_{i}\right\Vert ^{2}}{2h^{2}}}.
+\]
+
+\end_inset
+
+ The effect of this operation is to replace each discrete data point with
+ a smooth bump, and the density at each points is the sum of all these bumps.
+\end_layout
+
+\begin_layout Example
+A visual example of a kernel smoothing:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado8.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once the density has been smoothed, the goal is to determine clusters by
+ using a density threshold 
+\begin_inset Formula $\tau$
+\end_inset
+
+ that intersects the density profile.
+ Two examples showing how the choice of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ affects the result are shown in Example 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex8-2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset CommandInset label
+LatexCommand label
+name "ex8-2"
+
+\end_inset
+
+In the previous example, if we select 
+\begin_inset Formula $\tau=0.1$
+\end_inset
+
+, we obtain the following:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado9.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+In this case, only one cluster is obtained.
+ In contrast, if we choose 
+\begin_inset Formula $\tau=0.13$
+\end_inset
+
+, two clusters are obtained:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename pegado10.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Probabilistic Model-Based Algorithms
+\end_layout
+
+\begin_layout Standard
+Until now, all models described are 
+\series bold
+hard clustering algorithm
+\series default
+, meaning each data point is assigned to a particular cluster.
+ Probabilistic model-based algorithms are 
+\series bold
+soft algorithms
+\series default
+, in which each data point may have a nonzero assignment probability to
+ more than one cluster.
+\end_layout
+
+\begin_layout Subsection
+Fuzzy sets and clusters
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+fuzzy cluster
+\series default
+ is a fuzzy set 
+\begin_inset Formula $F_{S}:X\rightarrow\left[0,1\right]$
+\end_inset
+
+.
+ For each data point 
+\begin_inset Formula $X_{i}\in X$
+\end_inset
+
+, 
+\begin_inset Formula $F_{S}\left(X_{i}\right)$
+\end_inset
+
+ represents the probability that 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ is in cluster 
+\begin_inset Formula $S$
+\end_inset
+
+.
+ 
+\begin_inset Formula $F_{S}\left(X_{i}\right)$
+\end_inset
+
+ can be called 
+\series bold
+degree of membership
+\series default
+ of object 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ to cluster 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Formally, given a set of objects 
+\begin_inset Formula $X_{1},...,X_{n}$
+\end_inset
+
+, a 
+\series bold
+fuzzy clustering
+\series default
+ of 
+\begin_inset Formula $k$
+\end_inset
+
+ fuzzy clusters 
+\begin_inset Formula $C_{1},...,C_{k}$
+\end_inset
+
+ can be represented using a 
+\series bold
+partition matrix
+\series default
+, 
+\begin_inset Formula $M=\left[w_{ij}\right]$
+\end_inset
+
+, where
+\begin_inset Formula 
+\[
+w_{ij}=F_{C_{j}}\left(X_{i}\right).
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ should satisfy three conditions:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $w_{ij}\in\left[0,1\right],\ i=1,...,n,j=1,...,j$
+\end_inset
+
+.
+ From the definition of a fuzzy cluster.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sum_{j=1}^{k}w_{ij}=1,\ i=1,...,n$
+\end_inset
+
+.
+ The sum of all probabilities is 1.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $0<\sum_{i=1}^{n}w_{ij}<n,\ j=1,...,k$
+\end_inset
+
+.
+ There is no empty cluster.
+\end_layout
+
+\begin_layout Subsection
+Mixture model
+\end_layout
+
+\begin_layout Standard
+The underlying assumption of a 
+\series bold
+mixture-based generative model
+\series default
+ is to assume that the data was generated from a mixture of 
+\begin_inset Formula $k$
+\end_inset
+
+ distributions with probability distributions 
+\begin_inset Formula $G_{1},...,G_{k}$
+\end_inset
+
+.
+ Each of them represents a cluster and is called 
+\series bold
+mixture component
+\series default
+.
+ The data points, 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+, are generated by this model as follows:
+\end_layout
+
+\begin_layout Enumerate
+Select a mixture component with prior probability 
+\begin_inset Formula $\alpha_{i}=P\left(G_{i}\right)$
+\end_inset
+
+.
+ Say 
+\begin_inset Formula $G_{r}$
+\end_inset
+
+ is selected.
+\end_layout
+
+\begin_layout Enumerate
+Generate a data point from 
+\begin_inset Formula $G_{r}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This generative model is denoted by 
+\begin_inset Formula $\mathcal{M}$
+\end_inset
+
+.
+ We don't know 
+\begin_inset Formula $G_{i}$
+\end_inset
+
+ nor 
+\begin_inset Formula $\alpha_{i}$
+\end_inset
+
+ in advance.
+ The 
+\begin_inset Formula $G_{i}$
+\end_inset
+
+ distributions are often assumed to be Gaussian
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that any other distribution might be assumed.
+\end_layout
+
+\end_inset
+
+, so we need to estimate the parameters of the distribution in such a way
+ that the overall data has a maximum likelihood of being generated by the
+ model.
+ 
+\end_layout
+
+\begin_layout Standard
+Consider a set 
+\begin_inset Formula $C$
+\end_inset
+
+ of 
+\begin_inset Formula $k$
+\end_inset
+
+ probabilistic clusters 
+\begin_inset Formula $C_{1},...,C_{k}$
+\end_inset
+
+ with probability density functions 
+\begin_inset Formula $f_{1},...,f_{k}$
+\end_inset
+
+, respectively, and probabilities 
+\begin_inset Formula $p_{1},...,p_{k}$
+\end_inset
+
+.
+ The probability of an object 
+\begin_inset Formula $X$
+\end_inset
+
+ being generated by the cluster 
+\begin_inset Formula $C_{j}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+P\left(X|C_{j}\right)=p_{j}\cdot f_{j}\left(X\right),
+\]
+
+\end_inset
+
+ and the probability of 
+\begin_inset Formula $X$
+\end_inset
+
+ being generated by the set 
+\begin_inset Formula $C$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+P\left(X|C\right)=\sum_{j=1}^{k}p_{j}\cdot f_{j}\left(X\right).
+\]
+
+\end_inset
+
+ As objects are assumed to be independently generated, for a data set 
+\begin_inset Formula $\mathcal{D}=\left\{ X_{1},...,X_{n}\right\} $
+\end_inset
+
+, the probability that 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ is generated by 
+\begin_inset Formula $C$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+P\left(\mathcal{D}|C\right)=\prod_{i=1}^{n}P\left(X_{i}|C\right)=\prod_{i=1}^{n}\sum_{j=1}^{k}p_{j}\cdot f_{j}\left(X_{i}\right).
+\]
+
+\end_inset
+
+ Now, we want to estimate 
+\begin_inset Formula $C$
+\end_inset
+
+ from 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ trying to maximize 
+\begin_inset Formula $P\left(\mathcal{D}|C\right)$
+\end_inset
+
+ is maximized.
+\end_layout
+
+\begin_layout Standard
+If we use the assumption that the underlying distributions are Gaussian
+ 
+\begin_inset Formula $\mathcal{G}\left(\mu_{j},\sigma_{j}\right)$
+\end_inset
+
+, then the probability density function of each cluster are centered at
+ 
+\begin_inset Formula $\mu_{j}$
+\end_inset
+
+ with standard deviation 
+\begin_inset Formula $\sigma_{j}$
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+P\left(X_{i}|\Theta_{j}\right)=\frac{1}{\sigma_{j}\sqrt{2\pi}}e^{-\frac{\left(X_{i}-\mu_{j}\right)^{2}}{2\sigma^{2}}}.
+\]
+
+\end_inset
+
+ And if we assume all clusters have the same probability 
+\begin_inset Formula $p_{j}$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+P\left(X_{i}|\Theta\right)=\sum_{j=1}^{k}\frac{1}{\sigma_{j}\sqrt{2\pi}}e^{-\frac{\left(X_{i}-\mu_{j}\right)^{2}}{2\sigma^{2}}}.
+\]
+
+\end_inset
+
+ Thus, our objective is to maximize
+\begin_inset Formula 
+\[
+P\left(\mathcal{D}|\Theta\right)=\prod_{i=1}^{n}\sum_{j=1}^{k}\frac{1}{\sigma_{j}\sqrt{2\pi}}e^{-\frac{\left(X_{i}-\mu_{j}\right)^{2}}{2\sigma^{2}}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is achieved with the 
+\series bold
+expection-maximization (EM) algorithm
+\series default
+.
+ The EM algorithm is a framework to approach maximum likelihood estimates
+ of parameters in statistical models.
+ It consists of two steps:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+E-step
+\series default
+: assigns objects to clusters according to the current fuzzy clustering
+ or parameters of probabilistic clusters.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+M-step
+\series default
+: finds the new clustering or parameters that maximize the SSE or the expected
+ likelihood.
+\end_layout
+
+\begin_layout Example
+EM algorithm example.
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{EM Algorithm example (Example 9.1)}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Start defining the data set:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+D = [3,3;
+\end_layout
+
+\begin_layout Plain Layout
+
+    4,10;
+\end_layout
+
+\begin_layout Plain Layout
+
+    9,6;
+\end_layout
+
+\begin_layout Plain Layout
+
+    14,8;
+\end_layout
+
+\begin_layout Plain Layout
+
+    18,11;
+\end_layout
+
+\begin_layout Plain Layout
+
+    21,7];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+centers = [3,3;
+\end_layout
+
+\begin_layout Plain Layout
+
+           4,10];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+[p1,c1] = E_step(D, centers)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+p1 = 2x6    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000         0    0.4767    0.4160    0.4053    0.4671
+\end_layout
+
+\begin_layout Plain Layout
+
+         0    1.0000    0.5233    0.5840    0.5947    0.5329
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = 1x6    
+\end_layout
+
+\begin_layout Plain Layout
+
+     1     2     2     2     2     2
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+centers_2 = M_step(D, p1)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+centers_2 = 2x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    8.4178    5.0946
+\end_layout
+
+\begin_layout Plain Layout
+
+   10.4632    8.9897
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+[result, probs, cl] = em_algorithm(D, centers, 0.5)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+result = 2x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    6.3427    6.2224
+\end_layout
+
+\begin_layout Plain Layout
+
+   16.6020    8.6542
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+probs = 2x6    
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.9096    0.8905    0.9012    0.1043    0.0449    0.0930
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.0904    0.1095    0.0988    0.8957    0.9551    0.9070
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cl = 1x6    
+\end_layout
+
+\begin_layout Plain Layout
+
+     1     1     1     2     2     2
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+D(:,3) = cl;
+\end_layout
+
+\begin_layout Plain Layout
+
+c1 = D(:,3) == 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+c2 = D(:,3) == 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c1,1),D(c1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(result(1,1),result(1,2), 'MarkerFaceColor', 'b');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(D(c2,1),D(c2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(result(2,1),result(2,2), 'MarkerFaceColor', 'g');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename scripts/example9_1_images/figure_0.eps
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function d = distance(X, Y, m)
+\end_layout
+
+\begin_layout Plain Layout
+
+    n = length(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i=1:n
+\end_layout
+
+\begin_layout Plain Layout
+
+        d = d + abs(X(i)-Y(i))^m;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+    d = sqrt(d);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function [probs,clusters] = E_step(data, centers)
+\end_layout
+
+\begin_layout Plain Layout
+
+    k = length(centers);
+\end_layout
+
+\begin_layout Plain Layout
+
+    n = length(data);
+\end_layout
+
+\begin_layout Plain Layout
+
+    distances = zeros([k,n]);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i = 1:k
+\end_layout
+
+\begin_layout Plain Layout
+
+        for j = 1:n
+\end_layout
+
+\begin_layout Plain Layout
+
+            distances(i,j) = distance(data(j,:),centers(i,:),2)^2;
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    full_dists = sum(distances,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    probs = (full_dists - distances )./ full_dists;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    [c,idx] = min(distances,[],1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    clusters = idx;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function new_centers = M_step(data,probs)
+\end_layout
+
+\begin_layout Plain Layout
+
+    sq_probs = probs.^2;
+\end_layout
+
+\begin_layout Plain Layout
+
+    sum_sq_probs = sum(sq_probs,2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    new_centers = sq_probs * data;
+\end_layout
+
+\begin_layout Plain Layout
+
+    new_centers = new_centers ./ sum_sq_probs;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function [centers, probs, clusters] = em_algorithm(data, in_centers, eps)
+\end_layout
+
+\begin_layout Plain Layout
+
+    dif = inf;
+\end_layout
+
+\begin_layout Plain Layout
+
+    while dif > eps
+\end_layout
+
+\begin_layout Plain Layout
+
+        [probs,clusters] = E_step(data, in_centers);
+\end_layout
+
+\begin_layout Plain Layout
+
+        centers = M_step(data, probs);
+\end_layout
+
+\begin_layout Plain Layout
+
+        dif = sum(centers - in_centers);
+\end_layout
+
+\begin_layout Plain Layout
+
+        in_centers = centers;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+    [probs,clusters] = E_step(data, centers);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Evaluating fuzzy clusters
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $c_{1},...,c_{k}$
+\end_inset
+
+ are the centers of the 
+\begin_inset Formula $k$
+\end_inset
+
+ clusters, we define the sum of squared error (SSE) for a point 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+SSE\left(X_{i}\right)=\sum_{j=1}^{k}w_{ij}^{p}\cdot dist\left(X_{i},c_{j}\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a cluster 
+\begin_inset Formula $C_{j}$
+\end_inset
+
+, we have its SSE as
+\begin_inset Formula 
+\[
+SSE\left(C_{j}\right)=\sum_{i=1}^{n}w_{ij}^{p}\cdot dist\left(X_{i},c_{j}\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, the SSE of the whole clustering is
+\begin_inset Formula 
+\[
+SSE\left(\mathcal{C}\right)=\sum_{i=1}^{n}\sum_{j=1}^{k}w_{ij}^{p}\cdot dist\left(X_{i},c_{j}\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
@@ -8614,7 +9803,7 @@ Outlier mining
 \end_layout
 
 \begin_layout Part
-Applications
+Spatial and Spatiotemporal data mining
 \end_layout
 
 \begin_layout Standard
