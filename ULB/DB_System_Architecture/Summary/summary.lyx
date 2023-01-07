@@ -8217,8 +8217,1870 @@ As we can see, it is possible to use both indexes and then fetch only those
 BTrees
 \end_layout
 
+\begin_layout Standard
+#TODO
+\end_layout
+
 \begin_layout Section
 Hashing schemes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Physical Query Plans
+\end_layout
+
+\begin_layout Section
+Physical Query Plans
+\end_layout
+
+\begin_layout Standard
+We saw the steps to process a query: first, the query needs to be translated
+ into and RA expression, which can then be modified using equivalence rules
+ to get different expressions that lead to the same result.
+ Then, it is needed to estimate the cost of each expression and to take
+ the one that gives the minimum expected cost.
+ For this, we need also to decide between several ways to access the data,
+ e.g., whether to use an index or not, to order the data or not,...
+ This is called 
+\series bold
+physical query planning
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+There are several ways to measure cost, but we are going to be using the
+ number of disk blocks that must be read or written to execute a query plan.
+\end_layout
+
+\begin_layout Standard
+We will also use different parameters:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B\left(R\right)$
+\end_inset
+
+: number of blocks containing the tuples of relation 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f\left(R\right)$
+\end_inset
+
+: maximum number of tuples of 
+\begin_inset Formula $R$
+\end_inset
+
+ per block.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S\left(R\right)$
+\end_inset
+
+: size of tuples of 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M$
+\end_inset
+
+: memory blocks available.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $HT\left(i\right)$
+\end_inset
+
+: amount of levels in index 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $LB\left(i\right)$
+\end_inset
+
+: amount of leaf nodes in index 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Computing joins
+\end_layout
+
+\begin_layout Standard
+A join operation can be computed in several ways, depending on the options
+ available.
+ 
+\end_layout
+
+\begin_layout Standard
+The simplest and most costly option is an 
+\series bold
+iteration join
+\series default
+, which just performs a double loop over the two relations.
+ The pseudocode can be read in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Iteration-Join"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "morekeywords={for, each, in, do, if, then, output}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for each r in R1 do
+\end_layout
+
+\begin_layout Plain Layout
+
+	for each s in R2 do
+\end_layout
+
+\begin_layout Plain Layout
+
+		if r.A = s.A then
+\end_layout
+
+\begin_layout Plain Layout
+
+			output (r,s)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Iteration-Join"
+
+\end_inset
+
+Iteration Join
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+merge join
+\series default
+ consists in first sorting the relations if they are not sorted, and then
+ scanning them making use of the fact that they are ordered using the same
+ attribute.
+ The pseudocode can be read in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:merge-join"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python,morekeywords={for, each, in, do, if, then, output}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+if R1 not sorted on attribute A then
+\end_layout
+
+\begin_layout Plain Layout
+
+	sort R1
+\end_layout
+
+\begin_layout Plain Layout
+
+if r2 not sorted on attribute A then
+\end_layout
+
+\begin_layout Plain Layout
+
+	sort R2
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+i=1, j=1
+\end_layout
+
+\begin_layout Plain Layout
+
+while i<=T(R1) and j<=T(R2) do
+\end_layout
+
+\begin_layout Plain Layout
+
+	if R1[i].A = R2[j].A then
+\end_layout
+
+\begin_layout Plain Layout
+
+		k=j
+\end_layout
+
+\begin_layout Plain Layout
+
+		while R1[i].A = R2[k].A do
+\end_layout
+
+\begin_layout Plain Layout
+
+			output (R1[i],R2[k])
+\end_layout
+
+\begin_layout Plain Layout
+
+			k += 1
+\end_layout
+
+\begin_layout Plain Layout
+
+		i += 1
+\end_layout
+
+\begin_layout Plain Layout
+
+	else if R1[i].A > R2[j].A then
+\end_layout
+
+\begin_layout Plain Layout
+
+		j += 1
+\end_layout
+
+\begin_layout Plain Layout
+
+	else if R1[i].A < R2[j].A then
+\end_layout
+
+\begin_layout Plain Layout
+
+		i += 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:merge-join"
+
+\end_inset
+
+Merge Join
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+index join
+\series default
+ uses an index defined on the joining attribute on one of the relations.
+ The pseudocode can be read in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:index-join-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python,morekeywords={for, each, in, do, if, then, output}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for each r in R1 do
+\end_layout
+
+\begin_layout Plain Layout
+
+	X <- index(R2, A r.A) # search in index on R2.A tuples with value r.A
+\end_layout
+
+\begin_layout Plain Layout
+
+	for each s in X do
+\end_layout
+
+\begin_layout Plain Layout
+
+		output (r,s)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:index-join-1"
+
+\end_inset
+
+Index Join
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+hash join
+\series default
+ uses a hash function on the joinin attribute.
+ The pseudocode can be read in Algorithm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python,morekeywords={for, each, in, do, if, then, output}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+hash R1 tuples into G buckets
+\end_layout
+
+\begin_layout Plain Layout
+
+hash R2 tuples into H buckets
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=0 to k
+\end_layout
+
+\begin_layout Plain Layout
+
+	match tuples that lie in G[i] and H[i]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:hash-join"
+
+\end_inset
+
+Hash Join (k buckets G1...Gk, H1...Hk)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Factors that affect performance
+\end_layout
+
+\begin_layout Subsubsection*
+Are the tuples of the relation stored physically together?
+\end_layout
+
+\begin_layout Standard
+The more compactly stored in memory the relations are, the less number of
+ pages needs to be fetched and so the performance will increase.
+\end_layout
+
+\begin_layout Subsubsection*
+Are relations sorted by join attribute?
+\end_layout
+
+\begin_layout Standard
+If the relations are already sorted by the join attribute, the merge join
+ is a great option, because the costly part is the sorting (
+\begin_inset Formula $O\left(n\log n\right)$
+\end_inset
+
+), while the joinin itself is 
+\begin_inset Formula $O\left(n+m\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $n,m$
+\end_inset
+
+ are the sizes of both relations.
+\end_layout
+
+\begin_layout Subsubsection*
+Indexes exist?
+\end_layout
+
+\begin_layout Standard
+If there are no indexes, the index join is not even an option.
+ And when there are indexes, they are not always the best option, because
+ if the attribute has low selectivity, the indexes will be returning single
+ values often, and thus we will be only introducing overhead in the operation.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Iteration join 
+\series default
+
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ where 
+\series bold
+relations are not contiguous
+\series default
+, 
+\begin_inset Formula $T\left(R_{1}\right)=10000\ tuples,T\left(R_{2}\right)=5000\ tuples,S\left(R_{1}\right)=S\left(R_{2}\right)=\frac{1}{10}\ block$
+\end_inset
+
+ and 
+\begin_inset Formula $M=101$
+\end_inset
+
+ blocks (so we can work with at most 1010 tuples in memory at once).
+ In this case, 
+\begin_inset Formula $B\left(R_{1}\right)=10000$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)=5000$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+For each tuple in 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+, we need to:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Read the tuple: 1 IO
+\end_layout
+
+\begin_layout Itemize
+Read all tuples in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+: 5000 IOs (This is because the relations are not contiguously stored, so
+ we need to assume that we read a new block for each new tuple)
+\end_layout
+
+\begin_layout Standard
+So, the total cost is
+\begin_inset Formula 
+\[
+C=10000\left(1+5000\right)=50\ 010\ 000\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Can this be improved? Yes!
+\end_layout
+
+\begin_layout Standard
+If we do it reading 1000 tuples of 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and doing the process in each of this chunks, we would need to, for each
+ chunk in 
+\begin_inset Formula $R1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Read all tuples in the chunk: 1000 IOs
+\end_layout
+
+\begin_layout Itemize
+Read all tuples in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+: 5000 IOs
+\end_layout
+
+\begin_layout Standard
+So
+\begin_inset Formula 
+\[
+C=10\left(1000+5000\right)=60\ 000\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Can this be improved? Yes!
+\end_layout
+
+\begin_layout Example
+If we reverse the order of the join: 
+\begin_inset Formula $R_{2}\bowtie R_{1}$
+\end_inset
+
+, then, for each chunk in 
+\begin_inset Formula $R2$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Read all tuples in the chunk: 1000 IOs
+\end_layout
+
+\begin_layout Itemize
+Read all tuples in 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+:10000 IOs
+\end_layout
+
+\end_deeper
+\begin_layout Example
+So
+\begin_inset Formula 
+\[
+C=5\left(1000+10000\right)=55\ 000\ IOs.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+In fact, the bigger 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ is compared to 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ the greater gain obtained when changing the order.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Iteration join 
+\series default
+
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ where 
+\series bold
+relations are contiguous 
+\series default
+(same parameters).
+ In this case, 
+\begin_inset Formula $B\left(R_{1}\right)=1000$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)=500$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+For each chunk in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Read the chunk: 100 IOs (now it is only 100 IOs because 
+\begin_inset Formula $S\left(R_{2}\right)=\frac{1}{10}$
+\end_inset
+
+ block, so to read 1000 tuples we need to read 100 blocks)
+\end_layout
+
+\begin_layout Itemize
+Read 
+\begin_inset Formula $R1$
+\end_inset
+
+: 1000 IOs
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Thus,
+\begin_inset Formula 
+\[
+C=5\left(100+1000\right)=5\ 500\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can see how the contigous storage greatly increase performance of the
+ joins.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+In general, for an iteration join 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ with sizes (in blocks) 
+\begin_inset Formula $B\left(R_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)$
+\end_inset
+
+, and a memory capacity of 
+\begin_inset Formula $M$
+\end_inset
+
+ blocks, the formula for the cost is
+\begin_inset Formula 
+\[
+C=\frac{B\left(R_{1}\right)}{M-1}\left(M-1+B\left(R_{2}\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We want to first take as many blocks from the first relation as we can,
+ but we need to leave space for joining the second relation, so we will
+ use 
+\begin_inset Formula $M-1$
+\end_inset
+
+ blocks for storing the tuples for the first relation.
+ This will need to be done 
+\begin_inset Formula $\frac{B\left(R_{1}\right)}{M-1}$
+\end_inset
+
+ times.
+ Now, for each of this iterations, we need to actually read the 
+\begin_inset Formula $M-1$
+\end_inset
+
+ blocks from 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and to read all blocks from 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+.
+ So the formula arises.
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Merge join 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ 
+\series default
+where both relations are 
+\series bold
+already ordered
+\series default
+ by the joinin attribute and relations are 
+\series bold
+contiguous
+\series default
+.
+ In this case, we will need to read all blocks containing 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and all block containing 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+, once.
+ So
+\begin_inset Formula 
+\[
+C=1000+500=1\ 500\ IOs.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+So we can see how good a merge join where the relations are already ordered
+ is.
+ Let's see how the other case performs:
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Merge join
+\series default
+ 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ where 
+\begin_inset Formula $R_{1},R_{2}$
+\end_inset
+
+ are 
+\series bold
+not ordered
+\series default
+, but are 
+\series bold
+contiguous
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Example
+In this case, first we need to sort the relations and there are different
+ ways to do this, we are going to explain one, the 
+\series bold
+merge join
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Merge sort: For each 100 tuples chunk of 
+\begin_inset Formula $R$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Read the chunk
+\end_layout
+
+\begin_layout Itemize
+Sort in memory
+\end_layout
+
+\begin_layout Itemize
+Write to disk the ordered chunks
+\end_layout
+
+\begin_layout Itemize
+Read the ordered chunks and merge them
+\end_layout
+
+\begin_layout Itemize
+Write to disk the ordered relation
+\end_layout
+
+\begin_layout Standard
+Cost (in terms of IO): each chunk is read, written, read, written, so 
+\begin_inset Formula $4\times\frac{T\left(R\right)}{S\left(R\right)}=4B\left(R\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In our case
+\begin_inset Formula 
+\[
+sortC\left(R1\right)=4000,\ sortC\left(R2\right)=2000.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Example
+Now, the cost a merge join in which the relations are not ordered is the
+ cost of the ordering plus the cost of the join, so
+\begin_inset Formula 
+\[
+C=4000+2000+1500=7500\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Remember that the iteration cost was 5500 IOs, so in this case the merge
+ join is not the best option.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+In general, for a merge join 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ with sizes (in blocks) 
+\begin_inset Formula $B\left(R_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)$
+\end_inset
+
+ where the relations are contiguously stored, and a memory capacity of 
+\begin_inset Formula $M$
+\end_inset
+
+ blocks, the formula for the cost is
+\begin_inset Formula 
+\[
+C=5\left(B\left(R_{1}\right)+B\left(R_{2}\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The cost is
+\begin_inset Formula 
+\[
+C=C_{order}\left(R_{1}\right)+C_{order}\left(R_{2}\right)+C_{join}.
+\]
+
+\end_inset
+
+ We have seen that 
+\begin_inset Formula $C_{order}\left(R\right)=4B\left(R\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{join}\left(R_{1},R_{2}\right)=B\left(R_{1}\right)+B\left(R_{2}\right)$
+\end_inset
+
+, and so the formula arises.
+\end_layout
+
+\begin_layout Example
+Let in this case 
+\begin_inset Formula $R_{1},R_{2}$
+\end_inset
+
+ be contiguously stored, but unordered, with 
+\begin_inset Formula $B(R_{1})=10000\ tuples$
+\end_inset
+
+ and 
+\begin_inset Formula $B(R_{2})=5000\ tuples$
+\end_inset
+
+.
+ In this case, the iteration join has a cost of
+\begin_inset Formula 
+\[
+C_{IJ}=\frac{5000}{100}\left(100+10000\right)=505\ 000\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+And the merge join
+\begin_inset Formula 
+\[
+C_{MJ}=5\left(10000+5000\right)=75\ 000\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+So, in this case the merge sort is better, even without the relations being
+ previously ordered.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+For a join 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ where the relations are contiguously stored and unordered, with sizes (in
+ blocks) 
+\begin_inset Formula $B\left(R_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)$
+\end_inset
+
+, a memory capacity of 
+\begin_inset Formula $M$
+\end_inset
+
+ blocks, and assuming that 
+\begin_inset Formula $\frac{B\left(R_{2}\right)}{M-1}>4$
+\end_inset
+
+, a merge join is preferred to an iteration join if, and only if,
+\begin_inset Formula 
+\[
+B\left(R_{1}\right)>\frac{5B\left(R_{2}\right)}{\frac{B\left(R_{2}\right)}{M-1}-4}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The merge join is preferred to the iteration join if, and only if
+\begin_inset Formula 
+\[
+5\left(B\left(R_{1}\right)+B\left(R_{2}\right)\right)<\frac{B\left(R_{1}\right)}{M-1}\left(M-1+B\left(R_{2}\right)\right)=B\left(R_{1}\right)+\frac{B\left(R_{1}\right)B\left(R_{2}\right)}{M-1}\iff
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+4B\left(R_{1}\right)+5B\left(R_{2}\right)<\frac{B\left(R_{1}\right)B\left(R_{2}\right)}{M-1}\iff
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B\left(R_{1}\right)\left[4-\frac{B\left(R_{2}\right)}{M-1}\right]<-5B\left(R_{2}\right)\iff
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B\left(R_{1}\right)\left[\frac{B\left(R_{2}\right)}{M-1}-4\right]>5B\left(R_{2}\right)\iff
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B\left(R_{1}\right)>\frac{5B\left(R_{2}\right)}{\frac{B\left(R_{2}\right)}{M-1}-4}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's apply the theorem to our two previous examples:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $R_{2}\bowtie R_{1},B\left(R_{1}\right)=1000,\ B\left(R_{2}\right)=500,\ M=101$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{5B\left(R_{1}\right)}{\frac{B\left(R_{1}\right)}{M-1}-4}=\frac{5000}{\frac{1000}{100}-4}=\frac{5000}{6}>833>500,
+\]
+
+\end_inset
+
+ so in this case the iteration join is preferred.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $R_{2}\bowtie R_{1},B\left(R_{1}\right)=10000,B\left(R_{2}\right)=5000,M=101$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{5B\left(R_{1}\right)}{\frac{B\left(R_{1}\right)}{M-1}-4}=\frac{50000}{\frac{10000}{100}-4}=\frac{50000}{96}<521<5000,
+\]
+
+\end_inset
+
+ so in this case the merge join is preferred.
+\end_layout
+
+\begin_layout Subsubsection*
+How much memory do we need for merge sort?
+\end_layout
+
+\begin_layout Standard
+Until now, we have disregarded the memory needed to perform the merge sort,
+ but this is a crucial aspect of it.
+ If the relation does not fit entirely in memory, it is not straightforward
+ to merge all the ordered chunks to obtain a fully ordered relation.
+ 
+\end_layout
+
+\begin_layout Standard
+In general, if we have 
+\begin_inset Formula $M$
+\end_inset
+
+ blocks in memory, and 
+\begin_inset Formula $B$
+\end_inset
+
+ blocks to sort, then we will take chunks of size 
+\begin_inset Formula $k$
+\end_inset
+
+, so we will have 
+\begin_inset Formula $\frac{x}{k}$
+\end_inset
+
+ chunks.
+ Now, this number needs to be smaller than the memory size:
+\begin_inset Formula 
+\[
+\frac{B}{M}\leq M,
+\]
+
+\end_inset
+
+ or, equivalently
+\begin_inset Formula 
+\[
+M^{2}\geq B\ or\ M\geq\sqrt{B}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Following our examples: 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ is 1000 blocks, so 
+\begin_inset Formula $M\geq31.62$
+\end_inset
+
+ and 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ is 500 blocks so 
+\begin_inset Formula $M\geq22.36$
+\end_inset
+
+.
+ In this case, we need 
+\begin_inset Formula $M\geq32$
+\end_inset
+
+ blocks, so it could be done because the memory was 
+\begin_inset Formula $M=101$
+\end_inset
+
+ blocks.
+\end_layout
+
+\begin_layout Subsubsection*
+Can the merge join be improved?
+\end_layout
+
+\begin_layout Standard
+Yes, we are imposing that the whole relation needs to be sorted, but maybe
+ we can join the sorted chunks without merging them.
+\end_layout
+
+\begin_layout Standard
+If we did this, we would need to:
+\end_layout
+
+\begin_layout Itemize
+Read 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and write 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ sorted chunks
+\end_layout
+
+\begin_layout Itemize
+Read 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ and write 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ sorted chunks
+\end_layout
+
+\begin_layout Itemize
+Join
+\end_layout
+
+\begin_layout Standard
+So the total cost would be
+\begin_inset Formula 
+\[
+C=2B\left(R_{1}\right)+2B\left(R_{2}\right)+\left[B\left(R_{1}\right)+B\left(R_{2}\right)\right]=3\left[B\left(R_{1}\right)+B\left(R_{2}\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Index join 
+\begin_inset Formula $R_{2}\bowtie R_{1}$
+\end_inset
+
+ 
+\series default
+with an 
+\series bold
+index
+\series default
+ on 
+\begin_inset Formula $R_{1}.A$
+\end_inset
+
+ of two levels, 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ 
+\series bold
+contiguously
+\series default
+ stored and 
+\series bold
+unordered
+\series default
+ and assuming the 
+\series bold
+index fits in memory
+\series default
+.
+ Then, the cost is:
+\end_layout
+
+\begin_layout Itemize
+Read 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+: 500 IOs
+\end_layout
+
+\begin_layout Itemize
+For each tuple in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+, check the index and only read a tuple in 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ if there is a match.
+\end_layout
+
+\begin_layout Standard
+So
+\begin_inset Formula 
+\[
+C=500+matches.
+\]
+
+\end_inset
+
+ Thus, we need to estimate how many matches there will be.
+ We can treat several cases:
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $R_{1}.A$
+\end_inset
+
+ is a key attribute and 
+\begin_inset Formula $R_{2}.A$
+\end_inset
+
+ is a foreign key:
+\begin_inset Formula 
+\[
+matches\left(R_{2},R_{1}\right)=T\left(R_{2}\right).
+\]
+
+\end_inset
+
+ In this case the cost is
+\begin_inset Formula 
+\[
+C=500+5000=5500\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If we know 
+\begin_inset Formula $V\left(R_{1},A\right)$
+\end_inset
+
+ (number of distinct values of attribute 
+\begin_inset Formula $A$
+\end_inset
+
+ in 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+) and 
+\begin_inset Formula $T\left(R_{1}\right)$
+\end_inset
+
+, we can assume uniformity and thus obtain
+\begin_inset Formula 
+\[
+matches\left(R_{2},R_{1}\right)=\frac{V\left(R_{1},A\right)}{T\left(R_{1}\right)}\times T\left(R_{2}\right).
+\]
+
+\end_inset
+
+ In this case the cost is, assuming 
+\begin_inset Formula $V\left(R_{1},A\right)=5000$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+C=500+\frac{10000}{5000}5000=10500\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If we know 
+\begin_inset Formula $size\left(Dom\left(R_{1},A\right)\right)$
+\end_inset
+
+ (number of distinct values that attribute 
+\begin_inset Formula $A$
+\end_inset
+
+ can take) and 
+\begin_inset Formula $T\left(R_{1}\right)$
+\end_inset
+
+, we can assume uniformity and thus obtain
+\begin_inset Formula 
+\[
+matches\left(R_{2},R_{1}\right)=\frac{T\left(R_{1}\right)}{size\left(Dom\left(R_{1},A\right)\right)}T\left(R_{2}\right).
+\]
+
+\end_inset
+
+ In this case the cost is, assumiing 
+\begin_inset Formula $size\left(Dom\left(R_{1},A\right)\right)=1\ 000\ 000$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+C=500+\frac{10000}{1000000}5000=550\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's see what happens if the index does not fit in memory.
+\end_layout
+
+\begin_layout Example
+Let the 
+\begin_inset Formula $R_{1}.A$
+\end_inset
+
+ index occupy 201 blocks (1 root and 200 leaves), so it cannot be fully
+ fitted in memory 
+\begin_inset Formula $\left(M=101\right)$
+\end_inset
+
+.
+ We can store the root node and 99 leaf nodes in memory.
+ Then for each value to check, there is a 
+\begin_inset Formula $\frac{99}{200}$
+\end_inset
+
+ chance that we can find the value in memory, and 
+\begin_inset Formula $\frac{101}{200}$
+\end_inset
+
+ that we don't.
+ Then, the cost of checking the value in the index is
+\begin_inset Formula 
+\[
+C_{index}=0\times\frac{99}{200}+1\times\frac{101}{200}\approx0.5.
+\]
+
+\end_inset
+
+ Thus, the total cost is
+\begin_inset Formula 
+\[
+C=500+5000\left[0.5+2\right]=13000\ IOs.
+\]
+
+\end_inset
+
+ In this case, we have assumed the case 2.
+ The detailed explanation is:
+\end_layout
+
+\begin_layout Itemize
+Read 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+: 500 IOs
+\end_layout
+
+\begin_layout Itemize
+For each tuple in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ 
+\begin_inset Formula $\left(5000\times\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We need to check the value in the index: 
+\begin_inset Formula $0.5$
+\end_inset
+
+ IOs
+\end_layout
+
+\begin_layout Itemize
+And we need to recover the matches: assuming case 2 is 
+\begin_inset Formula $2$
+\end_inset
+
+ IOs, assuming case 3 is 0.1 IOs
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+In general, for an index join 
+\begin_inset Formula $R_{1}\bowtie_{A}R_{2}$
+\end_inset
+
+ with sizes (in blocks) 
+\begin_inset Formula $B\left(R_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $B\left(R_{2}\right)$
+\end_inset
+
+ and sizes (in tuples) 
+\begin_inset Formula $T\left(R_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $T\left(R_{2}\right)$
+\end_inset
+
+, where:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There is an index for 
+\begin_inset Formula $R_{1}.A$
+\end_inset
+
+ of size 
+\begin_inset Formula $B_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ is contiguously stored in memory.
+\end_layout
+
+\begin_layout Itemize
+There is a memory capacity of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Theorem
+If the index does not fit in memory, the estimated cost is
+\begin_inset Formula 
+\[
+C=B\left(R_{2}\right)+T\left(R_{2}\right)\left[\left(1-\frac{M-2}{S_{i}}\right)+matched\right],
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $matched$
+\end_inset
+
+ depends on the assumtions about how the values of the index are distributed.
+\end_layout
+
+\begin_layout Theorem
+If the index fits in memory, the estimated cost is
+\begin_inset Formula 
+\[
+C=B\left(R_{2}\right)+T\left(R_{2}\right)\times matched.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We will need to read all blocks of 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+, which sums up to 
+\begin_inset Formula $B\left(R_{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Then, for each tuple in 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+, we need to check the index and recover all matches.
+ Thus, if the index fits in memory, the result is obvious.
+\end_layout
+
+\begin_layout Proof
+If the index does not fit in memory, we will store the root and 
+\begin_inset Formula $M-2$
+\end_inset
+
+ leave nodes.
+ Thus
+\begin_inset Formula 
+\[
+Prob\left(value\ in\ memory\right)=\frac{M-2}{S_{i}},
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+Prob\left(value\ not\ in\ memory\right)=1-Prob\left(value\ in\ memory\right)=1-\frac{M-2}{S_{i}}.
+\]
+
+\end_inset
+
+ And so, we obtain the desired formula.
+\end_layout
+
+\begin_layout Standard
+Let's now continue with the hash join:
+\end_layout
+
+\begin_layout Example
+
+\series bold
+Hash join
+\series default
+ 
+\begin_inset Formula $R_{1}\bowtie R_{2}$
+\end_inset
+
+ where 
+\begin_inset Formula $R_{1},R_{2}$
+\end_inset
+
+ are 
+\series bold
+contiguously stored
+\series default
+ and 
+\series bold
+unordered
+\series default
+.
+ According to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garcia2002"
+literal "false"
+
+\end_inset
+
+, we may hash each relation to 100 buckets, so the average size of a bucket
+ is 10 blocks for 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and 5 blocks for 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+.
+ Since the smaller number, 5, is much less than the number of available
+ buffers, we expect to have no trouble performing a one-pass join on each
+ pair of buckets.
+ The number of disk IOs is 1500 to read each of 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+ while hashing into buckets, another 1500 to write all the buckets to disk,
+ and a third 1500 to read each pair of buckets into main memory again while
+ taking the one-pass join of corresponding buckets.
+ Thus, the total cost is
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C=3\left(B\left(R_{1}\right)+B\left(R_{2}\right)\right)=4500\ IOs.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+About the memory requirements, we need each pair of buckets to fit into
+ memory.
+ We are taking 
+\begin_inset Formula $M-1$
+\end_inset
+
+ buckets, so the size of the buckets are 
+\begin_inset Formula $\frac{B\left(R_{1}\right)}{M-1}$
+\end_inset
+
+ blocks and 
+\begin_inset Formula $\frac{B\left(R_{2}\right)}{M-1}$
+\end_inset
+
+ blocks for buckets of 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ and buckets of 
+\begin_inset Formula $R_{2}$
+\end_inset
+
+, respectively.
+ It is enough to fit eh smaller one, say 
+\begin_inset Formula $\frac{B}{M-1}$
+\end_inset
+
+ blocks.
+ Then, we need to ensure that 
+\begin_inset Formula 
+\[
+\frac{B}{M-1}<M-1,
+\]
+
+\end_inset
+
+ so we need to fulfill
+\begin_inset Formula 
+\[
+B<\left(M-1\right)^{2}
+\]
+
+\end_inset
+
+ or
+\begin_inset Formula 
+\[
+\sqrt{B}<M-1.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
