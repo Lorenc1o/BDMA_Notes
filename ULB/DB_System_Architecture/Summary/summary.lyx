@@ -8214,11 +8214,730 @@ As we can see, it is possible to use both indexes and then fetch only those
 \end_layout
 
 \begin_layout Section
-BTrees
+B-Trees
 \end_layout
 
 \begin_layout Standard
-#TODO
+This section is adapted from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garcia2002"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+B-trees automatically maintain as many levels of index as is appropriate
+ for the size of the file being indexed and manage the space on the blocks
+ they use so that every block is between half used and completely full.
+\end_layout
+
+\begin_layout Standard
+A B-tree organizes its blocks into a tree that is balanced, meaning that
+ all paths from the root to a leaf have the same length.
+ A BTree can be visualized in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:A-BTree.-Source:"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado1.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:A-BTree.-Source:"
+
+\end_inset
+
+A BTree.
+ Source: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garcia2002"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is a parameter 
+\begin_inset Formula $n$
+\end_inset
+
+ associated with each B-tree index, and this parameter determines the layout
+ of all blocks of the B-tree.
+ Each block will have space for 
+\begin_inset Formula $n$
+\end_inset
+
+ search-key values and 
+\begin_inset Formula $n+1$
+\end_inset
+
+ pointers.
+\end_layout
+
+\begin_layout Standard
+We pick 
+\begin_inset Formula $n$
+\end_inset
+
+ to be as large as will allow 
+\begin_inset Formula $n+1$
+\end_inset
+
+ pointers and 
+\begin_inset Formula $n$
+\end_inset
+
+ keys to fit in one block.
+\end_layout
+
+\begin_layout Example
+Suppose our blocks are 4096 bytes.
+ Also let keys be integers of 4 bytes and let pointers be 8 bytes.
+ If there is no header information kept on the blocks, then we want to find
+ the largest integer value of 
+\begin_inset Formula $n$
+\end_inset
+
+ such that 
+\begin_inset Formula $4n+8(n+1)<4096$
+\end_inset
+
+.
+ That value is 
+\begin_inset Formula $n=340$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+There are several important rules about what can appear in the blocks of
+ a B-tree:
+\end_layout
+
+\begin_layout Itemize
+The keys in leaf nodes are copies of keys from the data file.
+ These keys are distributed among the leaves in sorted order, from left
+ to right.
+\end_layout
+
+\begin_layout Itemize
+At the root, there are at least two used pointers.
+ All pointers point to B-tree blocks at the level below.
+\end_layout
+
+\begin_layout Itemize
+At a leaf, the last pointer points to the next leaf block to the right,
+ i.e., to the block with the next higher keys.
+ Among the other 
+\begin_inset Formula $n$
+\end_inset
+
+ pointers in a leaf block, at least 
+\begin_inset Formula $\left\lfloor \frac{n+1}{2}\right\rfloor $
+\end_inset
+
+ of these pointers are used and point to data records; unused pointers are
+ null and do not point anywhere.
+ The 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ pointer, if it is used, points to a record with the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ key.
+\end_layout
+
+\begin_layout Itemize
+At an interior node, all 
+\begin_inset Formula $n+1$
+\end_inset
+
+ pointers can be used to point to B-tree blocks at the next lower level.
+ At least 
+\begin_inset Formula $\left\lceil \frac{n+1}{2}\right\rceil $
+\end_inset
+
+ of them are actually used (but if the node is the root, then we require
+ only that at least 2 be used, regardless of how large 
+\begin_inset Formula $n$
+\end_inset
+
+ is).
+ If 
+\begin_inset Formula $j$
+\end_inset
+
+ pointers are used, then there will be 
+\begin_inset Formula $j—1$
+\end_inset
+
+ keys, say 
+\begin_inset Formula $K_{1},K_{2},...,K_{j-1}$
+\end_inset
+
+.
+ The first pointer points to a part of the B-tree where some of the records
+ with keys less than 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ will be found.
+ The second pointer goes to that part of the tree where all records with
+ keys that are at least 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+, but less than 
+\begin_inset Formula $K_{2}$
+\end_inset
+
+ will be found, and so on.
+ Finally, the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ pointer gets us to the part of the B-tree where some of the records with
+ keys greater than or equal to 
+\begin_inset Formula $K_{j-1}$
+\end_inset
+
+ are found.
+ Note that some records with keys far below 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ or far above 
+\begin_inset Formula $K_{j-1}$
+\end_inset
+
+ may not be reachable from this block at all, but will be reached via another
+ block at the same level.
+\end_layout
+
+\begin_layout Itemize
+All used pointers and their keys appear at the beginning of the block, with
+ the exception of the 
+\begin_inset Formula $\left(n+1\right)^{th}$
+\end_inset
+
+ pointer in a leaf, which points to the next leaf.
+\end_layout
+
+\begin_layout Standard
+In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:A-BTree.-Source:"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, the chosen 
+\begin_inset Formula $n$
+\end_inset
+
+ is 3.
+\end_layout
+
+\begin_layout Subsection
+Lookup in BTree
+\end_layout
+
+\begin_layout Standard
+Suppose we want to find a record with key 
+\begin_inset Formula $K$
+\end_inset
+
+.
+ The procedure is:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Base
+\series default
+ 
+\series bold
+case
+\series default
+: if we are at a leaf node, look among the keys.
+ If the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ key is 
+\begin_inset Formula $K$
+\end_inset
+
+, then the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ pointer is the one that we were looking for.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Inductive case
+\series default
+: if we are at an interior node with keys 
+\begin_inset Formula $K_{1},...,K_{n}$
+\end_inset
+
+ we find 
+\begin_inset Formula $i$
+\end_inset
+
+ such that 
+\begin_inset Formula $K_{i-1}\leq K<K_{n}$
+\end_inset
+
+, or 1 if 
+\begin_inset Formula $K<K_{1}$
+\end_inset
+
+.
+ We choose the 
+\begin_inset Formula $i^{th}$
+\end_inset
+
+ pointer to continue the search.
+\end_layout
+
+\begin_layout Example
+Search 
+\begin_inset Formula $K=29$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree.drawio.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The path to be followed is colored green:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+In the root node, 
+\begin_inset Formula $K_{1}<K$
+\end_inset
+
+ and and there are no more keys, so choose 
+\begin_inset Formula $i=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+In the next node, we find 
+\begin_inset Formula $K_{1}<K<K_{2}$
+\end_inset
+
+, so choose 
+\begin_inset Formula $i=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+In the leave node, we find 
+\begin_inset Formula $K_{2}=K$
+\end_inset
+
+, so choose 
+\begin_inset Formula $i=2$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Range queries
+\end_layout
+
+\begin_layout Standard
+BTrees allow for a very efficient way to process range queries, that is,
+ recover all records with keys lying in a given range 
+\begin_inset Formula $\left[K_{min},K_{max}\right]$
+\end_inset
+
+.
+ The procedure is:
+\end_layout
+
+\begin_layout Enumerate
+Perform a lookup for 
+\begin_inset Formula $K_{min}$
+\end_inset
+
+, whether it is found or not, we will reach the correct leaf node.
+\end_layout
+
+\begin_layout Enumerate
+We traverse all leaf nodes until we find a key bigger than 
+\begin_inset Formula $K_{max}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Search for range 
+\begin_inset Formula $\left[12,40\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_range.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+It is colored in green all the nodes that would be accepted into the range
+ query.
+ The order is up-down and left-right in the leaf level.
+\end_layout
+
+\begin_layout Subsection
+Insertion into a BTree
+\end_layout
+
+\begin_layout Standard
+The insertion is, in principle, recursive: 
+\end_layout
+
+\begin_layout Itemize
+We try to find a place for the new key in the appropriate leaf, and we put
+ it there if there is room.
+ 
+\end_layout
+
+\begin_layout Itemize
+If there is no room in the proper leaf, we split the leaf into two and divide
+ the keys between the two new nodes, so each is half full or just over half
+ full.
+ 
+\end_layout
+
+\begin_layout Itemize
+The splitting of nodes at one level appears to the level above as if a new
+ key-pointer pair needs to be inserted at that higher level.
+ We may thus recursively apply this strategy to insert at the next level:
+ if there is room, insert it; if not, split the parent node and continue
+ up the tree.
+ 
+\end_layout
+
+\begin_layout Itemize
+As an exception, if we try to insert into the root, and there is no room,
+ then we split the root into two nodes and create a new root at the next
+ higher level; the new root has the two nodes resulting from the split as
+ its children.
+ Recall that no matter how large 
+\begin_inset Formula $n$
+\end_inset
+
+ (the number of slots for keys at a node) is, it is always permissible for
+ the root to have only one key and two children.
+\end_layout
+
+\begin_layout Example
+Insert 
+\begin_inset Formula $K=40$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+First, we lookup for the place where the record should be inserted.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_insert40_0.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+As there is not enough place, we need to split the node.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_insert40_1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now, the key of the new node needs to be inserted into the parent node.
+ But it is also full, so it needs to be splitted, too.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_insert40_2.png
+	scale 50
+
+\end_inset
+
+ç
+\end_layout
+
+\begin_layout Example
+In the root node, the smaller key reachable from that node needs to bu inserted.
+ In this case, the newly inserted one.
+\end_layout
+
+\begin_layout Subsection
+Deletion from a BTree
+\end_layout
+
+\begin_layout Standard
+The steps to delete record with key 
+\begin_inset Formula $K$
+\end_inset
+
+ are:
+\end_layout
+
+\begin_layout Enumerate
+Lookup for the record.
+\end_layout
+
+\begin_layout Enumerate
+Delete the record from the data.
+\end_layout
+
+\begin_layout Enumerate
+Delete the key-pointer pair from the BTree.
+\end_layout
+
+\begin_layout Enumerate
+If the node from which we deleted still has the minimum number of pointers,
+ that's it.
+ But it is possible that the node is less occupy than the minimum required
+ after the deletion.
+ We need to do one of two things:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If one of the adjacent siblings of node 
+\begin_inset Formula $N$
+\end_inset
+
+ has more than the minimum number of keys and pointers, then one key-pointer
+ pair can be moved to 
+\begin_inset Formula $N$
+\end_inset
+
+, keeping the order of keys intact.
+ Possibly, the keys at the parent of 
+\begin_inset Formula $N$
+\end_inset
+
+ must be adjusted to reflect the new situation.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The hard case is when neither adjacent sibling can be used to provide an
+ extra key for 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ However, in that case, we have two adjacent nodes, 
+\begin_inset Formula $N$
+\end_inset
+
+ and a sibling 
+\begin_inset Formula $M$
+\end_inset
+
+; the latter has the minimum number of keys and the former has fewer than
+ the minimum.
+ Therefore, together they have no more keys and pointers than are allowed
+ in a single node.
+ We merge these two nodes, effectively deleting one of them.
+ We need to adjust the keys at the parent, and then delete a key and pointer
+ at the parent.
+ If the parent is still full enough, then we are done.
+ If not, then we recursively apply the deletion algorithm at the parent.
+ This process is called 
+\series bold
+coalesce siblings
+\series default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Delete 
+\begin_inset Formula $K=7$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_delete7_0.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+First, we find the correct node and delete the record.
+\end_layout
+
+\begin_layout Example
+Now, the node left only has one pointer, so we need to fix this.
+ As its left sibling node has 3 pointers, we can transfer the biggest one.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_delete7_1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Also, we need to update the parent node.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now, delete 
+\begin_inset Formula $K=11$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_delete11_0.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+First, we locate the correct node and delete the record.
+ Again, the node ends up with less pointers than it should, but now the
+ left sibling does not have more than the minimum amount of pointers (it
+ has the minimum) and the node does not have right siblings (the node to
+ the right is from another parent), so we need to merge the two siblings.
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename btree_delete11_1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
 \end_layout
 
 \begin_layout Section
@@ -8357,6 +9076,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -8438,6 +9158,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -8581,6 +9302,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -8650,6 +9372,7 @@ hash join
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
