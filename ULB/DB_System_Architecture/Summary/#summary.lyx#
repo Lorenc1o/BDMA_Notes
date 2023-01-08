@@ -26486,7 +26486,7 @@ Start with this setup:
 \begin_layout Example
 \begin_inset Graphics
 	filename intentional_locks_2.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -26521,7 +26521,7 @@ Yes, it can, because all the locks in the sequence are compatible with another
 \begin_layout Example
 \begin_inset Graphics
 	filename intentional_locks_3.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -26539,7 +26539,7 @@ Start with this setup:
 \begin_layout Example
 \begin_inset Graphics
 	filename intentional_locks_4.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -26610,7 +26610,7 @@ Yes, it can, because
 \begin_layout Example
 \begin_inset Graphics
 	filename intentional_locks_5.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -26628,7 +26628,7 @@ Yes, it can, because
 \begin_layout Example
 \begin_inset Graphics
 	filename intentional_locks_6.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -26656,37 +26656,7 @@ Yes, because SIX and IX and compatible with IS:
 \end_layout
 
 \begin_layout Example
-\begin_inset Graphics
-	filename intentional_locks_7.png
-	scale 40
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Example
-
-\series bold
-5)
-\series default
- In the previous setup: can 
-\begin_inset Formula $T_{2}$
-\end_inset
-
- access object 
-\begin_inset Formula $f_{2,2}$
-\end_inset
-
- in X mode? What locks would 
-\begin_inset Formula $T_{2}$
-\end_inset
-
- get?
-\end_layout
-
-\begin_layout Example
-No, because SIX is not compatible with IX.
 \end_layout
 
 \begin_layout Standard
