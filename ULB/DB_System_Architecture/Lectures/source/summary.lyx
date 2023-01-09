@@ -119,7 +119,7 @@ Jose Antonio Lorencio Abril
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename ../../Data_Mining/Summary/1200px-Université_libre_de_Bruxelles_(logo).svg.png
+	filename 1200px-Université_libre_de_Bruxelles_(logo).svg.png
 	scale 10
 
 \end_inset
@@ -189,14 +189,6 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FloatList figure
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FloatList table
 
 \end_inset
 
@@ -1136,7 +1128,6 @@ SQL language
 
 \begin_layout Standard
 \begin_inset listings
-lstparams "language=SQL"
 inline false
 status open
 
@@ -2862,10 +2853,6 @@ Architecture of System R
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -26745,11 +26732,7 @@ The
 reality
 \series default
  is that there need to be done concessions in terms of functionality, transactio
-nal semantics and performance
-\end_layout
-
-\begin_layout Subsection
-Distribution challenges
+nal semantics and performance.
 \end_layout
 
 \begin_layout Standard
@@ -26758,7 +26741,24 @@ There are three main challenges in distributed databases, which are how
  transactions.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+shard
+\series default
+ is a horizontal partition of data in a database.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Data distribution
 \end_layout
 
@@ -26798,10 +26798,1008 @@ Hash distribution
 \begin_deeper
 \begin_layout Itemize
 Each shard contains a modulo of a hash value.
- This one is a bad idea because #TODO
+ 
+\end_layout
+
+\begin_layout Itemize
+Each shard contains a range of hash values.
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+In the context of data distribution, it is usually desirable to maintain
+ approximately the same amount of data in each node.
+ To achieve this, 
+\series bold
+rebalancing
+\series default
+ is used.
+ Rebalancing encompasses:
+\end_layout
+
+\begin_layout Itemize
+Moving shards to achieve better data distribution across nodes.
+\end_layout
+
+\begin_layout Itemize
+Splitting shards to achieve better data distributions across nodes.
+\end_layout
+
+\begin_layout Standard
+Another important concept is that of 
+\series bold
+co-location
+\series default
+, which makes use of the fact that some tables share some attributes.
+ If a shared attribute is related to the distribution key, then we can store
+ different tables in a distributed manner, in such a way that if we perform
+ a join between these tables using this attribute, we minimize the interaction
+ between tables from different nodes.
+ 
+\end_layout
+
+\begin_layout Standard
+Other times, for the same purpose of increasing the efficiency of distributed
+ joins it is useful to replicate small tables to enable fast joins, foreign
+ keys and other operations.
+ This technique is called 
+\series bold
+reference tables
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+There are more ways to tackle data distribution:
+\end_layout
+
+\begin_layout Itemize
+Use random distributions to distribute the data.
+\end_layout
+
+\begin_layout Itemize
+Use list distribution, assigning labels to the different partitions.
+\end_layout
+
+\begin_layout Itemize
+Use spatial distribution, locating data in the servers where it will be
+ of use.
+\end_layout
+
+\begin_layout Subsection
+Distributed data access: distributed SQL
+\end_layout
+
+\begin_layout Standard
+To scale query throughput linearly with the number of nodes, queries should
+ only access one node.
+ The techniques of co-location and reference table enable relatively complex
+ queries.
+ This idea of using the nodes information inside the queries to only access
+ the desired nodes is called 
+\series bold
+routing queries
+\series default
+.
+\end_layout
+
+\begin_layout Example
+A routing query trying to access only the node where the distribution key
+ is 36:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+INSERT INTO dist1(dist_key,value) VALUES(36, 11);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM dist1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE dist_key=36 AND value<11;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UPDATE dist1
+\end_layout
+
+\begin_layout Plain Layout
+
+SET value=3
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE dist_key=36 AND value<11;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nonetheless, the relational algebra can be extended to work in distributed
+ system: it is called the 
+\series bold
+multi-relational algebra
+\series default
+, and it adds to the usual relational algebra the operations
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The definitions have been taken from 
+\begin_inset CommandInset href
+LatexCommand href
+name "MSQLS Docs"
+target "https://learn.microsoft.com/en-us/sql/relational-databases/showplan-logical-and-physical-operators-reference?view=sql-server-ver16"
+literal "false"
+
+\end_inset
+
+, but the names are different.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+COLLECT: takes data from several nodes and single output data stream combining
+ all of them.
+\end_layout
+
+\begin_layout Itemize
+REPARTITION: takes data from some nodes and sends it to other nodes.
+\end_layout
+
+\begin_layout Itemize
+BROADCAST: sends its input rows to multiple consumers on demand.
+ Each consumer gets all of the rows.
+\end_layout
+
+\begin_layout Standard
+As in standard SQL, in distributed SQL it is needed to perform logical planning
+ of the queries before executing them, with the need that the final result
+ is the same as it would be if all data were in one node.
+\end_layout
+
+\begin_layout Example
+Imagine we want to compute the mean of an attribute in a table which is
+ distributed in different nodes.
+ The steps to follow would be:
+\end_layout
+
+\begin_layout Enumerate
+In each node: SUM(A) and COUNT(A)
+\end_layout
+
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+COLLECT all data: sum_ = SUM(SUM(N->T.A), N in Nodes), count_ = SUM(COUNT(N->T.A),
+ N in Nodes)
+\end_layout
+
+\begin_layout Enumerate
+mean = sum_ / count_
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Also, different plans can be defined and the best one should be chosen following
+ some optimization criteria.
+\end_layout
+
+\begin_layout Subsubsection*
+Co-located joins
+\end_layout
+
+\begin_layout Standard
+Imagine we have the query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT dist1.dist_key, count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM dist1 
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN dist2 ON (dist1.dist_key = dist1.dist_key)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE dist2.value < 44
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY dist1.
+ dist_key;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+One way to do this is:
+\end_layout
+
+\begin_layout Enumerate
+In each node: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist1
+\end_layout
+
+\begin_layout Enumerate
+Scan dist2 and filter dist2.value < 44
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect all dist1
+\end_layout
+
+\begin_layout Enumerate
+Collect all filtered dist2
+\end_layout
+
+\begin_layout Enumerate
+Perform the join
+\end_layout
+
+\begin_layout Enumerate
+Aggregate
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+But as we are using the distribution key for joining, we know that the tables
+ that will join are stored together, so we can make use of the co-location
+ by changing the plan to:
+\end_layout
+
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist1
+\end_layout
+
+\begin_layout Enumerate
+Scan dist2 and filter dist2.value < 44
+\end_layout
+
+\begin_layout Enumerate
+Perform the join
+\end_layout
+
+\begin_layout Enumerate
+Aggregate
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect the values
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+For this changes to work, we are using that: filter is commutative with
+ collect, group by dist_key is commutative with collect and join is co-located,
+ so it is commutative with collect.
+\end_layout
+
+\begin_layout Standard
+When we do this, we are working with much smaller tables, thus reducing
+ the response time.
+\end_layout
+
+\begin_layout Subsubsection*
+Re-partition joins
+\end_layout
+
+\begin_layout Standard
+Now imagine the query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT dist1.dist_key, count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM dist1 
+\end_layout
+
+\begin_layout Plain Layout
+
+JOIN dist2 ON (dist1.dist_key = dist2.other_key
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE dist2.value < 44
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY dist1.dist_key;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, the initial plan also work, but again we can do better repartition
+ing the dist2 tables to the nodes where they will be needed.
+ This might seem like too heavy work to do, but if the tables are large
+ enough, the whole relations might not even fit in only one node, so this
+ can be the only way to be able to produce the response.
+ The alternative plan is:
+\end_layout
+
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist2
+\end_layout
+
+\begin_layout Enumerate
+Filter dist2.value < 44
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Repartition filtered tuples from dist2 with corresponding other_key to dist_key
+ of this node
+\end_layout
+
+\begin_layout Enumerate
+Scan dist1
+\end_layout
+
+\begin_layout Enumerate
+Perform the join
+\end_layout
+
+\begin_layout Enumerate
+Aggregate
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect the values
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Broadcast joins
+\end_layout
+
+\begin_layout Standard
+Now, imagine the query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+WITH top10 AS (
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT dist_key, count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM dist1 
+\end_layout
+
+\begin_layout Plain Layout
+
+	GROUP BY 1 
+\end_layout
+
+\begin_layout Plain Layout
+
+	ORDER BY 2
+\end_layout
+
+\begin_layout Plain Layout
+
+	LIMIT 10
+\end_layout
+
+\begin_layout Plain Layout
+
+	)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM dist2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE other_key IN (SELECT dist_key FROM top10);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The naïve plan is:
+\end_layout
+
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist1
+\end_layout
+
+\begin_layout Enumerate
+Scan dist2
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect dist1
+\end_layout
+
+\begin_layout Enumerate
+Aggregate dist1
+\end_layout
+
+\begin_layout Enumerate
+Sort/limit dist1
+\end_layout
+
+\begin_layout Enumerate
+Collect dist2
+\end_layout
+
+\begin_layout Enumerate
+Perform the join
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+But this can be improved by creating a subplan that handles order/limit
+ under join and broadcasting the subplan to pull the collect above the join.
+ The idea is that TOP10 among all the data is the same that the TOP10 among
+ all the TOP10s in each node:
+\end_layout
+
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist1
+\end_layout
+
+\begin_layout Enumerate
+Preaggregate: get TOP10 of the node
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect TOP10 of each node
+\end_layout
+
+\begin_layout Enumerate
+Merge all TOP10
+\end_layout
+
+\begin_layout Enumerate
+Sort/limit and get final TOP10
+\end_layout
+
+\begin_layout Enumerate
+Broadcast this TOP10 to all nodes
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Scan dist2
+\end_layout
+
+\begin_layout Enumerate
+Join dist2 with broadcasted TOP10
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+In requesting node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Collect the values
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Observations
+\end_layout
+
+\begin_layout Standard
+As we have seen, the query plans depend heavily on the distribution key.
+\end_layout
+
+\begin_layout Standard
+Runtime also depends on the query, data, the data size, network speed,...
+\end_layout
+
+\begin_layout Standard
+This menas distributed databases require adjusting the distribution keys
+ and queries to each other to achieve high performance.
+\end_layout
+
+\begin_layout Subsection
+Distributed transactions
+\end_layout
+
+\begin_layout Standard
+Ideally, we have ACID transactions: Atomicity, Consistency, Isolation and
+ Durability.
+\end_layout
+
+\begin_layout Standard
+The main distribution challenges are:
+\end_layout
+
+\begin_layout Itemize
+Atomicity: commit on all nodes or none of them.
+\end_layout
+
+\begin_layout Itemize
+Isolation: see other distributed transactions as commited/aborted
+\end_layout
+
+\begin_layout Standard
+Additionally, it is important to have a mechanism for distributed deadlock
+ detection.
+\end_layout
+
+\begin_layout Subsubsection
+Atomicity
+\end_layout
+
+\begin_layout Standard
+Atomicity is achieved through 2PC (2-Phase Commit):
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Phase 1:
+\end_layout
+
+\end_inset
+
+ Store transactions on all nodes
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Phase 2:
+\end_layout
+
+\end_inset
+
+ Store final commit decision and
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If success: commit all stored transactions
+\end_layout
+
+\begin_layout Enumerate
+If error: abort all prepared transactions
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Secret phase 3 (Recovery phase):
+\end_layout
+
+\end_inset
+
+ Commit/abort prepared transactions after system failure
+\end_layout
+
+\begin_layout Subsubsection
+Isolation
+\end_layout
+
+\begin_layout Standard
+If we query different nodes at different times, we may see a concurrent
+ transaction as commited on one node, but not yet committed on another one.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Distributed snapshot isolation
+\series default
+ means we have the same view of what is commited and what not on all nodes.
+\end_layout
+
+\begin_layout Standard
+We must also ensure 
+\series bold
+consistency
+\series default
+: any preceding write is seen as committed.
+\end_layout
+
+\begin_layout Standard
+A common approach is to add a timestamp to each query, so queries see all
+ commits with lower timestamps.
+\end_layout
+
+\begin_layout Standard
+There are different ways of dealing with clock synchronization:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+TrueTime
+\series default
+: synchronize clocks using GPS/atomic clocks.
+ Commits pause until all clock move past commit time.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Clock-SI
+\series default
+: queries collect current time from all nodes involved, pick the highest
+ timestamp and wait for it to pass.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HLC (Hybrid Logical Clocks)
+\series default
+: they are increased whenever an event occurs or a message from another
+ node is received with a higher timestamp.
+\end_layout
+
+\begin_layout Subsubsection
+Considerations
+\end_layout
+
+\begin_layout Standard
+Fully resolving a 2PC might take time in case of system failure.
+\end_layout
+
+\begin_layout Standard
+Distributed deadlock detection is essential to stability, but not always
+ implemented.
+\end_layout
+
+\begin_layout Standard
+Snapshot isolation avoids seeing partially committed transactions, but at
+ a cost, and read-your-writes consistency can be at risk.
+\end_layout
+
+\begin_layout Subsection
+Replication
+\end_layout
+
+\begin_layout Standard
+Replication means to store the same data in different nodes.
+ It can be useful for:
+\end_layout
+
+\begin_layout Itemize
+Availability: resume from replica in case of node failure.
+\end_layout
+
+\begin_layout Itemize
+Durability: restore from replica in case of disk failure.
+\end_layout
+
+\begin_layout Itemize
+Read throughput: divide reads across read replicas.
+\end_layout
+
+\begin_layout Itemize
+Read latency: local/nearby replica gives lower read latency.
+\end_layout
+
+\begin_layout Itemize
+Write latency: local/nearby replica gives lower write latency.
+\end_layout
+
+\begin_layout Subsubsection
+Quorums
+\end_layout
+
+\begin_layout Standard
+The basic idea is to read from R nodes and write to W nodes, where R+W>N,
+ being N the total number of nodes.
+\end_layout
+
+\begin_layout Standard
+The challenge is to apply events in the same order wverywhere.
+\end_layout
+
+\begin_layout Subsubsection
+Follow the leader
+\end_layout
+
+\begin_layout Standard
+We can also assign a temporary leader to serialize writes efficiently.
+ This leader would then feed the rest of the nodes with the new data.
+\end_layout
+
+\begin_layout Standard
+If one node fails (
+\series bold
+standby fail
+\series default
+), the leader will continue writing to other replica.
+\end_layout
+
+\begin_layout Standard
+If the leader fails (
+\series bold
+primary fail
+\series default
+), a failover is initiated, a replica is promoted to leader and the rest
+ of the replicas follow the new leader.
+\end_layout
+
+\begin_layout Subsubsection
+N-directional
+\end_layout
+
+\begin_layout Standard
+All nodes accept writes and then decide how to reconcile conflicting changes.
+\end_layout
+
+\begin_layout Subsection
+CAP theorem
+\end_layout
+
+\begin_layout Standard
+Basically, the CAP theorem states that a database can only have two out
+ of the three properties: 
+\series bold
+C
+\series default
+onsistency, 
+\series bold
+A
+\series default
+vailability and 
+\series bold
+P
+\series default
+artitioning.
+ In the case of distributed databases, partitioning is a must, so one must
+ decide between C and A (note, nonetheless, that even though the theorem
+ ensure that one cannot get the three properties in their most strict form,
+ it is possible to have them in relaxed, yet good, ways).
+ So, basically, according to this theorem, we need to decide between:
+\end_layout
+
+\begin_layout Itemize
+Availability (AP): keep writing to a minority of nodes, and the majority
+ does not see it.
+\end_layout
+
+\begin_layout Itemize
+Consistency (CP): make writes/reads temporary unavailable because consistency
+ must be preserved.
+\end_layout
+
+\begin_layout Standard
+But this is an incomplete picture of the trade-offs that appear in a distributed
+ database.
+\end_layout
+
+\begin_layout Subsection
+PACELC theorem
+\end_layout
+
+\begin_layout Standard
+This is an improved version of the CAP theorem, but is still oversimplified:
+\end_layout
+
+\begin_layout Itemize
+If network 
+\series bold
+P
+\series default
+artition: choose 
+\series bold
+A
+\series default
+vailability or 
+\series bold
+C
+\series default
+onsistency.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+E
+\series default
+lse: choose 
+\series bold
+L
+\series default
+atency or 
+\series bold
+C
+\series default
+onsistency.
+\end_layout
+
+\begin_layout Subsection
+More trade-offs
+\end_layout
+
+\begin_layout Itemize
+Consistency: read-your-writes, no lost updates, linearizability
+\end_layout
+
+\begin_layout Itemize
+Availability: for reads, for writes, handle availability zone failure
+\end_layout
+
+\begin_layout Itemize
+Partition-tolerance: for reads, for writes.
+\end_layout
+
+\begin_layout Itemize
+Durability: node failure does not result in data loss, writes are archived
+ in a timely manner.
+\end_layout
+
+\begin_layout Itemize
+Low latency: low read latency, low write latency, global latency VS local
+ latency.
+\end_layout
+
+\begin_layout Itemize
+Complexity: dependencies on other systems, multiple node types, optimizations.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
