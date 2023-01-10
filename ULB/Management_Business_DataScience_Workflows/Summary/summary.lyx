@@ -3801,10 +3801,1509 @@ name "fig:Sample-why-why-diagram."
 Quantitative Process Analysis
 \end_layout
 
+\begin_layout Standard
+Qualitative analysis is a valuable tool to gain systematic insights into
+ a process, but its results are sometimes not detailed enough to provide
+ a solid basis for decision making.
+ Now we are going to study techniques to analyze business processes quantitative
+ly in terms of process performance measures.
+ We will study flow analysis, queueing analysis and simulation.
+\end_layout
+
+\begin_layout Subsection
+Flow analysis
+\end_layout
+
+\begin_layout Standard
+Flow analysis is a family of techniques to estimate the overall performance
+ of a process given some knowledge about the performance of its tasks.
+\end_layout
+
+\begin_layout Subsubsection
+Cycle time
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+cycle time
+\series default
+ of a process is the average time it takes between the moment the process
+ starts and the moment it completes.
+\end_layout
+
+\begin_layout Definition
+The cycle time of a task is the average time it takes between the moment
+ the task starts and the moment it completes.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The process' cycle time can be computed if we know its tasks' cycle times,
+ but we have seen several types of flows a process can follow, and the computati
+ons vary for each of them:
+\end_layout
+
+\begin_layout Itemize
+The cycle time of a sequential fragment of a process is the sum of the cycle
+ times of the tasks in the fragment:
+\begin_inset Formula 
+\[
+CT=\sum_{i=1}^{n}T_{i}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado24.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The cycle time of the fragment of the process between the XOR-split and
+ the XOR-join is the weigthed average of the cycle times of the branches
+ in-between.
+ The term 
+\series bold
+branching probability
+\series default
+ denotes the frequency with which a given branch is taken:
+\begin_inset Formula 
+\[
+CT=\sum_{i=1}^{n}w_{i}T_{i},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ is branch probability of Task 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ This type of fragment is called a 
+\series bold
+XOR-block
+\series default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado25.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The cycle time of an 
+\series bold
+AND-block
+\series default
+, understood as the analogous of a XOR-block but with AND-gateways is computed
+ as the maximum of the cycle times of the branches in-between:
+\begin_inset Formula 
+\[
+CT=\max\left\{ T_{1},...,T_{n}\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado26.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The cycle time of a rework fragment with all the work between the XOR gates
+ is
+\begin_inset Formula 
+\[
+CT=\frac{T}{1-r},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $T$
+\end_inset
+
+ is the time taken for all the work between the gates and 
+\begin_inset Formula $r$
+\end_inset
+
+ is the probability of rework:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado27.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Let's define 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ as the average time taken after 
+\begin_inset Formula $n$
+\end_inset
+
+ steps of this segment.
+ Clearly, we have
+\begin_inset Formula 
+\[
+T_{1}=T,
+\]
+
+\end_inset
+
+ then, the second step takes 0 time with probability 
+\begin_inset Formula $1-r$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ time with probability 
+\begin_inset Formula $r$
+\end_inset
+
+, so
+\begin_inset Formula 
+\[
+T_{2}=T_{1}+0\times\left(1-r\right)+T\times r=T+rT.
+\]
+
+\end_inset
+
+ For the third, a similar reasoning gives
+\begin_inset Formula 
+\[
+T_{3}=T+rT+r^{2}T.
+\]
+
+\end_inset
+
+ Reasoning inductively, we have
+\begin_inset Formula 
+\[
+T_{n}=\sum_{i=0}^{n}r^{i}T.
+\]
+
+\end_inset
+
+ Also, note that the cycle time is the limit when 
+\begin_inset Formula $n$
+\end_inset
+
+ goes to infinity of this series
+\begin_inset Formula 
+\[
+CT=\lim_{n\rightarrow\infty}T_{n},
+\]
+
+\end_inset
+
+ and note that 
+\begin_inset Formula $\left\{ T_{n}\right\} _{n}$
+\end_inset
+
+ is a geometric series, so
+\begin_inset Formula 
+\[
+CT=\lim_{n\rightarrow\infty}T_{n}=\sum_{n\geq0}r^{n}T=\frac{T}{1-r}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, 
+\begin_inset Formula $r$
+\end_inset
+
+ is called the 
+\series bold
+rework probability
+\series default
+ and the block is called a 
+\series bold
+rework block
+\series default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If there is also work in the flow that goes back:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado28.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But this scenario can be rewritten as:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado31.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So the cycle time is
+\begin_inset Formula 
+\[
+CT=T_{A}+r\frac{T_{B}+T_{A}}{1-r}=\frac{T_{A}+rT_{B}}{1-r}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Computing the cycle time of a process.
+\end_layout
+
+\begin_layout Example
+Consider the process:
+\end_layout
+
+\begin_layout Example
+\begin_inset Graphics
+	filename example_cycletime.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+And compute its cycle time:
+\begin_inset Formula 
+\[
+CT=\frac{T_{1}}{1-0.2}+\max\left\{ T_{2,1},T_{2,2}\right\} +T_{3}+0.6\cdot T_{4,1}+0.4\cdot T_{4,2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Cycle time efficiency
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The cycle time can be divided into waiting time and processing time:
+\end_layout
+
+\begin_layout Definition
+
+\series bold
+Waiting time
+\series default
+ is the portion of the cycle time where no work is being done to advance
+ the process.
+\end_layout
+
+\begin_layout Definition
+
+\series bold
+Processing time
+\series default
+ refers to the time that participants spend doing actual work.
+\end_layout
+
+\begin_layout Definition
+The ratio of overall processing time relative to the overall cycle time
+ is called the 
+\series bold
+cycle time efficiency
+\series default
+:
+\begin_inset Formula 
+\[
+CTE=\frac{PT}{CT},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $PT$
+\end_inset
+
+ is the processing time, computed with the same rules as the cycle time,
+ but only with the processing time of each task.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $CTE$
+\end_inset
+
+ is close to 1, it indicates that there is little room for improving the
+ cycle time unless relatively radical cahnges are introduced in the process.
+ A ratio close to 0 indicates that there is a significant amount of room
+ for improving cycle time by reducing the waiting time.
+\end_layout
+
+\begin_layout Subsubsection
+Limitations
+\end_layout
+
+\begin_layout Standard
+Flow analysis has some limitations:
+\end_layout
+
+\begin_layout Enumerate
+Not all models are structured in blocks, and this difficults the computations.
+\end_layout
+
+\begin_layout Enumerate
+Cycle time analysis does not consider the rate at which new processes instances
+ are created (called arrival rate) nor the number of available resources,
+ even though they are a key factor in process performance.
+\end_layout
+
+\begin_layout Subsubsection
+Cycle time and work-in-progress
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+work-in-progress (WIP)
+\series default
+ is the average number of cases that are running at a time and it can be
+ considered as a form of waste.
+ There is an estimation for the WIP given by the Little's formula:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Little's formula
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+WIP=\lambda\cdot CT,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the arrival rate, or number of new cases per time unit, and 
+\begin_inset Formula $CT$
+\end_inset
+
+ is the cycle time.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This formula can be an interesting tool for what-if analysis and for calculating
+ the total cycle time of a process if we know the arrival rate and the WIP.
+\end_layout
+
+\begin_layout Subsection
+Queueing analysis
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Queueing theory
+\series default
+ is a collection of mathematical techniques to analyze systems that have
+ resource contention.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+A 
+\series bold
+queueing system
+\series default
+ consists of one or multiple 
+\series bold
+queues
+\series default
+ and a 
+\series bold
+service
+\series default
+ that is provided by one or multiple 
+\series bold
+servers
+\series default
+.
+ The elements inside a queue are called 
+\series bold
+jobs or customers
+\series default
+, depending on the specific context.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are going to study two models in which there is a single queue involved.
+ In both of them, instances arrive at a given average 
+\series bold
+arrival time
+\series default
+ 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ Related to this measure we have the mean 
+\series bold
+inter-arrival time
+\series default
+, which is its inverse, 
+\begin_inset Formula $\frac{1}{\lambda}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We would model the arrival process as a 
+\series bold
+Poisson process
+\series default
+, meaning the distribution of arrivals follows an 
+\series bold
+exponential distribution
+\series default
+ with mean 
+\begin_inset Formula $\frac{1}{\lambda}$
+\end_inset
+
+.
+ This means that the probability that the inter-arrival time is exactly
+ equal to 
+\begin_inset Formula $t$
+\end_inset
+
+ decreases in an exponential manner when 
+\begin_inset Formula $t$
+\end_inset
+
+ increases.
+\end_layout
+
+\begin_layout Standard
+Exponential distributions are not only useful when modeling the inter-arrival
+ time, but also when describing the processing time of a task.
+ In queueing theory, sometimes the processing time is called 
+\series bold
+service time
+\series default
+ instead.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A single-queue system is an 
+\series bold
+M/M/1 queue
+\series default
+ if:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The inter-arrival times of customers follow an exponential distribution.
+\end_layout
+
+\begin_layout Itemize
+The processing times follow an exponential distribution.
+\end_layout
+
+\begin_layout Itemize
+There is only one server.
+\end_layout
+
+\begin_layout Itemize
+Instances are served on a FIFO
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+First In First Out.
+\end_layout
+
+\end_inset
+
+ basis.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A single-queue system is an 
+\series bold
+M/M/c queue
+\series default
+ if it satisfies the conditions of a M/M/1 queue but has 
+\begin_inset Formula $c$
+\end_inset
+
+ servers instead of 1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 'M' in these names stands for 
+\emph on
+Markovian
+\emph default
+, which is the name given to the assumptions that inter-arrival times and
+ processing times follow an exponential distribution.
+\end_layout
+
+\begin_layout Subsubsection
+M/M/1 and M/M/c models
+\end_layout
+
+\begin_layout Standard
+An M/M/1 queue or M/M/c queue can be defined by means of the following parameter
+s:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the mean arrival rate per time unit.
+\end_layout
+
+\begin_layout Itemize
+The mean inter-arrival time is 
+\begin_inset Formula $\frac{1}{\lambda}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mu$
+\end_inset
+
+ is the 
+\series bold
+theoretical capacity per server
+\series default
+, i.e., the number of instances that a server can execute per time unit.
+\end_layout
+
+\begin_layout Standard
+Given 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu$
+\end_inset
+
+, the 
+\series bold
+resource utilization
+\series default
+ is
+\begin_inset Formula 
+\[
+\rho=\frac{\lambda}{c\mu},
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $c=1$
+\end_inset
+
+ in the M/M/1 case.
+ 
+\end_layout
+
+\begin_layout Standard
+With this information, we can compute the following parameters:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L_{q}$
+\end_inset
+
+ is the average number of instances in the queue.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $W_{q}$
+\end_inset
+
+ is the average time one instance spends in the queue.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $W$
+\end_inset
+
+ is the average time one instances spends in the entire system, including
+ both the time the instance spends in the queue and the time it spends being
+ serviced.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L$
+\end_inset
+
+ is the average number of instances in the system (equivalent to the WIP).
+\end_layout
+
+\begin_layout Standard
+The formulas are:
+\begin_inset Formula 
+\[
+L_{q}=\frac{\left(\frac{\lambda}{\mu}\right)^{c}\rho}{c!\left(1-\rho\right)^{2}\left(\frac{\left(\frac{\lambda}{\mu}\right)^{c}}{c!\left(1-\rho\right)}+\sum_{n=0}^{c-1}\frac{\left(\frac{\lambda}{\mu}\right)^{n}}{n!}\right)},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+W_{q}=\frac{L_{q}}{\lambda},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+W=W_{q}+\frac{1}{\mu},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+L=\lambda W.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that for 
+\begin_inset Formula $c=1$
+\end_inset
+
+ the formula for 
+\begin_inset Formula $L_{q}$
+\end_inset
+
+ simplifies to
+\begin_inset Formula 
+\[
+L_{q}=\frac{\rho^{2}}{1-\rho}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note also that the model needs 
+\begin_inset Formula $\lambda<\mu$
+\end_inset
+
+.
+ This means that there is enough capacity to handle all the instances.
+\end_layout
+
+\begin_layout Subsection
+Process simulation
+\end_layout
+
+\begin_layout Standard
+Process simulation is the most popular and widely supported technique for
+ quantitative analysis of process models.
+ The essential idea is to use the process simulator for generating a large
+ number of hypothetical instances of a process, executing these instances
+ step by step, and recording each step in this execution.
+ The output of a simulator then includes the logs of the simulation as well
+ as statistics of cycle times, average waiting times, and average resource
+ utilization.
+\end_layout
+
+\begin_layout Standard
+The steps to follow are:
+\end_layout
+
+\begin_layout Enumerate
+Model the process with the tools that we saw in previous sections.
+\end_layout
+
+\begin_layout Enumerate
+Define a simulation scenario:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Input the processing times of the different activities.
+ It can be a fixed value or be modeled as a probability distribution.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Fixed: when the activity processing time varies very little.
+\end_layout
+
+\begin_layout Enumerate
+Normal distribution: for repetitive activities for which we know the mean
+ and standard deviation.
+\end_layout
+
+\begin_layout Enumerate
+Exponential distribution: complex activities that may involve detailed analyses
+ or decisions for which we know the mean.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Conditional branching probabilities.
+\end_layout
+
+\begin_layout Enumerate
+Arrival rate of process instances and probability distribution.
+ It is usual to use an exponential distribution with mean the inter-arrival
+ time (the inverse of the arrival time).
+\end_layout
+
+\begin_layout Enumerate
+Define resource pools: name, size, cost per time unit per resource and availabil
+ity (schedule, calendar).
+\end_layout
+
+\begin_layout Enumerate
+Assign the different tasks to the appropriate resource pools.
+\end_layout
+
+\begin_layout Standard
+With simulation, we get statistical information, which some tools show very
+ nicely, similarly to what is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Sample-output-of"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado32.png
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sample output of a simulation using BIMP.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Sample-output-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Pitfalls of simulation
+\end_layout
+
+\begin_layout Itemize
+Stochasticity: simulation results can differ from one run to another.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Solutions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Make the simulation large enough to cover weekly and seasonal variability.
+\end_layout
+
+\begin_layout Itemize
+Perform several runs and average the results to compute confidence intervals.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Data quality: simulations results are only as reliable as the input data.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Solutions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Don't use guesses as estimations: use statistical tools to check if the
+ distributions fit the data and take measures.
+\end_layout
+
+\begin_layout Itemize
+Simulate the as-is scenario and cross-check results against actual observations.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+There are many simplifying assumptions that need to be made.
+\end_layout
+
 \begin_layout Section
 Process Redesign
 \end_layout
 
+\begin_layout Standard
+Business process redesign is a broad term that refer to the variety of changes
+ made in a process to improve some aspects of it.
+ As the number of possible changes is virtually infinite, it is useful to
+ distinguish small and simple changes from complex changes or big changes
+ in a process.
+ Dumas et al focus only in the latter types of changes, in which processes
+ suffer severe changes and which can lead to improvements in a variety of
+ levels.
+ 
+\end_layout
+
+\begin_layout Standard
+To exemplify this, assume we are working on the improvement of a request-to-reso
+lution process.
+ A minor change would be hiring more workers to some department to reduce
+ waiting times or to change the location of this department inside the building
+ of the company.
+ On the other hand, a more complex change that could be encapsulated into
+ process redesign could be implementing a digitized form to make the request
+ instead of using paper forms.
+ The first changes would not be considered as process redesign by the authors,
+ but the latter would.
+ 
+\end_layout
+
+\begin_layout Standard
+As process analysis, process redesign is both an art and a science.
+ Even though general guidelines and use cases are known to work in a variety
+ of scenarios, there is no ’one fits all’ solution, and it is a task of
+ the process engineer to study thoroughly the case at hand, using the general
+ tools that are already known, the analysis performed of the process, the
+ business knowledge of the specific case and his wit and experience.
+ 
+\end_layout
+
+\begin_layout Standard
+Generally speaking, process redesign methods are classified into two categories:
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transformational redesign
+\series default
+: puts into question the fundamental assumptions and principles of the existing
+ process structure, aiming to achieve breakthrough innovation.
+ This means that we try to change our understanding of the process objectives
+ and techniques, in order to completely change how we are doing things and
+ leading to deep improvements.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transactional redesign
+\series default
+: does not put into question the current process structure, but rather tries
+ to identify problems and solve them incrementally, improving performance
+ metrics of the process.
+ 
+\end_layout
+
+\begin_layout Subsection
+Business Process Reengineering (BPR)
+\end_layout
+
+\begin_layout Standard
+BPR is considered the first call for the redesign of business processes
+ and the first attempt to identify enduring patterns for this endeavor.
+ One of the core concepts in this method is that is assumes a clean slate
+ for the design of a process.
+\end_layout
+
+\begin_layout Standard
+BPR has identified some patterns that appear repeatedly in bad-performing
+ cases.
+ The study of these patterns led to the definition of some principles to
+ tackle the redesign process:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Principle 1) 
+\end_layout
+
+\end_inset
+
+ Make sure that information is captured fresh, at the moment it is produced,
+ and at the source by the stakeholder who is producing it.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Principle 2)
+\end_layout
+
+\end_inset
+
+ Information processing work, i.e.
+ work that involves capturing or processing information, is to be integrated
+ with the real work where this information is produced.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Principle 3)
+\end_layout
+
+\end_inset
+
+ Those who have an interest in the output of a process should not only participa
+te in it but potentially drive it all the way.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Principle 4)
+\end_layout
+
+\end_inset
+
+ Put every decision point in a process preferably at the place where work
+ is performed.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Principle 5)
+\end_layout
+
+\end_inset
+
+ Treat geographically dispersed resources as if they were centralized.
+ 
+\end_layout
+
+\begin_layout Subsection
+Heuristics for transactional redesign
+\end_layout
+
+\begin_layout Subsubsection*
+Devil's quadrangle
+\end_layout
+
+\begin_layout Standard
+The Devil's quadrangle is a visual tool based on the four performance dimensions
+: time, cost, quality and flexibility.
+ In an ideal world, a business process redesign decreases the time required
+ to handle a case, lowers the required cost of executing the process, improves
+ the quality of the service delivered and increases the resilience of the
+ business process to deal with variation.
+\end_layout
+
+\begin_layout Standard
+But the Devil's quadrangle suggests that improving a process along one dimension
+ may very well weaken its performance along another.
+ A sample Devil's quadrangle is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Sample-Devil's-quadrangle."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename devil_quadrangle.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sample Devil's quadrangle.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Sample-Devil's-quadrangle."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We know very well the meaning of Time, Cost and Quality, but the term flexibilit
+y needs to be explained at this points:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Flexibility
+\series default
+: ability to react to changes in workload, customer demands and expectations
+ and resource and business partness availability and performance.
+ Thus, flexibility is required at resource level, process level and management
+ level.
+\end_layout
+
+\begin_layout Subsubsection*
+Redesign heuristics
+\end_layout
+
+\begin_layout Standard
+As we said before, there are techniques or heuristics developed to redesign
+ processes and thought to work in a variety of scenarios.
+ We are going to name them according to Appendix A in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dumas_2018"
+literal "false"
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For those which we have seen in class, we are adding a label, indicating
+ if the heuristic is task-level (TL), flow-level (FL) or process-level (PL).
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Customer heuristics: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Control relocation
+\emph default
+: move controls towards the customer.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Contact reduction
+\emph default
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This heuristic is not in the book, but we have seen it in the lectures with
+ the name of communication optimization.
+\end_layout
+
+\end_inset
+
+ (PL): reduce the number of contacts with customer and third parties.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Integration
+\emph default
+: consider the integration with a business process of the customer or a
+ supplier.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Business process operation heuristics
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Case types
+\emph default
+: determine whether activities are related to the same type of case and
+ distinguish new business processes.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Activity elimination
+\emph default
+ (TL): eliminate unnecessary activities from a business process.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Case-based work
+\emph default
+: remove batch-processing and periodic activities.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Triage
+\emph default
+ (TL): split an activity into alternative versions.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Activity composition
+\emph default
+ (TL): combine small activities into composite activities.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Business process behavior heuristics
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Resequencing
+\emph default
+ (FL): move activities to their appropriate place.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Parallelism
+\emph default
+ (FL): put activities in parallel.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Knock-out
+\emph default
+: order knock-outs in an increasing order of effort and in a decreasing
+ order of termination probability.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Exception
+\emph default
+: design business processes for typical cases and isolate exceptional cases
+ from the normal flow.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Organization heuristics
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Case assignment
+\emph default
+: let participants perform as many steps as possible.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Flexible assignment
+\emph default
+: keep generic participants free for as long as possible.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Centralization
+\emph default
+: let geographically dispersed participants act as if they are centralized.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Split responsibilities
+\emph default
+: avoid shared responsibilities for tasks by people from different functional
+ units.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Customer teams
+\emph default
+: consider composing work teams of people from different departments that
+ will take care of the complete handling of specific sorts of cases.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Numerical involvement
+\emph default
+: minimize the number of departments, groups and persons involved in a business
+ process.
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Process Monitoring and Mining
 \end_layout
