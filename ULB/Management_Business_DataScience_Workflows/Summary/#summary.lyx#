@@ -5737,6 +5737,10 @@ split miner
  to turn process maps into process models.
 \end_layout
 
+\begin_layout Subsubsection
+Conformance checking
+\end_layout
+
 \begin_layout Standard
 If we have the original model, we can compare the discovered model and the
  original one using 
@@ -5762,7 +5766,11 @@ When task A occurs, B must also occur.
 \end_layout
 
 \begin_layout Itemize
-Tasks A and B acnnot be executed by the same person.
+Tasks A and B acnnot be executed by the same person (
+\series bold
+four-eyes principle
+\series default
+).
 \end_layout
 
 \begin_layout Itemize
@@ -5832,11 +5840,22 @@ Assess impact on process performance.
 \end_layout
 
 \begin_layout Standard
-We can follow the template in Table
+We can follow the template in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Conformance-Checking:-analysis"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -5846,8 +5865,8 @@ status open
 \begin_inset Tabular
 <lyxtabular version="3" rows="10" columns="2">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top" width="10cm">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top" width="8cm">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -6019,40 +6038,43 @@ Resource compliance checking
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Check four-eyes principles or same-case-handler principle
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Use Path filter and require the same resource
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Check if an activity has been performed by a resource who should not do
+ so
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Use the Attribute filter and search with 'Activity' as the primary attribute
+ and 'Resource' as secondary attribute to check if a resource performed
+ an activity they were not supposed to
 \end_layout
 
 \end_inset
@@ -6084,7 +6106,890 @@ name "tab:Conformance-Checking:-analysis"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Performance mining
+\end_layout
+
+\begin_layout Standard
+Process performance mining consists on extracting process execution performance
+ in an aggregate or detailed level.
+ There are different techniques that can be used:
+\end_layout
+
+\begin_layout Itemize
+Duration-enhanced process maps.
+\end_layout
+
+\begin_layout Itemize
+Duration-enhanced BPMN models.
+\end_layout
+
+\begin_layout Itemize
+Process performance dashboards.
+\end_layout
+
+\begin_layout Standard
+And we can analyze bottlenecks, workloads and rework.
+\end_layout
+
+\begin_layout Subsubsection*
+Bottleneck analysis in the activity perspective
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+resource-capacity bottleneck 
+\emph default
+can be detected when we see an activity in a process map whose incoming
+ arcs are all slow.
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+slow handoff
+\emph default
+ between activities can be detected when we see two consecutive activies
+ whose connecting arc is very slow.
+\end_layout
+
+\begin_layout Standard
+An 
+\emph on
+activity bottleneck
+\emph default
+ can be detected when we see an activity that is slow.
+\end_layout
+
+\begin_layout Subsubsection*
+Bottleneck analysis in the resource perspective
+\end_layout
+
+\begin_layout Standard
+If we see a process map from the point of view of the resources used, we
+ can detect a 
+\emph on
+resource bottleneck
+\emph default
+ when a resource is very slow and 
+\emph on
+slow handoffs
+\emph default
+ between specific resources when the connecting arc between two resources
+ is slow.
+\end_layout
+
+\begin_layout Subsubsection*
+Workload analysis
+\end_layout
+
+\begin_layout Standard
+We can define:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Potentially overused resources
+\series default
+ as those with high total frequency and/or high total duration.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Potentially undersued resources
+\series default
+ are those with low total frequency and/or low total duration.
+\end_layout
+
+\begin_layout Subsubsection*
+Rework analysis
+\end_layout
+
+\begin_layout Standard
+Rework is the repetition of activities within the same case.
+ It can happen in several forms:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Self loop
+\series default
+: an activity is repeated 
+\begin_inset Formula $n$
+\end_inset
+
+ times in a row.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Short loop
+\series default
+: two activities are repeated one after the other.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Indirect repetition (loop)
+\series default
+: several activities are executed several times in sequence.
+\end_layout
+
+\begin_layout Standard
+To analyze repetitions, one can try to answer:
+\end_layout
+
+\begin_layout Itemize
+What type of repetition is present?
+\end_layout
+
+\begin_layout Itemize
+How often is an activity / series of activities repeated?
+\end_layout
+
+\begin_layout Itemize
+How many cases showcase this repetition? How often does it occur?
+\end_layout
+
+\begin_layout Itemize
+Which cases are affected? How do they differ from cases where there is no
+ repetition?
+\end_layout
+
+\begin_layout Standard
+To assess the impact of rework on process performance, we should apply filtering
+ to isolate cases that are affected by rework.
+\end_layout
+
+\begin_layout Standard
+We can follow the template in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Performance-Checking:-analysis"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
 \begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top" width="8cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+What?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+How?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bottleneck analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In the process map, select the duration overlay: activity bottlenecks have
+ long processing time; slow handoffs between activities are arcs with long
+ waiting times; resource-capacity bottlenecks relate to activities with
+ all/most incoming arcs with long waiting times
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.
+ Identify activity bottleneck
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Switch to the resources perspective in the map: slow handoffs between resources
+ are arcs with long waiting times; resource bottlenecks are resources with
+ long average duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.
+ Identify waiting bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use slider with average duration to focus on slowest or fastest nodes/arcs
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.
+ Identify resource bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use activities tab in dashboard to visualize activity processing times
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use animation plugin to visualize the build-up of bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Workload analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In the resources perspective: overused resources have high total frequency
+ or high total duration; underused resources have low total frequency and
+ low total duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identify overused and undersused resources
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use also the resources tab in dashboard to visualize resource workload distribut
+ion
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analyze resource worjload
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use filtering to focus on cases where the resources with the highest workload
+ are involved
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Rework analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the max frequency overlay in the process map to visualize the max amount
+ of repetitions of each activity / transition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identify defects/errors and rework waste
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the case > rework & repetition filter to retain cases with activity
+ repetition; use the case > path filter with eventually-follows relation
+ between an activity and itself to isolate cases with specific loops
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the chart in the activities dashboard to visualize the distribution
+ of max activity frequencies per case
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Performance-Checking:-analysis"
+
+\end_inset
+
+ Performance Mining: analysis template
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Variant analysis
+\end_layout
+
+\begin_layout Standard
+Variant analysis consists of, given two or more logs representing variants
+ of the same process, finding the differences and root causes for variation
+ or deviation between the logs.
+\end_layout
+
+\begin_layout Standard
+This kind of comparison of process variants offers insights into the 'why':
+ why do certain process cases differ from others? Why some take longer than
+ others? Why some end succesfully, while others don't? Why is emplouee X
+ more efficient and more successful when it comes to their activities than
+ others?
+\end_layout
+
+\begin_layout Standard
+We can tackle this tasks wirh different objectives in mind:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Performance
+\series default
+: identify and compare variants based on performance measures and their
+ targets.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Logical
+\series default
+: identify and compare variants based on case attributes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Temporal
+\series default
+: identify and compare variants based on different log timeframes.
+\end_layout
+
+\begin_layout Standard
+The approach is as follows:
+\end_layout
+
+\begin_layout Enumerate
+Apply the same filter, one per variant, to isolate the respective sublog:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Performance: use Case > Performance filter
+\end_layout
+
+\begin_layout Enumerate
+Logical: use Case > Attribute filter
+\end_layout
+
+\begin_layout Enumerate
+Temporal: use Case > Timeframe filter
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Save filtered process map and BPMN back to the repository.
+\end_layout
+
+\begin_layout Enumerate
+Analyze the variants using one or more analysis techniques.
+\end_layout
+
+\begin_layout Standard
+The comparison can be done visually using maps or BPMN models in order to
+ identify structural differences.
+\end_layout
+
+\begin_layout Standard
+The comparison can be done via dashboard and satistics.
+\end_layout
+
+\begin_layout Standard
+We can follow the template in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Performance-Checking:-analysis-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top" width="8cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+What?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+How?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bottleneck analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In the process map, select the duration overlay: activity bottlenecks have
+ long processing time; slow handoffs between activities are arcs with long
+ waiting times; resource-capacity bottlenecks relate to activities with
+ all/most incoming arcs with long waiting times
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.
+ Identify activity bottleneck
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Switch to the resources perspective in the map: slow handoffs between resources
+ are arcs with long waiting times; resource bottlenecks are resources with
+ long average duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.
+ Identify waiting bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use slider with average duration to focus on slowest or fastest nodes/arcs
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.
+ Identify resource bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use activities tab in dashboard to visualize activity processing times
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use animation plugin to visualize the build-up of bottlenecks
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Workload analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In the resources perspective: overused resources have high total frequency
+ or high total duration; underused resources have low total frequency and
+ low total duration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identify overused and undersused resources
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use also the resources tab in dashboard to visualize resource workload distribut
+ion
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analyze resource worjload
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use filtering to focus on cases where the resources with the highest workload
+ are involved
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Rework analysis
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the max frequency overlay in the process map to visualize the max amount
+ of repetitions of each activity / transition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identify defects/errors and rework waste
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the case > rework & repetition filter to retain cases with activity
+ repetition; use the case > path filter with eventually-follows relation
+ between an activity and itself to isolate cases with specific loops
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Use the chart in the activities dashboard to visualize the distribution
+ of max activity frequencies per case
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Performance-Checking:-analysis-1"
+
+\end_inset
+
+ Performance Mining: analysis template
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
