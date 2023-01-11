@@ -7995,11 +7995,2281 @@ Alternatives in Task-Artifacts graphs
 \end_layout
 
 \begin_layout Standard
-So far i
+In the task-artifacts graphs, it is possible to find several paths to obtain
+ the same artifact.
+ So, we need to decide:
+\end_layout
+
+\begin_layout Itemize
+If we reuse an artifact or recompute it.
+\end_layout
+
+\begin_layout Itemize
+Which path to follow to reach the artifact.
+\end_layout
+
+\begin_layout Standard
+For this, we can use 
+\series bold
+AND/OR graphs
+\series default
+, which are an abstraction to represent alternatives in workflows:
+\end_layout
+
+\begin_layout Itemize
+An 
+\series bold
+OR node
+\series default
+ means that there are alternative ways to reach the node, and only one incoming
+ edge is necessary.
+ All artifacts are OR nodes but most of them have only one alternative.
+\end_layout
+
+\begin_layout Itemize
+An 
+\series bold
+AND node
+\series default
+ means that the node requires all incoming edges.
+ All tasks are AND nodes.
+\end_layout
+
+\begin_layout Standard
+Taking the optimal decision for each OR node is also a NP-hard problem.
 \end_layout
 
 \begin_layout Section
 Responsible Data Science
+\end_layout
+
+\begin_layout Standard
+Responsible data science is the practice of using data and data-driven technique
+s in a way that is ethical, transparent and respectful of the rights and
+ interests of individuals and society.
+ The key concepts of this topic are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Data privacy and security
+\series default
+: to protect sensitive data of individuals.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transparency
+\series default
+: about data sources, methods used and limitations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ethical principles
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Human control
+\series default
+: allowing them to understand the processes.
+\end_layout
+
+\begin_layout Subsection
+Data privacy
+\end_layout
+
+\begin_layout Subsubsection
+Data publishing
+\end_layout
+
+\begin_layout Standard
+Several agencies, institutions, bureaus and organizations make data involving
+ people publicly available.
+ This is called 
+\series bold
+microdata
+\series default
+, and to protect privacy of the individuals it must be anonymized (e.g.
+ explicit indentifiers are removed).
+\end_layout
+
+\begin_layout Standard
+Nonetheless, this data is susceptible to 
+\series bold
+link attacks
+\series default
+, which consist on using information about targeted individuals to filter
+ them from microdata and get sensitive information from this data, such
+ as which diseases this person has or which properties they own.
+\end_layout
+
+\begin_layout Standard
+The attributes of microdata are classified as:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Explicit identifiers
+\series default
+: which are removed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Quasi identifiers
+\series default
+, 
+\series bold
+QI
+\series default
+: are those attributes that attackers can use to identify a target (e.g.
+ there are few people in the same zipcode, with the same birthdate).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sensitive
+\series default
+: are those attribute that carry sensitive information about the individuals.
+\end_layout
+
+\begin_layout Standard
+There are some techniques to increase anonymity:
+\end_layout
+
+\begin_layout Subsubsection*
+k-anonymity
+\end_layout
+
+\begin_layout Standard
+Privacy can be preserved using k-anonymity, which hides each individual
+ among k-1 others.
+ The process is as follows:
+\end_layout
+
+\begin_layout Itemize
+Each QI set of values should appear at least k times in the released microdata.
+\end_layout
+
+\begin_layout Itemize
+This avoids linking to be performed with confidence greater than 
+\begin_inset Formula $\frac{1}{k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Sensitive attributes are not considered for this.
+\end_layout
+
+\begin_layout Standard
+This can be achieved in several ways:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Generalization
+\series default
+: publish more general values (given a domain hierarchy, roll-up).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Suppresion
+\series default
+: remove a bounded amount of tuplpes.
+\end_layout
+
+\begin_layout Standard
+One could think on modifying some tuples by perturbing the data, but this
+ should not be done: we should remain truthful to the original values.
+\end_layout
+
+\begin_layout Standard
+Here, we can see a tradeoff between privacy and utility: the more privacy
+ we give to individuals, the less utility we can find on the data.
+ This means we don't want to anonymize more than necessary.
+\end_layout
+
+\begin_layout Standard
+k-anonymity presents some flaws:
+\end_layout
+
+\begin_layout Itemize
+It is susceptible to an 
+\series bold
+homogeneity attack
+\series default
+, in which some group is find to share the values of the sensitive attributes.
+ This way, if the attackers are able to determine in which group their target
+ lies, they could infer the sensitive data.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Original data
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zipcode
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+National
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disease
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30430
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Spain
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Heart disease
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30450
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Japan
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Viral infection
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28500
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+55
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Belgium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cancer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28520
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+60
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Belgium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cancer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2-anonymous data
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zipcode
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+National
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disease
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+304**
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+<40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+Heart disease
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+304**
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+<40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+Viral infection
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+285**
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+>40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+Cancer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+285**
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+>40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+Cancer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this example, the homogeneity attack could be used in the red group.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The attackers could use 
+\series bold
+background knowledge
+\series default
+ to increase their confidence of getting a good results.
+ In the example above, using the fact that japanese are less likely to suffer
+ from heart diseases, the attackers could infer that their target is the
+ record with ID 2.
+\end_layout
+
+\begin_layout Standard
+So it seems reasonable to also take the sensitive attributes into consideration
+ at the moment of anonymization.
+\end_layout
+
+\begin_layout Subsubsection*
+l-Diversity
+\end_layout
+
+\begin_layout Standard
+In this case, we want to also make sure that each group contains well represente
+d sensitive values to protect them from homogeinity attacks and background
+ knowledge.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A group is 
+\begin_inset Formula $l-diverse$
+\end_inset
+
+ if the most frequent sensitive value appears at most 
+\begin_inset Formula $\frac{1}{l}$
+\end_inset
+
+ times in the group.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Differential privacy
+\end_layout
+
+\begin_layout Standard
+Differential privacy protects the privacy of individuals by adding noise
+ or perturbation in a controlled way.
+ The goal is to make it difficult to determine the presence or absence of
+ any particular individual.
+\end_layout
+
+\begin_layout Standard
+This is a mathematical framework that provides a wat to measure the privacy
+ loss of a given dataset.
+\end_layout
+
+\begin_layout Standard
+It allows for the creation of algorithms that can analyze datasets while
+ still preserving the privacy of individuals within the dataset and provides
+ a way to balance the trade-off between utility and privacy.
+\end_layout
+
+\begin_layout Standard
+Consider an algorithm that tajes as input a dataset 
+\begin_inset Formula $D$
+\end_inset
+
+ and produces as output a function 
+\begin_inset Formula $f\left(D\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The algorithm 
+\begin_inset Formula $f$
+\end_inset
+
+ is said to be 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+-differentially private is, for all datasets 
+\begin_inset Formula $D,D'$
+\end_inset
+
+ that differ in at most one elment, and for all outcomes 
+\begin_inset Formula $S$
+\end_inset
+
+ of the range of 
+\begin_inset Formula $f$
+\end_inset
+
+, it holds:
+\begin_inset Formula 
+\[
+\frac{Pr\left[f\left(D\right)=S\right]}{Pr\left[f\left(D'\right)=S\right]}\leq e^{\varepsilon}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Intuitively, the presence or absence of a single element in the dataseet
+ should not significantly affect the outcome of the function 
+\begin_inset Formula $f$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ parameter is called the 
+\series bold
+privacy parameter
+\series default
+ or 
+\series bold
+privacy budget
+\series default
+ and provides a knob to tune the 'amount of privacy', with a higher privacy
+ when the smaller the privacy budget is.
+\end_layout
+
+\begin_layout Subsection
+Explainability
+\end_layout
+
+\begin_layout Standard
+Explainability in the context of data science refers to the ability to understan
+d and interpret the decisions made by machine learning (ML) models.
+ It is important because many ML models are complex and their decision-making
+ process is not transparent, making it difficult to understand why a particular
+ decision or prediction was made.
+\end_layout
+
+\begin_layout Standard
+Explainability is essential in many applications, particularly in sensitive
+ areas such as healthcare, finance, and criminal justice, where the decisions
+ made by models can have a significant impact on people's lives.
+ In addition, explainability is crucial for building trust in ML models
+ and ensuring that they are used ethically and responsibly.
+\end_layout
+
+\begin_layout Standard
+There are different ways to achieve explainability in ML models, and different
+ levels of explainability.
+\end_layout
+
+\begin_layout Itemize
+Model-agnostic approaches: These approaches provide explanations for any
+ ML model regardless of its architecture.
+ Some popular methodologies are LIME (Local Interpretable Model-agnostic
+ Explanations) and SHAP (SHapley Additive exPlanations) 
+\end_layout
+
+\begin_layout Itemize
+Model-specific approaches: These approaches are usually applied to particular
+ types of models, such as decision trees, linear models or deep neural networks.
+ For example, Decision trees and linear models can be visualized in the
+ form of a tree or a set of weights.
+ 
+\end_layout
+
+\begin_layout Standard
+Additionally, there are different levels of explainability, depending on
+ how much information about the model's decision-making process is provided:
+\end_layout
+
+\begin_layout Itemize
+Global explanation: This refers to an overall understanding of how the model
+ works and how it processes input data.
+ 
+\end_layout
+
+\begin_layout Itemize
+Local explanation: This refers to an understanding of how the model arrived
+ at a specific decision or prediction for a specific input.
+ 
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+white box system
+\series default
+ is a type of machine learning (ML) system that is designed to be transparent
+ and interpretable, meaning that its internal workings and decision-making
+ process can be easily understood by humans.
+ White box systems are typically simpler in terms of architecture and are
+ composed of models that are easy to interpret, such as linear regression
+ or decision trees.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+black box system
+\series default
+, on the other hand, is a type of ML system that is designed to be opaque
+ and not interpretable, meaning that its internal workings and decision-making
+ process are difficult or impossible for humans to understand.
+ Black box systems are typically more complex in terms of architecture and
+ are composed of models that are difficult to interpret, such as deep neural
+ networks or gradient boosting models.
+\end_layout
+
+\begin_layout Subsubsection
+Local proxy models
+\end_layout
+
+\begin_layout Standard
+A local proxy model is a type of model that is used to explain the predictions
+ made by a black-box machine learning (ML) model.
+ The idea behind using a local proxy model is to approximate the behavior
+ of the black-box model in a specific region of the input space, where the
+ black-box model is difficult to interpret.
+ The goal is to provide a simpler, interpretable model that can be used
+ to understand how the black-box model is making decisions in that region.
+\end_layout
+
+\begin_layout Standard
+A local proxy model is typically a simple and interpretable model, such
+ as a linear regression or a decision tree, that is trained on a subset
+ of the data used to train the black-box model.
+ The subset of data is chosen so that it corresponds to the region of the
+ input space where the black-box model's behavior is difficult to interpret.
+\end_layout
+
+\begin_layout Standard
+Once the local proxy model is trained, it can be used to approximate the
+ behavior of the black-box model in the region of the input space of interest.
+ For example, it can be used to make predictions and to provide explanations
+ for the black-box model's predictions in that region.
+\end_layout
+
+\begin_layout Standard
+The key advantage of using a local proxy model is that it can provide insights
+ into how the black-box model is making decisions, which can be difficult
+ or impossible to obtain from the black-box model itself.
+ This can be particularly useful when the black-box model is a complex model,
+ such as a deep neural network, which is difficult to interpret.
+\end_layout
+
+\begin_layout Subsubsection
+Counterfactual explanations
+\end_layout
+
+\begin_layout Standard
+Counterfactual explanations are a way to understand the decisions made by
+ a black-box machine learning (ML) system by providing examples of what
+ input features would need to be changed in order for the system to produce
+ a different output.
+ This can help to understand the underlying causal relationships between
+ input features and output decisions, and can provide insight into how the
+ system is making decisions.
+\end_layout
+
+\begin_layout Standard
+The main idea behind counterfactual explanations is to find the minimum
+ changes in the input that would cause the model to make a different prediction
+ while keeping the changes as small and realistic as possible.
+\end_layout
+
+\begin_layout Standard
+Once a counterfactual explanation is found, it can be used to understand
+ how the system is making decisions.
+ For example, if a counterfactual explanation shows that changing a specific
+ input feature would result in a different output decision, it suggests
+ that this input feature is important in the decision-making process of
+ the system.
+\end_layout
+
+\begin_layout Subsection
+Fairness
+\end_layout
+
+\begin_layout Standard
+Fairness in the context of data science refers to the idea that a machine
+ learning (ML) model should make decisions that are unbiased and equitable
+ across different groups of individuals or entities.
+ In other words, the model should not discriminate against certain groups
+ based on their protected characteristics, such as race, gender, or age.
+\end_layout
+
+\begin_layout Standard
+There are different ways to measure and quantify fairness in ML models.
+ Some popular fairness metrics are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Demographic Parity
+\series default
+: This metric measures whether the positive prediction rate (or the acceptance
+ rate) is the same across different groups.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equal Opportunity
+\series default
+: This metric measures whether the true positive rate (or the positive predictio
+n rate for the true positive class) is the same across different groups.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Statistical Parity Difference
+\series default
+: This metric measures the difference in the positive prediction rate (or
+ the acceptance rate) across different groups.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Theil Index
+\series default
+: This is a generalization of Gini coefficient, used to measure economic
+ inequality, for measuring group fairness.
+ 
+\end_layout
+
+\begin_layout Standard
+It's important to note that these metrics are not mutually exclusive and
+ it's common to use multiple metrics to evaluate the fairness of a model.
+ Furthermore, not all fairness metrics are appropriate for all use cases,
+ and the choice of fairness metric should be tailored to the specific domain
+ and context of the problem.
+\end_layout
+
+\begin_layout Standard
+Additionally, there are different techniques to make a model fairer.
+ Some popular techniques are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pre-processing techniques
+\series default
+: Such as re-sampling or re-weighting the data, or removing sensitive features.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+In-processing techniques
+\series default
+: Such as adding a fairness constraint to the optimization problem, or using
+ adversarial training.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Post-processing techniques
+\series default
+: Such as thresholding the model's decisions or adjusting the classifier's
+ decision boundary.
+ 
+\end_layout
+
+\begin_layout Standard
+Ensuring fairness in ML models is important because unfair or biased decisions
+ can lead to negative consequences for certain groups of individuals, such
+ as discrimination, marginalization, or reduced access to opportunities
+ or resources.
+\end_layout
+
+\begin_layout Subsubsection
+Fairness in classification
+\end_layout
+
+\begin_layout Standard
+We assume here binary classification and we want to ensure group fairness
+ between a protected group and a non-protected group.
+ 
+\end_layout
+
+\begin_layout Standard
+Assume that some score predicts the likelihood of being in the positive
+ class and then a score threshold determines the classification outcome.
+\end_layout
+
+\begin_layout Standard
+How should we set the threshold? We are going to follow the examples in
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://research.google.com/bigpicture/attacking-discrimination-in-ml/
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado33.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the case A, it is obvious how to set the threshold, but in the second
+ one it becomes less obvious.
+\end_layout
+
+\begin_layout Standard
+It is usual to try to maximize the accuracy and the recall:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado34.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But this is only one side of the coin...
+ What happens if in addition there are several groups in the data?
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado35.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are several approaches:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equal treatment
+\series default
+: we don't look at the color and set the same threshold for the data as
+ a whole.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado36.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado37.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, we can see that the Positive rate of the blue group is significant
+ly higher than that of the orange group.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Group parity
+\series default
+: this approach aims to solve this issue by imposing that both groups should
+ have the same positive rate:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado38.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado39.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now the positive rates coincide, but now we can look at the true positive
+ rate.
+ We see how again there is a significative difference in this metric.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Equal opportunity
+\series default
+: impose that the true positive rates coincide, at the expense of the positive
+ rate:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado40.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado41.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+We cannot have all types of equality, so we have to choose.
+\end_layout
+
+\begin_layout Subsubsection
+Fairness in Ranking
+\end_layout
+
+\begin_layout Standard
+A ranking algorithm computes some score that encodes goodness.
+ These scores are used to rank objects based on them.
+ It is similar to the classification task in the sense that scores are computed,
+ but it is different because there is no threshold: in this case we only
+ have the length of thre ranking.
+ So to achieve fariness we can only change the scoring function.
+\end_layout
+
+\begin_layout Subsubsection*
+Group parity
+\end_layout
+
+\begin_layout Standard
+In this case, we are imposing that in the ranking, half of the group is
+ from the protected group, and half of the group is from the non-protected
+ group.
+\end_layout
+
+\begin_layout Standard
+For example, if the non-protected group is still blue, and the protected
+ group is orange:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But this case could also be considered unfair, because all the oranges are
+ in the low half of the ranking.
+ It is common to add more requirements:
+\end_layout
+
+\begin_layout Itemize
+For every prefix of the ranked list, there should be group parity.
+\end_layout
+
+\begin_layout Itemize
+Use a different target ratio, e.g.
+ 40/60.
+\end_layout
+
+\begin_layout Standard
+To achieve this:
+\end_layout
+
+\begin_layout Enumerate
+Determine minimum representation from the protected group in each prefix.
+ If we want to have at least 40% of oranges, then:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="11">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+#oranges
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Create two sublists of objects sorted by score (from better to worse):
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+D
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+F
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+G
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+H
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+J
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+K
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+L
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Build the ranked list incrementally:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+At each rank choose the best from either group.
+\end_layout
+
+\begin_layout Enumerate
+Unless it is compulsory to choose from the protected group according to
+ the minimum representation table.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+G
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+H
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+D
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+F
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color orange
+J
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Fairness of exposure
+\end_layout
+
+\begin_layout Standard
+A ranking exposes objects at varying degrees, and there exists the 
+\series bold
+position bias
+\series default
+, which makes higher ranked items be exposed more.
+ Then, fairness can be defined as providing an exposure proportional to
+ merit: it an item is 
+\begin_inset Formula $x$
+\end_inset
+
+ times better than another, it should receive 
+\begin_inset Formula $x$
+\end_inset
+
+ times more exposure.
+\end_layout
+
+\begin_layout Standard
+Of course, this is really hard (or impossible) to ensure, because exposure
+ is fixed and merit depends on ranking scores.
+\end_layout
+
+\begin_layout Standard
+What can we do?
+\end_layout
+
+\begin_layout Itemize
+Be fair in the long term: amortized fairness.
+\end_layout
+
+\begin_layout Itemize
+Be fair probabilistically: do probabilistic rankings.
+\end_layout
+
+\begin_layout Itemize
+Try to model this as an optimization problem:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Maximize relevance subject to equal exposure.
+\end_layout
+
+\begin_layout Itemize
+Minimize exposure discrepancy subject to relevance quality drop.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Post-processing for ranking
+\end_layout
+
+\begin_layout Standard
+Port-processing means reranking, i.e., changing the positions of the items
+ in the recomendation list.
+\end_layout
+
+\begin_layout Standard
+The original list optimizes some internal measure of utility, but to increase
+ fairness, it has to be reranked, at the expense of utility.
+ This means reranking must trade-off two objectives: utility and fairness.
+ Thus, there are several possible approaches:
+\end_layout
+
+\begin_layout Itemize
+maxU: maximize utility given a constraint on fairness.
+\end_layout
+
+\begin_layout Itemize
+maxF: maximize fairness given a constraint on utility.
+\end_layout
+
+\begin_layout Itemize
+U+F: maximize a combination of utility and fairness.
 \end_layout
 
 \begin_layout Standard
