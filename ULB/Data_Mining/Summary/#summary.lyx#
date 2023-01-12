@@ -15270,38 +15270,10 @@ lift\left(\left\{ r\right\} \implies\left\{ s\right\} \right)=4.08,
 \end_inset
 
  but 
-\begin_inset Formula $\left(p,q\right)$
+\begin_inset Formula $\left(p\right)$
 \end_inset
 
- appear together 88% of the time, while 
-\begin_inset Formula $\left(r,s\right)$
-\end_inset
 
- appear together only 2% of the time.
- Confidence is a better indicator in this case.
- The problem here is that 
-\begin_inset Formula $r,s$
-\end_inset
-
- appears in a small portion of records in the data.
-\end_layout
-
-\begin_layout Subsubsection
-How to choose a measure?
-\end_layout
-
-\begin_layout Standard
-We have seen that we can obtain different conclusions by looking at different
- measures, so the choice of the measure is important because it will affect
- the results.
- A good choice must be based on a clear understanding of the measure and
- its properties, so we are aware of the flaws it entails and can leverage
- them for good.
-\end_layout
-
-\begin_layout Standard
-We can also asses rules using interactive visualizations, subjective measures
- based on domain experience,...
 \end_layout
 
 \begin_layout Standard
