@@ -3349,7 +3349,893 @@ generalized Bernoulli model
 \end_layout
 
 \begin_layout Example
-#TODO ejemplo diapo 199
+With the following training data:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Age
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Income
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Student
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Credit_Rating
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Buys
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $31..40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+low
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+low
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $31..40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+low
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+low
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq30$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $31..40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $31..40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+high
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fair
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $>40$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+medium
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+excellent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Classify with the Naive Bayes model the unseen record
+\begin_inset Formula 
+\[
+X=\left(\leq30,medium,yes,fair\right).
+\]
+
+\end_inset
+
+ In this case, we have 
+\begin_inset Formula $C\in\left\{ yes,no\right\} $
+\end_inset
+
+, so
+\begin_inset Formula 
+\[
+P\left(C=yes\right)=\frac{9}{14},\qquad P\left(C=no\right)=\frac{5}{14}.
+\]
+
+\end_inset
+
+ And for the feature variables, we have to compute 
+\begin_inset Formula $P\left(x_{i}=a_{i}|C=yes\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $P\left(x_{i}=a_{i}|C=no\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Age 
+\begin_inset Formula $\leq30$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+P\left(\leq30|yes\right)=\frac{2}{9},\qquad P\left(\leq30|no\right)=\frac{3}{5}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Income medium:
+\begin_inset Formula 
+\[
+P\left(medium|yes\right)=\frac{4}{9},\qquad P\left(medium|no\right)=\frac{2}{5}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Student yes:
+\begin_inset Formula 
+\[
+P\left(yes|yes\right)=\frac{6}{9},\qquad P\left(yes|no\right)=\frac{1}{5}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Credit_rating fair:
+\begin_inset Formula 
+\[
+P\left(fair|yes\right)=\frac{6}{9},\qquad P\left(fair|no\right)=\frac{2}{5}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Then, we have
+\begin_inset Formula 
+\[
+P\left(C=yes\right)\cdot P\left(\leq30,medium,yes,fair|C=yes\right)=P\left(C=yes\right)\cdot\prod P\left(X_{i}|C=yes\right)=\frac{9}{14}\cdot\frac{2}{9}\frac{4}{9}\frac{6}{9}\frac{6}{9}=\frac{16}{567}\sim0.028,
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(C=no\right)\cdot P\left(\leq30,medium,yes,fair|C=no\right)=\frac{5}{14}\cdot\frac{3}{5}\frac{2}{5}\frac{1}{5}\frac{2}{5}=\frac{6}{875}\sim0.007.
+\]
+
+\end_inset
+
+ Thus, the model classifies 
+\begin_inset Formula $X$
+\end_inset
+
+ with class 'yes'.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -3370,9 +4256,1293 @@ The
 \series bold
 drawbacks
 \series default
- are that the main assumption of 
+ are that the main assumption of class conditional independence is not very
+ trustable, which may lead to a loss of accuracy, because dependencies axist
+ among variables.
+ To deal with this issue there is a more complex model: 
+\series bold
+Bayesian Belief Networks
+\series default
+.
 \end_layout
 
+\begin_layout Section
+Model evaluation and selection
+\end_layout
+
+\begin_layout Standard
+With a given dataset, we can train multiple classification models and each
+ of them will behave differently, many times without an intuitive explanation
+ of the differences observed.
+ Thus, it becomes crucial to establish means of comparison between different
+ models, so it is possible to choose between several models trained with
+ the same data.
+\end_layout
+
+\begin_layout Standard
+The simplest classification measure is the 
+\series bold
+accuracy
+\series default
+, which indicates the portion of well classified records.
+ Nonetheless, if we compute the accuracy using the training data, we could
+ be enhance overfitting to the training data, and maybe choose models that
+ do not work well with unseen data.
+ This is why it is usual to use a 
+\series bold
+validation test set
+\series default
+ to compute comparison measures: the idea is that given a dataset, we can
+ divide it into training data and test data.
+ Then, models will be trained using the training data and evaluated with
+ the test data, which has not been seen before.
+ This makes the measures more reliable and the comparisons more fair.
+\end_layout
+
+\begin_layout Standard
+There are several ways to extract training and test data from a dataset,
+ which are detailed in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Model-evaluation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Confusion Matrix
+\end_layout
+
+\begin_layout Standard
+A confusion matrix is a visual and intuitive way to assess a classification
+ algorithm.
+ In its simplest form it is used to assess a binary classification model
+ and it shows the following metrics:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+True Positives
+\series default
+: count of records classified as True that are actually True.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+False Positives
+\series default
+: count of records classified as True that were False in reality.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+True Negatives
+\series default
+: count of records classified as False that were actually False.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+False Negatives
+\series default
+: count of records classified as False that were True in reality.
+\end_layout
+
+\begin_layout Standard
+In this case, the confusion matrix has the form:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted True
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted False
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actual True
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FN
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actual False
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TN
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the more general case in which we have a 
+\begin_inset Formula $N$
+\end_inset
+
+-class classifier, each cell 
+\begin_inset Formula $M_{ij}$
+\end_inset
+
+ would have the count of records classified as class 
+\begin_inset Formula $j$
+\end_inset
+
+ that are of class 
+\begin_inset Formula $i$
+\end_inset
+
+ in reality:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted 
+\begin_inset Formula $C_{N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actual 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $TC_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{2,1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{N,1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actual 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{1,2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $TC_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{N,2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ddots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Actual 
+\begin_inset Formula $C_{N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{1,N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FC_{2,N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $TC_{N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From these confusion matrices, we can derive some interesting measures:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Accuracy
+\series default
+: the accuracy can be computed from the matrix as
+\begin_inset Formula 
+\[
+Acc=\frac{TP+TN}{All}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Error rate
+\series default
+: the reverse of the accuracy:
+\begin_inset Formula 
+\[
+ER=1-Acc=\frac{FP+FN}{All}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Class imbalance measures
+\series default
+: sometimes, one class appears in a little amount of records (this is specially
+ common in disease detection, for example), and is usually the case to have
+ the focus on being able to correctly detect this rare cases.
+\end_layout
+
+\begin_deeper
+\begin_layout Example
+As an example, imagine we are trying to detect fraudulent transactions in
+ a banking context.
+ Out of thousands of transactions, only a very few amount would be fraudulent.
+ Say there are 1M records for training and only 100 are known to be fraudulent.
+ If we predict all records as OK, we would get 
+\begin_inset Formula $\frac{999\ 900}{10^{6}}=99.99\%$
+\end_inset
+
+ accuracy, but we will not detect any fraud! So the accuracy is stunning
+ but the model is useless.
+\end_layout
+
+\begin_layout Standard
+For example like this the following measures have a motive:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sensitivity
+\series default
+: focuses on correctly detecting True outcomes
+\begin_inset Formula 
+\[
+Sens=\frac{TP}{Actual\ True}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Specificity
+\series default
+: focuses on correctly detecting False outcomes
+\begin_inset Formula 
+\[
+Spec=\frac{TN}{Actual\ False}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Precision
+\series default
+: how many records labeled as True are actually True
+\begin_inset Formula 
+\[
+Prec=\frac{TP}{TP+FP}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Recall
+\series default
+: a synonym of sensitivity.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+F-score
+\series default
+: the harmonic mean of the precision and recall
+\begin_inset Formula 
+\[
+F=\frac{2\cdot precision\cdot recall}{precision+recall}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\boldsymbol{F_{\beta}}$
+\end_inset
+
+: weighted measure of precision and recall.
+ Assigns 
+\begin_inset Formula $\beta$
+\end_inset
+
+ times as much weight to recall as to precision
+\begin_inset Formula 
+\[
+F_{\beta}=\frac{\left(1+\beta^{2}\right)\cdot precision\cdot recall}{\beta^{2}precision+recall}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Ensemble methods: increasing accuracy
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+ensemble method
+\series default
+ for classification is a composite model, made up of a combination of classifier
+s.
+ The idea is that given an unseen record, it can be classified using several
+ models, and then make a consensus between all of them to decide the final
+ decision of the class of the record.
+ Usually, a voting scheme is used, in which the most voted class is the
+ chosen one for classification.
+ This approach usually improves the accuracy of each component.
+\end_layout
+
+\begin_layout Standard
+Let's analyze why this works! There are three primary primary components
+ to the error of a classifier:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Bias
+\series default
+: every classifier has its own assumptions about the nature of the decision
+ boundary between classes.
+ When a classifier has high bias, it will make consistently incorrect prediction
+s over records that lie near the incorrectly-modeled decision boundary.
+\end_layout
+
+\begin_deeper
+\begin_layout Example
+Bias is shown below.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado11.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+The real model has been generated using the blue line.
+ The classification model has the assumption that the data can be classified
+ using a straight line.
+ As we can see, points near to the boundary would be missclassified.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Variance
+\series default
+: random variations in the choices of the traiing data will lead to different
+ models.
+ This is closely related to overfitting.
+ When a classifier has an overfitting tendency, it will make inconsistent
+ predictions for the same test instance oevr different training data sets.
+\end_layout
+
+\begin_deeper
+\begin_layout Example
+Variance is shown below.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado12.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+In this case, the yellow-ish model happen to have used few red points near
+ the boundary, so it became a perfect blue classifier, but a bad red classifier.
+ The opposite happened to the blue-ish model.
+ Note that this variations are only due to random selection of the training
+ points.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Noise
+\series default
+: it is the intrinsic errors in the target class labeling.
+ As this is intrinsic, there is not much one can do.
+ Therefore, we will focus in the two latter sources of error.
+\end_layout
+
+\begin_layout Standard
+In addition, bias and variance are often in a trade-off relationship: improving
+ bias worsens variance, and vice-versa.
+ Generally speaking, simplified assumptions about the decision boundary
+ lead to greater bias but lower variance, while complex assumptions reduce
+ bias but are harder to robustly estimate with limited data.
+\end_layout
+
+\begin_layout Standard
+Ensemble analysis can often be used to reduce both the bias and variance
+ of the classification process, because a combination of different simple
+ models with high bias and little variance will reduce the bias as the assumptio
+ns will be combined to model more complex scenarios.
+ On the other hand, a combination of complex models with low bias and high
+ variance, will reduce the variance because decisions made by multiple models
+ tend to be more consistent than those made by individual models.
+\end_layout
+
+\begin_layout Subsubsection*
+Looking at the accuracy
+\end_layout
+
+\begin_layout Standard
+Now, let's look at the accuracy of the ensemble model in comparison to its
+ component models in the case of binary classification (for ease).
+ Let's say the ensemble model is composed of 
+\begin_inset Formula $N$
+\end_inset
+
+ models, each of them with an accuracy 
+\begin_inset Formula $acc_{i}$
+\end_inset
+
+.
+ Then, for the ensemble model to classify a new record as correct, at least
+ half of the models need to classify the tuple correctly.
+ Let's define the random variable 
+\begin_inset Formula $X$
+\end_inset
+
+ as '
+\emph on
+number of classifiers that classify the tuple as correct
+\emph default
+', then
+\begin_inset Formula 
+\[
+P\left(correct\right)=P\left(X\geq\frac{N}{2}\right)=1-P\left(X<\frac{N}{2}\right),
+\]
+
+\end_inset
+
+ and we can decompose
+\begin_inset Formula 
+\[
+P\left(X<\frac{N}{2}\right)=P\left(X=1\right)+P\left(X=2\right)+...+P\left(X=\frac{N}{2}-1\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here, assuming independence of the different models, it is
+\begin_inset Formula 
+\[
+P\left(X=1\right)=\sum_{i}acc_{i}\times\prod_{j\neq i}\left(1-acc_{j}\right),
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(X=2\right)=\sum_{i}\sum_{j\neq i}acc_{i}\times acc_{j}\times\prod_{k\neq i,j}\left(1-acc_{k}\right),
+\]
+
+\end_inset
+
+ and so on.
+ This yields to a complex formula, but when the case is the simplest in
+ which 
+\begin_inset Formula $A=acc_{i}=acc_{j},\forall i,j$
+\end_inset
+
+, we are in a binomial distribution, having
+\begin_inset Formula 
+\[
+P\left(X=k\right)=\binom{N}{k}A^{k}\left(1-A\right)^{N-k}.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Example
+Suppose an ensemble model with 
+\begin_inset Formula $N=3$
+\end_inset
+
+ and equal accuracy for the three models, 
+\begin_inset Formula $A>0$
+\end_inset
+
+.
+ Then, the accuracy for the ensemble model is
+\begin_inset Formula 
+\[
+Acc=P\left(correct\right)=1-P\left(X=1\right)=1-3A\left(1-A\right)^{2},
+\]
+
+\end_inset
+
+ which can be compared with the individual accuracies:
+\begin_inset Formula 
+\[
+Acc-A=1-3A\left(1-A\right)^{2}-A=-3A\left(1-A\right)^{2}+1-A=\left(1-A\right)\left[1-3A\left(1-A\right)\right].
+\]
+
+\end_inset
+
+ At this point, the accuracy will be increased whenever
+\begin_inset Formula 
+\[
+1-3A\left(1-A\right)>0\iff3A^{2}-3A+1>0.
+\]
+
+\end_inset
+
+ The discriminant of this polynomial is 
+\begin_inset Formula 
+\[
+b^{2}-4ac=9-12=-3<0,
+\]
+
+\end_inset
+
+ so all its solutions are complex and it does not cut the X axis.
+ As the leading coefficient is positive, this polynomial is always positive
+ and we conclude that the 3-ensemble method always improves the accuracy
+ of the individual models.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Suppose an ensemble model with 
+\begin_inset Formula $N=5$
+\end_inset
+
+ and equal accuracy for the three models, 
+\begin_inset Formula $A>0$
+\end_inset
+
+.
+ Then, the accuracy for the ensemble model is
+\begin_inset Formula 
+\begin{align*}
+Acc=1-P\left(X=1\right)-P\left(X=2\right) & =1-5\cdot A\left(1-A\right)^{4}-\frac{5!}{2!3!}A^{2}\left(1-A\right)^{3}\\
+ & =1-5A\left(1-A\right)^{4}-10A^{2}\left(1-A\right)^{3},
+\end{align*}
+
+\end_inset
+
+ and when compared to the individual values we obtain
+\begin_inset Formula 
+\begin{align*}
+Acc-A & =1-5A\left(1-A\right)^{4}-10A^{2}\left(1-A\right)^{3}-A\\
+ & =\left(1-A\right)\left[1-5A\left(1-A\right)^{3}-10A^{2}\left(1-A\right)^{2}\right].
+\end{align*}
+
+\end_inset
+
+ This is an increased accuracy whenever
+\begin_inset Formula 
+\[
+1-5A\left(1-A\right)^{3}-10A^{2}\left(1-A\right)^{2}>0,
+\]
+
+\end_inset
+
+ which corresponds to the polynomial
+\begin_inset Formula 
+\[
+-5A^{4}+5A^{3}+5A^{2}-5A+1>0.
+\]
+
+\end_inset
+
+ The graph of this polynomial is 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado13.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+So for 
+\begin_inset Formula $A\in\left(0,1\right)$
+\end_inset
+
+ it is positive everywhere except the interval 
+\begin_inset Formula $\left(0.354,0.423\right)$
+\end_inset
+
+, in which it is negative.
+ This means that the accuracy is improved in all cases outside this interval.
+\end_layout
+
+\begin_layout Example
+For example, if 
+\begin_inset Formula $A=0.7$
+\end_inset
+
+, then 
+\begin_inset Formula $Acc=0.839$
+\end_inset
+
+, which is indeed an improvement.
+\end_layout
+
+\begin_layout Standard
+There are several ways to make ensemble methods:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Bagging
+\series default
+: the data is bootstrapped 
+\begin_inset Formula $N$
+\end_inset
+
+ times, collecting a training data set of approximately the same size of
+ the original data set for each model.
+ Then, each model is trained with a different bootstrap.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This approach reduces the variance, because the differences owed to the
+ sampling are reduced by performing this sampling 
+\begin_inset Formula $N$
+\end_inset
+
+ times.
+ However, bagging does not improve the bias, because all the models used
+ have the same assumptions.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Boosting
+\series default
+: a weight is associated with each training instance and the 
+\begin_inset Formula $N$
+\end_inset
+
+ classifiers are trained with the use of these weights.
+ When the classifier 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+ has finished its training, those records in which the model missclassify
+ are increased in weight, so the next model 
+\begin_inset Formula $M_{i+1}$
+\end_inset
+
+ will be trained paying more attention to those records.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+With this approach, the overall bias is reduced because each model focuses
+ on those places where the past models tend to fail.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Adaboost
+\series default
+: a particular algorithm approach based on the boosting idea.
+ Given a dataset, 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, of 
+\begin_inset Formula $k$
+\end_inset
+
+ records with label 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $\left(X_{1},y_{1}\right),...,\left(X_{k},y_{k}\right)$
+\end_inset
+
+ :
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Set initial weights to 
+\begin_inset Formula $w_{i}=\frac{1}{k},\ \forall i=1,...,k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+j = 1
+\end_layout
+
+\begin_layout Enumerate
+While j<N
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Bootstrap 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ to get a training set 
+\begin_inset Formula $\mathcal{T}_{j}$
+\end_inset
+
+, select tuples with probability 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Train model 
+\begin_inset Formula $M_{j}$
+\end_inset
+
+ with 
+\begin_inset Formula $\mathcal{T}_{j}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Compute the error rate of 
+\begin_inset Formula $M_{j}$
+\end_inset
+
+ using 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Update the weigths
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If a tuple is misclassified: increase its weight
+\end_layout
+
+\begin_layout Enumerate
+If it is correctly classified: decrease its weight
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+j = j+1
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The error rate with weights is computed as
+\begin_inset Formula 
+\[
+ER\left(M_{j}\right)=\sum_{i=1}^{d}w_{i}\cdot error\left(M_{j},X_{i}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $error\left(M,X\right)=\begin{cases}
+0 & if\ M\ classifies\ X\ correctly\\
+1 & if\ M\ misclassifies\ X
+\end{cases}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When the voting is performed, the votes are also weighted, with
+\begin_inset Formula 
+\[
+w\left(M_{i}\right)=\log\frac{1-ER\left(M_{i}\right)}{ER\left(M_{i}\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Random Forest
+\series default
+: bagging does not work very well combined with decision trees, because
+ the ID3 algorithm tends to generate similar/correlated trees.
+ The idea here is to add randomness to the tree induction algorithm itself,
+ as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Before each split, 
+\begin_inset Formula $L$
+\end_inset
+
+ attributes are randomly selected out of the available 
+\begin_inset Formula $K$
+\end_inset
+
+ attributes.
+\end_layout
+
+\begin_layout Enumerate
+The split attribute is selected from this group of 
+\begin_inset Formula $L$
+\end_inset
+
+ attributes.
+\end_layout
+
+\begin_layout Standard
+When 
+\begin_inset Formula $L$
+\end_inset
+
+ is selecte
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -4681,6 +6851,13 @@ Backtrace: 0.
 
 \begin_layout Section
 Model evaluation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Model-evaluation"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
