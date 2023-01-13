@@ -2760,7 +2760,9 @@ This means that we label the root node with
  So we have the following Tree:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado1.png
 
@@ -2769,6 +2771,7 @@ This means that we label the root node with
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 
 \series bold
@@ -2814,7 +2817,9 @@ IG\left(S_{O=sunny}\implies S_{O=sunny,H=high},S_{O=sunny,H=normal}\right)=\\
  This way, the Tree will now look as follows:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado2.png
 
@@ -2823,6 +2828,7 @@ IG\left(S_{O=sunny}\implies S_{O=sunny,H=high},S_{O=sunny,H=normal}\right)=\\
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 
 \series bold
@@ -2887,7 +2893,9 @@ Same, now
 So, now we have the following tree:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado3.png
 
@@ -2896,6 +2904,7 @@ So, now we have the following tree:
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 
 \series bold
@@ -2921,7 +2930,9 @@ IG\left(S_{O=rainy}\implies S_{O=rainy,W=True},S_{O=rainy,W=False}\right)=0.97,
  so, again, it is maximum and we can continue using it as label:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado4.png
 
@@ -2930,6 +2941,7 @@ IG\left(S_{O=rainy}\implies S_{O=rainy,W=True},S_{O=rainy,W=False}\right)=0.97,
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 
 \series bold
@@ -2962,7 +2974,9 @@ All record have
 So, we have the tree
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado5.png
 
@@ -2971,6 +2985,7 @@ So, we have the tree
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 And as there are no more nodes to analyze, this is the final decision tree.
 \end_layout
@@ -3015,6 +3030,362 @@ Repeat the decision tree ID3 algorithm, but use GainRatio instead.
 
 \begin_layout Example
 The same tree is obtained.
+\end_layout
+
+\begin_layout Section
+Bayesian classification
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Probabilistic classifiers
+\series default
+ construct a model that quantifies the relationships between the feature
+ variables and the target variable as a probability.
+ We are going to study a well-known kind of probabilistic classifier, namely
+ the 
+\series bold
+Bayesian classifier
+\series default
+ or 
+\series bold
+Naive Bayes classifier
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+Naive Bayes classifier
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+Bayes classifier
+\series default
+ is based on the Bayes' theorem for conditional probabilities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+
+\series bold
+Bayes' Theorem
+\end_layout
+
+\begin_layout Theorem
+If A and B are probabilistic events and 
+\begin_inset Formula $P\left(B\right)\neq0$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+P\left(A|B\right)=\frac{P\left(B|A\right)P\left(A\right)}{P\left(B\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+On one side
+\begin_inset Formula 
+\[
+P\left(A|B\right)=\frac{P\left(A\cap B\right)}{P\left(B\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+On the other side, if 
+\begin_inset Formula $P\left(A\right)\neq0$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(B|A\right)=\frac{P\left(B\cap A\right)}{P\left(A\right)}\implies P\left(B\cap A\right)=P\left(B|A\right)\cdot P\left(A\right).
+\]
+
+\end_inset
+
+ Now substituting this value in the previous equation, we get
+\begin_inset Formula 
+\[
+P\left(A|B\right)=\frac{P\left(B|A\right)\cdot P\left(A\right)}{P\left(B\right)},
+\]
+
+\end_inset
+
+ which is the result we wanted to proof.
+\end_layout
+
+\begin_layout Proof
+If 
+\begin_inset Formula $P\left(A\right)=0$
+\end_inset
+
+, then 
+\begin_inset Formula $P\left(A|B\right)=0,\ \forall B$
+\end_inset
+
+, so the formula also holds.
+\end_layout
+
+\begin_layout Standard
+This theorem quantifies the conditional probability of a random variable
+ (the class variable), given known observations about another variables
+ (the features).
+ Let 
+\begin_inset Formula $C$
+\end_inset
+
+ be the class variable and 
+\begin_inset Formula $X$
+\end_inset
+
+ an unseen feature tuple.
+ The goal of the method is to estimate
+\begin_inset Formula 
+\[
+P\left(C=c|X=\left(a_{1},...,a_{d}\right)\right).
+\]
+
+\end_inset
+
+Let the random variables for the individual dimensions of 
+\begin_inset Formula $X$
+\end_inset
+
+ be denoted by 
+\begin_inset Formula $X=\left(x_{1},...,x_{d}\right)$
+\end_inset
+
+, so we want to estimate
+\begin_inset Formula 
+\[
+P\left(C=c|x_{1}=a_{1},...,x_{d}=a_{d}\right)\overset{Bayes}{=}\frac{P\left(C=c\right)P\left(x_{1}=a_{1},...,x_{d}=a_{d}|C=c\right)}{P\left(x_{1}=a_{1},...,x_{d}=a_{d}\right)}.
+\]
+
+\end_inset
+
+ Here, we will be interested in maximizing this value.
+ Since the denominator is the same independently of the class 
+\begin_inset Formula $c$
+\end_inset
+
+, then we can focus on maximizing the denumerator
+\begin_inset Formula 
+\[
+P\left(C=c\right)P\left(x_{1}=a_{1},...,x_{d}=a_{d}|C=c\right).
+\]
+
+\end_inset
+
+ The value 
+\begin_inset Formula $P\left(C=c\right)$
+\end_inset
+
+ is the 
+\series bold
+prior probability
+\series default
+ of the class identifier 
+\begin_inset Formula $c$
+\end_inset
+
+ and can be estimated as the fraction of points in the data whose class
+ is 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ Thus, we now want to approximate the right factor.
+ In the Naive Bayes approach, it is assumed that the feature values are
+ independent of one another conditional on a fixed value of 
+\begin_inset Formula $C$
+\end_inset
+
+.
+ Then
+\begin_inset Formula 
+\[
+P\left(x_{1}=a_{1},...,x_{d}=a_{d}|C=c\right)=\prod_{j=1}^{d}P\left(x_{j}=a_{j}|C=c\right),
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+P\left(C=c\right)P\left(x_{1}=a_{1},...,x_{d}=a_{d}|C=c\right)=P\left(C=c\right)\prod_{j=1}^{d}P\left(x_{j}=a_{j}|C=c\right).
+\]
+
+\end_inset
+
+ And this terms are much easier to estimate: to estimate 
+\begin_inset Formula $P\left(x_{j}=a_{j}|C=c\right)$
+\end_inset
+
+ we just need to take the fraction of training values with class 
+\begin_inset Formula $c$
+\end_inset
+
+ and compute which fraction of them verifies 
+\begin_inset Formula $x_{j}=a_{j}$
+\end_inset
+
+.
+ This is usually written as
+\begin_inset Formula 
+\[
+P\left(x_{j}=a_{j}|C=c\right)=\frac{q\left(a_{j},c\right)}{r\left(c\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+When there are not enough training samples to produce reliable estimates,
+ we can use 
+\series bold
+Laplacian smoothing
+\series default
+ in which a small value 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is added to the numerator and 
+\begin_inset Formula $\alpha\cdot m_{j}$
+\end_inset
+
+ is added to the denominator, where 
+\begin_inset Formula $m_{j}$
+\end_inset
+
+ is the number of distinct values of the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ attribute
+\begin_inset Formula 
+\[
+P\left(x_{j}=a_{j}|C=c\right)=\frac{q\left(a_{j},c\right)+\alpha}{r\left(c\right)+\alpha\cdot m_{j}}.
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is called the 
+\series bold
+Laplacian smoothing parameter
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+If a feature is continuous, then the likelihood is computed using a Gaussian
+ distribution with mean 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and standard deviation 
+\begin_inset Formula $\sigma$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+P\left(x_{j}=a_{j}|C=c\right)=g\left(a_{j},\mu_{c},\sigma_{c}\right)=\frac{1}{\sqrt{2\pi}\sigma_{c}}e^{-\frac{\left(a_{j}-\mu_{c}\right)^{2}}{2\sigma_{c}^{2}}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This model is sometimes refererd to as the 
+\series bold
+Bernoully model for Bayes classification
+\series default
+ when it is applied to categorical data with only two outcomes of each feature
+ attribute.
+\end_layout
+
+\begin_layout Standard
+In cases where more than two outcomes are possible for a feature variable,
+ the model is referred to as the 
+\series bold
+generalized Bernoulli model
+\series default
+.
+\end_layout
+
+\begin_layout Example
+#TODO ejemplo diapo 199
+\end_layout
+
+\begin_layout Subsubsection*
+Some final comments
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+advantages
+\series default
+ of the Bayes Classifier is that it is easy to implement and can lead to
+ fairly good results.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+drawbacks
+\series default
+ are that the main assumption of class conditional independence is not very
+ trustable, which may lead to a loss of accuracy, because dependencies axist
+ among variables.
+ To deal with this issue there is a more complex model: 
+\series bold
+Bayesian Belief Networks
+\series default
+.
+\end_layout
+
+\begin_layout Section
+Model evaluation and selection
+\end_layout
+
+\begin_layout Standard
+#TODO diapo 203
 \end_layout
 
 \begin_layout Standard
@@ -3634,13 +4005,688 @@ duplicate
 \end_layout
 
 \begin_layout Subsubsection
-Handling Missing Entries
+Handling Missing and Inconsistent entries
 \end_layout
 
 \begin_layout Standard
-#TODO
+We can:
 \end_layout
 
+\begin_layout Itemize
+Delete the entire record: this is a safe option, because we don't introduce
+ bias, but it usually not practical, because we might delete too many entries.
+\end_layout
+
+\begin_layout Itemize
+Impute/estimate the missing values: we use the rest of the data to estimate
+ the values that are missing or choose some constant based on some assumption.
+ The problem with this approach is that one way or another we are introducing
+ bias in the data.
+\end_layout
+
+\begin_layout Itemize
+Change the mining algorithm: there are some algorithms that are developed
+ to deal with missing values.
+\end_layout
+
+\begin_layout Subsubsection
+Handling Noisy entries
+\end_layout
+
+\begin_layout Standard
+We can:
+\end_layout
+
+\begin_layout Itemize
+Perform kernel smoothing: for numerical data, we can use a kernel function
+ to smooth the data values.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+kNN smoother: replaces each value with the average of itself and its k-nearest
+ neighbors.
+\end_layout
+
+\begin_layout Itemize
+kernel average smoother: replace a value with the weighted average of itself
+ and its neighbors in a fixed size window.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Binning: it is also possible to sort the data and partition it into equally
+ sized bins.
+ Then, the data can be smoothed by the bin mean, median or boundary values.
+\end_layout
+
+\begin_layout Itemize
+Regression: smooth by fitting the data to a regression function.
+\end_layout
+
+\begin_layout Itemize
+Change the mining algorithm: there are algorithms designed to tolerate noise.
+\end_layout
+
+\begin_layout Subsection
+Exploratory analysis
+\end_layout
+
+\begin_layout Standard
+Exploratory analysis is the task to understand the data, from the meaning
+ of the features, to their range of values or even their statistical distributio
+ns.
+ There are many actions we can do to explore the data, such as counting
+ nulls, searching for repetition, compute some statistics as the maximum,
+ the minimum, the mean,...
+ of the data, and many more.
+\end_layout
+
+\begin_layout Subsubsection
+Central tendency measures
+\end_layout
+
+\begin_layout Standard
+Central tendency measures are a 1 number summary that can be helpful:
+\end_layout
+
+\begin_layout Itemize
+Mean:
+\begin_inset Formula 
+\[
+\overline{X}=\frac{\sum X_{_{i}}}{N}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Weighted mean:
+\begin_inset Formula 
+\[
+\tilde{X}=\frac{\sum w_{i}X_{i}}{\sum w_{i}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Trimmed mean: a mean calculated disregarding extreme values.
+\end_layout
+
+\begin_layout Itemize
+Median: the middle value of the data.
+\end_layout
+
+\begin_layout Itemize
+Mode: value that occurs most frequently in the data.
+\end_layout
+
+\begin_layout Subsubsection
+Symmetric and Skewed data
+\end_layout
+
+\begin_layout Standard
+Using the mean, median and mode, we can understand in a soft way the distributio
+n of the data:
+\end_layout
+
+\begin_layout Itemize
+If the three values are very similar, then the distribution is very symmetric,
+ having this values in the center.
+\end_layout
+
+\begin_layout Itemize
+If the order is 
+\begin_inset Formula 
+\[
+Mode<Median<Mean,
+\]
+
+\end_inset
+
+ then the distribution is skewed to the left.
+\end_layout
+
+\begin_layout Itemize
+If the order is
+\begin_inset Formula 
+\[
+Mean<Median<Mode,
+\]
+
+\end_inset
+
+ then the distribution is skewed to the right.
+\end_layout
+
+\begin_layout Subsubsection
+Measuring the dispersion
+\end_layout
+
+\begin_layout Itemize
+Quartiles: the Q1 (25th percentile) and Q3 (75th) percentile.
+\end_layout
+
+\begin_layout Itemize
+Inter-quartile range:
+\begin_inset Formula 
+\[
+IQR=Q_{3}-Q_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Five number summary: minimum, Q1, median, Q3, maximum.
+\end_layout
+
+\begin_layout Itemize
+Boxplot: the median is marked and there is a box around it which ends in
+ the queartiles.
+ Outliers are plotted individually.
+\end_layout
+
+\begin_layout Itemize
+Outlier: a value that lies outside the range 
+\begin_inset Formula $1.5\times IQR$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Comparing with the normal distribution
+\end_layout
+
+\begin_layout Standard
+We can compute the mean 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and the standard deviation 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and check if the data behaves as a normal distribution:
+\end_layout
+
+\begin_layout Itemize
+In 
+\begin_inset Formula $\left(\mu-\sigma,\mu+\sigma\right)$
+\end_inset
+
+ there is about 68% of the data.
+\end_layout
+
+\begin_layout Itemize
+In 
+\begin_inset Formula $\left(\mu-2\sigma,\mu+2\sigma\right)$
+\end_inset
+
+ there is about 96% of the data.
+\end_layout
+
+\begin_layout Itemize
+In 
+\begin_inset Formula $\left(\mu-3\sigma,\mu+3\sigma\right)$
+\end_inset
+
+ there is about 99.7% of the data.
+\end_layout
+
+\begin_layout Standard
+We can also perform the Kolmogorov-Smirnov test or the Shapiro-Wilk test,
+ which are statistical test that try to assess is a distribution is normal.
+\end_layout
+
+\begin_layout Subsection
+Similarity and Distance
+\end_layout
+
+\begin_layout Standard
+There are many data mining algorithms which uses the notions of similarity
+ or distance between two points.
+ Usually, the selection of the distance function is an important decision
+ before using an algorithm, because it will ultimately influence the results
+ and their implications.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\begin_inset Formula $\boldsymbol{L_{p}}$
+\end_inset
+
+
+\series bold
+-norm
+\series default
+ is a distance function defined by
+\begin_inset Formula 
+\[
+Dist\left(X,Y\right)=\left(\sum_{i=1}^{d}\left|X_{i}-Y_{i}\right|^{p}\right)^{\frac{1}{p}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+For 
+\begin_inset Formula $p=2$
+\end_inset
+
+ it is the well-known Euclidean distance.
+\end_layout
+
+\begin_layout Definition
+For 
+\begin_inset Formula $p=1$
+\end_inset
+
+ it is called the Manhattan distance, because it is like traversing a grid
+ made of rectangles, similar to the streetmap of Manhattan.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+generalized Minkowski distance
+\series default
+ is defined by
+\begin_inset Formula 
+\[
+Dist\left(X,Y\right)=\left(\sum_{i=1}^{d}a_{i}\cdot\left|X_{i}-Y_{i}\right|^{p}\right)^{\frac{1}{p}}.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+As we can see Minkowski is a weighted 
+\begin_inset Formula $L_{p}$
+\end_inset
+
+-norm.
+ This is useful in context where some features are more important than others,
+ so they can have a higher weight in the distance measures.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Generally, 
+\begin_inset Formula $p$
+\end_inset
+
+ is set to 
+\begin_inset Formula $d$
+\end_inset
+
+, the number of dimensions of the data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Multidimensional data has normally different scales for the different dimensions
+, resulting in features dominating others in distance computations.
+ To solve this issue we can do 
+\series bold
+normalization
+\series default
+ and 
+\series bold
+scaling.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Normalization is to replace each value 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ with
+\begin_inset Formula 
+\[
+Z_{i}^{j}=\frac{X_{i}^{j}-\mu_{j}}{\sigma_{j}},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mu_{j}$
+\end_inset
+
+ is the mean of the attribute 
+\begin_inset Formula $j$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{j}$
+\end_inset
+
+ its standard deviation.
+\end_layout
+
+\begin_layout Itemize
+Scaling maps the values to the range 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Y_{i}^{j}=\frac{X_{i}^{j}-\min_{j}}{\max_{j}-\min_{j}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+edit distance
+\series default
+ is a distance defined over strings.
+ 
+\end_layout
+
+\begin_layout Definition
+We have the operators:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+r: replace one character by another.
+\end_layout
+
+\begin_layout Itemize
+i: insert one character.
+\end_layout
+
+\begin_layout Itemize
+d: delete one character.
+\end_layout
+
+\end_deeper
+\begin_layout Definition
+The edit distance between two strings 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+ is the minimum amount of operations needed to convert 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+The formula is
+\begin_inset Formula 
+\[
+edit\left(s_{1},s_{2}\right)=\begin{cases}
+\left|s_{1}\right| & if\ \left|s_{2}\right|=0\\
+\left|s_{2}\right| & if\ \left|s_{1}\right|=0\\
+edit\left(tail\left(s_{1}\right),tail\left(s_{2}\right)\right) & if\ s_{1}\left[0\right]=s_{2}\left[0\right]\\
+1+\min\left\{ \begin{array}{c}
+edit\left(tail\left(s_{1}\right),s_{2}\right)\\
+edit\left(s_{1},tail\left(s_{2}\right)\right)\\
+edit\left(tail\left(s_{1}\right),tail\left(s_{2}\right)\right)
+\end{array}\right\}  & otherwise
+\end{cases}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $tail\left(s\right)$
+\end_inset
+
+ is the string 
+\begin_inset Formula $s$
+\end_inset
+
+ minus its first character.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+If the edit distance is computed recursively, its complexity measures are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Time: 
+\begin_inset Formula $O\left(\left|s_{1}\right|\times\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Space: 
+\begin_inset Formula $O\left(\left|s_{1}\right|\times\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Backtrace (length of the longest backtracking path): 
+\begin_inset Formula $O\left(\left|s_{1}\right|+\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+If we do it with dynamic programming, with the algorithm in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:DP_Edit(s1,-s2)"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, then its complexity measures are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Time: 
+\begin_inset Formula $O\left(\left|s_{1}\right|\times\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Space: 
+\begin_inset Formula $O\left(\left|s_{1}\right|\times\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Backtrace: 0.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python,morekeywords={do, to, min, then, else, for, return, [,]}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for i=1 to |s1| do
+\end_layout
+
+\begin_layout Plain Layout
+
+	for j=1 to |s2| do
+\end_layout
+
+\begin_layout Plain Layout
+
+		m[i,j] = min{m[i-1,j-1] + if[(s1[i] = s2[j] then 0 else 1],
+\end_layout
+
+\begin_layout Plain Layout
+
+					 m[i-1,j] + 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+					 m[i,j-1] +1
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+return m[|s1|,|s2|]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:DP_Edit(s1,-s2)"
+
+\end_inset
+
+DP_Edit(s1, s2)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+There is a further improvement that can be made.
+ If we perform the dynamic programming only using rows or columns, then
+ we only need to store two of them: the current one and the previous one.
+ The complexity measures in this case are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Time: 
+\begin_inset Formula $O\left(\left|s_{1}\right|\times\left|s_{2}\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Space: 
+\begin_inset Formula $O\left(\min\left(\left|s_{1}\right|,\left|s_{2}\right|\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Backtrace: 0.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -5154,7 +6200,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_1_images/figure_0.eps
 	scale 60
@@ -5164,6 +6212,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -5618,7 +6667,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_1_images/figure_1.eps
 	scale 60
@@ -5628,6 +6679,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -6048,7 +7100,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_1_images/figure_2.eps
 	scale 60
@@ -6058,6 +7112,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -6484,7 +7539,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_1_images/figure_3.eps
 	scale 60
@@ -6494,6 +7551,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -7208,7 +8266,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_2_images/figure_0.eps
 	scale 60
@@ -7218,6 +8278,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -7325,7 +8386,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_2_images/figure_1.eps
 	scale 60
@@ -7335,6 +8398,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -7437,7 +8501,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example7_2_images/figure_2.eps
 	scale 60
@@ -7447,6 +8513,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -8625,15 +9692,19 @@ K\left(X-X_{i}\right)=\left(\frac{1}{h\sqrt{2\pi}}\right)^{d}e^{-\frac{\left\Ver
 A visual example of a kernel smoothing:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado8.png
+	scale 60
 
 \end_inset
 
 
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 Once the density has been smoothed, the goal is to determine clusters by
  using a density threshold 
@@ -8672,15 +9743,19 @@ In the previous example, if we select
 , we obtain the following:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado9.png
+	scale 60
 
 \end_inset
 
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 In this case, only one cluster is obtained.
  In contrast, if we choose 
@@ -8690,15 +9765,19 @@ In this case, only one cluster is obtained.
 , two clusters are obtained:
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado10.png
+	scale 60
 
 \end_inset
 
 
 \end_layout
 
+\end_deeper
 \begin_layout Section
 Probabilistic Model-Based Algorithms
 \end_layout
@@ -9464,7 +10543,9 @@ end{matlabcode}
 
 \end_layout
 
-\begin_layout Example
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename scripts/example9_1_images/figure_0.eps
 
@@ -9473,6 +10554,7 @@ end{matlabcode}
 
 \end_layout
 
+\end_deeper
 \begin_layout Example
 \begin_inset ERT
 status open
@@ -10793,7 +11875,7 @@ of the rule
 :
 \begin_inset Formula 
 \[
-conf\left(X\implies Y\right)=Pr\left(Y|X\right)=\frac{sup\left(X\cup Y\right)}{sup\left(X\right)}.
+conf\left(X\implies Y\right)=Pr\left(X\cup Y|X\right)=\frac{sup\left(X\cup Y\right)}{sup\left(X\right)}.
 \]
 
 \end_inset
