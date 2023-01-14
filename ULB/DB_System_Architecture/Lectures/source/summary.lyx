@@ -4670,7 +4670,7 @@ Tuple Identifier (TID)
 \begin_inset Formula $b$
 \end_inset
 
- indicates the memory block in which the tuple is stored, and 
+ indicates the disk block in which the tuple is stored, and 
 \begin_inset Formula $e$
 \end_inset
 
