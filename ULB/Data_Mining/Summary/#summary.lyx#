@@ -28395,15 +28395,7 @@ Suppose we have the stream
 
 \end_deeper
 \begin_layout Example
-Thus, the estimation is
-\begin_inset Formula 
-\[
-n\sim2\frac{\frac{2}{\frac{1}{3}+\frac{1}{1}}}{0.77351}=3.88.
-\]
-
-\end_inset
-
-
+Thus, the estima
 \end_layout
 
 \begin_layout Standard
