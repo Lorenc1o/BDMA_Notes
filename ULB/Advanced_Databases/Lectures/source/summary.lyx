@@ -15,6 +15,7 @@
 \definecolor{backcolour}{rgb}{1,0.99,0.94}
 
 \lstdefinestyle{mystyle}{
+	language=SQL,
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
@@ -5090,8 +5091,1881 @@ THEN DELETE FROM Emp
 
 \end_layout
 
+\begin_layout Subsection
+Management of Derived Data
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+view
+\series default
+ can be seen as a query on the DB which returns a relation or a class that
+ can be used as any other relation or class.
+ A 
+\series bold
+derived attribute
+\series default
+ is an attribute that can be computed from other attributes in the DB.
+ Both a view and a derived attribute can be expressed with declarative query
+ language or deductive rules.
+ There are two strategies for derived data:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Virtually supported
+\series default
+: their content is computed on demand.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Materialized
+\series default
+: their content is stored in the database, and it must be recomputed whenever
+ the source of data is changed.
+\end_layout
+
+\begin_layout Subsubsection
+Virtual views with rules
+\end_layout
+
+\begin_layout Standard
+When an application queries a view, a rule is triggered on the request and
+ the action substitutes and evaluates the view definition.
+ It requires an event, triggered by queries, and an INSTEAD OF clause in
+ rule language.
+\end_layout
+
+\begin_layout Standard
+There exist two basic strategies:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Refresh
+\series default
+: recompute the view from scratch after each update of the source data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Incremental
+\series default
+: compute changes to the view from changes in the source relations, using
+ positive and negative deltas (a 
+\series bold
+delta
+\series default
+ shows the changes experienced in the database.
+ INSERTED and DELETED are one way to implement deltas).
+\end_layout
+
+\begin_layout Standard
+The rule generation can be automated.
+ Refresh rules are simple, but can be very inefficient.
+ On the other hand, incremental rules depend on the structure of derivation
+ rules, and can be complex.
+\end_layout
+
 \begin_layout Example
-#TODO seguir por diapo 62
+Imagine we have the following view definition:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+DEFINE VIEW HighPaidDept AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	(SELECT DISTINCT Dept.Name
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Dept, Emp
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE Dept.Dno = Emp.DeptNo AND Emp.Sal > 50000);
+\end_layout
+
+\end_inset
+
+So this view holds are departments in which some employee earns more than
+ 50k€ a year.
+ This view can change whenever an employee is inserted or deleted, its departmen
+t is changed or is salary is changed; and whenever a department is inserted
+ or deleted, or its Dno is updated.
+\end_layout
+
+\begin_layout Example
+A refresh rule defined in Starburst to handle this changes is:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE RULE RefreshHighPaidDept1 ON Emp
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN INSERTED, DELETED, UPDATED(DeptNo), UPDATED(Sal)
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN DELETE * FROM HighPaidDept;
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO HighPaidDept
+\end_layout
+
+\begin_layout Plain Layout
+
+		(SELECT DISTINCT Dept.Name
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Dept, Emp
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE Dept.Dno = Emp.DeptNo AND Emp.Sal > 50000);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE RULE RefreshHighPaidDept2 ON Dept
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN INSERTED, DELETED, UPDATED(Dno)
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN DELETE * FROM HighPaidDept;
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO HighPaidDept
+\end_layout
+
+\begin_layout Plain Layout
+
+		(SELECT DISTINCT Dept.Name
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Dept, Emp
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE Dept.Dno = Emp.DeptNo AND Emp.Sal > 50000);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+As we can see, all elements from the view are deleted, and the view is recompute
+d entirely.
+ The incremental approach is more complex.
+ As an example, let's define the rule for the case of Insert Dept:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE RULE IncHighPaidDept1 ON Dept
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN INSERTED
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN INSERT INTO HighPaidDept
+\end_layout
+
+\begin_layout Plain Layout
+
+	(SELECT DISTINCT Dept.Name
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM INSERTED I, Emp
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE I.Dno = Emp.DeptNo AND Emp.Sal > 50000);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Replication with rules
+\end_layout
+
+\begin_layout Standard
+Replication consists on storing several copies of the same information.
+ This is a common practice in distributed databases.
+ Keeping 
+\series bold
+fully synchronized copies
+\series default
+ is usually very costly and unnecessary, so it is common to use aynchronous
+ techniques to propagate changes between nodes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Assymmetric replication
+\series default
+: in this case there exists a primary copy, in which changes are performed,
+ and several secondary copies, which are read only and are updated asynchronousl
+y.
+ The 
+\series bold
+capture module
+\series default
+ monitors changes made by applications to the primary copy, and the 
+\series bold
+application module
+\series default
+ propagates these changes to the secondary copies.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Symmetric replication
+\series default
+: all copies accept updates asynchronously and each of them has a capture
+ and an application modules.
+ It is needed to be careful, because simultaneous updates may cause loss
+ of consistency.
+\end_layout
+
+\begin_layout Example
+An example of capturing changes into deltas in Starburst:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE RULE Capture1 ON PrimaryCopy
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN INSERTED
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN INSERT INTO PosDelta (SELECT * FROM INSERTED);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE RULE Capture2 ON PrimaryCopy
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN DELETED
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN INSERT INTO NegDelta (SELECT * FROM DELETED);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE RULE Capture3 ON PrimaryCopy
+\end_layout
+
+\begin_layout Plain Layout
+
+WHEN UPDATED
+\end_layout
+
+\begin_layout Plain Layout
+
+THEN INSERT INTO PosDelta (SELECT * FROM INSERTED);
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO NegDelta (SELECT * FROM DELETED);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The deltas are applied to the copies with a predefined policy, e.g.
+ once very hour.
+\end_layout
+
+\begin_layout Subsection
+Business Rules: Advantages and Difficulties
+\end_layout
+
+\begin_layout Subsubsection
+Advantages
+\end_layout
+
+\begin_layout Itemize
+Active rules can impose a central consistent behavior independent of the
+ transactions that cause their execution.
+\end_layout
+
+\begin_layout Itemize
+Active rules enforce data management policies that no transaction can violate.
+\end_layout
+
+\begin_layout Itemize
+Activities redundantly coded in several applications programs with passive
+ DBMSs can be abstracted in a single version as a rule in an active DBMS.
+\end_layout
+
+\begin_layout Itemize
+Data management policies can evolve by just modifying the rules on the database,
+ instead of the application programs (
+\series bold
+knowledge independence
+\series default
+).
+\end_layout
+
+\begin_layout Subsubsection
+Dificulties
+\end_layout
+
+\begin_layout Itemize
+Rule organization and content are often hard to control and to specify declarati
+vely (i.e.
+ the rules are hard to code!).
+\end_layout
+
+\begin_layout Itemize
+Understanding active rules can be difficult, because they can react to intricate
+ event sequences and the outcome of rule processing can depend on the order
+ of the event ocurrences and the rule scheduling, which can be hard to analyze
+ in complex systems.
+\end_layout
+
+\begin_layout Itemize
+There are no easy-to-use nor one-fits-all techniques for designing, debugging,
+ verifying and monitoring rules.
+\end_layout
+
+\begin_layout Subsection
+A case study: Energy Management System
+\end_layout
+
+\begin_layout Standard
+This is an example of an application modeled with active rules, covering
+ the business process:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\emph on
+'Management of the Italian electrical power distribution network.'
+\end_layout
+
+\begin_layout Standard
+The operational network is a forest of trees, connecting power distributors
+ to users.
+ The operating conditions are monitored constantly with frequent reconfiguration
+s: the structure of the network is dynamic.
+ The topology is modified less frequently (we can consider it static).
+ The 
+\series bold
+objective
+\series default
+ is to transfer the exact power from distributors to users through nodes
+ and directed branches connecting pairs of nodes.
+\end_layout
+
+\begin_layout Standard
+In this scenario, active rules are used to respond to input transactions
+ asking for:
+\end_layout
+
+\begin_layout Itemize
+Reconfigurations due to new users.
+\end_layout
+
+\begin_layout Itemize
+Changes in their required power.
+\end_layout
+
+\begin_layout Itemize
+Changes in the assignment of wires.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+schema 
+\series default
+of the database is:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\family typewriter
+User(
+\bar under
+UserId
+\bar default
+, BranchIn, Power) foreign key (BranchIn) References Branch
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\family typewriter
+Branch(
+\bar under
+BranchId
+\bar default
+, FromNode, ToNode, Power)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\family typewriter
+Node(
+\bar under
+NodeId
+\bar default
+, BranchIn, Power) foreign key (BranchIn) References Branch
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\family typewriter
+Distributor(
+\bar under
+NodeId
+\bar default
+, Power, MaxPower)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+
+\family typewriter
+Wire(
+\bar under
+WireId
+\bar default
+, BranchId, WireType, Power) foreign key (BranchId) references Branch foreign
+ key (WirteType) references WireType
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+WireType(
+\bar under
+WireTypeId
+\bar default
+, MaxPower)
+\end_layout
+
+\begin_layout Standard
+The network is composed of sites anc onnections between pairs of sites:
+\end_layout
+
+\begin_layout Itemize
+Sites comprise:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Power stations: distributors where power is generated and fed into the network.
+\end_layout
+
+\begin_layout Itemize
+Intermediate nodes: nodes where power is transferred to be redistributed
+ across the network.
+\end_layout
+
+\begin_layout Itemize
+Final users of electrical power.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Connections are called branches:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+class Branch describes all connections between pairs of sites.
+\end_layout
+
+\begin_layout Itemize
+Several Wires are placed along the branches.
+\end_layout
+
+\begin_layout Itemize
+Wires are made of a given WireType, each type carrying a maximum power.
+\end_layout
+
+\begin_layout Itemize
+Branches can be dinamically added or dropeed to the network.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The 
+\series bold
+business rules
+\series default
+ are the following:
+\end_layout
+
+\begin_layout Itemize
+Several user requests are gathered in a transaction.
+\end_layout
+
+\begin_layout Itemize
+If the power requested on wires excees the maximum power of the wire type,
+ rules change or add wires in the relevant branches.
+\end_layout
+
+\begin_layout Itemize
+Rules propagate changes up in the tree, adapting the network to new user
+ needs.
+\end_layout
+
+\begin_layout Itemize
+A transaction fails if the maximum power requested from some distributor
+ exceeds the maximum power available at the distributor (in that case, the
+ static network needs to be redesigned, but this is out of our scope).
+\end_layout
+
+\begin_layout Itemize
+To avoid unnecessary rollbacks, rules propagate reductions of power first,
+ then increases of power.
+ This requires setting the order in which the triggers execute
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This means we cannot perform this use case in SQL Server because the order
+ of the rules cannot be specified.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Connect a new user
+\end_layout
+
+\begin_layout Standard
+A new user is connecting to a node with the following procedure:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE PROCEDURE insertUser(@Node char(3), @Power int) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	DECLARE @User char(3), @Branch char(3), @Wire char(3)
+\end_layout
+
+\begin_layout Plain Layout
+
+	EXEC @User = nextUserId
+\end_layout
+
+\begin_layout Plain Layout
+
+	EXEC @Branch = nextBranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+	EXEC @Wire = nextWireId
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO Branch (BranchId, FromNode, ToNode, Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+		VALUES (@Branch, @User, @Node, @Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO Wire (WireId, Branch, WireType, Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+		VALUES (@Wire, @Branch, 'WT1', @Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+	INSERT INTO User (UserId, BranchIn, Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+		VALUES (@User, @Branch, @Power);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The node to which a user is connected is determined by an external application:
+ usually its closest node.
+ 'WT1' is the basic wire type.
+ nextUserId, nextBranchId and nextWireId procedures are used to obtain the
+ next identifier of a user, branch or wire.
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power reduction from a user
+\end_layout
+
+\begin_layout Standard
+If a user requires less power, this change needs to be propagated to its
+ input branch:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T1_User_Branch ON User
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some user has decreased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.UserId = D.UserId WHERE D.Power > I.Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Decrease the power consumption by the difference between the past and
+ the new values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.UserId = D.UserId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.BranchIn = BranchIn AND D.Power > I.Power) -- Make sure the branch
+ is the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE BranchId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power reduction from a node
+\end_layout
+
+\begin_layout Standard
+If a node require less power, propagate the change to its input branch:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T2_Node_Branch ON Node
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some node has decreased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.NodeId = D.NodeId WHERE D.Power > I.Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Decrease the power consumption by the difference between the past and
+ the new values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.NodeId = D.NodeId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.BranchIn = BranchIn AND D.Power > I.Power) -- Make sure the branch
+ is the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE BranchId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power reduction from a branch to a node
+\end_layout
+
+\begin_layout Standard
+If a branch connected to a node requires less power, propagate the change
+ to its input node.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T3_Branch_Node ON Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some branch has decreased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.BranchId = D.BranchId 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE D.Power > I.Power AND I.ToNode IN (SELECT NodeId FROM Node)) -- toNode
+ is not a foreign key, so we need to make sure it is a node
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Node
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Decrease the power consumption by the difference between the past and
+ the new values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.BranchId = D.BranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.ToNode = NodeId AND D.Power > I.Power) -- Make sure the node is
+ the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NodeId IN (SELECT toNode FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power reduction from a branch to a distributor
+\end_layout
+
+\begin_layout Standard
+If a branch connected to a distributor requires less power, propagate the
+ change to the distributor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T4_Branch_Distributor ON Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some branch has decreased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.BranchId = D.BranchId 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE D.Power > I.Power AND I.ToNode IN (SELECT NodeId FROM Distributor))
+ -- toNode is not a foreign key, so we need to make sure it is a distributor
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Distributor
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Decrease the power consumption by the difference between the past and
+ the new values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.BranchId = D.BranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.ToNode = NodeId AND D.Power > I.Power) -- Make sure the node is
+ the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NodeId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power increase from a user
+\end_layout
+
+\begin_layout Standard
+If a user requires more power, propagate the change to its input branch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T5_User_Branch ON User
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some user has increased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.UserId = D.UserId WHERE D.Power < I.Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Increase the power consumption by the difference between the new and
+ the past values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.UserId = D.UserId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.BranchIn = BranchIn AND D.Power < I.Power) -- Make sure the branch
+ is the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE BranchId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power increase from a node
+\end_layout
+
+\begin_layout Standard
+If a node require more power, propagate the change to its input branch:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T6_Node_Branch ON Node
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some node has increased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.NodeId = D.NodeId WHERE D.Power < I.Power)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Increase the power consumption by the difference between the new and
+ the past values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.NodeId = D.NodeId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.BranchIn = BranchIn AND D.Power < I.Power) -- Make sure the branch
+ is the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE BranchId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power increase from a branch to a node
+\end_layout
+
+\begin_layout Standard
+If a branch connected to a node requires more power, propagate the change
+ to its input node.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T7_Branch_Node ON Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some branch has increased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.BranchId = D.BranchId 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE D.Power < I.Power AND I.ToNode IN (SELECT NodeId FROM Node)) -- toNode
+ is not a foreign key, so we need to make sure it is a node
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Node
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Increase the power consumption by the difference between the new and
+ the past values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.BranchId = D.BranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.ToNode = NodeId AND D.Power < I.Power) -- Make sure the node is
+ the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NodeId IN (SELECT toNode FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagation of power increase from a branch to a distributor
+\end_layout
+
+\begin_layout Standard
+If a branch connected to a distributor requires more power, propagate the
+ change to the distributor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T8_Branch_Distributor ON Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some branch has increased its power consumption
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN Deleted D 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON I.BranchId = D.BranchId 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE D.Power < I.Power AND I.ToNode IN (SELECT NodeId FROM Distributor))
+ -- toNode is not a foreign key, so we need to make sure it is a distributor
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Distributor
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Increase the power consumption by the difference between the new and
+ the past values
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (SELECT D.Power - I.Power
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.BranchId = D.BranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.ToNode = NodeId AND D.Power < I.Power) -- Make sure the node is
+ the correct one
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NodeId IN (SELECT BranchIn FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Excess power requested from a distributor
+\end_layout
+
+\begin_layout Standard
+If the power requested from a distributor exceeds its maximum, rollback
+ the entire transaction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T9_Distributor ON Distributor
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+-- If some distributor has increased its power consumption exceeding its
+ maximum capacity
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I WHERE I.Power > I.MaxPower)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR 13000 'Maximum capacity of the distributor exceeded'
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Propagate power change from a branch to its wires
+\end_layout
+
+\begin_layout Standard
+If the power of a branch is changed, distributes the change equally on its
+ wires.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T10_Branch_Wire ON Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Wire
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Divide the difference between past and new power among all wires and
+ subtract it from every wire
+\end_layout
+
+\begin_layout Plain Layout
+
+-- note that this works independently of the sign of the change
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = Power - (
+\end_layout
+
+\begin_layout Plain Layout
+
+				(SELECT D.Power - I.Power 
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Inserted I JOIN Deleted D ON I.BranchId = D.BranchId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.BranchId = Branch)
+\end_layout
+
+\begin_layout Plain Layout
+
+				/
+\end_layout
+
+\begin_layout Plain Layout
+
+				(SELECT COUNT(*) FROM Wire W JOIN Inserted I ON I.BranchId = W.Branch
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE W.Branch = Branch)
+\end_layout
+
+\begin_layout Plain Layout
+
+				)
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE Branch IN (SELECT BranchId FROM Inserted)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Change wire type if power passess threshold
+\end_layout
+
+\begin_layout Standard
+If the power on a wire goes above the allowed threshold, change the wire
+ type.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T11_Wire_Type on Wire
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER INSERT, UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN WireType WT
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON WireType = WireTypeId
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE I.Power > WT.MaxPower -- If the power overpass the maximum allowed
+\end_layout
+
+\begin_layout Plain Layout
+
+			AND EXISTS (SELECT * FROM WireType WT1 WHERE WT1.MaxPower > I.Power)) --
+ And there is a wiretype which can accept the higher power
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Wire
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET WireType = (SELECT WireTypeId 
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM WireType WT
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE WT.MaxPower >= Power AND
+\end_layout
+
+\begin_layout Plain Layout
+
+					NOT EXISTS( -- There are no two different types with the same maxPower,
+ so we take the first wireType whose maxPower is sufficient
+\end_layout
+
+\begin_layout Plain Layout
+
+						SELECT * FROM WireType WT1
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE WT1.MaxPower < WT.MaxPower AND WT1.MaxPower >= Power))
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE WireId IN (SELECT WireId FROM INSERTED I JOIN WireType WT ON WireType
+ = WireTypeId -- make sure we take the appropriate WireId
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.Power > WT.MaxPower AND 
+\end_layout
+
+\begin_layout Plain Layout
+
+					EXISTS (SELECT * FROM WireType WT1 WHERE WT1.MaxPower > I.Power))
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Add a wire to a branch
+\end_layout
+
+\begin_layout Standard
+If there is no suitable wire type, add another wire to the branch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER T12_Wire on Wire
+\end_layout
+
+\begin_layout Plain Layout
+
+AFTER INSERT, UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS (SELECT * FROM Inserted I JOIN WireType WT
+\end_layout
+
+\begin_layout Plain Layout
+
+		ON WireType = WireTypeId 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE I.Power > WT.MaxPower
+\end_layout
+
+\begin_layout Plain Layout
+
+			AND I.Power > (SELECT MAX(MaxPower) FROM WireType)) -- the requested power
+ is greater than the allowed for every wiretype
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	DECLARE @nextWire char(3), @BranchId char(3), @WireId char(3), @Power real,
+ @MaxPower real
+\end_layout
+
+\begin_layout Plain Layout
+
+	DECLARE wires_cursor CURSOR FOR
+\end_layout
+
+\begin_layout Plain Layout
+
+		SELECT I.WireId, I.BranchId, I.Power, WT.MaxPower
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Inserted I JOIN WireType WT ON WireType = WireTypeId
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE I.Power > WT.MaxPower
+\end_layout
+
+\begin_layout Plain Layout
+
+			AND I.Power > (SELECT MAX(MaxPower) FROM WireType)
+\end_layout
+
+\begin_layout Plain Layout
+
+	OPEN wires_cursor
+\end_layout
+
+\begin_layout Plain Layout
+
+	FETCH NEXT FROM wires_cursor INTO @WireId, @BranchId, @Power, @MaxPower
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHILE @@FETCH_STATUS = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+	BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+		EXEC @nextWire = nextWireId
+\end_layout
+
+\begin_layout Plain Layout
+
+		INSERT INTO Wire (WireId, BranchId, WireType, Power) VALUES (@nextWire,
+ @BranchId, 'WT1', @Power-0.8*@MaxPower)
+\end_layout
+
+\begin_layout Plain Layout
+
+		FETCH NEXT FROM wires_cursor INTO @WireId, @BranchId, @Power, @MaxPower
+\end_layout
+
+\begin_layout Plain Layout
+
+	END
+\end_layout
+
+\begin_layout Plain Layout
+
+	CLOSE wires_cursor
+\end_layout
+
+\begin_layout Plain Layout
+
+	DEALLOCATE wires_cursor
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	UPDATE Wire 
+\end_layout
+
+\begin_layout Plain Layout
+
+	SET Power = (SELECT 0.8*MaxPower FROM WireType WT WHERE WT.WireTypeId = WireType)
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE Power > (SELECT MAX(MaxPower) FROM WireType)
+\end_layout
+
+\begin_layout Plain Layout
+
+END;
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5109,8 +6983,4695 @@ Graph Databases
 Introduction
 \end_layout
 
+\begin_layout Standard
+Relational DBMSs are too rigid for Big Data scenarios, and not the best
+ option for storing unstructured data.
+ The one-size-fits-all approach is no longer valid in many scenarios and
+ RDBMSs are hard to scale for billions of rows, because data structures
+ used in RDBMSs are optimized for systems with small amounts of memory.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+NoSQL technologies
+\series default
+ do not use the relational model for storing data nor retrieving it.
+ Also, they don't generally have the concept of schema, so fields can be
+ added to any record as desired, without control.
+ These characteristics provide ease to run on clusters as well as an increased
+ scaling capability, with horizontal scalability in mind.
+ But these gains are not free: there is a trade-off in which the traditional
+ concept of consistency gets harmed.
+ For example, ACID (Atomic, Consistent, Isolated, Durable) transactions
+ are not fully supported most of the times.
+\end_layout
+
+\begin_layout Standard
+There are several types of NoSQL databases, such as Key-Value stores, Column
+ stores, Document databases,...
+ We are going to focus on Graph Databases.
+\end_layout
+
+\begin_layout Subsection
+CAP theorem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+consistency 
+\series default
+of a database is fullfilled when all updates happen equally for all users
+ of the database.
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+availability
+\series default
+ guarantees that every request receives a response, whether it succeeded
+ or failed.
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+partition tolerance
+\series default
+ means that the system is able to operate despite arbitrary message lost
+ or failure of part of the system.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A database has, ideally, this three properties fullfilled.
+ But the CAP theorem ensures that this is impossible:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+
+\series bold
+CAP Theorem
+\end_layout
+
+\begin_layout Theorem
+A distributed data system cannot guarantee consistency (C), availability
+ (A) and partition tolerance (P), but only any combination of two of them.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+If the system needs to be distributed, then partition tolerance is a must.
+ So, in practice, there is a decision to choose between fullfilling consistency
+ or availability for distributed systems.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Nonetheless, even the perfect form of the three properties cannot be guaranteed
+ at once, it is possible to provide fairly good levels of the one that is
+ not optimal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+eventual consistency assumption
+\series default
+: in the absence of new writes, consistency will be acheived eventually,
+ and all replicas that are responsible for a data item will agree on the
+ same version and return the last updated value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With fewer replicas in the system, R/W operations complete more quickly,
+ improving latency.
+\end_layout
+
+\begin_layout Subsection
+Graph DB model: graphs
+\end_layout
+
+\begin_layout Standard
+In graph databases, the 
+\series bold
+data and/or the schema
+\series default
+ are represented by graphs, or by data structures that generalize the notion
+ of graph: hypergraphs.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+integrity constraints
+\series default
+ enforce data consistency.
+ Constraints can be grouped in: schema-instance consistency, identity and
+ referencial integrity, and functional and inclusion dependencies.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+data manipulation
+\series default
+ is expressed by graph transfromations, or by operations whose main primitives
+ are on graph features, like paths, neighborhoods, subgraphs, connectivity
+ and graph statistics.
+\end_layout
+
+\begin_layout Subsection
+The Resource Description Framework (RDF) Model
+\end_layout
+
+\begin_layout Standard
+RDF allows to express facts, such as 
+\emph on
+'Ana is the mother of Julia.
+\emph default
+', but we'd like to be able to express more generic knowledge, like 
+\emph on
+'If somebody has a daughter, then that person is a parent.'
+\emph default
+.
+ This kind of knowledge is called 
+\series bold
+schema knowledge
+\series default
+.
+ The RDF schema allows us to do some schema knowledge modeling, and the
+ Ontology Web Language (OWL) gives even more expressivity.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+class
+\series default
+ is a set of things or resources.
+ In RDF, everything is a 
+\series bold
+resource
+\series default
+, that belongs to a class (or several classes).
+ The classes can be arranged in 
+\series bold
+hierarchies
+\series default
+.
+ Every resource is a member of the class 
+\family sans
+rdfs:Class
+\family default
+.
+\end_layout
+
+\begin_layout Example
+A hierarchy of classes in RDF:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename rdf_0.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The different resources are labelled with:
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:Resource
+\family default
+: class of all resources.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdf:Property
+\family default
+: class of all properties.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:XMLLiteral
+\family default
+: class of XML resources.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:Literal
+\family default
+: each datatype is a subclass.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:Bag, rdf:Alt, rdf:Seq, rdfs:Container, rdf:List, rdf:nil, rdfs:ContainerMem
+bershipProperty.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:Datatype
+\family default
+: class of all datatypes.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+rdfs:Statement
+\family default
+.
+\end_layout
+
+\begin_layout Standard
+In RDF, there exists implicit knowledge, which can be inferred using 
+\series bold
+deduction
+\series default
+.
+ This knowledge doesn't need to be stated explicitly: which statements are
+ logical consequences from others is governed by the formal semantics.
+\end_layout
+
+\begin_layout Example
+If a RDF document contains 
+\emph on
+'u rdf:type ex:Textbook'
+\emph default
+ and 
+\emph on
+'ex:Textbook rdfs:subClassOf ex:Book'
+\emph default
+, then it is deduced that 
+\emph on
+'u rdf:type ex:Book'
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+As can be seen, RDF are usually stored in 
+\series bold
+triple stores
+\series default
+ or 
+\series bold
+quad stores
+\series default
+, which are a relational DB.
+ This means that it is usually not implemented natively as a graph database,
+ which makes it harder to do inference.
+ It is more usually used as a metadata storage.
+\end_layout
+
+\begin_layout Subsection
+The property graph data model
+\end_layout
+
+\begin_layout Standard
+This model is simpler: in this case, the model is a graph, where nodes and
+ edges are annotated with properties.
+ It is schema-less, meaning there is not an underlying schema to which the
+ data has to adhere.
+ Inference is not performed.
+\end_layout
+
+\begin_layout Standard
+There are several types of relationships supported by graph databases:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Attributes
+\series default
+: properties that can be uni- or multi- valued.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Entities
+\series default
+: groups of real-world objects.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Neighborhood relations
+\series default
+: structures to represents neighborhoods of an entity.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Standard abstractions
+\series default
+: part-of, composed-by, n-ary associations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Derivation and inheritance
+\series default
+: subclasses and superclasses, relations of instantiations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nested relations
+\series default
+: recursively specified relations.
+\end_layout
+
+\begin_layout Standard
+The abstract data type used is a 
+\series bold
+graph with properties
+\series default
+, which is a 4-tuple 
+\begin_inset Formula $G=\left(V,E,\Sigma,L\right)$
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V$
+\end_inset
+
+ is a finite set of nodes.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is a set of labels.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $E\subset V\times V$
+\end_inset
+
+ is a set of edges representing labelled binary relationships between elements
+ in 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L$
+\end_inset
+
+ is a function, 
+\begin_inset Formula $L:V\times V\rightarrow2^{\Sigma}$
+\end_inset
+
+, meaning that each edge can by annotated with zero or more labels from
+ 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The basic operations defined over a graph are:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $AddNode\left(G,x\right)$
+\end_inset
+
+: adds node 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $G$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $DeleteNode\left(G,x\right)$
+\end_inset
+
+: deletes 
+\begin_inset Formula $x$
+\end_inset
+
+ from 
+\begin_inset Formula $G$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Adjacent\left(G,x,y\right)$
+\end_inset
+
+: tests if there is an edge from 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $y$
+\end_inset
+
+ in 
+\begin_inset Formula $G$
+\end_inset
+
+, i.e., if 
+\begin_inset Formula $\left(x,y\right)\in E$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Neighbors\left(G,x\right)$
+\end_inset
+
+: returns all nodes 
+\begin_inset Formula $y$
+\end_inset
+
+ such that 
+\begin_inset Formula $\left(x,y\right)\in E$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $AdjacentEdges\left(G,x,y\right)$
+\end_inset
+
+: returns the set of lables of edges going from 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Add\left(G,x,y,l\right)$
+\end_inset
+
+: adds an edge between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ with label 
+\begin_inset Formula $l$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Delete\left(G,x,y,l\right)$
+\end_inset
+
+: deletes and edge between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ with label 
+\begin_inset Formula $l$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Reach\left(G,x,y\right)$
+\end_inset
+
+: tests if there is a path from 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ A 
+\series bold
+path
+\series default
+ between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ is a subset of nodes 
+\begin_inset Formula $z_{1},...,z_{n}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\left(x,z_{1}\right),\left(z_{n},y\right)\in E$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(z_{i},z_{i+1}\right)\in E$
+\end_inset
+
+ for all 
+\begin_inset Formula $i=1,...,n-1$
+\end_inset
+
+.
+ The 
+\series bold
+length
+\series default
+ of the path is how many edges there are from 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Path\left(G,x,y\right)$
+\end_inset
+
+: return a shorthest path from 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2-hop\left(G,x\right)$
+\end_inset
+
+: return the set of nodes that can be reached from 
+\begin_inset Formula $x$
+\end_inset
+
+ using paths of length 2.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n-hop\left(G,x\right)$
+\end_inset
+
+: returns the set of ndoes that can be reached from 
+\begin_inset Formula $x$
+\end_inset
+
+ using paths of length 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The notion of graph can be generalized by that of 
+\series bold
+hypergraph
+\series default
+, which is a pair 
+\begin_inset Formula $H=\left(V,E\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $V$
+\end_inset
+
+ is a set of nodes, and 
+\begin_inset Formula $E\subset2^{V}$
+\end_inset
+
+ is a set of non-empty subsets of 
+\begin_inset Formula $V$
+\end_inset
+
+, called 
+\series bold
+hyperedges
+\series default
+.
+ If 
+\begin_inset Formula $V=\left\{ v_{1},...,v_{n}\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $E=\left\{ e_{1},...,e_{m}\right\} $
+\end_inset
+
+, we can define the 
+\series bold
+incidence matrix
+\series default
+ of 
+\begin_inset Formula $H$
+\end_inset
+
+ as the matrix 
+\begin_inset Formula $A=\left(a_{ij}\right)_{n\times m}$
+\end_inset
+
+ where
+\begin_inset Formula 
+\[
+a_{ij}=\begin{cases}
+1 & if\ v_{i}\in e_{j}\\
+0 & otherwise
+\end{cases}
+\]
+
+\end_inset
+
+ In this case, this is an 
+\series bold
+undirected hypergraph
+\series default
+.
+ A 
+\series bold
+directed hypergraph
+\series default
+ is defined similarly by 
+\begin_inset Formula $H=\left(V,E\right)$
+\end_inset
+
+ where in this case 
+\begin_inset Formula $E\subset2^{V}\times2^{V}$
+\end_inset
+
+, meaning that the nodes in the left set are connected to the nodes of the
+ right one.
+\end_layout
+
+\begin_layout Subsubsection
+Implementation: adjacency list
+\end_layout
+
+\begin_layout Standard
+In an adjacency list, we maintain an array with as many cells as there are
+ nodes in the graph, and:
+\end_layout
+
+\begin_layout Itemize
+For each node, maintain a list of neighbors.
+\end_layout
+
+\begin_layout Itemize
+If the graph is directed, the list is only containing outgoing nodes.
+\end_layout
+
+\begin_layout Standard
+This way it is very cheap to obtain neighbors of a node, but it is not suitable
+ for checking if there is an edge between two nodes.
+\end_layout
+
+\begin_layout Example
+This graph
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename graph_0.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Is modelled with the following adjacency list:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(v1,{L2}),(v3,{L4})}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(v1,{L1})}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Implementation: incidence list
+\end_layout
+
+\begin_layout Standard
+In this case, we maintain two arrays, one with as many cells as nodes, and
+ another one with as many different edges there are in the graph:
+\end_layout
+
+\begin_layout Itemize
+Vertices and edges are stored as records of objects.
+\end_layout
+
+\begin_layout Itemize
+Each vertex stores incident edges, labeled as source if the edge goes out,
+ or destination if it goes in.
+\end_layout
+
+\begin_layout Itemize
+Each edge stores incident nodes.
+\end_layout
+
+\begin_layout Example
+Now, the graph of the previous example is modeled as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(dest,L2),(dest,L1)}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(source,L2),(source,L3)}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(dest,L3)}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+v4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{(source,L1)}
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(V4,V1)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(V2,V1)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+(V2,V3)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Some properties:
+\end_layout
+
+\begin_layout Itemize
+Storage is 
+\begin_inset Formula $O\left(\left|V\right|+\left|E\right|+\left|L\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Adjacent\left(G,x,y\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+, we have to check at most all edges.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Neighbors\left(G,x\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+, we go to node 
+\begin_inset Formula $x$
+\end_inset
+
+ and for each edge marked as source, we visit it and return the correspondant
+ destination.
+ At most 
+\begin_inset Formula $E$
+\end_inset
+
+ checks.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $AdjacentEdges\left(G,x,y\right)$
+\end_inset
+
+ is again 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Add\left(G,x,y,l\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+, as well as delete 
+\begin_inset Formula $Delete\left(G,x,y,l\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Implementation: adjacency matrix
+\end_layout
+
+\begin_layout Standard
+In this case, we maintain a matrix of size 
+\begin_inset Formula $n\times n$
+\end_inset
+
+, where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of nodes:
+\end_layout
+
+\begin_layout Itemize
+It is a bidimensional graph representation.
+\end_layout
+
+\begin_layout Itemize
+Rows represents source nodes.
+\end_layout
+
+\begin_layout Itemize
+Columnds represent destination nodes.
+\end_layout
+
+\begin_layout Itemize
+Each non-null entry represents that there is an edge from the source node
+ to the destination node.
+\end_layout
+
+\begin_layout Example
+In this case, the example is modelled as
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{L2}
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{L3}
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+{L1}
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Properties:
+\end_layout
+
+\begin_layout Itemize
+The storage is 
+\begin_inset Formula $O\left(\left|V\right|\times\left|V\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Adjacent\left(G,x,y\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(1\right)$
+\end_inset
+
+, we have to check cell 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Compute the out-degree of a node is 
+\begin_inset Formula $O\left(\left|V\right|\right)$
+\end_inset
+
+, we have to sum its row.
+\end_layout
+
+\begin_layout Itemize
+For the in-degree it is also 
+\begin_inset Formula $O\left(\left|V\right|\right)$
+\end_inset
+
+, we have to sum its column.
+\end_layout
+
+\begin_layout Itemize
+Adding an edge between two nodes is 
+\begin_inset Formula $O\left(1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Compute all paths of length 4 between any pair of nodes is 
+\begin_inset Formula $O\left(\left|V\right|^{4}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Implementation: incidence matrix
+\end_layout
+
+\begin_layout Standard
+In this case, we store a matrix of size 
+\begin_inset Formula $n\times m$
+\end_inset
+
+, where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of nodes and 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of edges:
+\end_layout
+
+\begin_layout Itemize
+It is also a bidimensional graph representation.
+\end_layout
+
+\begin_layout Itemize
+Rows represent nodes.
+\end_layout
+
+\begin_layout Itemize
+Columns represent edges.
+\end_layout
+
+\begin_layout Itemize
+A non-null entry represents that the node is incident to the edge, and in
+ which mode (source or destination).
+\end_layout
+
+\begin_layout Example
+The example is represented now as
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+L1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+L2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+L3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dest
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+v4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Properties:
+\end_layout
+
+\begin_layout Itemize
+The storage is 
+\begin_inset Formula $O\left(\left|V\right|\times\left|E\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Adjacent\left(G,x,y\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Neighbors
+\begin_inset Formula $\left(G,x\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|V\right|\times\left|E\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $AdjacentEdges\left(G,x,y\right)$
+\end_inset
+
+ is 
+\begin_inset Formula $O\left(\left|E\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Adding or deleting an edge between two nodes is 
+\begin_inset Formula $O\left(\left|V\right|\right)$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
 Neo4j
+\end_layout
+
+\begin_layout Standard
+Neo4j is an open source graph DB system implemented in Java which uses a
+ labelled attributed multigraph as data model.
+ Nodes and edges can have properties, and there are no restrictions on the
+ amount of edges between nodes.
+ Loops are allowes and there are different types of traversal strategies
+ defined.
+\end_layout
+
+\begin_layout Standard
+It provides APIs for Java and Python and it is embeddable or server-full.
+ It provides full ACID transactions.
+\end_layout
+
+\begin_layout Standard
+Neo4j provides a native graph processing and storage, characterized by 
+\series bold
+index-free adjacency
+\series default
+, meaning that each node keeps direct reference to adjacent nodes, acting
+ as a local index and making query time independent from graph size for
+ many kinds of queries.
+\end_layout
+
+\begin_layout Standard
+Another good property is that the joins are precomputed in the form of stored
+ relationships.
+\end_layout
+
+\begin_layout Standard
+It uses a high level query language called 
+\series bold
+Cypher
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+File storage
+\end_layout
+
+\begin_layout Standard
+Graphs are stored in files.
+ There are three different objects:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nodes
+\series default
+: they have a fixed length of 9 B, to make search performant: finding a
+ node is 
+\begin_inset Formula $O\left(1\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Its first byte is an 
+\series bold
+in-use
+\series default
+ flag.
+\end_layout
+
+\begin_layout Itemize
+Then there are 4 B indicating the address of its first relationship.
+\end_layout
+
+\begin_layout Itemize
+The final 4 B indicate the address of its first property.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="9">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Node
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inUse
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nextRel
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nextProp
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Relationships
+\series default
+: they have a fixed length of 33 B.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Its first byte is an in-use flag.
+\end_layout
+
+\begin_layout Itemize
+It is organized as double linked list.
+\end_layout
+
+\begin_layout Itemize
+Each record contians the IDs of the two nodes in the relationship (4B each).
+\end_layout
+
+\begin_layout Itemize
+There is a pointer to the relationship type (4 B).
+\end_layout
+
+\begin_layout Itemize
+For each node, there is a pointer to the previous and next relationship
+ records (4 B x 2 each).
+\end_layout
+
+\begin_layout Itemize
+Finally, a pointer to the next property (4 B).
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="33">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Relationship
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inUse
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+firstNode
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+secondNode
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+relType
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+firstPrevRel
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+firstNextRel
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+secPrevRel
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+secNextRel
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nextProp
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Properties
+\series default
+: they have a fixed length of 32 B divided in blocks og 8 B.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It includes the ID of the next property in the properties chain, which is
+ thus a single linked list.
+\end_layout
+
+\begin_layout Itemize
+Each property record holds the property type, a pointer to the property
+ index file, holding the property name and a value or a pointer to a dynamic
+ structure for long strings or arrays.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="32">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Property
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+propType
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+propIdxFile
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+value
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nextProp
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Caching
+\end_layout
+
+\begin_layout Standard
+Neo4j uses a cache to divide each store into regions, called 
+\series bold
+pages
+\series default
+.
+ The cache stores a fixed number of pages per file, which are replaces using
+ a Least Frequently Used strategy.
+\end_layout
+
+\begin_layout Standard
+The cache is optimized for reading, and stores object representationsof
+ nodes, relationships, and properties, for fast path traversal.
+ In this case, node objects contain properties and references to relationships,
+ while relationships contain only their properties.
+ This is the opposite of what happens in disk storage, where most informaiton
+ is in the relationship records.
+\end_layout
+
+\begin_layout Subsection
+Cypher
+\end_layout
+
+\begin_layout Standard
+Cypher is the high level query language used by Neo4j for creating nodes,
+ updating/deleting information and querying graphs in a graph database.
+\end_layout
+
+\begin_layout Standard
+Its functioning is different from that of the relational model.
+ In the relational model, we first create the structure of the database,
+ and then we store tuples, which must be conformant to the structure.
+ The foreign keys are defined at the structural level.
+ In Neo4j, nodes and edges are directly created, with their properties,
+ labels and types as structural information, but no schema is explicitly
+ defined.
+ The topology of the graph can be thought as analogous to the foreign key
+ in the relational model, but defined at the instance level.
+\end_layout
+
+\begin_layout Subsubsection
+Nodes
+\end_layout
+
+\begin_layout Standard
+A node is of the form
+\begin_inset Formula 
+\[
+\left(v\ :l_{1}:...:l_{n}\left\{ P_{1}:v_{1},...,P_{k}:v_{k}\right\} \right)
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $v$
+\end_inset
+
+ is the node variable, which identifies the node in an expression, 
+\begin_inset Formula $:l_{1}:...:l_{n}$
+\end_inset
+
+ is a list of 
+\begin_inset Formula $n$
+\end_inset
+
+ labels associated with the node, and 
+\begin_inset Formula $\left\{ P_{1}:v_{1},...,P_{k}:v_{k}\right\} $
+\end_inset
+
+ is a list of 
+\begin_inset Formula $k$
+\end_inset
+
+ properties associated with the node, and their respective assigned values.
+ 
+\begin_inset Formula $P_{i}$
+\end_inset
+
+ is the name of the property, 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+ is the value.
+\end_layout
+
+\begin_layout Standard
+To create an empty node:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE (v)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN v;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The ID is assigned internally, with a different number each time.
+ It can be reused by the system but should not be used in applications:
+ it should be considered an internal value to the system.
+ RETURN is used to display the node:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To create a node with two labels:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE (v :l1:l2)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN v;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado4.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To create a node with one label and 3 properties:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE (v :l1 {P1:'v1', P2:'v2', P3:['v3_1','v3_2']})
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN v;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado5.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+query
+\series default
+ in Cypher is basically a pattern, which will be fullfilled solving the
+ associated pattern-matching problem.
+\end_layout
+
+\begin_layout Standard
+If we want to add a new label to all nodes previously created:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+SET n :newL
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado6.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To delete a label from those nodes with a certain label:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH(n :matchL)
+\end_layout
+
+\begin_layout Plain Layout
+
+REMOVE n :delL
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A similar thing can be done with properties, which are referred to as node.proper
+tyName:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH(n :matchL)
+\end_layout
+
+\begin_layout Plain Layout
+
+REMOVE n.propName1, n.propName2
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Edges
+\end_layout
+
+\begin_layout Standard
+An edge has the form
+\begin_inset Formula 
+\[
+\left(n\right)-\left[e\ :Type\left\{ P_{1}:v_{1},...,P_{k}:v_{k}\right\} \right]->\left(v\right)
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the source node and 
+\begin_inset Formula $v$
+\end_inset
+
+ is the destination node.
+ The edge is defined inside the brackets 
+\begin_inset Formula $\left[\right]$
+\end_inset
+
+.
+ It can also be defined of the form 
+\begin_inset Formula $\left(n\right)<-\left[\right]-\left(v\right)$
+\end_inset
+
+.
+ 
+\begin_inset Formula $e$
+\end_inset
+
+ identifies the edge and 
+\begin_inset Formula $Type$
+\end_inset
+
+ is a mandatory field prefixed by :.
+ Finally, we have again a list of 
+\begin_inset Formula $k$
+\end_inset
+
+ properties and their values.
+\end_layout
+
+\begin_layout Standard
+Imagine we have 3 employees and want to create the relationship that one
+ of them is the manager of the other two and a date as property.
+ We can do that with:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH(n1 :Employee {Name:'1'}),(n2 :Employee {Name:'m'}),(n3 :Employee {Name:'2'
+})
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE (n1)<-[e1:manager_of {From:'Dec22'}]-(n2)-[e2:manager_of {From:'Jan23'}]-
+>(n3)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN e1,e2;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Queries
+\end_layout
+
+\begin_layout Standard
+As we have said, Cypher is a high level query language based on pattern
+ matching.
+ It queries graphs expressing informational or topological conditions.
+\end_layout
+
+\begin_layout Itemize
+MATCH: expresses a pattern that Neo4j tries to match.
+\end_layout
+
+\begin_layout Itemize
+OPTIONAL MATCH: is like an outer join, i.e., if it does not find a match,
+ puts null.
+\end_layout
+
+\begin_layout Itemize
+WHERE: it must go together with a MATCH or OPTIONAL MATCH expression.
+ No order can be assumed for the evaluation of the conditions in the clause,
+ Neo4j will decide.
+\end_layout
+
+\begin_layout Itemize
+RETURN: the evaluation produces subgraphs, and any portion of the match
+ can be returned.
+\end_layout
+
+\begin_layout Itemize
+RETURN DISTINCT: eliminates duplicates.
+\end_layout
+
+\begin_layout Itemize
+ORDER BY: orders the results with some condition.
+\end_layout
+
+\begin_layout Itemize
+LIMIT: returns only part of the result.
+ Unless ORDER BY is used, no assumptions can be made about the discarded
+ results.
+\end_layout
+
+\begin_layout Itemize
+SKIP: skips the first results.
+ Unless ORDER BY is used, no assumptions can be made about the discarded
+ results.
+\end_layout
+
+\begin_layout Standard
+In addition:
+\end_layout
+
+\begin_layout Enumerate
+If we don't need to make reference to a node, we can use () with no variable
+ inside.
+\end_layout
+
+\begin_layout Enumerate
+If we don't need to refer to an edge, we can omit it, like (n1)- ->(n2).
+\end_layout
+
+\begin_layout Enumerate
+If we don't need to consider the direction of the edge, we can use - -.
+\end_layout
+
+\begin_layout Enumerate
+If a pattern matches more than one label, we can write the OR condition
+ as | inside the pattern.
+ For example, (n :l1|:l2) matches nodes with label l1 or label l2.
+\end_layout
+
+\begin_layout Enumerate
+To express a path of any length, use [*].
+ For a fixed length m use [*m].
+\end_layout
+
+\begin_layout Enumerate
+To indicate boundaries to the length of a path, minimum n and maximum m,
+ use [*n..m].
+ To only limit one end use [*n..], [*..m].
+\end_layout
+
+\begin_layout Example
+A page X gets a score computed as the sum of all votes given by the pages
+ that references it.
+ If a page Z references a page X, Z gives X a normalized vote computed as
+ the inverse of the number of pages references by Z.
+ To prevent votes of self-referencing pages, if Z references X and X references
+ Z, Z gives 0 votes to X.
+\end_layout
+
+\begin_layout Example
+We are asked to compute the page rank for each web page.
+ One possible solution is:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (p)-->(r)
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH p, 1/count(r) AS vote
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (p)-->(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT ((x)-->(p))
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN x, SUM(vote) AS Rank
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY x.url
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The first MATCH-WITH computes, for each node, the inverse of the number
+ of outgoing edges, and passes this number on to the next clause.
+ Now, for each of these p nodes, we look for paths of length 1 where no
+ reciprocity exists.
+\end_layout
+
+\begin_layout Example
+Another solution uses COLLECT:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (p)-->(r)
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH p, 1/count(r) AS vote
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (p)-->(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT ((x)-->(p))
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN x.url, COLLECT(p.url), SUM(vote) AS rank
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY x.url
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+In this case, we are using the COLLECT to get the urls that points to x,
+ but x does not point to them, in addition to just computing the value.
 \end_layout
 
 \begin_layout Standard

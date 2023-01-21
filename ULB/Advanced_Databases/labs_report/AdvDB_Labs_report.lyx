@@ -7,6 +7,36 @@
 \textclass article
 \begin_preamble
 
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+	language=SQL,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -1047,7 +1077,9 @@ Session 6: Cypher Part II
 Consider the Northwind database, whose schema is:
 \end_layout
 
-\begin_layout Exercise
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado2.png
 	scale 60
@@ -1057,7 +1089,8 @@ Consider the Northwind database, whose schema is:
 
 \end_layout
 
-\begin_layout Exercise
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado4.png
 
@@ -1066,6 +1099,7 @@ Consider the Northwind database, whose schema is:
 
 \end_layout
 
+\end_deeper
 \begin_layout Exercise
 Write in Cypher the following queries over the northwindhg.db database:
 \end_layout
@@ -1603,7 +1637,9 @@ Switch to the MusicBrainz database, doing the same steps as in Assignment
  The schema is:
 \end_layout
 
-\begin_layout Exercise
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado5.png
 
@@ -1612,7 +1648,6 @@ Switch to the MusicBrainz database, doing the same steps as in Assignment
 
 \end_layout
 
-\begin_deeper
 \begin_layout Enumerate
 Compute the total number of releases per artist.
 \end_layout
@@ -2134,7 +2169,9 @@ We will query the Flanders river system depicted in Figure 1.
  This is stored in the rivers database.
 \end_layout
 
-\begin_layout Exercise
+\begin_deeper
+\begin_layout Standard
+\align center
 \begin_inset Graphics
 	filename pegado3.png
 
@@ -2143,6 +2180,7 @@ We will query the Flanders river system depicted in Figure 1.
 
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
