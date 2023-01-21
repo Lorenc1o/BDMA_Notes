@@ -16370,81 +16370,10 @@ They describe temporal constraints between the life cycles of two objects
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $starts\left(i1,i2\right)$
-\end_inset
-
-: intervals 
-\begin_inset Formula $i1$
-\end_inset
-
- and 
-\begin_inset Formula $i2$
-\end_inset
-
- start at the same time.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Formula $finishes\left(i1,i2\right)$
-\end_inset
-
-: intervals 
-\begin_inset Formula $i1$
-\end_inset
-
- and 
-\begin_inset Formula $i2$
-\end_inset
-
- finish at the same time.
-\end_layout
-
-\begin_layout Standard
-They can be visually seen in Figure
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename pegado10.png
-
+\begin_inset Formula $st$
 \end_inset
 
 
-\begin_inset Graphics
-	filename pegado11.png
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Allen's temporal operators and how to express them.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-These relationships express a temporal constraint between the whole life
- cycles or the active periods.
 \end_layout
 
 \begin_layout Section
