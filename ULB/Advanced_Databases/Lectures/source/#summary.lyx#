@@ -20055,7 +20055,7 @@ CREATE VIEW SalPeriods(FromDate, ToDate) AS
 
 \begin_layout Plain Layout
 
-	WHERE P1.Day < P2.Day
+	WHERE P1.Day < P2.Day -- Get all consecutive combinations
 \end_layout
 
 \begin_layout Plain Layout
@@ -20070,7 +20070,50 @@ CREATE VIEW SalPeriods(FromDate, ToDate) AS
 
 \begin_layout Plain Layout
 
-					
+						WHERE P1.Day < P3.Day AND P3.Day < P2.Day) -- Ensure they are consecutive
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempMax(MaxSalary, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT MAX(S.AMOUNT), P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM SALARY S, SalPeriods P
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE S.FromDate <= P.FromDate AND P.ToDate <= S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	GROUP BY P.FromDate, I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
 \end_layout
 
 \end_inset
@@ -20078,10 +20121,2126 @@ CREATE VIEW SalPeriods(FromDate, ToDate) AS
 
 \end_layout
 
-\begin_layout Section
-Temporal Support in SQL 2011
+\begin_layout Standard
+Now, we want to compute the history of maximum salary by deparment:
 \end_layout
 
+\begin_layout Enumerate
+Compute by department the periods on which a maximum must be calculated.
+\end_layout
+
+\begin_layout Enumerate
+Compute the maximum salary for these periods.
+\end_layout
+
+\begin_layout Enumerate
+Coalesce the results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW Aff_Sal(DNumber, Amount, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT A.DNumber, S.Amount, maxDate(S.FromDate, A.FromDate) AS FromDate,
+ minDate(S.ToDate, A.ToDate) AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Affiliation A, Salary S
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.SSN = S:SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND maxDate(S.FromDate,A.FromDate) < minDate(S.ToDate,A.ToDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW SalChanges(DNumber, Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT DNumber, FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Aff_Sal
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT DNumber, ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Aff_Sal
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW SalPeriods(DNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.DNumber, P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM SalChanges P1, SalChanges P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.DNumber = P2.DNumber AND P1.Day < P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM SalChanges P3
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE P3.DNumber = P1.DNumber 
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND P1.Day < P3.Day AND P3.Day < P2.Day)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempMaxDep(DNumber, MaxSalary, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P.DNumber, MAX(Amount), P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Aff_Sal A, SalPeriods P
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.DNumber = P.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND A.FromDate <= P.FromDate AND P.ToDate <= A.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	GROUP BY P.DNumber, P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Sequenced division
+\end_layout
+
+\begin_layout Standard
+Now we have the tables:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Affiliation
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DNumber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Controls
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PNumber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DNumber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+WorksOn
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PNumber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And say we want to get the employees that are working all projects of the
+ department to which they are affiliated.
+ 
+\end_layout
+
+\begin_layout Itemize
+Nontemporal version:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Affiliation A
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT EXISTS( SELECT * -- There are no projects associated to the dept
+ in which the employee does not work
+\end_layout
+
+\begin_layout Plain Layout
+
+				  FROM Controls C
+\end_layout
+
+\begin_layout Plain Layout
+
+				  WHERE A.DNumber = C.DNumber -- Get all projects controlled by the dept
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+									FROM WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+									WHERE C.PNumber = W AND A.SSN = W.SSN)) -- Check if the employee works
+ on it
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sequenced division: Case1.
+ Only WorksOn is temporal.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado13.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Construct the periods on which the division must be computed.
+\end_layout
+
+\begin_layout Enumerate
+Compute the division.
+\end_layout
+
+\begin_layout Enumerate
+Coalesce.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjChangesC1(SSN,Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN.FromDate FROM WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSn.ToDate FROM WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjPeriodsC1(SSN,FromDate,ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.SSN, P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjChangesC1 P1, ProjChangesC1 P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.SSN = P2.SSN AND P1.Day < P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM ProjChangesC1 P3
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE P3.SSN = P1.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND P3.Day > P1.Day AND P3.Day < P2.Day)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempUnivQuantC1(SSN, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT P.SSN, P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjPeriodsC1 P, Affiliation A
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P.SSN = A.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM CONTROLS C
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE A.DNumber = C.DNumber 
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+											FROM WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+											WHERE C.PNumber = W.PNumber AND P.SSN = W.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+											AND W.FromDate <= P.FromDate AND W.ToDate >= P.ToDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sequenced division: Case 2.
+ Only Controls and WorksOn are temporal.
+ In this case, employees may work on projects controlled by departments
+ different from the department to which they are affiliated.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado14.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Construct the periods on which the division must be computed.
+\end_layout
+
+\begin_layout Enumerate
+Compute the division of these periods.
+\end_layout
+
+\begin_layout Enumerate
+Coalesce.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjChangesC2(SSN,Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Affiliation A, Controls C
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.DNumber = C.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Affiliationn A, Controls C
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.DNumber = C.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjPeriodsC2(SSN,FromDate,ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.SSN, P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjChanges P1, ProjChanges P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.SSN = P2.SSN AND P1.Day < P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM ProjChanges P3
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE P3.SSN = P1.SSN AND P1.Day < P3.Day AND P3.Day < P2.Day)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempUnivC2(SSN, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT P.SSN, P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjPeriodsC2 P, Affiliation A
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P.SSN = A.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM Controls C
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE A.DNumber = C.DNumber 
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND C.FromDate <= P.FromDate AND P.ToDate <= C.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+											FROM WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+											WHERE C.PNumber = W.PNumber AND P.SSN = W.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+												AND W.FromDate <= P.FromDate AND P.ToDate <= W.ToDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sequenced division: Case 3.
+ Only Affiliation and WorksOn are temporal.
+ Again, employees may work in projects controlled by departments different
+ from the department to which they are affiliated.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado15.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The steps are conceptually the same, so let's go with SQL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW Aff_WO(SSN, DNumber, PNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT A.SSN, A.DNumber, W.PNumber, maxDate(A.FromDate,W.FromDate)
+ AS FromDate, minDate(A.ToDate,W.ToDate) AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Affiliation A, WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.SSN = W.SSN AND maxDate(A.FromDate,W.FromDate) < minDate(A.ToDate,W.toDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjChangesC3(SSN, DNumber, Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, FromDate FROM Aff_WO 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, ToDate FROM Aff_WO
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, FromDate FROM Affiliation
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, ToDate FROM Affiliation
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjPeriodsC3(SSN, DNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.SSN, P1.DNumber, P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjChangesC3 P1, ProjChangesC3 P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.SSN = P2.SSN AND P1.DNumber = P2.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND P1.Day < P2.Day 
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM ProjChangesC3 P3
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE P3.SSN = P1.SSN AND P3.DNumber = P1.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND P1.Day < P3.Day AND P3.Day < P2.Day)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempUnivQuantC3(SSN, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT P.SSN, P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjPeriodsC3 P
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Controls C
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE P.DNumber = C.DNumber 
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+										FROM WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+										WHERE C.PNumber = W.PNumber AND P.SSN = W.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+											AND W.FromDate <= P.FromDate AND P.ToDate <= W.ToDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sequenced division, Case 4.
+ The three tables are temporal.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado16.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW Aff_Cont(SSN, DNumber, PNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT A.SSN, A.DNumber, C.PNumber,maxDate(A.FromDate,C.FromDate) AS
+ FromDate, minDate(A.ToDate,C.ToDate) AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Affiliation A, Controls C 
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.DNumber=C.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND maxDate(A.FromDate,C.FromDate) < minDate(A.ToDate,C.ToDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW Aff_Cont_WO(SSN, DNumber, PNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT A.SSN, A.DNumber, W.PNumber, maxDate(A.FromDate,W.FromDate)
+ AS FromDate, minDate(A.ToDate,W.ToDate) AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Aff_Cont A, WorksOn W 
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE A.PNumber=W.PNumber AND A.SSN=W.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND maxDate(A.FromDate,W.FromDate) < minDate(A.ToDate,W.ToDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjChangesC4(SSN, DNumber, Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, FromDate FROM Aff_Cont 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, ToDate FROM Aff_Cont 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, FromDate FROM Aff_Cont_WO 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, ToDate FROM Aff_Cont_WO 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, FromDate FROM Affiliation 
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT SSN, DNumber, ToDate FROM Affiliation
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW ProjPeriodsC4(SSN, DNumber, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.SSN, P1.DNumber, P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjChangesC4 P1, ProjChangesC4 P2 
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.SSN = P2.SSN AND P1.DNumber = P2.DNumber AND P1.Day < P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM ProjChangesC4 P3
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE P1.SSN = P3.SSN AND P1.DNumber = P3.DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+							AND P1.Day < P3.Day AND P3.Day < P2.Day)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempUnivQuantC4(SSN, FromDate, ToDate) AS 
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT P.SSN, P.FromDate, P.ToDate 
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM ProjPeriodsC4 P 
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Controls C 
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE P.DNumber = C.DNumber 
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND C.FromDate <= P.FromDate AND P.ToDate <= C.ToDate 
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+										FROM WorksOn W 
+\end_layout
+
+\begin_layout Plain Layout
+
+										WHERE C.PNumber = W.PNumber AND P.SSN=W.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+											AND W.FromDate <= P.FromDate AND P.ToDate <= W.ToDate))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Temporal Support in current DBMSs and SQL 2011
+\end_layout
+
+\begin_layout Subsection
+Oracle
+\end_layout
+
+\begin_layout Itemize
+Oracle 9i included support for transaction time.
+ 
+\series bold
+Flashback queries
+\series default
+ allow the application to access prior transaction-time states of their
+ database: they are transaction timeslice queries.
+ Database modifications and conventional queries are temporally upward compatibl
+e.
+\end_layout
+
+\begin_layout Itemize
+Oracle 10g extended flashback queries to retrieve all the versions of a
+ row between two transaction times.
+ It also allowed tables and databases to be rolled back to a previous transactio
+n time, discarding changes after that time.
+\end_layout
+
+\begin_layout Itemize
+Oracle 10g Workspace Manager includes the period data type, valid-time support,
+ transaction-time support, bitemporal support and support for sequenced
+ primary keys, sequenced uniqueness, sequenced referential integrity and
+ sequenced selection and projection.
+\end_layout
+
+\begin_layout Itemize
+Oracle 11g does not rely on transient storage like the undo segments, it
+ records changes in the Flashback Recovery Area.
+ Valid-time queries were also enhanced.
+\end_layout
+
+\begin_layout Subsection
+Teradata
+\end_layout
+
+\begin_layout Itemize
+Teradata Database 13.10 introduced the period data type, valid-time support,
+ transaction-time support, timeslices, temporal upward compatibility, sequenced
+ primary key and temporal referential integrity constraints, nonsequenced
+ queries, and sequenced projection and selection.
+\end_layout
+
+\begin_layout Itemize
+Teradata Database 14 adds capabilities to create a global picture of an
+ organization’s business at any point in time.
+\end_layout
+
+\begin_layout Subsection
+DB2
+\end_layout
+
+\begin_layout Standard
+IBM DB2 10 includes the period data type, valid-time support (termed business
+ time), transaction-time support (termed system time), timeslices, temporal
+ upward compatibility, sequenced primary keys, and sequenced projection
+ and selection.
+\end_layout
+
+\begin_layout Subsection
+SQL 2011
+\end_layout
+
+\begin_layout Standard
+SQL2011 has temporal support:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Application-time period tables
+\series default
+: valid-time tables.
+ They have sequenced primary and foreign keys, support single-table valid-time
+ sequenced insertions, deletions and updates, and nonsequenced valid-time
+ queries.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+They contain a PERIOD clause with an user-defined period name.
+ Currently restricted to temporal periods only.
+ They must contain two additional columns, to store the start time and the
+ end time of a period associated with the row, whose values are set by the
+ user.
+ The user can also specify primary key/unique constraints to ensure that
+ no two rows with the same key value have overlapping periods, as well as
+ referential integrity constraints to ensure that the period of every child
+ row is completely contained in the period of exactly one parent row or
+ in the combined period of two or more consecutive parent rows.
+\end_layout
+
+\begin_layout Standard
+Queries, inserts, updates and deletes behave exactly like in regular tables.
+ Additional syntax is provided on UPDATE and DELETE statements for partial
+ period updates and deletes.
+\end_layout
+
+\begin_layout Standard
+We can 
+\series bold
+create
+\series default
+ an application-time period table as
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE employees(
+\end_layout
+
+\begin_layout Plain Layout
+
+	emp_name VARCHAR(50) NOT NULL PRIMARY KEY,
+\end_layout
+
+\begin_layout Plain Layout
+
+	dept_id VARCHAR(10),
+\end_layout
+
+\begin_layout Plain Layout
+
+	start_date DATE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	end_date DATE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	PERIOD FOR emp_period (start_date, end_date),
+\end_layout
+
+\begin_layout Plain Layout
+
+	PRIMARY KEY(emp_name, emp_period WITHOUT OVERLAPS),
+\end_layout
+
+\begin_layout Plain Layout
+
+	FOREIGN KEY(dept_id, PERIOD emp_period) REFERENCES departments(Dept_id,
+ PERIOD dept_period));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The PERIOD clause automatically enforces the constraint end_date > start_date.
+ The name of the period can be any user-defined name.
+ The period is closed-open, [).
+\end_layout
+
+\begin_layout Standard
+To 
+\series bold
+insert
+\series default
+ a row into an application-time period table, the user needs to provide
+ the start and end time of the period for each row.
+ The time values can be either in the past, current or future.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+INSERT INTO employees (emp_name, dept_id, start_date, end_date)
+\end_layout
+
+\begin_layout Plain Layout
+
+VALUES ('John', 'J13', DATE '1995-11-15', DATE '1996-11-15'),
+\end_layout
+
+\begin_layout Plain Layout
+
+		('Tracy', 'K25', DATE '1996-01-01', DATE '1997-11-15')
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All rows canbe potentially 
+\series bold
+updated
+\series default
+.
+ Users are allowed to update the start and end columns of the period associated
+ with each row and when a row is updated using the regular UPDATE statement,
+ the regular semantics apply.
+ Additional syntax is provided for UPDATE statements to specify the time
+ period during which the update applies, and only rows that lie within the
+ specified period are impacted in that case.
+ This can lead to row splits, if the modification lies in the middle of
+ the period of the row.
+ Users are not allowed to update the start and end columns of the period
+ associated with each row under this option.
+\end_layout
+
+\begin_layout Standard
+Also, all rows can be potentially 
+\series bold
+deleted
+\series default
+.
+ Again, normal semantics apply unless we use the syntax provided to specify
+ the time period during which the delete applies, so only rows lying inside
+ the indicated period are impacted.
+ This can also lead to row splits.
+\end_layout
+
+\begin_layout Standard
+To 
+\series bold
+query
+\series default
+ a table, normal syntax applies.
+ If we want to retrieve the current department of John:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT dept_id 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM employees
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE emp_name = 'John' 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND start_date <= CURRENT_DATE AND end_date > CURRENT_DATE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Or if we want the number of different departments in which John worked since
+ Jan 1 96:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT COUNT(DISTINCT dept_id)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM employees
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE emp_name = 'John'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND start_date<=DATE '1996-01-01' AND end_date > DATE '1996-01-01'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Benefits 
+\series default
+of application-time period tables:
+\end_layout
+
+\begin_layout Itemize
+Most business data is time sensitive.
+\end_layout
+
+\begin_layout Itemize
+DB systems today offer no support for associating user-maintained time periods
+ with rows nor enforcing constraints such as '
+\emph on
+an employee can be in only one department in any given period
+\emph default
+'.
+\end_layout
+
+\begin_layout Itemize
+Updating/deleting a row for a part of its validity period.
+\end_layout
+
+\begin_layout Itemize
+Currently, applications take the responsibility for managing such requirements.
+\end_layout
+
+\begin_layout Itemize
+The major issues are the complexity of the code and its poor performance.
+\end_layout
+
+\begin_layout Itemize
+These table provide: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Significant simplification of application code
+\end_layout
+
+\begin_layout Itemize
+Significant improvement in performance
+\end_layout
+
+\begin_layout Itemize
+Transparent to legacy applications
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+System-versioned tables
+\series default
+: transaction-time tables.
+ They have transaction-time current primary and foreign keys, support transactio
+n-time current insertions, deletions and updates, and transaction-time current
+ and nonsequenced queries.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+These tables contain a PERIOD clause with a pre-defined period name (SYSTEM_TIME
+) and specify WITH SYSTEM VERSIONING.
+ They must contain two additional columns, to store the start time and the
+ end time of the SYSTEM_TIME period, whose values are set by the system,
+ not the user.
+ Unlike regular tables, system-versioned tables preserve the old versions
+ of rows as the table is updated.
+\end_layout
+
+\begin_layout Standard
+Rows whose periods intersect the current time are called 
+\series bold
+current system rows
+\series default
+, all others are called 
+\series bold
+historical system rows
+\series default
+.
+ Only current system rows can be updated or deleted and the constraints
+ are enforced only on current system rows.
+\end_layout
+
+\begin_layout Standard
+To 
+\series bold
+create
+\series default
+ a table:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE employee(
+\end_layout
+
+\begin_layout Plain Layout
+
+	emp_name VARCHAR(50) NOT NULL PRIMARY KEY,
+\end_layout
+
+\begin_layout Plain Layout
+
+	dept_id VARCHAR(10),
+\end_layout
+
+\begin_layout Plain Layout
+
+	system_start TIMESTAMP(6) GENERATED ALWAYS AS ROW START,
+\end_layout
+
+\begin_layout Plain Layout
+
+	system_end TIMESTAMP(6) GENERATED ALWAYS AS ROW END,
+\end_layout
+
+\begin_layout Plain Layout
+
+	PERIOD FOR SYSTEM_TIME (system_start, system_end),
+\end_layout
+
+\begin_layout Plain Layout
+
+	FOREIGN KEY (dept_id) REFERENCES departments(dept_id);
+\end_layout
+
+\begin_layout Plain Layout
+
+) WITH SYSTEM VERSIONING;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The PERIOD clause automatically enforces the constraint system_end > system_star
+t and the name of the period must be SYSTEM_TIME.
+ The period is closed, open [).
+\end_layout
+
+\begin_layout Standard
+When a row is 
+\series bold
+inserted
+\series default
+ into a system-versiones table, the SQL-implementation sets the start time
+ to the transaction time and the end time to the largest timestamp value.
+ All rows inserted in a transaction will get the same values for the start
+ and end columns.
+\end_layout
+
+\begin_layout Standard
+When a row is 
+\series bold
+updated
+\series default
+ the SQL-implementation insert the 'old' version of the row into the table
+ before updating the row, setting its end time and the start time of the
+ updated row to the transaction time.
+ Users are not allowed to modify the start nor end time.
+\end_layout
+
+\begin_layout Standard
+When a row is 
+\series bold
+deleted
+\series default
+, the SQL-implementation does not actually delete the row, but sets its
+ end time to the transaction time.
+\end_layout
+
+\begin_layout Standard
+To 
+\series bold
+query
+\series default
+ a system-versiones table, existing syntax for querying regular tables is
+ applicable.
+ Additional syntax is provided for expressing queries involving system-versioned
+ tables in a more succint manner:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+FOR SYSTEM_TIME AS OF <datetime> -- Ask for data of the date datetime 
+\end_layout
+
+\begin_layout Plain Layout
+
+FOR SYSTEM_TIME BETWEEN <datetime> AND <datetime> -- Ask for data between
+ the two given datetimes
+\end_layout
+
+\begin_layout Plain Layout
+
+FOR SYSTEM_TIME FROM <datetime> TO <datetime> -- Same
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If none of this clause are specified, the system queries only current system
+ tables.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Benefits
+\series default
+ of system-versioned tables:
+\end_layout
+
+\begin_layout Itemize
+Today's DB systems focus mainly on managing current data, providing almnost
+ no support for managing historical data, while some applications have an
+ inherent need for preserving old data.
+ Also, regulatory and compliance laws require keeping old data around for
+ a certain period of time.
+ Currently, applications take on this responsibility.
+ 
+\end_layout
+
+\begin_layout Itemize
+The major issues are as before: complexity of the code and poor performance.
+\end_layout
+
+\begin_layout Itemize
+System-versioned tables provide:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Significant simplification of application code.
+\end_layout
+
+\begin_layout Itemize
+Significant improvement in performance.
+\end_layout
+
+\begin_layout Itemize
+Transparent to legacy applications.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+System-versiones application-time period tables
+\series default
+: bitemporal tables.
+ They support temporal queries and modifications of combinations of the
+ valid-time and transaction-time variants.
+ These tables support features of both application-time period tables and
+ system-versioned tables.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+To 
+\series bold
+create
+\series default
+ a table:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE employees(
+\end_layout
+
+\begin_layout Plain Layout
+
+	emp_name VARCHAR(50) NOT NULL PRIMARY KEY,
+\end_layout
+
+\begin_layout Plain Layout
+
+	dept_id VARCHAR(10),
+\end_layout
+
+\begin_layout Plain Layout
+
+	start_date DATE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	end_date DATE NOT NULL,
+\end_layout
+
+\begin_layout Plain Layout
+
+	system_start TIMESTAMP(6) GENERATED ALWAYS AS ROW START,
+\end_layout
+
+\begin_layout Plain Layout
+
+	System_end TIMESTAMP(6) GENERATED ALWAYS AS ROW END,
+\end_layout
+
+\begin_layout Plain Layout
+
+	PERIOD FOR emp_period (start_date, end_date),
+\end_layout
+
+\begin_layout Plain Layout
+
+	PERIOD FOR SYSTEM_TIME (system_start, system_end),
+\end_layout
+
+\begin_layout Plain Layout
+
+	PRIMARY KEY (emp_name, emp_period WITHOUT OVERLAPS),
+\end_layout
+
+\begin_layout Plain Layout
+
+	FOREIGN KEY (dept_id, PERIOD emp_period) REFERENCES departments (dept_id,
+ PERIOD dept_period)
+\end_layout
+
+\begin_layout Plain Layout
+
+) WITH SYSTEM VERSIONING;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Say we want to make the following update: On 15/12/97, John is loaned to
+ department M12 starting from 01/01/98 to 01/07/98:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+UPDATE employees FOR PORTION OF emp_period
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM DATE '1998-01-01' TO DATE '1998-07-01'
+\end_layout
+
+\begin_layout Plain Layout
+
+SET dept_id = 'M12' WHERE emp_name = 'John'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Or in 15/12/98, John is approved o
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
