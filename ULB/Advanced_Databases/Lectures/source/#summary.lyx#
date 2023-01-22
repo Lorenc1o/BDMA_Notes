@@ -16370,16 +16370,2891 @@ They describe temporal constraints between the life cycles of two objects
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $st$
+\begin_inset Formula $starts\left(i1,i2\right)$
+\end_inset
+
+: intervals 
+\begin_inset Formula $i1$
+\end_inset
+
+ and 
+\begin_inset Formula $i2$
+\end_inset
+
+ start at the same time.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $finishes\left(i1,i2\right)$
+\end_inset
+
+: intervals 
+\begin_inset Formula $i1$
+\end_inset
+
+ and 
+\begin_inset Formula $i2$
+\end_inset
+
+ finish at the same time.
+\end_layout
+
+\begin_layout Standard
+They can be visually seen in Figure
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado10.png
+
 \end_inset
 
 
+\begin_inset Graphics
+	filename pegado11.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Allen's temporal operators and how to express them.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These relationships express a temporal constraint between the whole life
+ cycles or the active periods.
 \end_layout
 
 \begin_layout Section
 Manipulating Temporal Databases with SQL-92
 \end_layout
 
+\begin_layout Standard
+Data type for periods is not available in SQL-92.
+ Thus, a period is simulated with two Date columns: fromDate and toDate,
+ indicating the beginning and end of the period, respectively.
+ Some notes:
+\end_layout
+
+\begin_layout Itemize
+The special date '3000-01-01' denotes currently valid.
+\end_layout
+
+\begin_layout Itemize
+The periods are considered closed-open, [).
+\end_layout
+
+\begin_layout Itemize
+A table can be viewes as a compact representation of a sequence of snapshot
+ tables, each one valid on a particular day.
+\end_layout
+
+\begin_layout Subsection
+Temporal statements
+\end_layout
+
+\begin_layout Standard
+Temporal statement apply to queries, modifications, views and integrity
+ constraints.
+ They are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Current
+\series default
+: applies to the current point in time.
+ Example: what is Bob's current position?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Time-sliced
+\series default
+: applies to some point in time in the past or in the future.
+ Example: what was Bob's position on 1-1-2007?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sequenced
+\series default
+: applies to each point in time.
+ Example: what is Bob's position history?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Non-sequenced
+\series default
+: applies to all points in time, ignoring the time-varying nature of tables.
+ Example: when did Bob changed history?
+\end_layout
+
+\begin_layout Subsection
+Temporal keys
+\end_layout
+
+\begin_layout Standard
+Imagine we have the relation 
+\family typewriter
+Incumbents(SSN,PCN,FromDate,ToDate)
+\family default
+ and we want to enforce that each employee has only one position at a point
+ in time.
+ If we use the key of the corresponding non-temporal table, (SSN,PCN), then
+ we would not be able to enter the same employee for different periods.
+ Thus, we need to somehow include the dates in the key.
+ The options are: (SSN,PCN,FromDate), (SSN,PCN,ToDate) or (SSN,PCN,FromDate,ToDa
+te).
+ None of them captures the constraint that we want to enforce, because there
+ are overlapping periods associated with the same SSN: we need a 
+\series bold
+sequenced constraint
+\series default
+, applied at each point in time.
+ All constraints specified on a snapshot table have sequenced counterparts,
+ specified on the analogous valid-time table.
+\end_layout
+
+\begin_layout Subsubsection
+Sequenced primary key
+\end_layout
+
+\begin_layout Example
+Employees have only one position at a point in time.
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Seq_Primary_Key ON Incumbents FOR INSERT, UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I1 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE 1 < ( SELECT COUNT(I2.SSN) -- How many entries
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I1.SSN = I2.SSN AND I1.PCN = I2.PCN -- The same employee
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.FromDate < I2.ToDate -- I1 starts before I2 ends
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.ToDate > I2.FromDate)) -- I1 ends after I2 starts: the two conditions
+ are searching for intersections
+\end_layout
+
+\begin_layout Plain Layout
+
+	OR EXISTS (SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+			FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+			WHERE I.SSN IS NULL OR I.PCN IS NULL) -- no NULLS values of SSN and PCN
+ can be inserted
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of sequenced primary key constraint',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Handling Now
+\end_layout
+
+\begin_layout Standard
+We have to decide how to timestamp current data.
+ One alternative is to put NULL in the ToDate, which allows to identify
+ current records by checking: 
+\family typewriter
+WHERE ToDate IS NULL
+\family default
+.
+ But it possesses some disadvantages:
+\end_layout
+
+\begin_layout Itemize
+Users get confused with a data of NULL.
+\end_layout
+
+\begin_layout Itemize
+In SQL many comparisons with a NULL return false, so we might exclude some
+ rows that should not be excluded from the query.
+\end_layout
+
+\begin_layout Itemize
+Other uses or NULL are not available.
+\end_layout
+
+\begin_layout Standard
+Another approach is to set the ToDate to the largest value in the timestamp
+ domain: '3000-01-01'.
+ The disadvantages of this are:
+\end_layout
+
+\begin_layout Itemize
+The DB states that something will be true in the far future.
+\end_layout
+
+\begin_layout Itemize
+'Now' and 'Forever' are represented in the same way.
+\end_layout
+
+\begin_layout Subsection
+Duplicates
+\end_layout
+
+\begin_layout Standard
+There are different kind of duplicates in temporal databases:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Value equivalent
+\series default
+: the values of the nontimestamp columns are equivalent.
+ Example: all rows in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:temp_dup"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sequenced duplicates
+\series default
+: when in some instant, the rows are duplicate.
+ Example: rows 1 and 2 in the table.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Current duplicates
+\series default
+: they are sequenced duplicates at the current instant.
+ Example: rows 4 and 5 in the table.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nonsequenced duplicates
+\series default
+: the values of all columns are identical.
+ Example: rows 2 and 3 in the table.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Incumbents
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PCN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111223333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-01-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-06-01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111223333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-06-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-10-01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111223333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-06-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-10-01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111223333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1996-10-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Now
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+111223333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120033
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1997-12-01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Now
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Temporal duplicates example.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:temp_dup"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Preventing duplicates
+\end_layout
+
+\begin_layout Itemize
+To prevent value equivalent rows: we define a secondary key using UNIQUE(SSN,PCN
+).
+\end_layout
+
+\begin_layout Itemize
+To prevent nonsequenced duplicates: UNIQUE(SSN,PCN,FromDate,ToDate).
+\end_layout
+
+\begin_layout Itemize
+To prevent current duplicates: no employee can have two identical positions
+ at the current time:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Current_Dups ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT I1.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I1
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE 1 < (SELECT COUNT(I2.SSN) 
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I1.SSN = I2.SSN AND I1.PCN=I2.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.FromDate <= CURRENT_DATE AND CURRENT_DATE < I1.ToDate -- I1 is
+ current
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I2.FromDate <= CURRENT_DATE AND CURRENT_DATE < I2.ToDate )) -- I2
+ is current
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Transaction allows current duplicates',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To prevent current duplicates, assuming no future data, we notice that current
+ data will have the same ToDate, so we set UNIQUE(SSN,PCN,ToDate).
+\end_layout
+
+\begin_layout Itemize
+To prevent sequenced duplicates, we do as with the trigger for sequenced
+ primary keys, but disregarding NULL values (because now we are not making
+ a key UNIQUE+NOTNULL, but only UNIQUE):
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Seq_Dup ON Incumbents FOR INSERT, UPDATE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I1 
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE 1 < ( SELECT COUNT(I2.SSN) -- How many entries
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I1.SSN = I2.SSN AND I1.PCN = I2.PCN -- The same employee
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.FromDate < I2.ToDate -- I1 starts before I2 ends
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.ToDate > I2.FromDate)) -- I1 ends after I2 starts: the two conditions
+ are searching for intersections
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of sequenced primary key constraint',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To prevent sequenced duplicates, asumming only modifications to current
+ data, we can just use UNIQUE(SSN,PCN,ToDate).
+\end_layout
+
+\begin_layout Standard
+Now, we want to enforce that each employee has at most one position.
+ In a snapshot table, this would be equivalent to UNIQUE(SSN), and now the
+ sequenced constraint is: at any time each employee has at most one position,
+ i.e., SSN is sequenced unique:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Seq_Unique ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT I1.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I1
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE 1 < ( SELECT COUNT(I2.SSN)
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I1.SSN = I2.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.FromDate < I2.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.ToDate > I2.FromDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+		OR EXISTS (SELECT * FROM Incumbents AS I WHERE I.SSN IS NULL)
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Transaction violates sequenced unique constraint',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can also think about the nonsequenced constraint: an employee cannot
+ have more than one position over two identical periods, i.e.
+ SSN is nonsequenced unique: UNIQUE(SSN,FromDate,ToDate).
+\end_layout
+
+\begin_layout Standard
+Or current constraint: an employee has at most one position now, i.e.
+ SSN is current unique:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Current_Unique ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT I1.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I1
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE 1 < (SELECT COUNT(I2.SSN) 
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I1.SSN = I2.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I1.FromDate <= CURRENT_DATE AND CURRENT_DATE < I1.ToDate -- I1 is
+ current
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I2.FromDate <= CURRENT_DATE AND CURRENT_DATE < I2.ToDate )) -- I2
+ is current
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Transaction allows current duplicates',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Referential integrity
+\end_layout
+
+\begin_layout Standard
+We want to enforce that Incumbents.PCN is a foreign key for Position.PCN.
+ There several possible cases, depending on what tables are temporal.
+\end_layout
+
+\begin_layout Subsubsection
+Case 1: neither table is temporal
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE Incumbents(
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	PCN CHAR(6) NOT NULL REFERENCES Position,
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Case 2: both tables are temporal
+\end_layout
+
+\begin_layout Standard
+In this case, if we want the PCN to be a 
+\series bold
+current foreign key
+\series default
+, the PCN of all current incumbents must be listed in the current positions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Current_RI ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE I.ToDate = '3000-01-01'
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE I.PCN = P.PCN -- The position is correct
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND P.ToDate='3000-01-01')) -- And is active
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of current referential integrity',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Or it can be a 
+\series bold
+sequenced foreign key
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Seq_RI ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE I.PCN = P.PCN 
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND P.FromDate <= I.FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND P.ToDate > I.FromDate) -- These two search for P s.t.
+ I starts in the middle of P
+\end_layout
+
+\begin_layout Plain Layout
+
+		OR NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE I.PCN = P.PCN 
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND P.FromDate < I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND P.ToDate >= I.ToDate) -- These two search for P s.t.
+ I ends in the middle of P
+\end_layout
+
+\begin_layout Plain Layout
+
+		OR EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I.FromDate < P.ToDate AND I.ToDate > P.ToDate -- P ends in the middle
+ of I
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+								FROM Position P2
+\end_layout
+
+\begin_layout Plain Layout
+
+								WHERE P2.PCN = P.PCN 
+\end_layout
+
+\begin_layout Plain Layout
+
+								AND P2.FromDate <= P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+								AND P2.ToDate > P.ToDate))) -- These two search for P2 that continues
+ the RI instead of P
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of sequential referential integrity',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Contiguous history
+\end_layout
+
+\begin_layout Standard
+A contiguous history is such that there are no gaps in the history.
+ Enforcing contiguous history is a nonsequenced constraint, because it requires
+ examining the table at multiple points of time.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Cont_History ON Position FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Position P1, Position P2
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE P1.PCN = P2.PCN 
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND P1.ToDate < P2.FromDate -- If P1 and P2 are separated
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Position P3
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE P3.PCN = P1.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND (
+\end_layout
+
+\begin_layout Plain Layout
+
+						(P3.FromDate <= P1.ToDate AND P3.ToDate > P1.ToDate) -- P3 extends P1
+ to the right
+\end_layout
+
+\begin_layout Plain Layout
+
+						OR
+\end_layout
+
+\begin_layout Plain Layout
+
+						(P3.FromDate < P2.FromDate AND P3.ToDate >= P2.FromDate)))) -- P3 extends
+ P2 to the left
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Transaction violates contiguous history',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can also have the situation that Incumbents.PCN is a FK for Position.PCN
+ and Position.PCN defines a contiguous history.
+ In this case, we can omit the part of searching for the P2 that extends
+ a P that ends in the middle of I.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Seq_RI_CH ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND P.FromDate <= I.ToDate AND I.FromDate < P.ToDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+		OR NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Position P 
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND P.FromDate < I.ToDate AND I.ToDate <= P.ToDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of sequenced referential integrity',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Case 3: Only the referenced table is temporal
+\end_layout
+
+\begin_layout Standard
+Current FK:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TRIGGER Current_RI ON Incumbents FOR INSERT, UPDATE, DELETE AS
+\end_layout
+
+\begin_layout Plain Layout
+
+IF EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+		FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+		WHERE NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE I.PCN = P.PCN AND P.ToDate = '3000-01-01')) -- P is current
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RAISERROR('Violation of current referential integrity',1,2)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ROLLBACK TRANSACTION
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Querying valid-time tables
+\end_layout
+
+\begin_layout Standard
+We have the relations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Employee
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FirstName
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LastName
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BirthDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Incumbents
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PCN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Salary
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Amount
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Position
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PCN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+JobTitle
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Say we want to obtain Bob's current position.
+ Then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Option 1
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT JobTitle
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Employee E, Incumbents I, Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE F.FirstName = 'Bob' 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND E.SSN = I.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.ToDate = '3000-01-01'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Option 2
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT JobTitle
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Employee E, Incumbents I, Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE F.FirstName = 'Bob' 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND E.SSN = I.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate <= CURRENT_DATE AND I.ToDate > CURRENT_DATE -- This one is
+ more portable
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And Bob's current position and salary? Current joins:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT JobTitle, Amount
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Employee E, Incumbents I, Position P, Salary S
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE FirstName = 'Bob'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND E.SSN = I.SSN AND I.PCN = P.PCN AND E.SSN = S.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate <= CURRENT_DATE AND I.ToDate > CURRENT_DATE -- I is current
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND S.FromDate <= CURRENT_DATE AND S.ToDate > CURRENT_DATE -- S is current
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And if we want to get what employees have currently no position?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT FirstName
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Employee e
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+				FROM Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+				WHERE E.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				AND I.FromDate <= CURRENT_DATE AND I.ToDate > CURRENT_DATE)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Extracting prior states
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+timeslice query
+\series default
+ extracts a state at a particular point in time.
+ They require an additional predicate for each temporal tables: they are
+ basically the same as checking the current state, but with a different
+ date.
+\end_layout
+
+\begin_layout Standard
+For example: Bob's position at the beginning of 1997?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT JobTitle
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Employee E, Incumbents I, Position P
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE F.FirstName = 'Bob' 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND E.SSN = I.SSN 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate <= '1997-01-01' AND I.ToDate > '1997-01-01'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Sequenced queries
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+sequenced query
+\series default
+ is such that its result is a valid-time table.
+ They use sequenced variants of basic operations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sequenced selection
+\series default
+: no change:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE Amount > 5000
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Sequenced projection
+\series default
+: include the timestamp columns in the select list, because if not we would
+ obtain several values for the same employees:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT SSN, FromDate, ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary
+\end_layout
+
+\end_inset
+
+If we want to remove the duplicates here, we need to 
+\series bold
+coalesce
+\series default
+ the results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT F.SSN, F.FromDate, L.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary F, Salary L
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE F.FromDate < L.ToDate -- F is to the left of L
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND F.SSN = L.SSN -- And they are of the same SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT * -- This is the: forall M inside the period, it
+ can be extended to the left
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Salary M
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE M.SSN = F.SSN -- M belongs to the same SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND F.FromDate < M.FromDate and M.FromDate <= L.ToDate -- M starts between
+ F and L
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+									FROM Salary T1
+\end_layout
+
+\begin_layout Plain Layout
+
+									WHERE T1.SSN = F.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+									AND T1.FromDate < M.FromDate AND M.FromDate <= T1.ToDate))
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT * -- This is the: the period is maximal
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Salary T2
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE T2.SSN = F.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND (
+\end_layout
+
+\begin_layout Plain Layout
+
+						(T2.FromDate < F.FromDate AND F.FromDate <= T2.ToDate)
+\end_layout
+
+\begin_layout Plain Layout
+
+						OR
+\end_layout
+
+\begin_layout Plain Layout
+
+						(T2.FromDate <= L.ToDate AND L.ToDate < T2.ToDate))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Sequenced sort
+\series default
+: in this case we require the result to be ordered at each point in time.
+ This can be accomplished by appending the start and end time columns in
+ the ORDEER BY:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY PCN, FromDate, ToDate
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It can also be done by omitting the timestamp columns.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Sequenced union
+\series default
+: a UNION ALL (retaining duplicates) over temporal tables is automatically
+ sequenced if the timestamp columns are kept:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE Amount > 50000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE Amount < 10000
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Sequenced join
+\series default
+: imagine we want to determine the salary and position history for each
+ employee.
+ This implies a sequenced join between Salary and Incumbents.
+ It is supposed that there are no duplicate rows in the tables: at each
+ point in time an employee has one salary and one position.
+ In SQL, a sequenced join requires four select statements and complex inequality
+ predicates and the following code does not generate duplicates.
+ This is why UNION ALL is used without problems, and being more efficient
+ than UNION, which does a lot of work for removing non-ocurring duplicates
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+We already saw how the temporal join is done before.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Usual sequenced join
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN, S.FromDate, S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate < S.FromDate AND S.ToDate <= I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN, S.FromDate, I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate <= S.FromDate 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND S.FromDate < I.ToDate AND S.ToDate > I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN, I.FromDate, S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND S.FromDate <= I.FromDate 
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND I.FromDate < S.ToDate AND I.ToDate > S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION ALL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN, I.FromDate, I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND S.FromDate < I.FromDate AND I.ToDate <= S.ToDate
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can also be done using CASE, which allows to write the query in a single
+ statement: the first case simulates a maxDate function of the two arguments,
+ the second one a minDate function.
+ The condition in the WHERE ensures that the period of validity is well
+ formed:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Sequenced join with CASE
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN,
+\end_layout
+
+\begin_layout Plain Layout
+
+			CASE WHEN S.FromDate > I.FromDate THEN S.FromDate ELSE I.FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+				END AS FromDate,
+\end_layout
+
+\begin_layout Plain Layout
+
+			CASE WHEN S.ToDate > I.ToDate THEN I.ToDate ELSE S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+				END AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+AND (CASE WHEN S.FromDate > I.FromDate THEN S.FromDate ELSE I.FromDate END)
+\end_layout
+
+\begin_layout Plain Layout
+
+	<
+\end_layout
+
+\begin_layout Plain Layout
+
+	(CASE WHEN S.ToDate > I.ToDate THEN I.ToDate ELSE S.ToDate END)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Another way to do the sequenced join is using functions:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Sequenced join with functions
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE FUNCTION minDate(@one SMALLDATETIME, @two SMALLDATETIME)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS SMALLDATETIME AS
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RETURN CASE WHEN @one < @two THEN @one ELSE @two END
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE FUNCTION maxDate(@one SMALLDATETIME, @two SMALLDATETIME)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURNS SMALLDATETIME AS
+\end_layout
+
+\begin_layout Plain Layout
+
+BEGIN
+\end_layout
+
+\begin_layout Plain Layout
+
+	RETURN CASE WHEN @one < @two THEN @two ELSE @one END
+\end_layout
+
+\begin_layout Plain Layout
+
+END
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT S.SSN, Amount, PCN, maxDate(S.FromDate, I.FromDate) AS FromDate, minDate(S.To
+Date, I.ToDate) AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S, Incumbents I
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S.SSN = I.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND maxDate(S.FromDate,I.FromDate) < minDate(S.ToDate,I.ToDate)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Temporal difference
+\series default
+: the usual difference is implemented in SQL with EXCEPT, NOT EXISTS or
+ NOT IN.
+ For example, if we want to list the employees who are department heads
+ (PCN=1234) but are not also professors (PCN=5555), we can do it as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Nontemporal veersion
+\end_layout
+
+\begin_layout Plain Layout
+
+-- using NOT EXISTS
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents I1
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE I1.PCN = 1234
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Incumbents I2
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE I1.SSN = I2.SSN AND I2.PCN = 5555)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--using EXCEPT
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents 
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE PCN = 1234
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+EXCEPT
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE PCN = 5555
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Temporal Support in SQL 2011
 \end_layout
