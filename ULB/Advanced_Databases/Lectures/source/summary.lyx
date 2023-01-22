@@ -15062,6 +15062,7 @@ In this case, a possible data can be:
 
 \begin_deeper
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="1">
 <features tabularvalignment="middle">
@@ -15497,6 +15498,10 @@ w2
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="1">
 <features tabularvalignment="middle">
@@ -17228,7 +17233,7 @@ END
 \end_deeper
 \begin_layout Itemize
 To prevent sequenced duplicates, asumming only modifications to current
- data, we can just use UNIQUE(SSN,PCN,ToDate).
+ data, we can use UNIQUE(SSN, PCN, ToDate).
 \end_layout
 
 \begin_layout Standard
@@ -17949,6 +17954,7 @@ We have the relations:
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="4">
 <features tabularvalignment="middle">
@@ -18125,6 +18131,10 @@ ToDate
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="4">
 <features tabularvalignment="middle">
@@ -19256,11 +19266,865 @@ WHERE PCN = 5555
 
 \begin_layout Standard
 But the sequenced difference is a bit more complex.
- There are four possible cases, depicted in Figure #TODO continue from 269
- in goodnotes or 99 in slides
+ There are four possible cases, depicted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Cases-for-temporal"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename temporal_12.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Cases for temporal difference.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Cases-for-temporal"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The SQL query is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT A.SSN, A.FromDate, B.FromDate AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents A, Incumbents B
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE A.PCN = 1234 AND B.PCN = 5555 AND A.SSN = B.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND A.FromDate < B.FromDate AND B.FromDate < A.ToDate -- Case 1
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Incumbents C
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE A.SSN = C.SSN AND C.SSN = 5555
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND A.FromDate < C.ToDate AND C.FromDate < B.FromDate) -- Check that we
+ are not in case 3
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT A.SSN, B.ToDate AS FromDate, A.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents A, Incumbents B
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE A.PCN = 1234 AND B.PCN = 5555 AND A.SSN = B.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND A.FromDate < B.ToDate AND B.ToDate < A.ToDate -- Case 2
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Incumbents C
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE A.SSN = C.SSN AND C.PCN = 5555
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND B.ToDate < C.ToDate AND C.FromDate < A.ToDate) -- Check we are not
+ in case 3
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT A.SSN, B1.ToDate AS FromDate, B2.FromDate AS ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents A, Incumbents B1, Incumbents B2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE A.PCN = 1234 AND B1.PCN = 5555 AND B2.PCN = 5555
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND A.SSN = B1.SSN AND A.SSN = B2.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND B1.ToDate < B2.FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND A.FromDate < B1.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND B2.FromDate < A.ToDate -- Case 3
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Incumbents C
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE A.SSN = C.SSN AND C.SSN = 5555
+\end_layout
+
+\begin_layout Plain Layout
+
+					AND B1.ToDate < C.ToDate AND C.FromDate < B2.FromDate) -- Check B1 and
+ B2 are not temporary contected
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT SSN, FromDate, ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents A
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE A.PCN = 1234
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND NOT EXISTS( SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+					FROM Incumbents C
+\end_layout
+
+\begin_layout Plain Layout
+
+					WHERE A.SSN = C.SSN AND C.PCN = 5555
+\end_layout
+
+\begin_layout Plain Layout
+
+						AND A.FromDate < C.ToDate AND C.FromDate < A.ToDate) -- Case 4
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
+\begin_layout Subsubsection
+Nonsequenced queries
+\end_layout
+
+\begin_layout Standard
+Nonsequenced operators are straightforward: they ignore the time-varying
+ nature of the tables.
+\end_layout
+
+\begin_layout Example
+List all the salaries, past and present, of employees who had been lecturer
+ at some time:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT Amount
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents I, Position P, Salary S
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE I.SSN = S.SSN AND I.PCN = P.PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND JobTitle = 'Lecturer';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+When did employees receive raises?
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT S2.SSN, S2.FromDate AS RaiseDate
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary S1, Salary S2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE S2.Amount > S1.Amount AND S1.SSN = S2.SSN AND S1.ToDate = S2.FromDate;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Remove 
+\series bold
+nonsequenced duplicates
+\series default
+ from Incumbents:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Remove 
+\series bold
+value-equivalent rows
+\series default
+ from Incumbents:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT SSN, PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Remove 
+\series bold
+current duplicates
+\series default
+ from Incumbents:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT SSN, PCN
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Incumbents
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE ToDate = '3000-01-01'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Sequenced aggregation function
+\end_layout
+
+\begin_layout Standard
+Say we have two relations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Affiliation
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DNumber
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Salary
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SSN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Amount
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FromDate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ToDate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And we want the maximum salary.
+ The non-temporal version is straighforward:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT MAX(Amount)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Salary
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the maximum salary by department:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DNumber, MAX(Amount)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM Affiliation A, Salary S
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE A.SSN = S.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY DNumber
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But the temporal version is not that easy.
+ We have to do as in this visual example:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado12.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The steps to follow are:
+\end_layout
+
+\begin_layout Enumerate
+Compute the periods on which a maximum must be calculated.
+\end_layout
+
+\begin_layout Enumerate
+Compute the maximum for the periods.
+\end_layout
+
+\begin_layout Enumerate
+Coalesce the results (as we have already seen)
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Step 1: compute periods
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW SalChanges(Day) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT FromDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Salary
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT DISTINCT ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM Salary
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW SalPeriods(FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT P1.Day, P2.Day
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM SalChanges P1, SalChanges P2
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE P1.Day < P2.Day -- Get all consecutive combinations
+\end_layout
+
+\begin_layout Plain Layout
+
+		AND NOT EXISTS( SELECT * 
+\end_layout
+
+\begin_layout Plain Layout
+
+						FROM Salchanges P3
+\end_layout
+
+\begin_layout Plain Layout
+
+						WHERE P1.Day < P3.Day AND P3.Day < P2.Day) -- Ensure they are consecutive
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 2
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE VIEW TempMax(MaxSalary, FromDate, ToDate) AS
+\end_layout
+
+\begin_layout Plain Layout
+
+	SELECT MAX(S.AMOUNT), P.FromDate, P.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	FROM SALARY S, SalPeriods P
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE S.FromDate <= P.FromDate AND P.ToDate <= S.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+	GROUP BY P.FromDate, I.ToDate
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Step 3: COALESCE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, we want to compute #TODO continue from 274
+\end_layout
+
 \begin_layout Section
 Temporal Support in SQL 2011
 \end_layout
