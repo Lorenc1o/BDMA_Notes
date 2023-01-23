@@ -16452,6 +16452,20 @@ These relationships express a temporal constraint between the whole life
  cycles or the active periods.
 \end_layout
 
+\begin_layout Subsubsection
+Example of a temporal schema
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado53.png
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Manipulating Temporal Databases with SQL-92
 \end_layout
@@ -21591,7 +21605,7 @@ Teradata Database 13.10 introduced the period data type, valid-time support,
 
 \begin_layout Itemize
 Teradata Database 14 adds capabilities to create a global picture of an
- organization’s business at any point in time.
+ organization's business at any point in time.
 \end_layout
 
 \begin_layout Subsection
@@ -22278,23 +22292,5575 @@ Spatial Databases
 \end_layout
 
 \begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+spatial database
+\series default
+ is a database that needs to store and query spatial objects, such as points
+ (a house in a city), lines (a road) or polygons (a country).
+ Thus, a 
+\series bold
+spatial DBMS
+\series default
+ is a DBMS that manages data existing in some space:
+\end_layout
+
+\begin_layout Itemize
+2D or 2.5D: integrated circuits (VLSI design) or geographic space (GIS, urban
+ planning).
+\end_layout
+
+\begin_layout Itemize
+2.5D: elevation.
+\end_layout
+
+\begin_layout Itemize
+3D: medicine (brain models), biological research (moledule structures),
+ architecture (CAD) or ground models (geology).
+\end_layout
+
+\begin_layout Standard
+The supporting technology needs to be able to manage large collections of
+ geometric objects, and major commercial and open source DBMSs provide spatial
+ support.
+\end_layout
+
+\begin_layout Standard
+Spatial databases are important because queries to databases are posed in
+ high level declarative manner, usually with SQL, which is popular in the
+ commercial DB world.
+ Also, although the standard SQL operates on relatively simple data types,
+ additional spatial data types and operations can be defined in spatial
+ databases.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+geographic information system (GIS)
+\series default
+ is a system designed to capture, store, manipulate, analyze, manage and
+ present geographically-referenced data, as well as non spatial data.
+ It can be used to establish connections between different elements using
+ geography operations, such as the location, the proximity or the spatial
+ distribution.
+ There are plenty of commercial and open source systems of this kind, but
+ with limited temporal support.
+\end_layout
+
+\begin_layout Standard
+A GIS can be seen as a set of subsystems:
+\end_layout
+
+\begin_layout Itemize
+Data processing: data acquisition, input and store.
+\end_layout
+
+\begin_layout Itemize
+Data analysis: retrieval and analysis.
+\end_layout
+
+\begin_layout Itemize
+Information use: it is needed an interaction between GIS group and users
+ to plan analytical procedures and data structures.
+ The users of GIS are researches, planners or managers.
+\end_layout
+
+\begin_layout Itemize
+Management system: it has an organizational role, being a separate unit
+ in a resource management.
+ An agency offering spatial DB and analysis services.
+\end_layout
+
+\begin_layout Standard
+There are many fields involved in the development of GIS: geography, cartography
+, remote sensing, photogrammetry, geodesy, statistics, operations research,
+ mathematics, civil engineering and computer science, with computer aided
+ design (CAD), computer graphics, AI and DBMS.
+\end_layout
+
+\begin_layout Subsection
+GIS architectures
+\end_layout
+
+\begin_layout Standard
+There are several possible architectures for a GIS:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ad Hoc Systems
+\series default
+: they are developed for a specific problem.
+ They are not modular, nor reusable nor extensible, nor friendly but are
+ very efficient.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado17.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Ad Hoc GIS.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Loosely coupled approach
+\series default
+: structured information and geometry are stored at different places:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There is a RDBMS for non spatial data.
+\end_layout
+
+\begin_layout Itemize
+There is a specific module for spatial data management.
+\end_layout
+
+\begin_layout Standard
+This allows for modularity, but there are two heterogeneous models in use.
+ This makes it more difficult to model, integrate and use.
+ Also, there is a partial loss of basic DBMS functionality (concurrency,
+ optimization, recovery, querying).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado18.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Loosely coupled GIS.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Integrated
+\series default
+ 
+\series bold
+approach
+\series default
+: this approach is an extended relational system, which makes it modular,
+ extensible, reusable and friendly.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado19.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Integrated GIS.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
 Georeferences and Coordinate Systems
+\end_layout
+
+\begin_layout Subsection
+Projected coordinate systems
+\end_layout
+
+\begin_layout Standard
+Going from 3D to 2D for Earth representation always involves a projection,
+ so information on the projection is essential for applications analyzing
+ spatial relationships and the choice of the projection used can influence
+ the results.
+ Also, the Earth is a complex surface whose shape and dimensions cannot
+ be described with mathematical formulas.
+ Two main reference surfaces are used to approximate the shape of the Earth:
+ the 
+\series bold
+ellipsoid
+\series default
+ and the 
+\series bold
+geoid
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+geoid
+\series default
+ is a reference model for the physical surface of the Earth.
+ It is defined as the equipotential surface of the Earth's gravity field
+ which best fits the global mean sea level and extended through the continents.
+ It is used in geodesy but it is not very practical to produce maps.
+ Also, since its mathematical description is unknown, it is impossible to
+ identify mathematical relationships for moving from the Earth to a map.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado20.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The geoid.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+ellipsoid
+\series default
+ is a mathematically defined surface that approximates the geoid.
+ It is the 3-dimensional version of an ellipse.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado21.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+An ellipse (left) and how it can approximate locally a complex shape (right).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+flattening
+\series default
+ measures how much the symmetry axis is compressed relative to the equatorial
+ radius, it is computed by
+\begin_inset Formula 
+\[
+f=\frac{a-b}{a}.
+\]
+
+\end_inset
+
+ For the Earth, 
+\begin_inset Formula $f\sim\frac{1}{300}$
+\end_inset
+
+: the difference of the major and minor semi-axis is approximately 21 km.
+ The ellopsoid is thus used to measure locations, using the latitude and
+ the longitude, for points of interest.
+ These locations on the ellipsoid are then projected onto a mapping plane.
+ Note that different regions of the world use a different reference ellipsoid
+ that minimize the differences between the geoid and the ellipsoid.
+ For Belgium, the ellipsoid is GRS80 or WGS84, with 
+\begin_inset Formula $a=6378137\ m$
+\end_inset
+
+ and 
+\begin_inset Formula $f=\frac{1}{298.2572}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This is done because the physical Earth has excursions of +8km and -11km,
+ so the geoid's total variation goes from -107m to +85m compared to a perfect
+ ellipsoid.
+\end_layout
+
+\begin_layout Subsubsection
+Latitude and longitude
+\end_layout
+
+\begin_layout Standard
+Latitude and longitude are measures of the angles (in degrees) from the
+ center of the Earth to a point on the Earth's surface.
+ The 
+\series bold
+latitude
+\series default
+ measures angles in the North-South direction, with the equator being at
+ 0º.
+ The 
+\series bold
+longitude
+\series default
+ measures angles in the East-West direction, with the prime meridian at
+ 0º.
+\end_layout
+
+\begin_layout Standard
+Note that they are not uniform units of distance, because the degrees change
+ differently depending on where in the map we look at.
+ Only along the equator the distance represented by one degree of longitude
+ approximates the distance represented by one degree of latitude.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado22.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The latitude and the longitude.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To produce a map, the curved surface of the Earth, approximated by an ellipsoid
+ is transformed into the flat plane of the map by means of a map projection.
+ A point on the reference surface of the Earth with coordinates 
+\begin_inset Formula $\left(\phi,\lambda\right)$
+\end_inset
+
+ is transformed into Cartesian coordinates 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+ representing the positions on the map plane.
+ Each projection causes deformations in one or another way.
+ 
+\end_layout
+
+\begin_layout Standard
+Map projections can be categorized in four ways: shape used, angle, fit
+ and properties.
+\end_layout
+
+\begin_layout Subsubsection
+Shape of projection surface
+\end_layout
+
+\begin_layout Standard
+Different shapes can be used for projection, commonly either a flat plane,
+ a cylinder or a cone.
+ Note that cylinders and cones are flat shapes, but they can be rolled flat
+ without introducing additional distorsion.
+\end_layout
+
+\begin_layout Standard
+According to this categorization, the projection can be:
+\end_layout
+
+\begin_layout Itemize
+Cylindrical: coordinates projected onto a cylinder.
+ These work best for rectangular areas.
+\end_layout
+
+\begin_layout Itemize
+Conical: coordinates projected onto a cone.
+ These work best for triangle shaped areas.
+\end_layout
+
+\begin_layout Itemize
+Azimuthal: coordinates projected directly onto a flat planar surface.
+ These work best for circular areas.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado23.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Shapes of projection surface.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Angle
+\end_layout
+
+\begin_layout Standard
+The angle referes to the alignment of the projection surface, measured as
+ the angle between the main axis of the Earth and the main symmetry axis
+ of the projection surface:
+\end_layout
+
+\begin_layout Itemize
+Normal: the two axes are parallel.
+\end_layout
+
+\begin_layout Itemize
+Transverse: the two axes are perpendicular.
+\end_layout
+
+\begin_layout Itemize
+Oblique: the two axes are at some other angle.
+\end_layout
+
+\begin_layout Standard
+Ideally the plane of projection is aligned as closely as possible with the
+ main axis of the area to be mapped, minimizing distorsion and scale errors.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado24.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Angle of projection.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Fit
+\end_layout
+
+\begin_layout Standard
+The fit is a measure of how closely the projection surface fits the surface
+ of the Earth:
+\end_layout
+
+\begin_layout Itemize
+Tangent: the projection surface touches the surface of the Earth.
+\end_layout
+
+\begin_layout Itemize
+Secan: the projection surface slices through the Earth.
+\end_layout
+
+\begin_layout Standard
+Distorsion occurs whenever the projection surface is not touching or intersectin
+g the surface of the Earth.
+ Secant projections usually reduce scale errors, because the two surface
+ intersect in more places and the overall fits tends to be better.
+ A globe is the only way to represent the entire Earth without significant
+ scale errors.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado25.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fit of projection.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Geometric deformations
+\end_layout
+
+\begin_layout Standard
+With different projections, different measures are preseved:
+\end_layout
+
+\begin_layout Itemize
+Conformal: preserve shapes and angles.
+ Recommended for navigational charts and topographic maps.
+\end_layout
+
+\begin_layout Itemize
+Equal area: preserve areas in correct relative size.
+ Best suited for thematic mapping.
+\end_layout
+
+\begin_layout Itemize
+Equidistant: preserve distance (only possible at certain locations or in
+ certain directions).
+ Best suited when measuring distance from a point.
+\end_layout
+
+\begin_layout Itemize
+True-direction: preserve accurate directions.
+\end_layout
+
+\begin_layout Standard
+It is impossible to construct a map that is equal-area and conformal.
 \end_layout
 
 \begin_layout Section
 Conceptual Modelling for Spatial Databases
 \end_layout
 
+\begin_layout Standard
+The data modeling of spatial features requires for multiple views of space
+ (discrete and continuous; 2D, 2.5D and 3D), multiple representation of the
+ data, at different scales and from different viewpoints, several spatial
+ abstract data types (point, line, area, set of points,...) and explicit spatial
+ relationships (crossing, adjacency,...).
+\end_layout
+
+\begin_layout Standard
+Let's see this requirements in depth.
+ First, we have 
+\series bold
+interaction requirements
+\series default
+:
+\end_layout
+
+\begin_layout Itemize
+Visual interactions: map displays, information visualizations and graphical
+ queries on maps.
+\end_layout
+
+\begin_layout Itemize
+Flexible, context-dependent interactions.
+\end_layout
+
+\begin_layout Itemize
+Multiple user profiles (a highway can have constructors, car drivers, hikers,...)
+\end_layout
+
+\begin_layout Itemize
+Multiple instantiations (a building may be a school and a church).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Practical requirements
+\series default
+:
+\end_layout
+
+\begin_layout Itemize
+Huge dataset: collecting new data is expensive, so reusing highly heterogeneous
+ datasets is a must...
+ but it is very complex.
+ The integration requires understanding, so a conceptual model is important.
+\end_layout
+
+\begin_layout Itemize
+Integration of DB with different space/time granularity.
+\end_layout
+
+\begin_layout Itemize
+Coexistence with non-spatial and non-temporal data.
+\end_layout
+
+\begin_layout Itemize
+Reengineering of legacy applications.
+\end_layout
+
+\begin_layout Itemize
+Interoperability.
+\end_layout
+
+\begin_layout Standard
+Thus, 
+\series bold
+conceptual modelling
+\series default
+ is important because it focuses on the application, it is technology independen
+t, which increases portability and durability.
+ It is user oriented and uses a formal unambiguous specification, with the
+ support of visual interfaces for data definition and manipulation.
+ It is the best vehicle for information exchange and integration.
+\end_layout
+
+\begin_layout Subsection
+The Spatiotemporal conceptual manifesto
+\end_layout
+
+\begin_layout Standard
+It has a good expressive power, with a simple data model, with few clean
+ concepts and standard, well-known semantics.
+ There are no artificial constructs and space, time and data structures
+ are treated as orthogonal.
+ It provieds a clean, visual notation and intuitive icons and symbols, providing
+ a formal definition and an associated query language.
+\end_layout
+
+\begin_layout Standard
+As with temporal DB, in spatial DB there are multiple ways to model the
+ reality, each with its own characteristics.
+ For example:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado26.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And there is also a MADS Spatial Type Hierarchy:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado27.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MADS Spatial Type Hierarchy.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We need to keep in mind that the types are 
+\series bold
+topologically closed
+\series default
+: all geometries include their boundary.
+\end_layout
+
+\begin_layout Standard
+Geo, SimpleGeo and ComplexGeo are abstract classes.
+\end_layout
+
+\begin_layout Subsubsection
+MADS Spatial datatypes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Point
+\series default
+: its boundary is the empty set.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Line
+\series default
+: it can be of several types:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado28.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Its boundary is composed of the extreme points, if any.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Surface
+\series default
+: it is define by 1 exterior boundary and 0 or more interior boundaries,
+ defining its holes:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado29.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following are not surfaces:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado30.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Complex geometries
+\series default
+: a complex geometry is a geometry composed of several sub-geometries.
+ Its boundary is defined recursively as the spatial union of:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The boundaries of its components that do not intersect with other components.
+\end_layout
+
+\begin_layout Itemize
+The intersecting boundaries that do not lie in the interior of their union.
+\end_layout
+
+\begin_layout Standard
+If we have two geometries, 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+B\left(a\cup b\right)=\left[B\left(a\right)-b\right]\cup\left[B\left(b\right)-a\right]\cup\left[\left(B\left(a\right)\cap b\right)\cup\left(B\left(b\right)\cap a\right)-I\left(a\cup b\right)\right],
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $B\left(x\right)$
+\end_inset
+
+ is the boundary of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $I\left(x\right)$
+\end_inset
+
+ is the interior of 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ A sample classification of different cases is the following:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado31.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Topological predicates
+\end_layout
+
+\begin_layout Standard
+A topological predicate specifies how two geometries relate to each other.
+ It is based on the definition of their boundary 
+\begin_inset Formula $B\left(x\right)$
+\end_inset
+
+, interior 
+\begin_inset Formula $I\left(x\right)$
+\end_inset
+
+, and exterior 
+\begin_inset Formula $E\left(x\right)$
+\end_inset
+
+, and their dimension 
+\begin_inset Formula $Dim\left(x\right)$
+\end_inset
+
+, which can be -1,0,1 or 2 (-1 is for the empty set).
+ The 
+\series bold
+dimensionally extended 9-intersection matrix (DE-9IM)
+\series default
+ is a matrix used for defining predicates.
+ It is based in the following template:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Boundary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Exterior
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(I\left(a\right)\cap I\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(I\left(a\right)\cap B\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(I\left(a\right)\cap E\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Boundary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(B\left(a\right)\cap I\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(B\left(a\right)\cap B\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(B\left(a\right)\cap E\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Exterior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(E\left(a\right)\cap I\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(E\left(a\right)\cap B\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Dim\left(E\left(a\right)\cap E\left(b\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is coded using a dense notation with a string of 9 characters, to represent
+ the cells of the matrix.
+ The possible characters are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+T
+\series default
+: non-empty intersection.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+F
+\series default
+: empty intersection.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+0
+\series default
+: intersection is a point.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+1
+\series default
+: intersection is a line.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+2
+\series default
+: intersection is a surface.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+*
+\series default
+: it is irrelevant.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $Disjoint\left(a,b\right)$
+\end_inset
+
+ is true if their intersection is empty.
+ So, it is
+\begin_inset Formula 
+\[
+Disjoint\left(a,b\right)=\left[I\left(a\right)\cap I\left(b\right)=\emptyset\right]\land\left[I\left(a\right)\cap B\left(b\right)=\emptyset\right]\land\left[B\left(a\right)\cap I\left(b\right)=\emptyset\right]\land\left[B\left(a\right)\cap B\left(b\right)=\emptyset\right].
+\]
+
+\end_inset
+
+ Then, it can be coded as 'FF*FF****'.
+\end_layout
+
+\begin_layout Example
+Let's see some predicates:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Meets\left(a,b\right)\iff\left[I\left(a\right)\cap I\left(b\right)=\emptyset\right]\land\left[a\cap b\neq\emptyset\right]\land\left[Dim\left(a\cap b\right)=0\right]$
+\end_inset
+
+.
+ Some geometries that satisfy it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado32.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And some that don't:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado33.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $Adjacent\left(a,b\right)\iff\left[I\left(a\right)\cap I\left(b\right)=\emptyset\right]\land\left[a\cap b\neq\emptyset\right]\land\left[Dim\left(a\cap b\right)=1\right].$
+\end_inset
+
+ Some geometries that satisfy it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado34.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And an example that doesn't:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado35.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $Touches\left(a,b\right)\iff\left[I\left(a\right)\cap I\left(b\right)=\emptyset\right]\land\left[a\cap b\neq\emptyset\right]\iff Meets\left(a,b\right)\lor Adjacent\left(a,b\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Crosses\left(a,b\right)\iff\left[Dim\left(I\left(a\right)\cap I\left(b\right)\right)<\max\left\{ Dim\left(I\left(a\right)\right),Dim\left(I\left(b\right)\right)\right\} \right]\land\left[a\cap b\neq a\right]\land\left[a\cap b\neq b\right]\land\left[a\cap b\neq\emptyset\right]$
+\end_inset
+
+.
+ Some geometries that satisfy it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado36.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $Overlaps\left(a,b\right)\iff\left[Dim\left(I\left(a\right)\right)=Dim\left(I\left(b\right)\right)=Dim\left(I\left(a\right)\cap I\left(b\right)\right)\right]\land\left[a\cap b\neq a\right]\land\left[a\cap b\neq b\right]$
+\end_inset
+
+.
+ Some geometries that satisfy it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado37.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $Contains\left(a,b\right)\iff Within\left(b,a\right)\iff\left[I\left(a\right)\cap I\left(a\right)\neq\emptyset\right]\land\left[a\cap b=b\right]$
+\end_inset
+
+.
+ Some geometries that satisfy it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado38.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $Disjoint\left(a,b\right)\iff a\cap b=\emptyset\iff Intersects\left(E\left(a\right),b\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Equals\left(a,b\right)\iff\left[a\cap b=a\right]\land\left[a\cap b=b\right]\iff\left(a-b\right)\cup\left(b-a\right)=\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Covers\left(a,b\right)\iff a\cap b=b\iff b-a=\emptyset$
+\end_inset
+
+ (same as 
+\begin_inset Formula $contains\left(a,b\right)$
+\end_inset
+
+ but it can have empty interior).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Encloses\left(a,b\right)\iff Surrounded\left(b,a\right)$
+\end_inset
+
+: the definition is involved, depending of whether 
+\begin_inset Formula $a$
+\end_inset
+
+ is a (set of) line(s) or a (set of) surface(s).
+ Some examples that verify it:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado39.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Spatial objects
+\end_layout
+
+\begin_layout Standard
+Objects can be defined as spatial:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Country 
+\begin_inset Graphics
+	filename pegado40.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+population
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatial attributes
+\end_layout
+
+\begin_layout Standard
+Both non-spatial and spatial objects types can have spatial attributes.
+ The domain of a spatial attribute is a spatial type, and can be multi-values.
+ A spatial attribute of a spatial object type may induce a toplogical constraint
+ (e.g.
+ the capital of a country is located within the geometry of the country),
+ but is is not necessarilly the case: it depends on application semantics
+ and the application schema must explicitly state these constraints.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Client
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+address
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+location
+\begin_inset Graphics
+	filename pegado41.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Country 
+\begin_inset Graphics
+	filename pegado40.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+population
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+capital
+\begin_inset Graphics
+	filename pegado41.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rivers(1,n) 
+\begin_inset Graphics
+	filename pegado42.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Road
+\begin_inset Graphics
+	filename pegado42.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+responsible
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+stations(1,n) 
+\begin_inset Graphics
+	filename pegado41.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Spatial complex attributes
+\end_layout
+
+\begin_layout Standard
+Spatial attributes can be a component of a complex and/or multivalued attribute.
+ It is usual to keep both thematic (alphanumeric) and location data for
+ attributes, as a capital, for example.
+ This allows to print both the name and the location in a map.
+ However, in real maps the toponyms have also a location: there are precise
+ cartographic rules for placing them, so it is a semi-automatic process.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Country 
+\begin_inset Graphics
+	filename pegado40.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+population
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+capital
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+location
+\begin_inset Graphics
+	filename pegado41.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+provinces(1,n) 
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+location 
+\begin_inset Graphics
+	filename pegado40.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatial objects VS spatial attributes
+\end_layout
+
+\begin_layout Standard
+Representing a concept as a spatial object or as a spatial attribute depends
+ on the application and it is determined by the relative importance of the
+ concept.
+ This has implications in the way of accessing the instances of the concept.
+ For example, buildings:
+\end_layout
+
+\begin_layout Itemize
+As spatial objects: the application can access a building one by one.
+\end_layout
+
+\begin_layout Itemize
+As spatial attributes: the access to a building must be made through the
+ land plot containing it.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado43.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Generalization: inheriting spatiality.
+\end_layout
+
+\begin_layout Standard
+Spaciality is inherited through generalization, based on the well-known
+ 
+\series bold
+substitutability principle
+\series default
+ in OOP.
+ For simple inheritance it is not necessary to re-state the geometry in
+ the subtype and, as usual, spatiality can be added to a subtype, so that
+ only instances of the subtype have associated spaciality.
+\end_layout
+
+\begin_layout Subsubsection*
+Refining/redefining spatiality
+\end_layout
+
+\begin_layout Standard
+This arises when a spaciality is re-stated in a subtype:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Refinement
+\series default
+: it restricts the inherited property.
+ The value remains the same in the supertype and the subtype.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado44.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Redefinition
+\series default
+: it keeps substitutability with respect to typing and allows dynamic binding.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado45.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Overloading
+\series default
+: relaxes substitutability, inhibiting dynamic binding.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado46.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Multiple inheritance
+\end_layout
+
+\begin_layout Standard
+Spatiality is inherited from several supertypes, and this creates an ambiguity
+ when referring to the spatiality of the subtype.
+ Several policies have been proposed for solving this issue in the OO community,
+ and the most general policy is: 
+\emph on
+all inherited properties are available in the subtype, is the user who must
+ disambiguate in queries
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado47.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatial relationships
+\end_layout
+
+\begin_layout Standard
+Spatiality can also be defined for relationships, and it is orthogonal to
+ the fact that linked object types are spatial.
+ If a spatial relationship relates spatial types, spatial constraints may
+ restrict the geometries.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado48.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Topological relationships
+\end_layout
+
+\begin_layout Standard
+They are specified on a relationship type that links at least two spatial
+ types, and constraint the spatiality of the instances of the related types.
+ Many topological constraints can be defined using the DE-9IM.
+ The conceptual model depicts only the most general ones.
+ These are:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado49.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Spatial aggregation
+\end_layout
+
+\begin_layout Standard
+Traditional aggregation relatiomnships can link spatial types.
+ Usually, aggregation has exclusive semantics, stated by cardinalities in
+ the component role.
+ Also, the spatiality of the aggregation is often partitioned into the spatialit
+y of the components.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado50.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that it is not the case for the second example, where the spaciality
+ of Antena corresponds to its coverage, so the same location can be covered
+ by several antennas.
+ Spaciality of the aggregation is the 
+\series bold
+spatial union
+\series default
+ of the spaciality of the antennas.
+\end_layout
+
+\begin_layout Subsubsection
+Space and time varying attributes
+\end_layout
+
+\begin_layout Standard
+They are also referred to as 
+\series bold
+continuous fields
+\series default
+, and allow to represent phenomena that change in space and/or time, such
+ as elevation (to each point there is an associated real number), population
+ (to each point there is an associated integer) or temperature (to each
+ point in space there is an associated real number, which evolves over time).
+ At the 
+\series bold
+conceptual
+\series default
+ 
+\series bold
+level
+\series default
+, it can be represented as a continuous function, so operators for manipulating
+ fields can be defined.
+ At the 
+\series bold
+logical level
+\series default
+ it can be implemented in several ways:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Raster
+\series default
+: discretize the space into regular cells and assign a value to each cell.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+TIN
+\series default
+: keep values at particular locations and use interpolation for calculating
+ the value at any point.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado51.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Section
 Logical Modelling for Spatial Databases
+\end_layout
+
+\begin_layout Subsection
+Representation models
+\end_layout
+
+\begin_layout Standard
+This model try to represent an infinite sets of points of the Euclidean
+ space in a computer.
+ There two alternative representations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Object-based model
+\series default
+ (vector): describes the spatial extent of relevant objects with a set of
+ points.
+ It uses pints, lines and surfaces for describing spaciality and the choice
+ of geometric types is arbitrary, varying across systems.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Field-based model
+\series default
+ (raster): each point in space is associated with one or several values,
+ defined as continuous functions.
+\end_layout
+
+\begin_layout Subsubsection
+Raster model: tesselation
+\end_layout
+
+\begin_layout Standard
+Tesselation is the decomposition of the plane into polygonal units, which
+ might be regular or irregular, depending on whether the polygonal units
+ are of equal size:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado54.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Regular tesselation is used for remote sensing data, while irregular tesselation
+ is used for zoning in social, demographic or economic data.
+ A spatial Object is represented by the smallest subset of pixels that contains
+ it.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado55.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Digital Elevation Models (DEMs)
+\end_layout
+
+\begin_layout Standard
+They provide a digital (finite) representation of an abstract model of space.
+ DEMs are useful to represent a natural phenomenon that is a continuous
+ function of the 2D space.
+ They are based on a finite collection of sample values, and the rest are
+ obtained by interpolation.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Triangulated irregular networks
+\series default
+ (TINs) are based on a triangular partition of the 2D space:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado56.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+No assumption is made on the distribution and location of the vertices of
+ the triangles and the elevation value is recorded at each vertex.
+ The value for the rest of the points is interpolated using linear interpolation
+ of the 3 vertices of the triangle that contains the point.
+\end_layout
+
+\begin_layout Subsection
+Representing the geometry of a collection of objects
+\end_layout
+
+\begin_layout Standard
+There are three comonly used rperesentations: spaghetti, network and topological
+, which mainly differ in the expression of topological relationships among
+ the component objects.
+\end_layout
+
+\begin_layout Subsubsection
+Spaghetti model
+\end_layout
+
+\begin_layout Standard
+The geometry of any object is described independently of the rest, so no
+ topology is stored in the model: the topological relationships must be
+ computed on demand.
+ This implies representation redundancy, but enables heterogeneous representatio
+ns mixing points, polylines and regions without restrictions.
+ 
+\end_layout
+
+\begin_layout Standard
+Advantages:
+\end_layout
+
+\begin_layout Itemize
+Simplicity.
+\end_layout
+
+\begin_layout Itemize
+Provides the end user with easy input of new objects into the collection.
+\end_layout
+
+\begin_layout Standard
+Drawbacks:
+\end_layout
+
+\begin_layout Itemize
+Lack of explicit information about topological relationships among spatial
+ objects.
+\end_layout
+
+\begin_layout Itemize
+Redundancy: problem with large datasets and source of inconsistency.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado57.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Network model
+\end_layout
+
+\begin_layout Standard
+It is destined for network or graph based applications.
+ The topological relationships among points and polylines are stored:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nodes
+\series default
+: distinguished points that connect a list of arcs.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Arcs
+\series default
+: polyline that starts at a node and ends at a node.
+\end_layout
+
+\begin_layout Standard
+Nodes allow efficient line connectivity test and network computations.
+ There are two types of points: regular points and nodes.
+\end_layout
+
+\begin_layout Standard
+Depending on the implementation, the network is planar or nonplanar:
+\end_layout
+
+\begin_layout Itemize
+Planar network: each edge intersection is recorded as a node, even if it
+ does not correspond to a real-world entity.
+\end_layout
+
+\begin_layout Itemize
+Nonplanar network: edges may cross without producing an intersection.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado58.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Topological model
+\end_layout
+
+\begin_layout Standard
+It is similar to the network model, except that the network is plannar.
+ It induces a planar subdivision into adjacent polygons, some of which may
+ not correspond to actual geographic objects:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Node
+\series default
+: represented by a point and the list of arcs starting/ending at it.
+ And 
+\series bold
+isolated point
+\series default
+ (empty list of arcs) identifies the location of point features, such as
+ towers, point of interest,...
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Arc
+\series default
+: features its ending points, list of vertices and two polygons having the
+ arc as a common boundary.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Polygon
+\series default
+: represented by a list of arcs, each arc being shared with a neighbor polygon.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Region
+\series default
+: represented by one or more adjacent polygons.
+\end_layout
+
+\begin_layout Standard
+There is no redundancy: each point/line is stored only once.
+\end_layout
+
+\begin_layout Standard
+Advantages: efficient computation of topological queries, and up-to-date
+ consistency.
+\end_layout
+
+\begin_layout Standard
+Drawbacks: some DB objects have no semantics in real world, and the xomplexity
+ of the structure may slow down some operations.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado59.png
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
 SQL/MM
 \end_layout
 
+\begin_layout Subsection
+SQL/MM Spatial: Geometry Type Hierarchy
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado60.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ST_Geometry, ST_Curve and ST_Surface are not instantiable types.
+\end_layout
+
+\begin_layout Subsubsection
+ST_Geometry
+\end_layout
+
+\begin_layout Standard
+Represents 0D, 1D and 2D geometries that exist in 2D, 3D or 4D.
+ Geometries in 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+ have points with 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+ coordinate values, in 
+\begin_inset Formula $\mathbb{R}^{3}$
+\end_inset
+
+ it is 
+\begin_inset Formula $\left(x,y,z\right)$
+\end_inset
+
+ or 
+\begin_inset Formula $\left(x,y,m\right)$
+\end_inset
+
+ and in 
+\begin_inset Formula $\mathbb{R}^{4}$
+\end_inset
+
+ it is 
+\begin_inset Formula $\left(x,y,z,m\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $z$
+\end_inset
+
+ usually represents altitude.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $m$
+\end_inset
+
+ usually represents a measurement: it is key to support linear networking
+ applications, such as street routing, transportation or pipelining.
+\end_layout
+
+\begin_layout Standard
+Geometry values are topolofically closed, i.e., they include their boundary.
+ 
+\end_layout
+
+\begin_layout Standard
+All locations in a geometry are in the same spatial reference system (SRS),
+ and geometric calculations are done in the SRS of the first geometry in
+ the parameter list of a routine.
+ The return value is also in the SRS of the first parameter.
+\end_layout
+
+\begin_layout Subsubsection
+Methods
+\end_layout
+
+\begin_layout Subsubsection*
+Metadata
+\end_layout
+
+\begin_layout Itemize
+ST_Dimension: returns the dimension of a geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_CoordDim: returns the coordinate dimension of a geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_GeometryType: returns the type of the geometry as a CHARACTER VARYING
+ value.
+\end_layout
+
+\begin_layout Itemize
+ST_SRID: observes and mutates the spatial reference system identifier of
+ a geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Transform: returns the geometry in the specified SRS.
+\end_layout
+
+\begin_layout Itemize
+ST_IsEmpty: tests if a geometry corresponds to the empty set.
+\end_layout
+
+\begin_layout Itemize
+ST_IsSimple: tests if a geometry has no anomalous geometric points.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado61.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ST_IsValid: tests if a geometry is well formed.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado62.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ST_Is3D: tests whether a geometry has 
+\begin_inset Formula $z$
+\end_inset
+
+ coordinate.
+\end_layout
+
+\begin_layout Itemize
+ST_IsMeasured: tests whether a geometry has 
+\begin_inset Formula $m$
+\end_inset
+
+ coordinate.
+\end_layout
+
+\begin_layout Subsubsection*
+Spatial analysis
+\end_layout
+
+\begin_layout Itemize
+ST_Boundary: returns the boundary of a geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Envelope: returns the bounding rectangle of a geometry.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado63.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ST_ConvexHull: returns the convex hull of a geometry.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado64.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ST_Buffer: returns the geometry that represents all points whose distance
+ from any point of a geometry is less than or equal to a specified value.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado65.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ST_Union: returns the geometry that represents the point set union of two
+ geometries.
+\end_layout
+
+\begin_layout Itemize
+ST_Intersection: returns the geometry that represent the point set intersection
+ of two geometries.
+\end_layout
+
+\begin_layout Itemize
+ST_Difference: returns the geometry that represents the point set difference
+ of two geometries.
+\end_layout
+
+\begin_layout Itemize
+ST_SymDifference: returns the geometry that represents the point set symmetric
+ difference of two geometries.
+\end_layout
+
+\begin_layout Itemize
+ST_Distance: returns the distance between two geometries.
+\end_layout
+
+\begin_layout Subsubsection*
+Input/Output
+\end_layout
+
+\begin_layout Itemize
+ST_WTKToSQL: returns the geometry for the specified well-known text representati
+on.
+\end_layout
+
+\begin_layout Itemize
+ST_AsText: returns the well-known text representation for the specified
+ geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_WKBToSQL: returns the geometry for the specified well-known binary representa
+tion.
+\end_layout
+
+\begin_layout Itemize
+ST_AsBinary: returns the well-known binary representation for the specified
+ geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_GMLToSQL: returns the geometry for the specified GML representation.
+\end_layout
+
+\begin_layout Itemize
+ST_AsGML: returns the GML representation for the specified geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_GeomFromText: returns a geometry, which is transformed from a CHARACTER
+ LARGE OBJECT value that represents its well-known text representation.
+\end_layout
+
+\begin_layout Itemize
+ST_GeomFromWKB: returns a geometry, which is transformed from a BINARY LARGE
+ OBJECT value that represents its well-known binary representation.
+\end_layout
+
+\begin_layout Itemize
+ST_GeomFromGML: returns a geometry, which is transformed from a CHARACTER
+ LARGE OBJECT value that represents its GML representation.
+\end_layout
+
+\begin_layout Subsubsection*
+Boundary, Interior, Exterior
+\end_layout
+
+\begin_layout Standard
+Boundary of a geometry: set of geometries of the next lower dimension.
+\end_layout
+
+\begin_layout Itemize
+ST_Point or ST_MultiPoint: empty set.
+\end_layout
+
+\begin_layout Itemize
+ST_Curve: start and end ST_Point values if nonclosed, empty set if closed.
+\end_layout
+
+\begin_layout Itemize
+ST_MultiCurve: ST_Point values that in the boundaries of an odd number of
+ its element ST_Curve values.
+\end_layout
+
+\begin_layout Itemize
+ST_Polygon: its set of linear rings.
+\end_layout
+
+\begin_layout Itemize
+ST_Multipolygon: set of linear rings of its ST_Polygon values.
+\end_layout
+
+\begin_layout Itemize
+Arbitrary collection of geometries whose interiors are disjoint: geometries
+ drawn from the boundaries of the element geometries by application of the
+ mod 2 union rule.
+\end_layout
+
+\begin_layout Itemize
+The domain of geometries considered consists of those values that are topologica
+lly closed.
+\end_layout
+
+\begin_layout Standard
+Interior of a geometry: points that are left when the boundary is removed.
+\end_layout
+
+\begin_layout Standard
+Exterior of a geometry: points not in the interior or boundary.
+\end_layout
+
+\begin_layout Subsubsection*
+Spatial relationships
+\end_layout
+
+\begin_layout Itemize
+ST_Equals: tests if a geometry is spatially equal to another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Disjoint: tests if a geometry is spatially disjoint from another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Intersects: tests if a geometry spatially intersects another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Touches: tests if a geometry spatially touches another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Crosses: tests if a geometry spatially crosses another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Within: tests if a geometry is spatially within another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Contains: tests if a geometry spatially contains another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Overlaps: tests if a geometry spatially overlaps another geometry.
+\end_layout
+
+\begin_layout Itemize
+ST_Relate: tests if a geometry is spatially related to another geometry
+ by testing for intersections between their interior, boundary and exterior
+ as specified by the intersection matrix.
+ For example: a.ST_Disjoint(b)=a.ST_Relate(b,'FF*FF****').
+\end_layout
+
+\begin_layout Subsubsection
+Example of conceptual schema
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado52.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To create the tables:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Create Table Country(
+\end_layout
+
+\begin_layout Plain Layout
+
+	country_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	country_name varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_MultiPolygon,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (country_code))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table State(
+\end_layout
+
+\begin_layout Plain Layout
+
+	state_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	state_name varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	country_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_MultiPolygon,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (state_code),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (country_code) References Country)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table County(
+\end_layout
+
+\begin_layout Plain Layout
+
+	county_code integer
+\end_layout
+
+\begin_layout Plain Layout
+
+	county_name varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	state_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	population integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_MultiPolygon,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (county_code),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (state_code) References State)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+/* Table Highway is NOT spatial */
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table Highway(
+\end_layout
+
+\begin_layout Plain Layout
+
+	highway_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	highway_name varchar (4),
+\end_layout
+
+\begin_layout Plain Layout
+
+	highway_type varchar (2),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (highway_code))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table HighwaySection(
+\end_layout
+
+\begin_layout Plain Layout
+
+	section_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	section_number integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	highway_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (section_code,highway_code),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (section_code) References Section,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (highway_code) References Highway)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table Section(
+\end_layout
+
+\begin_layout Plain Layout
+
+	section_code integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	section_name varchar (4),
+\end_layout
+
+\begin_layout Plain Layout
+
+	number_lanes integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	city_start varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	city_end varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_Line,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (section_code),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (city_start) References City,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Foreign Key (city_end) References City)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table City(
+\end_layout
+
+\begin_layout Plain Layout
+
+	city_name varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	population integer,
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_MultiPolygon,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (city_name))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Create Table LandUse(
+\end_layout
+
+\begin_layout Plain Layout
+
+	region_name varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	land_use_type varchar (30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	geometry ST_Polygon,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Primary Key (region_name))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Reference queries: alphanumerical criteria
+\end_layout
+
+\begin_layout Standard
+Number of inhabitants in the county of San Francisco:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select population
+\end_layout
+
+\begin_layout Plain Layout
+
+from County
+\end_layout
+
+\begin_layout Plain Layout
+
+where county_name = 'San Francisco'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+List of the counties of the state of California:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select county_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from County, State
+\end_layout
+
+\begin_layout Plain Layout
+
+from State.state_code = County.state_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and state_name = 'California'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Number of inhabitants in the US:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select sum (c2.population)
+\end_layout
+
+\begin_layout Plain Layout
+
+from Country c1, State s, County c2
+\end_layout
+
+\begin_layout Plain Layout
+
+where c1.country_name = 'USA'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and c1.country_code = s.country_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and s.state_code = c2.state_code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Number of lanes in the first section of Interstate 99:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select s.number_lanes
+\end_layout
+
+\begin_layout Plain Layout
+
+from Highway h1, HighwaySection h2, Section s
+\end_layout
+
+\begin_layout Plain Layout
+
+where h1.highway_code = h2.highway_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_code = s.section_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h1.highway_name = 'I99'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_number = 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Name of all sections that constitute Interstate 99:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select s.section_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from Highway h1, HighwaySection h2, Section s
+\end_layout
+
+\begin_layout Plain Layout
+
+where h1.highway_name = 'I99'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h1.highway_code = h2.highway_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_code = s.section_code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Reference queries: spatial criteria
+\end_layout
+
+\begin_layout Standard
+Counties adjacent to the county of San Francisco in the same state:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select c1.county_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from County c1, County c2
+\end_layout
+
+\begin_layout Plain Layout
+
+where c2.county_name = 'San Francisco'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and c1.state_code = c2.state_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and ST_Touches(c1.geometry, c2.geometry)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Display of the state of California (supposing that the State table is non
+ spatial):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select ST_Union(c.geometry)
+\end_layout
+
+\begin_layout Plain Layout
+
+from County c, State s
+\end_layout
+
+\begin_layout Plain Layout
+
+where s.state_code = c.state_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and s.state_name = 'California'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Counties larger than the largest county in California:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select c1.county_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from County c1
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Area(c1.geometry) > (select max (ST_Area(c.geometry))
+\end_layout
+
+\begin_layout Plain Layout
+
+								from County c, State s
+\end_layout
+
+\begin_layout Plain Layout
+
+								where s.state_code = c.state_code
+\end_layout
+
+\begin_layout Plain Layout
+
+									and s.state_name = 'California')
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Length of Interstate 99:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select sum (ST_Length(s.geometry))
+\end_layout
+
+\begin_layout Plain Layout
+
+from Highway h1, HighwaySection h2, Section s
+\end_layout
+
+\begin_layout Plain Layout
+
+where h1.highway_name = 'I99'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h1.highway_code = h2.highway_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_code = s.section_code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All highways going through the state of California:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select distinct h1.highway_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from State s1, Highway h1, HighwaySection h2, Section s2
+\end_layout
+
+\begin_layout Plain Layout
+
+where s1.state_name = 'California'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h1.highway_code = h2.highway_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_code = s2.section_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and ST_Overlaps(s2.geometry, s1.geometry)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Display all residential areas in the county of San Jose:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select ST_Intersection(l.geometry, c.geometry)
+\end_layout
+
+\begin_layout Plain Layout
+
+from County c, LandUse l
+\end_layout
+
+\begin_layout Plain Layout
+
+where c.county_name = 'San Jose'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and l.land_use_type = 'residential area'
+\end_layout
+
+\begin_layout Plain Layout
+
+	and ST_Overlaps(l.geometry, c.geometry)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Overlay the map of administrative units and land use:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select county_name, land_use_type, ST_Intersection(c.geometry, l.geometry)
+\end_layout
+
+\begin_layout Plain Layout
+
+from County c, LandUse l
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Overlaps(c.geometry, l.geometry)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Reference queries: interactive queries
+\end_layout
+
+\begin_layout Standard
+Description of the county pointed to on the screen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select county_name, population
+\end_layout
+
+\begin_layout Plain Layout
+
+from County
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Contains(geometry, @point)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Counties that intersect a given rectangle on the screen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select county_name
+\end_layout
+
+\begin_layout Plain Layout
+
+from County
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Overlaps(geometry, @rectangle)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Part of counties that are withini a given rectangle on the screen (clipping):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select ST_Intersection(geometry, @rectangle)
+\end_layout
+
+\begin_layout Plain Layout
+
+from County
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Overlaps(geometry, @rectangle)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Description of the highway section pointed to on the screen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select section_name, number_lanes
+\end_layout
+
+\begin_layout Plain Layout
+
+from Section
+\end_layout
+
+\begin_layout Plain Layout
+
+where ST_Contains(geometry, @point)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Description of the highways of which a section is pointed to on the screen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+select h1.highway_name, h1.highway_type
+\end_layout
+
+\begin_layout Plain Layout
+
+from Highway h1, HighwaySection h2, Section s
+\end_layout
+
+\begin_layout Plain Layout
+
+where h1.highway_code = h2.highway_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and h2.section_code = s.section_code
+\end_layout
+
+\begin_layout Plain Layout
+
+	and ST_Contains(s.geometry, @point)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Representative Systems
+\end_layout
+
+\begin_layout Subsection
+Oracle Locator
+\end_layout
+
+\begin_layout Standard
+Included in all editions of the DB, with all functions required for standard
+ GIS tools and all geometric objects (Points, lines and polygons in 2D,
+ 3D and 4D).
+ It uses indexing with quadtrees and rtrees and supports geometric queries,
+ proximity search, distance calculation, multiple projection and conversion
+ of projections.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle Spatial
+\end_layout
+
+\begin_layout Standard
+It is an option or Oracle DB Enterprise edition, which extends the locator
+ with geometric transformations, spatial aggregations, dynamic segmentation,
+ measures, network modelling, topology, raster, geocoder, spatial data mining,
+ 3D types and Web Services.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle Network Model
+\end_layout
+
+\begin_layout Standard
+It is a data model for representing networks in the database.
+ It maintains connectivity and attributes at the link and node levels.
+ It is used for networks management and as a navigation engine for route
+ calculation.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle Topological Model
+\end_layout
+
+\begin_layout Standard
+It persists the storage of the topology with nodes, arcs and faces, and
+ the topological relations, allowing for advanced consistency checks.
+ The data model allows to define objects through topological primitives
+ and adds the type SDO_TOPO_GEOMETRY.
+ It coexists with traditional spatial data.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle Geo Raster
+\end_layout
+
+\begin_layout Standard
+It adds the new data type SDO_GEORASTER, providing an open, general purpose
+ raster data model, with storage and indexing of raster data, as well as
+ the ability to query an analyze raster data.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle geocoding
+\end_layout
+
+\begin_layout Standard
+Generates latitude/longitude points from address.
+ It is an international addressing standardization, working with formatted
+ and unformatted addresses.
+ Its tolerance parameters support fuzzy matching.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle MapViewer
+\end_layout
+
+\begin_layout Standard
+It is supplied with all versions of Oracle Application Server, providing
+ XML, Java and JS interfaces.
+ It is a tool for map definition, for maps described in the database, thematic
+ maps.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: geometry type
+\end_layout
+
+\begin_layout Standard
+To create a spatial table in Oracle:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE Cells (
+\end_layout
+
+\begin_layout Plain Layout
+
+	Cell_id NUMBER,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Cell_name VARCHAR2(32),
+\end_layout
+
+\begin_layout Plain Layout
+
+	Cell_type NUMBER,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Location SDO_GEOMETRY,
+\end_layout
+
+\begin_layout Plain Layout
+
+	Covered_area SDO_GEOMETRY);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: geometrical primitives
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado66.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Point: represents point objects in 2, 3 or 4 dimensions.
+\end_layout
+
+\begin_layout Itemize
+Line: represents linear objects and is formed of straight lines or arcs.
+ A closed line does not delineate a surface and self-crossing lines are
+ allowed.
+ They are encoded as a list of points 
+\begin_inset Formula $\left(x_{1},y_{1},...,x_{n},y_{n}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Polygon: represents surface objects.
+ The contour must be closed and the interior can contain one or more holes.
+ The boundary cannot intersect and it is formed by straight lines or arcs
+ (or a combination).
+ Some specific forms as rectangles and circles can be expressed more efficiently.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: element
+\end_layout
+
+\begin_layout Standard
+An element is the basic component of geometric objects.
+ The type of an element can be point, line or polygons.
+ Fromed of an ordered sequence of points.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: geometry
+\end_layout
+
+\begin_layout Standard
+Represents a spatial object and is composed of an ordered list of elements,
+ which may be homogeneous or heterogeneous.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: layer
+\end_layout
+
+\begin_layout Standard
+Represents a geometrical column in a table.
+ In general, it contains objects of the same nature.
+\end_layout
+
+\begin_layout Subsubsection
+SDO_GEOMETRY type
+\end_layout
+
+\begin_layout Standard
+Structure:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SDO_GTYPE 	NUMBER
+\end_layout
+
+\begin_layout Plain Layout
+
+SDO_SRID 	NUMBER
+\end_layout
+
+\begin_layout Plain Layout
+
+SDO_POINT 	SDO_POINT_TYPE
+\end_layout
+
+\begin_layout Plain Layout
+
+SDO_ELEM_INFO 	SDO_ELEM_INFO_ARRAY
+\end_layout
+
+\begin_layout Plain Layout
+
+SDO_ORDINATES 	SDO_ORDINATE_ARRAY
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE TABLE states (
+\end_layout
+
+\begin_layout Plain Layout
+
+	state VARCHAR2(30),
+\end_layout
+
+\begin_layout Plain Layout
+
+	totpop NUMBER(9),
+\end_layout
+
+\begin_layout Plain Layout
+
+	geom SDO_GEOMETRY);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDO_GTYPE
+\end_layout
+
+\begin_layout Standard
+Define the nature of the geometric shape contained in the object.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado71.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDO_SRID
+\end_layout
+
+\begin_layout Standard
+SRID = Spatial Reference System ID.
+ It specifies the coordinate system of the object.
+ The list of possible values is in the table MDSYS.CS:SRS.
+ A common value is 8307: which is 'Longitude/Latitude WGS84', used by the
+ GPS system.
+ All geometries of a layer must have the same SRID.
+ Layers may have different SRIDs.
+ Automatic conversion for spatial queries.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDO_POINT
+\end_layout
+
+\begin_layout Standard
+Structure
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+x NUMBER
+\end_layout
+
+\begin_layout Plain Layout
+
+y NUMBER
+\end_layout
+
+\begin_layout Plain Layout
+
+z NUMBER
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Example
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+INSERT INTO TELEPHONE_POLES (col-1, ..., col-n, geom)
+\end_layout
+
+\begin_layout Plain Layout
+
+VALUES (attribute-1, ..., attribute-n,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY (
+\end_layout
+
+\begin_layout Plain Layout
+
+		2001, 8307,
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_POINT_TYPE (-75.2,43.7,null),
+\end_layout
+
+\begin_layout Plain Layout
+
+		null, null)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDO_ORDINATES
+\end_layout
+
+\begin_layout Standard
+Object type SDO_ORDINATE_ARRAY which is VARRAY (1048576) OF NUMBER.
+ It stores the coordinates of lines and polygons.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado73.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SDO_ELEM_INFO
+\end_layout
+
+\begin_layout Standard
+Object type SDO_ELEM_INFO_ARRAY which is VARRAY (1048576) OF NUMBER.
+ It specifies the nature of the elements and describes the various components
+ of a complex object.
+ There three entries per element:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ordinate offset
+\series default
+: position of the first number for this element in the array SDO_ORDINATES.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Element type
+\series default
+: type of the element.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Interpretation
+\series default
+: straight line, arc,..
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado72.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Examples of geometries:
+\end_layout
+
+\begin_layout Standard
+Line:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado74.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Polygon:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado75.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Multipoint:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pegado76.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Constructing a line
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+INSERT INTO LINES (col-1, ..., col-n, geom) VALUES (
+\end_layout
+
+\begin_layout Plain Layout
+
+	attribute_1, ..., attribute_n,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY (
+\end_layout
+
+\begin_layout Plain Layout
+
+		2002, 8307, null,
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_ELEM_INFO_ARRAY (1,2,1),
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_ORDINATE_ARRAY (
+\end_layout
+
+\begin_layout Plain Layout
+
+			10,10, 20,25, 30,10, 40,10))
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Metadata
+\end_layout
+
+\begin_layout Standard
+Defines the boundaries of a layer, i.e., minimum and amximium coordinates
+ for each dimension.
+ Sets the tolerance of a layer, i.e., the maximum distance between two points
+ for them to be considered different.
+ And defines the coordinate system for a layer.
+\end_layout
+
+\begin_layout Standard
+Example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID)
+ VALUES (
+\end_layout
+
+\begin_layout Plain Layout
+
+	'ROADS', 'GEOMETRY',
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_DIM_ARRAY (
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_DIM_ELEMENT('Long', -180, 180, 0.5),
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_DIM_ELEMENT('Lat', -90, 90, 0.5)),	8307 );
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Constructing geometries
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Standard constructor
+\end_layout
+
+\begin_layout Plain Layout
+
+INSERT INTO TELEPHONE_POLES (col-1, ..., col-n, geom) VALUES (attribute-1,
+ ..., attribute-n,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY (
+\end_layout
+
+\begin_layout Plain Layout
+
+		2001, 8307,
+\end_layout
+
+\begin_layout Plain Layout
+
+		SDO_POINT_TYPE (-75.2,43.7,null),
+\end_layout
+
+\begin_layout Plain Layout
+
+		null, null)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Well-Known Text (WKT) constructor
+\end_layout
+
+\begin_layout Plain Layout
+
+INSERT INTO TELEPHONE_POLES (col-1, ..., col-n, geom) VALUES (attribute-1,
+ ..., attribute-n,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY ('POINT (-75.2 43.7)',8307)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Well-Known Binary (WKB) constructor
+\end_layout
+
+\begin_layout Plain Layout
+
+INSERT INTO TELEPHONE_POLES (col-1, ..., col-n, geom) VALUES (attribute-1,
+ ..., attribute-n,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY (:my_blob,8307)
+\end_layout
+
+\begin_layout Plain Layout
+
+);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: Spatial indexes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+R-tree indexing
+\series default
+: tree rectangles that provide indexing in 2 or 3 dimensions.
+ It is based on the 
+\series bold
+Minimum Bounding Rectangle
+\series default
+ (MBR) of objects.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado67.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To create an index:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CREATE INDEX Customer_Idx ON Customers(Location)
+\end_layout
+
+\begin_layout Plain Layout
+
+	INDEXTYPE IS MDSYS.SPATIAL_INDEX;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The CREATE INDEX statement may have additional parameters.
+ To delete the index:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+DROP INDEX <index-name>;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Quad-tree indexing: use a regular grid.
+ It is not maintained in oracle now.
+\end_layout
+
+\begin_layout Standard
+A spatial index must exists before we can ask spatial queries on a table.
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: query execution model
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado68.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But it can be optimized:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado69.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Oracle: writing spatial queries
+\end_layout
+
+\begin_layout Standard
+They contain a sptail predicate, and are expressed through specific SQL
+ operators: SDO_RELATE, SDO_INSIDE, SDO_TOUCH, SDO_WITHIN_DISTANCE, SDO_NN.
+ The spatial index must exists, otherwise we will get an error message.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Topological predicates
+\end_layout
+
+\begin_layout Standard
+They select objects by their topological relationship with another object:
+ SDO_INSIDE, SDO_CONTAINS, SDO_COVERS, SDO_COVEREDBY, SDO_OVERLAPS, SDO_TOUCH,
+ SDO_EQUAL, SDO_ANYINTERACT.
+\end_layout
+
+\begin_layout Standard
+The SDO_RELATE is a generic operator for which we can specify a mask, that
+ can be 'INSIDE', 'CONTAINS', 'TOUCH',...
+ or a combination as 'INSIDE+CONTAINS'
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Sample queries
+\end_layout
+
+\begin_layout Standard
+Which parks are entirely contianed in the state of Wyoming:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- way 1
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT p.name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_parks p, us_states s
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE s.state = 'Wyoming'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_INSIDE (p.geom, s.geom) = 'TRUE';
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- way 2
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT p.name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_parks p, us_states s
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE s.state = 'Wyoming'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_RELATE(p.geom,s.geom,'MASK=INSIDE') = 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Which states contain all or part of Yellowstone Park:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT s.state
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_states s, us_parks p
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE SDO_ANYINTERACT (s.geom, p.geom) = 'TRUE'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND p.name = 'Yellowstone NP';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In which competing jurisdictions is my client:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT s.id, s.name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers c, competitors_sales_regions s
+\end_layout
+
+\begin_layout Plain Layout
+
+	WHERE c.id = 5514 AND SDO_CONTAINS (s.geom, c.location) = 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Find all counties around Passaic County:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT c1.county, c1.state_abrv
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_counties c1, us_counties c2
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE c2.state = 'New Jersey' AND c2.county = 'Passaic'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_TOUCH (c1.geom, c2.geom) = 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Queries with a constant window
+\end_layout
+
+\begin_layout Standard
+Find all customers of type Platinum in a rectangular area:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT name, category
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE SDO_INSIDE (location,
+\end_layout
+
+\begin_layout Plain Layout
+
+	sdo_geometry (2003, 8307, null,
+\end_layout
+
+\begin_layout Plain Layout
+
+	sdo_elem_info_array (1,1003,3),
+\end_layout
+
+\begin_layout Plain Layout
+
+	sdo_ordinate_array (-122.413, 37.785,-122.403, 37.792)))
+\end_layout
+
+\begin_layout Plain Layout
+
+	='TRUE'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND customer_grade = 'PLATINUM';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In which competitor sales territories is located a geographical point:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT id, name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM competitors_sales_regions
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE SDO_CONTAINS (geom,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_GEOMETRY(2001, 8307,
+\end_layout
+
+\begin_layout Plain Layout
+
+	SDO_POINT_TYPE(-122.41762, 37.7675089, NULL),
+\end_layout
+
+\begin_layout Plain Layout
+
+	NULL, NULL) 
+\end_layout
+
+\begin_layout Plain Layout
+
+	= 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Queries based on distance
+\end_layout
+
+\begin_layout Standard
+These are used to select objects according to distance from another point.
+ Distance can be expressed in any unit of distance and if no unit is specified,
+ the distance is expressed in the unit of the coordinate system.
+ For longitude/latitude data, these are meters.
+ The function used is SDO_WITHIN_DISTANCE.
+\end_layout
+
+\begin_layout Standard
+Which agencies are less than 1km form this client:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT b.id, b.phone_number
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers c, branches b
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE c.id = 8314
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_WITHIN_DISTANCE(b.location, c.location,'distance=1 unit=km')= 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+How many customers in each category are located within 1/4 mile of my office
+ number 77:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT customer_grade, COUNT(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM branches b, customers c
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE b.id=77
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_WITHIN_DISTANCE (c.location, b.location,'DISTANCE=0.25 UNIT=MILE')='TRUE'
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY customer_grade;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Research based on proximity
+\end_layout
+
+\begin_layout Standard
+These select the N closest objects of another objects: SDO_NN.
+ ROWNUM can be used to limit result.
+ SDO_NN_DISTANCE is used to categorize answers by distance.
+\end_layout
+
+\begin_layout Standard
+What is the nearest office to this client?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT b.id, b.phone_number
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers c, branches b
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE c.id = 8314
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_NN(b.location, c.location,'sdo_num_res=1')= 'TRUE';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+What are my five customers closest to this competitor:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT c.id, c.name, c.customer_grade
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM competitors co, customers c
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE co.id=1
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_NN (c.location, co.location,'SDO_NUM_RES=5')='TRUE' ;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This only works if no other selection criterion is present.
+\end_layout
+
+\begin_layout Standard
+What are my five customers closest to this competitor, and give the distance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT c.id, c.name, c.customer_grade, SDO_NN_DISTANCE(1) distance
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM competitors co, customers c
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE co.id=1
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND SDO_NN (c.location, co.location,'SDO_NUM_RES=5', 1)='TRUE'
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY distance;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If we want to add more filters, we cannot use the SDO_NN function, because
+ it is evaluated first.
+ We have to do the trick with SDO_DISTANCE+ORDER BY+ROWNUM.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Spatial Join
+\end_layout
+
+\begin_layout Standard
+It is used to find correlations between two tables, based on topology or
+ distance.
+ It compares all objects in a table with all those of another table, so
+ it requires a R-Tree on each table.
+ Technically implemented as a function that returns a table: the SDO_JOIN.
+\end_layout
+
+\begin_layout Standard
+Associate with each GOLD customer the sales territory in which is is located:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT s.id, c.id, c.name
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers c, sales_regions s, TABLE(SDO_JOIN('customers','location','sales_
+regions','geom','mask=inside')) j
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE j.rowid1 = c.rowid
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND j.rowid2 = s.rowid
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND c.customer_grade = 'GOLD'
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY s.id, c.id;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Find all gold customers who are less than 500 meters from one of our branches
+ in San Francisco:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT DISTINCT c.id, c.name, b.id
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers c, branches b, TABLE(SDO_JOIN('CUSTOMERS','LOCATION','BRANCHES','
+LOCATION','DISTANCE=500 UNIT=METER')) j
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE j.rowid1 = c.rowid
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND j.rowid2 = b.rowid
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND c.customer_grade = 'GOLD'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND b.city = 'SAN FRANCISCO';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Spatial functions
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado70.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Objects must be in the same coordinate system.
+\end_layout
+
+\begin_layout Standard
+What is the total area of Yellowstone National Park:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT sdo_geom.sdo_area(geom,0.005,'unit=sq_km')
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_parks
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE name = 'Yellowstone NP';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+What is the length of the Mississippi riveer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT sdo_geom.sdo_length(geom,0.005,'unit=km')
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_rivers
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE name = 'Mississippi';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+What is the distance between Los Angeles and San Francisco:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT sdo_geom.sdo_distance(a.location, b.location, 0.005, 'unit=mile')
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_cities a, us_cities b
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE a.city = 'Los Angeles'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND b.city = 'San Francisco';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Generating objects
+\end_layout
+
+\begin_layout Itemize
+SDO_BUFFER(g,size) generates a buffer of the size chosen.
+ 
+\end_layout
+
+\begin_layout Itemize
+SDO_CENTROID(g) calculates the center of gravity of a polygon.
+\end_layout
+
+\begin_layout Itemize
+SDO_CONVEXHULL(g): generates the convex hull of the object.
+\end_layout
+
+\begin_layout Itemize
+SDO_MBR(g) generates the bulk of the rectangle object.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Combining objects
+\end_layout
+
+\begin_layout Itemize
+SDO_UNION(g1,g2)
+\end_layout
+
+\begin_layout Itemize
+SDO_INTERSECTION(g1,g2)
+\end_layout
+
+\begin_layout Itemize
+SDO_DIFFERENCE(g1,g2)
+\end_layout
+
+\begin_layout Itemize
+SDO_XOR(g1,g2) is the symmetric difference.
+\end_layout
+
+\begin_layout Standard
+What is the area occupied by the Yellowstone Park in the state it occupies:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT s.state, sdo_geom.sdo_area (sdo_geom.sdo_intersection (s.geom, p.geom,
+ 0.5),0.5, 'unit=sq_km') area
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM us_states s, us_parks p
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE SDO_ANYINTERACT (s.geom, p.geom) = 'TRUE'
+\end_layout
+
+\begin_layout Plain Layout
+
+	AND p.name = 'Yellowstone NP';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Spatial aggregation
+\end_layout
+
+\begin_layout Standard
+Aggregate functions operate on the set of objects.
+\end_layout
+
+\begin_layout Itemize
+SDO_AGGR_MBR: returns the rectangle of space around a set of objects.
+\end_layout
+
+\begin_layout Itemize
+SDO_AGGR_UNION: computes the union of a set of geometric objects.
+\end_layout
+
+\begin_layout Itemize
+SDO_AGGR_CENTROID: calculates the centroid of a set of objects.
+\end_layout
+
+\begin_layout Itemize
+SDO_AGGR_CONVEXHULL: calculates the convex hull around a set of objects.
+\end_layout
+
+\begin_layout Standard
+Find the focal point of all our customers in Daly City:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT SDO_AGGR_CENTROID(SDOAGGRTYPE(location,0.5)) center
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE city = 'DALY CITY';
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Calculate the number of customer in each zip code, and calculate the focal
+ point for these clients:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT COUNT(*), postal_code, SDO_AGGR_CENTROID(SDOAGGRTYPE(location,0.5))
+ center
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM customers
+\end_layout
+
+\begin_layout Plain Layout
+
+GROUP BY postal_code;
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
