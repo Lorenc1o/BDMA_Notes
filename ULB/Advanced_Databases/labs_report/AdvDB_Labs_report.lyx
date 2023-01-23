@@ -261,24 +261,2909 @@ A PhD student must work in the same laboratory as his/her supervisor.
 
 \begin_deeper
 \begin_layout Standard
+This can be violated by: 
+\end_layout
+
+\begin_layout Enumerate
+Insert into PhDStudent.
+\end_layout
+
+\begin_layout Enumerate
+Update of Laboratory or Supervisor in PhDStudent.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- For a) and b)
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Case Abort:
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudSameLabAsSuperv_PhDStud_InsUpd_Abort on PhDStudent after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select * 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I, Professor P
+\end_layout
+
+\begin_layout Plain Layout
+
+	where P.ProfNo = I.Supervisor
+\end_layout
+
+\begin_layout Plain Layout
+
+		and P.Laboratory <> I.Laboratory )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must work in the same laborator
+y as his/her supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Case Repair:
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudSameLabAsSuperv_PhDStud_InsUpd_Repair on PhDStudent after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update PhDStudent
+\end_layout
+
+\begin_layout Plain Layout
+
+	set Laboratory = (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select P.Laboratory
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Professor P
+\end_layout
+
+\begin_layout Plain Layout
+
+		where P.ProfNo = Supervisor )
+\end_layout
+
+\begin_layout Plain Layout
+
+	where StudentNo in (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select I.StudentNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
 \end_deeper
 \begin_layout Enumerate
+Update of Laboratory in Professor.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Abort
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudSameLabAsSuperv_Prof_Upd_Abort on Professor after update
+ as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select * 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I, PhDStudent S
+\end_layout
+
+\begin_layout Plain Layout
+
+	where I.ProfNo = S.Supervisor
+\end_layout
+
+\begin_layout Plain Layout
+
+		and I.Laboratory <> S.Laboratory )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must work in the same laborator
+y as his/her supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Repair
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudSameLabAsSuperv_Prof_Upd_Repair on Professor after update
+ as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update PhDStudent
+\end_layout
+
+\begin_layout Plain Layout
+
+	set Laboratory = (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select I.Laboratory
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I
+\end_layout
+
+\begin_layout Plain Layout
+
+		where Supervisor = I.ProfNo )
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Supervisor in (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select I2.ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I2 )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Delete from Professor: The professor is deleted and the attributes Laboratory
+ and Supervisor of the PhD students who worked for the deleted professor
+ are set to null.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+alter table PhDStudent
+\end_layout
+
+\begin_layout Plain Layout
+
+drop constraint FK_PhDStudent_Professor -- Because SQL server r does not
+ implement the option on delete set null for the referential integrity,
+ it is necessary to drop the foreign key constraint in the table PhDStudent.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudSameLabAsSuperv_Prof_Del_Repair on Professor after delete
+ as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update PhDStudent
+\end_layout
+
+\begin_layout Plain Layout
+
+	set Laboratory = null, Supervisor = null
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Supervisor in (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Deleted )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
 A PhD student must take at least one course.
 \end_layout
 
-\begin_layout Enumerate
-A PhD student must take all courses taught by his/her supervisor
+\begin_deeper
+\begin_layout Standard
+This can be violated by:
 \end_layout
 
+\begin_layout Enumerate
+Insert into PhDStudent
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- This does not work in SQL Server, since a trigger is executed immediately
+ after the triggering instruction.
+ Thus, embedding several inserts (into PhDStudent and CourseTaken) into
+ one transaction would not help.
+ Practically, thus, and without any further assumption, it will not be possible
+ to ensure that this constraint verified, as the aborting trigger would
+ prevent any insertion into the table PhDStudent.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger PhDStudMinOneCourse_PhDStud_Ins_Abort on PhDStudent after
+ insert as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select * 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I
+\end_layout
+
+\begin_layout Plain Layout
+
+	where not exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select *
+\end_layout
+
+\begin_layout Plain Layout
+
+		from CourseTaken
+\end_layout
+
+\begin_layout Plain Layout
+
+		where StudentNo = I.StudentNo ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must take at least one
+ course', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Update of StudentNo in CourseTaken
+\end_layout
+
+\begin_layout Enumerate
+Delete from CourseTaken
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- For b) and c)
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger PhDStudMinOneCourse_PhDStud_Ins_Abort on CourseTaken after
+ update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select * 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Deleted D
+\end_layout
+
+\begin_layout Plain Layout
+
+	where D.StudentNo not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select StudentNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from CourseTaken ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must take at least one
+ course', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Delete from Course: Removing an entry from Course could indirectly affect
+ the number of courses taken by one or several PhD students.
+ This case, however, should be handled with the 
+\emph on
+on update cascade
+\emph default
+ option of the referential integrity constraint on the CourseNo field of
+ CourseTaken.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+A PhD student must take all courses taught by his/her supervisor.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This can violated by:
+\end_layout
+
+\begin_layout Enumerate
+Insert into PhDStudent
+\end_layout
+
+\begin_layout Enumerate
+Update of Supervisor in PhDStudent
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- for a) and b)
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Abort
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudAllCoursesOfSuperv_Stud_InsUpd_Abort on PhDStudent after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select * 
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I
+\end_layout
+
+\begin_layout Plain Layout
+
+	where exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select *
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Course C
+\end_layout
+
+\begin_layout Plain Layout
+
+		where C.ProfNo = I.Supervisor
+\end_layout
+
+\begin_layout Plain Layout
+
+			and C.CourseNo not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+				select T.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+				from CourseTaken T
+\end_layout
+
+\begin_layout Plain Layout
+
+				where T.StudentNo = I.StudentNo ) ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must take all the courses
+ given by his supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Repair
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudAllCoursesOfSuperv_Stud_InsUpd_Repair on PhDStudent after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	insert into CourseTaken (StudentNo, CourseNo)
+\end_layout
+
+\begin_layout Plain Layout
+
+		select I.StudentNo, C.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I, Professor P, Course C
+\end_layout
+
+\begin_layout Plain Layout
+
+		where I.Supervisor = P.ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+			and C.ProfNo = P.ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+				and C.CourseNo not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+					select T.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+					from CoursTaken T
+\end_layout
+
+\begin_layout Plain Layout
+
+					where T.StudentNo = I.StudentNo )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Insert into Course
+\end_layout
+
+\begin_layout Enumerate
+Update of ProfNo in Courseç
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Events c) and d)
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Aborting the transaction, particularly in SQL Server (where triggers
+ are executed immediately after the triggering instruction), would not work
+ (well).
+ The repairing rule being implicitly defined, or at least suggested, by
+ the constraint (namely to automatically enrol the student in the added
+ course), it will be the method of choice for this case.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Repair
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudAllCoursesOfSuperv_Course_InsUpd_Repair on Course after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	insert into CourseTaken (StudentNo, CourseNo)
+\end_layout
+
+\begin_layout Plain Layout
+
+		select S.StudentNo, I.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I, Professor P, PhDStudent S
+\end_layout
+
+\begin_layout Plain Layout
+
+		where C.ProfNo = P.ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+			and S.Supervisor = P.ProfNo
+\end_layout
+
+\begin_layout Plain Layout
+
+			and I.CourseNo not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+				select T.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+				from CourseTaken T
+\end_layout
+
+\begin_layout Plain Layout
+
+				where T.StudentNo = C.StudentNo )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Update of StudentNo or CourseNo in CourseTaken
+\end_layout
+
+\begin_layout Enumerate
+Delete from CourseTaken
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Events e) and f)
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger StudAllCoursesOfSuperv_CourseTaken_UpdDel_Abort on CourseTaken
+ after update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Deleted D, Course C, PhDStudent S
+\end_layout
+
+\begin_layout Plain Layout
+
+	where D.CourseNo = C.CourseNo
+\end_layout
+
+\begin_layout Plain Layout
+
+		and C.ProfNo = S.Supervisor
+\end_layout
+
+\begin_layout Plain Layout
+
+		and D.StudentNo = S.StudentNo )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror ('Constraint Violation: A PhD student must take all the courses
+ given by his supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Section
 Sessions 2 and 3: Exercises 'Employees department projects'
 \end_layout
 
 \begin_layout Standard
-#TODO
+We have the schema:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado11.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In SQL Server, enforce the following constraints using a set of CHECK constraint
+s, referential integrity constraints, or triggers.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 1.
+
+\series default
+ The age of employees must be greater than 18.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+--Using a CHECK constraint
+\end_layout
+
+\begin_layout Plain Layout
+
+alter table Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+	add constraint employee_Age18
+\end_layout
+
+\begin_layout Plain Layout
+
+		check ( dateadd(year,18,BDate) <= getdate() )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger age18 on Employee after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where dateadd(year,18,BDate) > getdate() )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: The age of an employee must be greater
+ than 18', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 2.
+
+\series default
+ The supervisor of an employee must be older than the employee.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+--Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger supervisorAge on Employee after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I, Employee E
+\end_layout
+
+\begin_layout Plain Layout
+
+	where ( I.SuperSSN = E.SSN and I.BDate < E.BDate )
+\end_layout
+
+\begin_layout Plain Layout
+
+		or ( E.SuperSSN = I.SSN and E.BDate < I.BDate ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror( 'Constraint Violation: The age of an employee must be less than
+ the age of his/her supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 3.
+
+\series default
+ The salary of an employee cannot be greater than the salary of his/her
+ supervisor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger supervisorSalary on Employee after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I, Employee E
+\end_layout
+
+\begin_layout Plain Layout
+
+	where ( I.SuperSSN = E.SSN and I.Salary > E.Salary )
+\end_layout
+
+\begin_layout Plain Layout
+
+		or ( E.SuperSSN = I.SSN and E.Salary > I.Salary ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: The salary of an employee cannot be greater
+ than the salary of his/her supervisor', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 4.
+
+\series default
+ The manager of a department must be an employee of that department.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using UNIQUE and foreign key constraints
+\end_layout
+
+\begin_layout Plain Layout
+
+alter table Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+	add constraint UN_Employee_SSN_DNo unique( SSN, DNO )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+alter table Department
+\end_layout
+
+\begin_layout Plain Layout
+
+	add constraint FK_Employee_SSN_DNo foreign key( MgrSSN, DNumber ) references
+ Employee( SSN, DNo )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 5.
+
+\series default
+ The location of a project must be one of the locations of its department.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a foreign key constraint
+\end_layout
+
+\begin_layout Plain Layout
+
+alter table Project
+\end_layout
+
+\begin_layout Plain Layout
+
+	add constraint FK_Project_DeptLocations foreign key( DNumber, PLocation
+ ) references DeptLocations( DNumber, DLocation )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 6.
+ 
+\series default
+The hire date of employees must be greater than their birth date.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a CHECK key constraint
+\end_layout
+
+\begin_layout Plain Layout
+
+alter table Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+	add constraint HireDate_BDate check( HireDate > BDate )
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 7.
+
+\series default
+ A supervisor must be hired at least 1 year before every employee s/he supervise
+s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger hireSuperv on Employee after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted I, Employee E
+\end_layout
+
+\begin_layout Plain Layout
+
+	where ( I.SuperSSN = E.SSN and datediff(year, E.HireDate, I.HireDate) < 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+		or ( E.SuperSSN = I.SSN and datediff(year, I.HireDate, E.HireDate) < 1))
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: A supervisor must be hired at least 1
+ year before every employee s/he supervises', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 8.
+
+\series default
+ The attribute Department.NbrEmployees is a derived attribute from Employee.DNo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using value deriving triggers
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger DeptNbrEmp_Employee_InsUpdDel_Derive on Employee after insert,
+ update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update Department D
+\end_layout
+
+\begin_layout Plain Layout
+
+	set NbrEmployees = (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Employee E
+\end_layout
+
+\begin_layout Plain Layout
+
+		where E.DNo = D.DNumber )
+\end_layout
+
+\begin_layout Plain Layout
+
+	where D.DNumber in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select distinct I.DNo
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Inserted I )
+\end_layout
+
+\begin_layout Plain Layout
+
+		or D.DNumber in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select distinct D.DNo
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Deleted D )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Incremental version
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger derived_Department_NbrEmployees_Employee on Employee after
+ insert, update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update Department
+\end_layout
+
+\begin_layout Plain Layout
+
+	set NbrEmployees = NbrEmployees +
+\end_layout
+
+\begin_layout Plain Layout
+
+		( select count(*) from Inserted I where DNumber=I.DNo ) -
+\end_layout
+
+\begin_layout Plain Layout
+
+		( select count(*) from Deleted D where DNumber=D.DNo )
+\end_layout
+
+\begin_layout Plain Layout
+
+	where DNumber in ( select DNo from Inserted )
+\end_layout
+
+\begin_layout Plain Layout
+
+		or DNumber in ( select DNo from Deleted )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger derived_Department_NbrEmployees_Department on Department
+ after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where NbrEmployees <> ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+		select count(*)
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Employee E
+\end_layout
+
+\begin_layout Plain Layout
+
+		where E.DNo = DNumber ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: The attribute Department.NbrEmployees is
+ a derived attribute from Employee.DNo', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 9.
+
+\series default
+ An employee works at most in 4 projects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger empNbrProj on WorksOn after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from WorksOn W
+\end_layout
+
+\begin_layout Plain Layout
+
+	group by W.ESSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	having count(*) > 4 )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: An employee works at most in 4 projects',
+ 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 10.
+
+\series default
+ An employee works at least 30h/week and at most 50 h/week on all its projects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger workson_30_50 on WorksOn after insert, update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+	group by ESSN
+\end_layout
+
+\begin_layout Plain Layout
+
+	having ( sum(Hours) < 30 )
+\end_layout
+
+\begin_layout Plain Layout
+
+		or ( sum(Hours) > 50 ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: An employee works at least 30 h/week and
+ at most 50 h/week on all its projects', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 11.
+
+\series default
+ Among all employees working on a project, at most 2 can work for less than
+ 10 hours.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger worksonLess10h on WorksOn after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Hours < 10
+\end_layout
+
+\begin_layout Plain Layout
+
+	group by PNo
+\end_layout
+
+\begin_layout Plain Layout
+
+	having count(*) > 2 )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: A project can have at most 2 employees
+ working on the project less than 10 hours', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback 
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 12.
+
+\series default
+ Only department managers can work less than 5 hours on a project.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a set of triggers
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger worksonLess5h_WorksOn on WorksOn after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Hours < 5
+\end_layout
+
+\begin_layout Plain Layout
+
+		and ESSN not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Department
+\end_layout
+
+\begin_layout Plain Layout
+
+			where MgrSSN is not null ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: Only department managers can work less
+ than 5 hours on a project', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger worksonLess5h_Department on Department after update, delete
+ as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Deleted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where MgrSSN not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Department )
+\end_layout
+
+\begin_layout Plain Layout
+
+		and MgrSSN in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select ESSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+			where Hours < 5 ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: Only department managers can work less
+ than 5 hours on a project', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 13.
+
+\series default
+ Employees that are not supervisors must work at least 10 hours on every
+ project they work.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a set of triggers
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger workson10h_WorksOn on WorksOn after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Inserted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Hours < 10
+\end_layout
+
+\begin_layout Plain Layout
+
+		and ESSN not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select SuperSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+			where SuperSSN is not null ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: Employees that are not supervisors must
+ work at least 10 hours on every project they work', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger workson10h_Employee on Employee after update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from Deleted
+\end_layout
+
+\begin_layout Plain Layout
+
+	where SuperSSN not in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select SuperSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+			where SuperSSN is not null )
+\end_layout
+
+\begin_layout Plain Layout
+
+		and SuperSSN in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select ESSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from WorksOn
+\end_layout
+
+\begin_layout Plain Layout
+
+			where Hours < 10 ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: Employees that are not supervisors must
+ work at least 10 hours on every project they work', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 14.
+
+\series default
+ The manager of a department must work at least 5 hours on all projects
+ controlled by the department.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a set of triggers
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger mgrProj_Department on Department after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from ( Inserted I join Project P on I.DNumber = P.DNumber )
+\end_layout
+
+\begin_layout Plain Layout
+
+		left outer join WorksOn on MgrSSN = ESSN and PNumber = PNo
+\end_layout
+
+\begin_layout Plain Layout
+
+	where Hours is null
+\end_layout
+
+\begin_layout Plain Layout
+
+		or Hours < 5 )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: A manager must work at least 5 hours on
+ all projects controlled by his/her department', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger mgrProj_Project on Project after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from ( Project P join Department D on D.DNumber = P.DNumber )
+\end_layout
+
+\begin_layout Plain Layout
+
+		left outer join WorksOn on MgrSSN = ESSN and PNumber = PNo
+\end_layout
+
+\begin_layout Plain Layout
+
+	where P.PNumber in ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+			select PNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Inserted )
+\end_layout
+
+\begin_layout Plain Layout
+
+		and ( Hours is null
+\end_layout
+
+\begin_layout Plain Layout
+
+		or Hours < 5 ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: A manager must work at least 5 hours on
+ all projects controlled by his/her department', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger mgrProj_WorksOn on WorksOn after update, delete as
+\end_layout
+
+\begin_layout Plain Layout
+
+if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+	select *
+\end_layout
+
+\begin_layout Plain Layout
+
+	from ( Department D join Project P on D.DNumber=P.DNumber)
+\end_layout
+
+\begin_layout Plain Layout
+
+		left outer join WorksOn on MgrSSN = ESSN and PNumber = PNo
+\end_layout
+
+\begin_layout Plain Layout
+
+	where D.MgrSSN in ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+			select ESSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Deleted )
+\end_layout
+
+\begin_layout Plain Layout
+
+		and ( Hours is null
+\end_layout
+
+\begin_layout Plain Layout
+
+		or Hours < 5 ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	raiserror('Constraint Violation: A manager must work at least 5 hours on
+ all projects controlled by his/her department', 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+	rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 15.
+
+\series default
+ The attribute Employee.SuperSSN is a derived attribute computed as follows.
+ Department managers are supervised by the manager of Department 1 (Headquarters
+).
+ Employees that are not managers are supervised by the manager of their
+ department.
+ Finally, the manager of Department 1 has a null value in attribute SuperSSN.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a set of triggers
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger derived_Employee_SuperSSN_Department on Department after
+ insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if update(MgrSSN)
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+	set SuperSSN = (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select case when SSN != D.MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				then D.MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			when SSN = D.MgrSSN and DNo != 1
+\end_layout
+
+\begin_layout Plain Layout
+
+				then ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+					select MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+					from Department
+\end_layout
+
+\begin_layout Plain Layout
+
+					where DNumber = 1 )
+\end_layout
+
+\begin_layout Plain Layout
+
+			else null
+\end_layout
+
+\begin_layout Plain Layout
+
+			end
+\end_layout
+
+\begin_layout Plain Layout
+
+from Department D
+\end_layout
+
+\begin_layout Plain Layout
+
+where DNo = D.DNumber )
+\end_layout
+
+\begin_layout Plain Layout
+
+-- if the department manager changes all employees of the department
+\end_layout
+
+\begin_layout Plain Layout
+
+-- must be updated
+\end_layout
+
+\begin_layout Plain Layout
+
+	where ( DNo in (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+			from Inserted ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+-- if the manager of department 1 changes, all department managers
+\end_layout
+
+\begin_layout Plain Layout
+
+-- must be updated
+\end_layout
+
+\begin_layout Plain Layout
+
+		or ( 1 in (
+\end_layout
+
+\begin_layout Plain Layout
+
+				select DNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+				from Inserted )
+\end_layout
+
+\begin_layout Plain Layout
+
+			and SSN in (
+\end_layout
+
+\begin_layout Plain Layout
+
+				select MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				from Department ) )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger derived_Employee_SuperSSN_Employee on Employee after insert,
+ update as
+\end_layout
+
+\begin_layout Plain Layout
+
+if update(DNo)
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	update Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+	set SuperSSN = (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select case when SSN != MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+				then D.MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+			when SSN = MgrSSN and I.DNo != 1
+\end_layout
+
+\begin_layout Plain Layout
+
+				then ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+					select MgrSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+					from Department
+\end_layout
+
+\begin_layout Plain Layout
+
+					where DNumber = 1 )
+\end_layout
+
+\begin_layout Plain Layout
+
+			else null
+\end_layout
+
+\begin_layout Plain Layout
+
+			end
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted I, Department D
+\end_layout
+
+\begin_layout Plain Layout
+
+		where SSN = I.SSN and I.DNo = D.DNumber )
+\end_layout
+
+\begin_layout Plain Layout
+
+	where SSN in (
+\end_layout
+
+\begin_layout Plain Layout
+
+		select SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Inserted )
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Exercise 16.
+ 
+\series default
+The supervision relationship defined by Employee.SuperSSN must not be cyclic.
+ (It is supposed that attribute Employee.SuperSSN is not derived as stated
+ above.)
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- Using a trigger
+\end_layout
+
+\begin_layout Plain Layout
+
+create trigger noncyclic_subordinates on Employee after insert, update as
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	create table #Supervision (
+\end_layout
+
+\begin_layout Plain Layout
+
+		SSN char(9),
+\end_layout
+
+\begin_layout Plain Layout
+
+		SuperSSN char(9)
+\end_layout
+
+\begin_layout Plain Layout
+
+		primary key (SSN,SuperSSN) )
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+	insert into #Supervision
+\end_layout
+
+\begin_layout Plain Layout
+
+		select SSN, SuperSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		from Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+		where SuperSSN is not null
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	while @@rowcount != 0 -- while previous operation affected some rows
+\end_layout
+
+\begin_layout Plain Layout
+
+	begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	if exists ( 
+\end_layout
+
+\begin_layout Plain Layout
+
+		select *
+\end_layout
+
+\begin_layout Plain Layout
+
+		from #Supervision
+\end_layout
+
+\begin_layout Plain Layout
+
+		where SSN = SuperSSN )
+\end_layout
+
+\begin_layout Plain Layout
+
+	begin
+\end_layout
+
+\begin_layout Plain Layout
+
+		raiserror('Constraint Violation: The supervision relationship is cyclic',
+ 1, 1)
+\end_layout
+
+\begin_layout Plain Layout
+
+		rollback
+\end_layout
+
+\begin_layout Plain Layout
+
+	end
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	insert into #Supervision
+\end_layout
+
+\begin_layout Plain Layout
+
+		select distinct S1.SSN, S2.SuperSSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		from #Supervision S1 join #Supervision S2 on S1.SuperSSN = S2.SSN
+\end_layout
+
+\begin_layout Plain Layout
+
+		where not exists (
+\end_layout
+
+\begin_layout Plain Layout
+
+			select *
+\end_layout
+
+\begin_layout Plain Layout
+
+			from #Supervision S
+\end_layout
+
+\begin_layout Plain Layout
+
+			where S.SSN = S1.SSN and S.SuperSSN = S2.SuperSSN )
+\end_layout
+
+\begin_layout Plain Layout
+
+	end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -467,32 +3352,22 @@ status open
 
 \begin_layout Plain Layout
 
-WITH RECURSIVE onePaths AS (
+with recursive auxi(fromnode, tonode, long, path) as (
 \end_layout
 
 \begin_layout Plain Layout
 
-				SELECT fromNode, toNode, 1 as len, fromNode || '-' || toNode as Path
+	select wg.fromnode, wg.tonode, 1, '-'|| wg.fromnode ||'-'|| wg.tonode
 \end_layout
 
 \begin_layout Plain Layout
 
-				FROM webgraph1
+	from webgraph1 wg
 \end_layout
 
 \begin_layout Plain Layout
 
-				WHERE fromNode <> toNode
-\end_layout
-
-\begin_layout Plain Layout
-
-				
-\end_layout
-
-\begin_layout Plain Layout
-
-				UNION ALL
+	where wg.fromnode <> wg.tonode
 \end_layout
 
 \begin_layout Plain Layout
@@ -502,62 +3377,51 @@ WITH RECURSIVE onePaths AS (
 
 \begin_layout Plain Layout
 
-				SELECT op.fromNode, w1.toNode, op.len+1 as len, Path || '-' || w1.toNode
+	union
 \end_layout
 
 \begin_layout Plain Layout
 
-				FROM onePaths op
+	
 \end_layout
 
 \begin_layout Plain Layout
 
-				JOIN webgraph1 w1 ON op.toNode = w1.fromNode 
+	select auxi.fromnode, wg.tonode, 1 + long , path ||'-'|| wg.tonode
 \end_layout
 
 \begin_layout Plain Layout
 
-				WHERE op.fromNode <> w1.toNode AND 
+	from auxi, webgraph1 wg
 \end_layout
 
 \begin_layout Plain Layout
 
-				-- Finish this by checking the path string!!
+	where auxi.tonode = wg.fromnode
 \end_layout
 
 \begin_layout Plain Layout
 
-				AND  op.len < 3
+		AND wg.fromnode <> wg.tonode
 \end_layout
 
 \begin_layout Plain Layout
 
-				)
+		AND position('-'|| wg.tonode || '-' in auxi.path ) = 0)
 \end_layout
 
 \begin_layout Plain Layout
 
-SELECT *
 \end_layout
 
 \begin_layout Plain Layout
 
-FROM onePaths
-\end_layout
-
-\begin_layout Plain Layout
-
-WHERE len=3;
+select * from auxi
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-#TODO fix this las exercise (convert Path as array and check if the new
- node to add is already in it)
 \end_layout
 
 \begin_layout Section
@@ -699,6 +3563,40 @@ RETURN p.name as url, size((:URL)-->(p)) as in_degree, size((p)-->(:URL))
  as out_degree
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Another
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (n)
+\end_layout
+
+\begin_layout Plain Layout
+
+OPTIONAL MATCH ()-[r1]->(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+OPTIONAL MATCH (n)-[r2]->()
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n.name, COUNT(distinct r1) as indegree, COUNT (distinct r2) as outdegree
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY n.name
+\end_layout
+
 \end_inset
 
 
@@ -783,6 +3681,35 @@ WHERE size((:URL)-->(q)) = mx
 \begin_layout Plain Layout
 
 RETURN q.name as url, mx
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--3--
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (n)
+\end_layout
+
+\begin_layout Plain Layout
+
+OPTIONAL MATCH (src)-->(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n, COUNT(distinct src) as indegree
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN MAX(indegree)
 \end_layout
 
 \end_inset
@@ -995,6 +3922,35 @@ WHERE a.name <> b.name
 RETURN a.name, b.name, size(relationships(sp)) as dist
 \end_layout
 
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Another
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH path= shortestPath((n)-[*]->(p) )
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE n <> p
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH nodes(path) as listanodos
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN [n in listanodos|n.name]
+\end_layout
+
 \end_inset
 
 
@@ -1029,6 +3985,74 @@ MATCH path=(:URL)-[*]->(:URL)
 \begin_layout Plain Layout
 
 RETURN max(length(path)) as diameter
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Another
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH p=(n1)-[*1..]->(n2)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE n1 <> n2
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n1, n2, MIN(length(p)) as distance
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN MAX(distance)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Another
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH p=(n1)-[*1..]->(n2)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE n1 <> n2
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n1.name, n2.name, MIN(length(p)) as distance
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN distance
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY distance DESC
+\end_layout
+
+\begin_layout Plain Layout
+
+LIMIT 1
 \end_layout
 
 \end_inset
@@ -1066,7 +4090,58 @@ Compute all the 1, 2, 3, and n-hops in the graph, and compare against the
 \end_layout
 
 \begin_layout Exercise
-#TODO
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH path = (end)<-[*1..]-(start)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE ALL (n in nodes(path) where 1 = size([m in nodes(path) where m=n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN start.name, LENGTH(path) AS length, [p in NODES(path) | p.name], end.name
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY length
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH path = (end)<-[*1..]-(start:URL{name:745315})
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE ALL (n in nodes(path) where
+\end_layout
+
+\begin_layout Plain Layout
+
+1 = size([m in nodes(path) where m=n]))
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN LENGTH(path) AS length, [p in NODES(path) | p.name]
+\end_layout
+
+\begin_layout Plain Layout
+
+ORDER BY length desc
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2181,6 +5256,491 @@ We will query the Flanders river system depicted in Figure 1.
 \end_layout
 
 \end_deeper
+\begin_layout Enumerate
+Query 1.
+ Compute the average segment length.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN avg(n.lengte) AS avglength
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 2.
+ Compute the average segment length by segment category
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n.catc as category, avg(n.lengte)
+\end_layout
+
+\begin_layout Plain Layout
+
+AS avglength order by category asc
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 3.
+ Find all segments that have a length within a 10% margin of the length
+ of segment with ID 6020612.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6020612})
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n.lengte as length
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (m:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE m.lengte < length*1.1 and m.lengte > length*0.9
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN m.vhas, m.lengte;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 4.
+ For each segment find the number of incoming and outgoing segments.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (src:Segment)-[:flowsTo]->(n:Segment)-[:flowsTo]->(target:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n.vhas as nodenbr, COUNT(DISTINCT src) as segIn,
+\end_layout
+
+\begin_layout Plain Layout
+
+COUNT (DISTINCT target) as segOut
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 5.
+ Find the segments with the maximum number of incoming segments.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+OPTIONAL MATCH (src:Segment)-[:flowsTo]->(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n, COUNT(distinct src) as indegree
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH COLLECT ([n, indegree]) as tuples, MAX(indegree) as max
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN [t in tuples WHERE t[1] = max |t]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 6.
+ Find the number of splits in the downstream path of segment 6020612.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6020612})
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.spanningTree(n,{relationshipFilter:"flowsTo>", minLevel: 1})
+ YIELD
+\end_layout
+
+\begin_layout Plain Layout
+
+path AS pp
+\end_layout
+
+\begin_layout Plain Layout
+
+UNWIND NODES(pp) as p
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (p)-[:flowsTo]->(r:Segment)WITH p, count(DISTINCT r) as co WHERE co
+ > 1
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN count(p)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 7: Find the number of in-flowing segments in the downstream path of
+ segment 6020612.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6020612})
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.spanningTree(n,{relationshipFilter:"flowsTo>", minLevel: 1})
+ YIELD path AS pp
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH [p in NODES(pp) | p.vhas] as ids
+\end_layout
+
+\begin_layout Plain Layout
+
+UNWIND ids as id
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH collect(DISTINCT id) as ids
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (s:Segment)-[:flowsTo]->(p)
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE NOT s.vhas in ids AND p.vhas <> 6020612 AND p.vhas in ids
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN count(DISTINCT s) as inflows
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 8.
+ Determine if there is a loop in the downstream path of segment 6031518.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6031518})
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.spanningTree(n, {relationshipFilter:"flowsTo>", minLevel: 1})
+ YIELD path AS pp
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH [p in NODES(pp) | p] as nodelist
+\end_layout
+
+\begin_layout Plain Layout
+
+UNWIND nodelist as p
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.expandConfig(p, {relationshipFilter:"flowsTo>", minLevel: 1,
+ terminatorNodes:[p], whitelistNodes:nodelist}) yield path as loop
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN count(loop) >0 as loops
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 9.
+ Find the length, the # of segments, and the IDs of the segments, of the
+ longest branch of upstream flow starting from a given segment.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6020612})
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.expandConfig(n,{relationshipFilter:"<flowsTo", minLevel: 1})
+ YIELD path AS pp
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH reduce(longi= tofloat(0), n IN nodes(pp)| longi+ tofloat(n.lengte))
+ AS blength,
+\end_layout
+
+\begin_layout Plain Layout
+
+Length(pp) as alength, [p in NODES(pp) |p.vhas] AS nodelist
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH blength, alength, nodelist[size(nodelist)-1] as id
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH id, max(blength) as ml, collect([id,blength,alength]) as coll
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH id, ml, [p in coll WHERE p[0]= id AND p[1]=ml|p[2]] AS lhops
+\end_layout
+
+\begin_layout Plain Layout
+
+UNWIND lhops as hops
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN id,ml,hops order by id desc;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 10.
+ How many paths exist between two given segments X and Y?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment {vhas:6020612}),(m:Segment {vhas: 7036554})
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.expandConfig(n,{relationshipFilter:"<flowsTo", minLevel: 1,
+ terminatorNodes:[m]}) yield path as pp
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN count(pp) as paths
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Query 11.
+ Find all segments reachable from the segment closest to Antwerpen’s Groenplaats
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+CALL apoc.spatial.geocodeOnce('Groenplaats Antwerpen Flanders Belgium') YIELD
+ location as ini
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (n:Segment)
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n, ini,distance(point({longitude:n.source_long, latitude:n.source_lat}),
+ point({longitude:ini.longitude, latitude:ini.latitude}) ) as d
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH n, d order by d asc limit 1
+\end_layout
+
+\begin_layout Plain Layout
+
+CALL apoc.path.spanningTree(n,{relationshipFilter:"flowsTo>", minLevel: 1})
+ YIELD path as pp
+\end_layout
+
+\begin_layout Plain Layout
+
+UNWIND NODES(pp) as p
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN p.vhas;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -2190,6 +5750,20 @@ We will query the Flanders river system depicted in Figure 1.
 
 \begin_layout Part
 Temporal databases
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado12.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Standard
