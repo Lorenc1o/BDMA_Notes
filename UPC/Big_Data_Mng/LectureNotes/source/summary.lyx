@@ -1,0 +1,685 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BDM-MIRI - Big Data Management
+\end_layout
+
+\begin_layout Date
+Spring 2023
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename upc-logo.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Alberto Abelló
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.antonio.lorencio@estudiantat..upc.edu
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Big Data Management
+\emph default
+ taught at the Universitat Politècnica de Catalunya by Professor Alberto
+ Abelló in the academic year 22/23.
+ Most of the content of this document is adapted from the course notes by
+ Abelló and Nadal, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Abello2022"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList algorithm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction to Big Data
+\end_layout
+
+\begin_layout Subsection
+Recognise the relevance of data driven decision making
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Data driven decision making
+\series default
+ is the strategy of using data to make decisions, in order to improve the
+ chances of obtaining a positive outcome.
+ It has been gaining importance in the past years, mainly because the data
+ generation rate is increasing rapidly, allowing greater analyses for those
+ who are able to leverage all this data.
+\end_layout
+
+\begin_layout Standard
+The ability to collect, store, combine and analyze relevant data enables
+ companies to gain a competitive advantage over their competitors which
+ are not able to take on these task.
+\end_layout
+
+\begin_layout Standard
+In a nutshell, it is the confluence of three major socio-economic and technologi
+cal trends that makes data driven innovation a new phenomenon:
+\end_layout
+
+\begin_layout Itemize
+The exponential growth in data generated and collected.
+\end_layout
+
+\begin_layout Itemize
+The widespread use of data analytitcs, including start-ups and small and
+ medium entreprises.
+\end_layout
+
+\begin_layout Itemize
+The emergence of a paradigm shift in knowledge.
+\end_layout
+
+\begin_layout Subsection
+Identify the three high level categories of analytical tools
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Business Intelligence (BI)
+\series default
+ is the concept of using dashboard to represent the status and evolution
+ of companies, using data from the different applications used by the production
+ systems of the company, which needs to be processed with ETL (Extract,
+ Transform, Load) pipelines into a Data Warehouse.
+ This data is then modelled into data cubes, that are queried with OLAP
+ (OnLine Analytic Processing) purposes.
+ The analytical tools that this setup allows are three:
+\end_layout
+
+\begin_layout Enumerate
+Static generation of reports.
+\end_layout
+
+\begin_layout Enumerate
+Dynamic (dis)aggregation and navigation by means of OLAP operations.
+\end_layout
+
+\begin_layout Enumerate
+Inference of hidden patterns or trends with data mining tools.
+\end_layout
+
+\begin_layout Subsection
+Identify the two main sources of Big Data
+\end_layout
+
+\begin_layout Standard
+The two main sources of Big Data are:
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+Internet
+\series default
+, which shifted from a passive role, where static hand-crafted contents
+ were provided by some gurus, to a dynamic role, where contents can be easily
+ generated by anybody in the world, specially through social networks.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+improvement of automation and digitalization
+\series default
+ on the side of industries, which allows to monitor many relevant aspects
+ of the company's scope, giving rise to the concept of Internet of Things
+ (IoT), and generating a continuous flow of information.
+\end_layout
+
+\begin_layout Subsection
+Give a definition of Big Data
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Big Data
+\series default
+ is a natural evolution of Business Intelligence, and inherits its ultimate
+ goal of transforming raw data into valuable knowledge, and it can be characteri
+zed in terms of the 
+\series bold
+five V's
+\series default
+:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Volume
+\series default
+: there are large amount of digital information produced and stored in new
+ systems.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Velocity
+\series default
+: the pace at which data is generated, ingested and processed is very fast,
+ giving rise to the concept of data stream (and two related challenges:
+ 
+\emph on
+data stream ingestion
+\emph default
+ and 
+\emph on
+data stream processing
+\emph default
+).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variety
+\series default
+: there are multiple, heterogeneous data formats and schemas, which need
+ to be dealt with.
+ Special attention is needed for semi-structured and unstructured external
+ data.
+ The 
+\emph on
+data variety challenge
+\emph default
+ is considered as the most crucial challenge in data driven organizations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variability
+\series default
+: the incoming data can have an evolving nature, which the system needs
+ to be able to cope with.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Veracity
+\series default
+: the veracity of the data is related to its quality, and it makes it compulsory
+ to develop 
+\emph on
+Data Governance
+\emph default
+ practices, to effectively manage data assets.
+\end_layout
+
+\begin_layout Subsection
+Compare traditional data warehousing against Big Data management
+\end_layout
+
+\begin_layout Standard
+In traditional business intelligence, data from different sources inside
+ the company is ETL-processed into the data warehouse, which can then be
+ analyzed using the three types of analyses we've seen (Reports, OLAP, DM),
+ in order to extract useful information that ultimately affects the strategy
+ of the company.
+ This is summarized in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Business-Intelligence-Cycle."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ As highlighted in the figure, the data warehousing process encompasses
+ the ETL processes and the Data Warehouse design and maintenance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename BI_Cycle.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Business-Intelligence-Cycle."
+
+\end_inset
+
+Business Intelligence Cycle.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the context of big data, the focus is shifted, from analyzing data from
+ just inside sources, to data from all types of heterogeneous sources.
+ In this setup, instead of doing an ETL process, the data is collected,
+ through the process of ingestion, and stored into a Data Lake (from which
+ analysts would extract data and perform all necessary transformations a
+ posteriori) or a Polystore (which is a DBMS built on top of different other
+ technologies, to be able to cope with heterogeneous data).
+ Whatever the storing decision, Big Data Analytics are then done on this
+ data, differenciating:
+\end_layout
+
+\begin_layout Itemize
+Small analytics: querying and reporting the data and OLAP processing.
+\end_layout
+
+\begin_layout Itemize
+Big Analytics: performing data mining on the data.
+\end_layout
+
+\begin_layout Standard
+This process is depicted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Big-Data-Cycle."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ In this diagram, we see that the 
+\series bold
+Big Data Management
+\series default
+ consists of the task of ingestion, together with the design and maintenance
+ of the Data Lake / Polystore.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename BigData_Cycle.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Big Data Cycle.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Big-Data-Cycle."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, the differences are:
+\end_layout
+
+\begin_layout Itemize
+Data Warehousing does the ETL process over the data produced by the company,
+ while Big Data Management does the process of ingestion, by which data
+ from internal and external sources is collected.
+\end_layout
+
+\begin_layout Itemize
+Data Warehousing uses a Data Warehouse to store the ETLed data and the analyses
+ need to be designed with the structure of this stored data.
+ In contrast, in Big Data Management, the storing facility can cope with
+ the data as is, so the analyses have a wider scope, but they need to correctly
+ treat the data for each analysis conducted.
+\end_layout
+
+\begin_layout Itemize
+Thus, as can be inferred from the previous paragraphs, Big Data Management
+ provides a more flexible setup than Data Warehousing, at the expense of
+ needing to perform ad-hoc transformation for each analysis, which can lead
+ to repetition and a decrease in performance.
+ Nonetheless, this decrease is not really a drawback, because some big data
+ analytics tasks cannot be undertaken without this added flexibility.
+\end_layout
+
+\begin_layout Subsection
+Distinguish descriptive, predictive and prescriptive analysis
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Descriptive analysis
+\series default
+: uses basic statistics to describe the data.
+ In a DW environment, OLAP tools are used for this purpose, in an interactively
+ manner, modifying the analysis point of vire to facilitate the understanding
+ and gain knowledge about the stored data.
+ Basically, understand past data (what happened, when happened, why it happened).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Predictive analysis
+\series default
+: uses a set of statistical techniques to analyze historical facts, with
+ the aim of making predictions about future events.
+ Basically, compare incoming data to our knowledge of past data, in order
+ to make predictions about the future (what will happen).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Prescriptive analysis
+\series default
+: takes as input the predictions of previous analyses to suggest actions,
+ decisions and describe the possible implications of each of them.
+ Basically, use predictions obtained via predictive analysis to take action
+ and make decisions, as well as to estimate the impact of these decisions
+ in the future (how we should respond to this situation).
+\end_layout
+
+\begin_layout Subsection
+Explain the novelty of Cloud Computing
+\end_layout
+
+\begin_layout Subsection
+Justify the benefits of Cloud Computing
+\end_layout
+
+\begin_layout Subsection
+Explain the link between Big Data and Cloud Computing
+\end_layout
+
+\begin_layout Subsection
+Distinguish the main four service levels in Cloud Computing
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "upc"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
