@@ -4170,23 +4170,7 @@ C\left(\sigma,\kappa,N\right)=\frac{N}{1+\sigma\cdot\left(N-1\right)+\kappa\cdot
 \end_inset
 
  is the system's consistency delay, which models how much the different
- parallel units require communication.
-\end_layout
-
-\begin_layout Standard
-Thus, scalability is limited by:
-\end_layout
-
-\begin_layout Itemize
-The number of useful subsystem.
-\end_layout
-
-\begin_layout Itemize
-The fraction of parallelizable work.
-\end_layout
-
-\begin_layout Itemize
-The need for communication between subsystems.
+ parallel 
 \end_layout
 
 \begin_layout Subsection
