@@ -763,17 +763,371 @@ Now, we can proceed and minimize
 \end_inset
 
 , 
-\begin_inset Formula $x'=\left(x'_{1},...,x'_{m}\right)^{T}$
+\begin_inset Formula $x'=\left(x'_{1},...,x'_{m}\right)$
 \end_inset
 
  and we want to make a prediction, we compute
 \begin_inset Formula 
 \[
-y'=x'
+y'=x'\theta_{lse}.
 \]
 
 \end_inset
 
+ The approach that we have followed here is the 
+\series bold
+optimization
+\series default
+ view of learning, which basically consists of the steps:
+\end_layout
+
+\begin_layout Enumerate
+Set up an error function as a function of some parameters.
+\end_layout
+
+\begin_layout Enumerate
+Optimize this function to find the suitable values for this parameters,
+ assuming the data as given.
+\end_layout
+
+\begin_layout Enumerate
+Use incoming values to make predictions.
+\end_layout
+
+\begin_layout Subsubsection
+Computation of least squares solution via the singular values decomposition
+ (SVD)
+\end_layout
+
+\begin_layout Standard
+Inverting 
+\begin_inset Formula $X^{T}X$
+\end_inset
+
+ can entail numerical problems, so the SVD can be used instead.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+Any matrix 
+\begin_inset Formula $A\in\mathbb{R}^{m\times n}$
+\end_inset
+
+, 
+\begin_inset Formula $m>n$
+\end_inset
+
+, can be expressed as
+\begin_inset Formula 
+\[
+A=U\Sigma V^{T},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $U\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ has orthonormal columns 
+\begin_inset Formula $\left(U^{T}U=I\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\Sigma\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ is diagonal and contains the singular values in its diagonal and 
+\begin_inset Formula $V\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ is orthonormal 
+\begin_inset Formula $\left(V^{-1}=V^{T}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $C=A^{T}A\in\mathbb{R}^{n\times n}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $C$
+\end_inset
+
+ is square, symmetric and positive semidefinite.
+ Therefore, 
+\begin_inset Formula $C$
+\end_inset
+
+ is diagonalizable, so it can be written as
+\begin_inset Formula 
+\[
+C=V\Lambda V^{T},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $V=\left(v_{i}\right)_{i=1,...,n}$
+\end_inset
+
+ is orthogonal and 
+\begin_inset Formula $\Lambda=diag\left(\lambda_{1},...,\lambda_{d}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\lambda_{1}\geq...\geq\lambda_{r}>0=\lambda_{r+1}=...=\lambda_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $r$
+\end_inset
+
+ is 
+\begin_inset Formula $rank\left(A\right)\leq n$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Proof
+Now, define 
+\begin_inset Formula $\sigma_{i}=\sqrt{\lambda_{i}}$
+\end_inset
+
+, and form the matrix
+\begin_inset Formula 
+\[
+\Sigma=\left[\begin{array}{cc}
+diag\left(\sigma_{1},...,\sigma_{r}\right) & 0_{r\times\left(n-r\right)}\\
+0_{\left(m-r\right)\times r} & 0_{\left(m-r\right)\times\left(n-r\right)}
+\end{array}\right].
+\]
+
+\end_inset
+
+ Define also
+\begin_inset Formula 
+\[
+u_{i}=\frac{1}{\sigma_{i}}Xv_{i}\in\mathbb{R}^{m},i=1,...,r.
+\]
+
+\end_inset
+
+ Then, this vectors are orthonormal:
+\begin_inset Formula 
+\[
+u_{i}^{T}u_{j}=\left(\frac{1}{\sigma_{i}}Xv_{i}\right)^{T}\left(\frac{1}{\sigma_{j}}Xv_{j}\right)=\frac{1}{\sigma_{i}\sigma_{j}}v_{i}^{T}X^{T}Xv_{j}=\frac{1}{\sigma_{i}\sigma_{j}}v_{i}^{T}Cv_{j}\overset{*}{=}\frac{1}{\sigma_{i}\sigma_{j}}v_{i}^{T}\left(\lambda_{j}v_{j}\right)\overset{\left(\lambda_{j}=\sigma_{j}^{2}\right)}{=}\frac{\sigma_{j}}{\sigma_{i}}v_{i}^{T}v_{j}\overset{**}{=}0,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left(*\right)$
+\end_inset
+
+ is because 
+\begin_inset Formula $V$
+\end_inset
+
+ is formed with the eigenvectors of 
+\begin_inset Formula $C$
+\end_inset
+
+, and 
+\begin_inset Formula $\left(**\right)$
+\end_inset
+
+ is because 
+\begin_inset Formula $V$
+\end_inset
+
+ is orthonormal.
+\end_layout
+
+\begin_layout Proof
+Now, we can complete the base with 
+\begin_inset Formula $u_{r+1},...,u_{n}$
+\end_inset
+
+ (using Gram-Schmidt) in such a way that
+\begin_inset Formula 
+\[
+U=\left[u_{1},...,u_{r},u_{r+1},...,u_{n}\right]\in\mathbb{R}^{n\times n}
+\]
+
+\end_inset
+
+ is column orthonormal.
+\end_layout
+
+\begin_layout Proof
+Now, if it is the case that 
+\begin_inset Formula $XV=U\Sigma$
+\end_inset
+
+, then 
+\begin_inset Formula 
+\[
+X=XVV^{T}=U\Sigma V^{T},
+\]
+
+\end_inset
+
+ so it is only left to see that indeed this holds.
+ Consider two cases:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $1\leq i\leq r:$
+\end_inset
+
+ 
+\begin_inset Formula $Xv_{i}=u_{i}\Sigma$
+\end_inset
+
+ by the definition of 
+\begin_inset Formula $u_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $r+1\leq i\leq n:$
+\end_inset
+
+ It is 
+\begin_inset Formula $Xv_{i}=0,$
+\end_inset
+
+ because 
+\begin_inset Formula $X^{T}Xv_{i}=Cv_{i}=\lambda_{i}v_{i}\overset{i>r}{=}0$
+\end_inset
+
+.
+ As 
+\begin_inset Formula $X,v_{i}\neq0$
+\end_inset
+
+, it must be 
+\begin_inset Formula $Xv_{i}=0$
+\end_inset
+
+.
+ On the other side of the equation we also have 0 because 
+\begin_inset Formula $u_{i}\Sigma=u_{i}\sigma_{i}=0$
+\end_inset
+
+ as 
+\begin_inset Formula $i>r$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+This, added to the fact that if 
+\begin_inset Formula $X$
+\end_inset
+
+ has full rank, 
+\begin_inset Formula $X^{T}X$
+\end_inset
+
+ is invertible and all its eigenvalues non null, gives us: 
+\begin_inset Formula 
+\begin{align*}
+\theta_{lse}= & \left(X^{T}X\right)^{-1}X^{T}y\\
+= & \left(\left(U\Sigma V^{T}\right)U\Sigma V^{T}\right)^{-1}\left(U\Sigma V^{T}\right)^{T}y\\
+= & \left(V\Sigma U^{T}U\Sigma V^{T}\right)^{-1}V\Sigma U^{T}y\\
+= & \Sigma^{-2}V\Sigma U^{T}y=V\Sigma^{-1}U^{T}y\\
+= & V\cdot diag\left(\frac{1}{\sigma_{1}},...,\frac{1}{\sigma_{n}}\right)\cdot U^{T}y.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Intuitive interpretation
+\end_layout
+
+\begin_layout Standard
+The intuition behind the SVD is summarized in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:SVD-visual."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Basically, every linear transformation can be decomposed into a rotation,
+ a scaling and a simpler transformation (column orthogonal).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename SVD.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SVD visual.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:SVD-visual."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
