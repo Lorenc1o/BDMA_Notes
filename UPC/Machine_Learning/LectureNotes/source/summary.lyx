@@ -1096,7 +1096,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename SVD.png
-	scale 60
+	scale 30
 
 \end_inset
 
@@ -1163,6 +1163,257 @@ By truncating the diagonal matrix of singular values to keep only the top-k
  retains most of the important information.
  This is useful for reducing the dimensionality of data, compressing images,
  and solving linear equations, among other applications.
+\end_layout
+
+\begin_layout Example
+How to use SVD in Python and Matlab.
+\end_layout
+
+\begin_layout Example
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+import numpy as np
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+U, d, Vt = np.linalg.svd(X, full_matrices=False)
+\end_layout
+
+\begin_layout Plain Layout
+
+D = np.diag(1/d)
+\end_layout
+
+\begin_layout Plain Layout
+
+theta = Vt.T @ D @ U.T @ y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SVD in Python.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Matlab"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[U, d, V] = svd(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+D = diag(diag(1./d))
+\end_layout
+
+\begin_layout Plain Layout
+
+theta = V'*D*U'*y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SVD in Matlab.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Things that could go wrong when using linear regression
+\end_layout
+
+\begin_layout Subsubsection
+Our independent variable is not enough
+\end_layout
+
+\begin_layout Standard
+It is possible that our variable 
+\begin_inset Formula $X$
+\end_inset
+
+ does not provide enough information to predict 
+\begin_inset Formula $Y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado7.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The independent variable does not provide enough information.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The relationship between the variables is not linear (underfitting)
+\end_layout
+
+\begin_layout Standard
+It is also possible that the variables are related in non-linear ways.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado6.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The variables are not linearly related.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Outliers affect the fit
+\end_layout
+
+\begin_layout Standard
+In the presence of outliers, the model obtained can be distorted, leading
+ to bad results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The outlier distort the fit.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

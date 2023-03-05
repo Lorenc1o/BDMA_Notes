@@ -1,0 +1,18 @@
+% Encoding: UTF-8
+
+@Unpublished{Arias2022,
+  author = {Arias, Marta},
+  title  = {Machine Learning},
+  note   = {Lecture Notes},
+}
+
+@Book{book,
+  title   = {Content And Multimedia Database Management Systems},
+  year    = {1999},
+  author  = {de Vries, Arjen},
+  month   = {01},
+  isbn    = {978-90-365-1388-3},
+  journal = {Distributed and Parallel Databases - DPD},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
