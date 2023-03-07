@@ -8,6 +8,15 @@
 \begin_preamble
 \usepackage{footmisc}
 \usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{epstopdf}
+\usepackage{matlab}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -1305,7 +1314,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename pegado4.png
+	filename pegado7.png
 
 \end_inset
 
@@ -1331,6 +1340,13 @@ The independent variable does not provide enough information.
 
 \begin_layout Subsubsection
 The relationship between the variables is not linear (underfitting)
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:The-relationship-between"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1377,6 +1393,872 @@ Outliers affect the fit
 \begin_layout Standard
 In the presence of outliers, the model obtained can be distorted, leading
  to bad results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The outlier distort the fit.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Basis Functions
+\end_layout
+
+\begin_layout Standard
+In order to fix the second problem (Subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-relationship-between"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), we can make use of basis functions.
+ The idea is to apply different transformations to the data, so that we
+ can extend the expressive power of our model.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+feature mapping
+\series default
+ is a non-linear transformation of the inputs 
+\begin_inset Formula $\phi:\mathbb{R}^{m}\rightarrow\mathbb{R}^{k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+The resulting 
+\series bold
+predictive function
+\series default
+ or model is 
+\begin_inset Formula $y=\phi\left(x\right)\theta$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+For example, we can consider the 
+\series bold
+polynomial expansion of degree 
+\begin_inset Formula $k$
+\end_inset
+
+
+\series default
+, which is a commonly used feature mapping that approximates the relationship
+ between the independent variable 
+\begin_inset Formula $x$
+\end_inset
+
+ and the dependent variable 
+\begin_inset Formula $y$
+\end_inset
+
+ to be polynomial of degree 
+\begin_inset Formula $k$
+\end_inset
+
+, i.e.:
+\begin_inset Formula 
+\[
+y=\theta_{0}+\theta_{1}x+\theta_{2}x^{2}+...+\theta_{k}x^{k}.
+\]
+
+\end_inset
+
+ The feature mapping is 
+\begin_inset Formula $\phi\left(x\right)=\left(\begin{array}{ccccc}
+1 & x & x^{2} & ... & x^{k}\end{array}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note that the idea is to transform the data so that the fit is still linear,
+ even if the relationship is not.
+ Of course, this requires to apply the same transformation whenever we receive
+ an input for which we want to make predictions.
+ Also, the resulting model is more complex, so 
+\series bold
+complexity control
+\series default
+ is necessary to avoid overfitting.
+\end_layout
+
+\begin_layout Example
+A MATLAB example
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% This LaTeX was auto-generated from MATLAB code.
+\end_layout
+
+\begin_layout Plain Layout
+
+% To make changes, update the MATLAB code and export to LaTeX again.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+sloppy
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Example 2.3}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+First, we define the dataset.
+ In this case $y=e^x$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+x=linspace(1,5,15)'
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+x = 15x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.2857
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.5714
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.8571
+\end_layout
+
+\begin_layout Plain Layout
+
+    2.1429
+\end_layout
+
+\begin_layout Plain Layout
+
+    2.4286
+\end_layout
+
+\begin_layout Plain Layout
+
+    2.7143
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.2857
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.5714
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = [ones(length(x),1) x]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = 15x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.2857
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.5714
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.8571
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.1429
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.4286
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.7143
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.2857
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.5714
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+y=exp(x);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Now, we first see what happens with linear regression:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+b1 = X
+\backslash
+y;
+\end_layout
+
+\begin_layout Plain Layout
+
+yCalc1 = X*b1;
+\end_layout
+
+\begin_layout Plain Layout
+
+figure;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(x,y,'filled')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on 
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x,yCalc1,'LineWidth',2)
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('X')
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Y')
+\end_layout
+
+\begin_layout Plain Layout
+
+title('Linear Regression Relation Between X & Y')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('Data','Linear regression')
+\end_layout
+
+\begin_layout Plain Layout
+
+grid on
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/example_2_3_images/figure_0.eps
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+As we can see, the model does not fit the data addecuately.
+ We can use a feature mapping and repeat the process with the transformed
+ input:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = feat_map(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = 15x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.0000    2.7183
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.2857    3.6173
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.5714    4.8135
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.8571    6.4054
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.1429    8.5238
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.4286   11.3427
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.7143   15.0938
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.0000   20.0855
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.2857   26.7281
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    3.5714   35.5674
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+b2 = X
+\backslash
+y;
+\end_layout
+
+\begin_layout Plain Layout
+
+yCalc2 = X*b2;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+scatter(x,y,'filled')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on 
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x,yCalc2,'LineWidth',2)
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('X')
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Y')
+\end_layout
+
+\begin_layout Plain Layout
+
+title('Linear Regression Relation Between exp(X) & Y')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('Data','Linear regression','Location','north')
+\end_layout
+
+\begin_layout Plain Layout
+
+grid on
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/example_2_3_images/figure_1.eps
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+As we can see, the model is now perfectly fitting the data!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function X=feat_map(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+    X = [ones(size(x)) x exp(x)];
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
