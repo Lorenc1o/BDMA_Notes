@@ -8,6 +8,7 @@
 \begin_preamble
 \usepackage{footmisc}
 \usepackage{listings}
+\usepackage{colortbl}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -6416,6 +6417,3006 @@ Choose the format for an HDFS file based on heuristics
 \begin_layout Subsection
 Estimate the data retrieved by scan, projection and selection operations
  in SequenceFile, Avro and Parquet
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+HBase
+\end_layout
+
+\begin_layout Subsection
+Give the definition of the BigTable data model
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+BigTable
+\series default
+ is a sparse, distributed, persistent, multi-dimensional, sorted map:
+\end_layout
+
+\begin_layout Itemize
+Sparse: few keys have an associated value.
+\end_layout
+
+\begin_layout Itemize
+Distributed: enabling cluster parallelism.
+\end_layout
+
+\begin_layout Itemize
+Persistent: data is stored in disk (using HDFS as underlying technology).
+\end_layout
+
+\begin_layout Itemize
+Multi-dimensional: the values have columns.
+\end_layout
+
+\begin_layout Itemize
+Sorted: lexicographically by the primary key.
+\end_layout
+
+\begin_layout Itemize
+Map: a map is a data structure that associates a unique key to each value
+ (record).
+\end_layout
+
+\begin_layout Subsection
+Explain what a map structure is
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+map data structure
+\series default
+ is a collection of key-value pairs that allows fast and flexible access
+ to its elements based on keys.
+ Maps can store different types of keys and values, such as numbers, strings,
+ objects, etc.
+ Maps are useful for storing associations between two objects or values.
+\end_layout
+
+\begin_layout Subsection
+Explain the difference between a Key-Value and a Wide-Column store
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+key-value store
+\series default
+ is a simple model that stores data as pairs of keys and values.
+ A 
+\series bold
+wide-column store
+\series default
+ is a more complex model that stores data as rows and columns, where each
+ row can have different columns.
+ Some differences between them are:
+\end_layout
+
+\begin_layout Itemize
+A key-value store can only query data by key, while a wide-column store
+ can query data by row or column.
+\end_layout
+
+\begin_layout Itemize
+A key-value store has no schema, every key has one value, that can be of
+ any form.
+\end_layout
+
+\begin_layout Itemize
+A wide-column store has a flexible schema, where every row can have different
+ columns.
+ Each of the columns is schema-less.
+\end_layout
+
+\begin_layout Itemize
+A key-value store is suitable for simple lookups, while a wide-column store
+ is suitable for analytical queries.
+ 
+\end_layout
+
+\begin_layout Standard
+Some examples of key-value stores are Redis, etcd and Memcached.
+ Some examples of wide-column stores are Cassandra, HBase and ScyllaDB.
+\end_layout
+
+\begin_layout Subsection
+Enumerate the main schema elements of HBase
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Table
+\series default
+: a table is a collection of one or more column families.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Column family
+\series default
+: a column family is a group of columns that share a common prefix and storage
+ options.
+ A 
+\series bold
+qualifier
+\series default
+ is an internal field of the columns.
+ It is set at the row-level, so it is not fixed and can vary from column
+ to column and from row to row.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Row
+\series default
+: a row is a collection of column values that are identified by a unique
+ row key.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cell
+\series default
+: a cell is the value of a column in a row.
+ Each cell can contain multiple versions of the same data:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each version is identified by a timestamp, which can be assigned explicitly
+ or automatically.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+An example
+\end_layout
+
+\begin_layout Example
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Users
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Row key
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ColumnFamily1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ColumnFamily2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Personal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Address
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Alice
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name: Alice Smith, email: alice@upc.es
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+street: Avinguda Diagonal, city: Barcelona
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bob
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name: Bob Jones
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+street: Gran Vía, city: Murcia
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charlie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name: Charlie Brown, email: charlie@ch.ch
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+If we wanted to recreate this example in HBase:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+--0 Open the HBase shell
+\end_layout
+
+\begin_layout Plain Layout
+
+--1 Create the table Users with column families Personal and Address
+\end_layout
+
+\begin_layout Plain Layout
+
+CREATE TABLE 'Users', 'Personal', 'Address'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--2 Insert records
+\end_layout
+
+\begin_layout Plain Layout
+
+PUT 'Users', 'Alice', 'Personal:name', 'Alice Smith', 'Personal:email',
+ 'alice@upc.es', 'Address:street', 'Avinguda Diagonal'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--3 We can add more values (we forgot the city!)
+\end_layout
+
+\begin_layout Plain Layout
+
+PUT 'Users', 'Alice', 'Address:city', 'Barcelona'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--4 Same for the rest
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+--5 To read a value
+\end_layout
+
+\begin_layout Plain Layout
+
+GET 'Users', 'Alice'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Explain the main operations available of HBase
+\end_layout
+
+\begin_layout Itemize
+CREATE TABLE <tablename>, <colf1>,...,<colfn>: Creates a table with defined
+ column families.
+\end_layout
+
+\begin_layout Itemize
+DESCRIBE <tablename>: Describes the schema of the specified table, including
+ its column families and any compression or encoding settings.
+\end_layout
+
+\begin_layout Itemize
+ALTER <tablename>, <params>: Used to modify the schema of an existing table,
+ such as adding or removing column families, changing compression or encoding
+ settings, or modifying table-level properties.
+\end_layout
+
+\begin_layout Itemize
+COUNT <tablename>: Counts the number of rows in the specified table.
+\end_layout
+
+\begin_layout Itemize
+EXISTS <tablename> [, <params>]: Used to check whether a table or column
+ family exists in HBase or not.
+\end_layout
+
+\begin_layout Itemize
+DISABLE <tablename>: Disables the specified table, i.e., the table is taken
+ offline and no further reads or writes are allowed.
+\end_layout
+
+\begin_layout Itemize
+ENABLE <tablename>: Enables a disabled table.
+\end_layout
+
+\begin_layout Itemize
+DROP <tablename>: Permanently deletes the specified table.
+\end_layout
+
+\begin_layout Itemize
+PUT <tablename>, <rowkey> [, <columns>]: Puts a new record with the specified
+ key and columns in the specified table.
+\end_layout
+
+\begin_layout Itemize
+GET <tablename>, <rowkey> [, <columns>]: Retrieves the data for the specified
+ row and columns from the specified table.
+\end_layout
+
+\begin_layout Itemize
+DELETE <tablename>, <rowkey> [,<columns>]: Deletes the specified row or
+ columns from the specified table.
+\end_layout
+
+\begin_layout Itemize
+SCAN <tablename> [, <columns>]: Scans the specified table and retrieves
+ all rows that match the specified criteria.
+\end_layout
+
+\begin_layout Itemize
+LIST: Lists all the tables in the HBase cluster.
+ 
+\end_layout
+
+\begin_layout Itemize
+EXIT: Used to exit the HBase shell.
+ When you execute this command, the shell will close and you will be returned
+ to the command prompt.
+\end_layout
+
+\begin_layout Itemize
+STATUS [{summary | simple | detailed}]: Used to display the status of the
+ HBase cluster, including the number of servers and regions, the average
+ load, and the cluster ID.
+\end_layout
+
+\begin_layout Itemize
+SHUTDOWN: Used to shut down the HBase cluster.
+ This command will stop all HBase daemons and bring down the HBase cluster.
+ You should use this command with caution, as it will result in the loss
+ of any data that has not been flushed to disk.
+\end_layout
+
+\begin_layout Subsection
+Enumerate the main functional components of HBase
+\end_layout
+
+\begin_layout Subsection
+Explain the role of the different functional components in HBase
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Region Servers
+\series default
+ 
+\series bold
+(HRegionServer)
+\series default
+: HBase stores data in regions, which are subsets of a table.
+ Each region is served by a region server, which is responsible for serving
+ read and write requests for that region.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HMaster
+\series default
+: The HMaster is the coordinator node for the cluster.
+ It manages the metadata for the HBase tables, including region assignment
+ and load balancing.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ZooKeeper
+\series default
+: HBase relies on ZooKeeper for coordination and synchronization of distributed
+ processes.
+ ZooKeeper is used to elect the HMaster and to store metadata for HBase.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HDFS
+\series default
+: HBase stores its data in Hadoop Distributed File System (HDFS).
+ HDFS provides scalable and fault-tolerant storage for HBase data.
+ HBase uses two types of HDFS files:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+HFile
+\series default
+: regular data files containing column data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HLog
+\series default
+: region's log files, that allow flush/fsync for small append-style writes.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+HBase Client
+\series default
+: The HBase client is used to interact with the HBase cluster.
+ It provides APIs for creating, reading, updating, and deleting data in
+ HBase.
+ 
+\end_layout
+
+\begin_layout Subsection
+Explain the tree structure of data in HBase
+\end_layout
+
+\begin_layout Standard
+In HBase, data is stored in a tree structure that is composed of regions,
+ stores, and memstores.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Regions
+\series default
+: A region is a subset of a table that contains a range of contiguous rows.
+ HBase automatically splits regions as they grow in size and merges regions
+ as they shrink, in order to maintain a balanced distribution of data across
+ the cluster.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stores
+\series default
+ 
+\series bold
+(StoreFile)
+\series default
+: A store is a physical storage unit that is associated with a region and
+ contains a set of column families.
+ Each store is responsible for storing the data for one or more column families.
+ StoreFiles are divided by HDFS in chunks.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+MemStores
+\series default
+: A MemStore is an in-memory data structure that is associated with a store
+ and contains a sorted map of key-value pairs.
+ When a client writes data to HBase, it is initially written to the memstore.
+ Once the MemStore reaches a certain threshold, it is flushed to disk as
+ a new store file.
+ Usually, the size of a MemStore is 128 MB.
+\end_layout
+
+\begin_layout Standard
+Within each store, data is stored in a column-oriented fashion, with all
+ values for a given column stored together.
+ This allows for efficient access to columns and column families, and also
+ enables compression and other optimization techniques.
+\end_layout
+
+\begin_layout Standard
+Thus, a StoreFile is a file of HFile format, consisting on several HDFS
+ chunks of size 128 MB, which are structured into HBase blocks of size 64
+ KB.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+StoreFile 
+\series default
+(HFile format)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+128 MB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+128 MB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64 KB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A StoreFile.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Explain the 3 basic algorithms of HBase
+\end_layout
+
+\begin_layout Standard
+HBase employs three basic algorithms to manage the storage and retrieval
+ of data: flush, minor compaction, and major compaction.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Flush
+\series default
+: When a client writes data to HBase, it is initially written to an in-memory
+ data structure called the memstore.
+ Once the memstore reaches a certain threshold, HBase will flush it to disk
+ as a new store file, a SSTable.
+ This process is known as a flush.
+ Flushing is important to ensure that data is written to disk in a timely
+ manner and to free up memory for new writes.
+ Flushing generates different disk versions of the same record.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Minor compaction
+\series default
+: Over time, as data is written and deleted from HBase, SSTables can become
+ fragmented and contain empty or deleted cells.
+ To address this, HBase periodically performs a minor compaction, which
+ merges smaller SSTables together and removes any empty or deleted cells.
+ This helps to optimize data storage and improve query performance.
+ This process runs regularly in the background.
+ Note that this operation does not remove all record versions (only some).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Major compaction
+\series default
+: In addition to minor compaction, HBase also performs periodic or, most
+ often, manually triggered major compactions, which merge all SSTables for
+ a given region into a single SSTable and remove any deleted cells.
+ Major compactions are more resource-intensive than minor compactions, but
+ they help to further optimize data storage and improve query performance.
+ After a major compaction occurs, all versions of the records are merged
+ into one (so they can be seen as a consistency checkpoint of the region).
+\end_layout
+
+\begin_layout Standard
+Both minor and major compactions are configurable, and the frequency and
+ timing of these operations can be adjusted based on the workload and resource
+ availability of the HBase cluster.
+\end_layout
+
+\begin_layout Subsection
+Explain the main components and behavior of an LSM-tree
+\end_layout
+
+\begin_layout Standard
+The LSM-tree (Log-Structured Merge Tree) is a data structure that is used
+ in many modern distributed databases, including HBase, Cassandra, and LevelDB.
+ The LSM-tree is designed to provide efficient and scalable read and write
+ performance for large datasets.
+ The main components and behavior of an LSM-tree are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Log-structured storage
+\series default
+: In an LSM-tree, new data is initially written to a write-ahead log, which
+ is an append-only file that is optimized for sequential writes.
+ The log provides durability for the data, ensuring that it is safely stored
+ on disk in the event of a crash.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+MemTable
+\series default
+: In addition to the write-ahead log, an LSM-tree also includes an in-memory
+ data structure called the MemTable.
+ As new data is written to the database, it is first written to the MemTable.
+ Once the memtable becomes full or reaches a certain size threshold, it
+ is flushed to disk as a new SSTable.
+ This MemStore holds the most recent updates sorted by key, enabling for
+ fast lookups.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sorted string table (SSTable)
+\series default
+: An SSTable is a persistent, sorted data structure that contains a subset
+ of the data in the database.
+ SSTables are created through the flushing of the MemTable and are organized
+ as a series of key-value pairs, sorted by key.
+ These, as mentioned previously, may contain different versions of the same
+ row.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Merge and compaction
+\series default
+: Over time, the database accumulates many SSTables, which can become fragmented
+ and inefficient to query.
+ To address this, LSM-trees periodically merge and compact SSTables together,
+ creating a new, more efficient SSTable that contains a subset of the data
+ in the original SSTables.
+ This process is typically performed as a background process, with the merged
+ data being written to a new, compacted SSTable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bloom filters
+\series default
+: LSM-trees often use Bloom filters to improve read performance.
+ A Bloom filter is a probabilistic data structure that is used to test whether
+ a key is present in an SSTable without actually reading the data.
+ Bloom filters can be used to avoid costly disk seeks for keys that are
+ not present in the database.
+\end_layout
+
+\begin_layout Standard
+As can has been outlined, there are two main maintenance operations:
+\end_layout
+
+\begin_layout Itemize
+The in-memory structure reaches the threshold:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Take next in memory leafs.
+\end_layout
+
+\begin_layout Enumerate
+Flush them to an SSTable.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+On triggering a compaction:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Take 
+\begin_inset Formula $n$
+\end_inset
+
+ SSTables and merge them.
+\end_layout
+
+\begin_layout Enumerate
+Put the merge in an in-memory buffer.
+\end_layout
+
+\begin_layout Enumerate
+If buffer size exceeds chunk size:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Write one chunk to disk
+\end_layout
+
+\begin_layout Enumerate
+Purge buffer
+\end_layout
+
+\begin_layout Enumerate
+Keep exceeds in the buffer
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+Compare a distributed tree against a hash structure of data
+\end_layout
+
+\begin_layout Standard
+A distributed tree and a hash structure are two different approaches to
+ organizing data in a distributed system, and each has its own strengths
+ and weaknesses.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+distributed tree
+\series default
+, such as HBase's region-based storage model, uses a hierarchical structure
+ to organize data.
+ The tree is partitioned into regions, with each region containing a range
+ of contiguous row keys.
+ Each region is stored on a separate server, allowing the system to scale
+ horizontally by adding more servers as needed.
+ This approach is well-suited for read-heavy workloads where data is frequently
+ accessed based on its key, as it allows for efficient range scans and lookups
+ of individual keys.
+ However, it can be less efficient for write-heavy workloads, as writes
+ may require updating multiple nodes in the tree.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+hash structure
+\series default
+, on the other hand, uses a non-hierarchical approach to organizing data,
+ with each item in the structure being assigned a unique key based on a
+ hash function.
+ This allows for efficient storage and retrieval of data based on its key,
+ as the hash function can be used to quickly locate the relevant data without
+ requiring a hierarchical lookup.
+ Hash structures are well-suited for write-heavy workloads, as they can
+ be designed to minimize the number of nodes that need to be updated for
+ each write.
+ However, they may be less efficient for range scans or other types of queries
+ that require traversing large amounts of data.
+\end_layout
+
+\begin_layout Standard
+In general, the choice between a distributed tree and a hash structure will
+ depend on the specific requirements of the application and the workload
+ it needs to support.
+ Both approaches have their strengths and weaknesses, and the best choice
+ will depend on factors such as the size and structure of the data, the
+ expected read and write patterns, and the performance and scalability requireme
+nts of the system.
+\end_layout
+
+\begin_layout Subsection
+Justify the need of dynamic hashing
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Dynamic hashing
+\series default
+ is a technique used in database management systems to handle collisions
+ that can occur when multiple keys are hashed to the same index in a hash
+ table.
+ This technique involves adjusting the size of the hash table dynamically
+ as the number of keys increases, to maintain a low collision rate and ensure
+ efficient access to the data.
+\end_layout
+
+\begin_layout Standard
+There are several reasons why dynamic hashing is necessary:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Efficient use of memory
+\series default
+: If the hash table is too small, collisions will occur frequently, leading
+ to degraded performance.
+ On the other hand, if the hash table is too large, it may waste memory.
+ Dynamic hashing allows the system to adjust the size of the hash table
+ dynamically, ensuring that it is large enough to handle the data, but not
+ so large that it wastes memory.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Scalability
+\series default
+: Dynamic hashing is essential for systems that need to handle large and
+ growing datasets.
+ As the size of the data increases, the hash table needs to be resized to
+ maintain performance.
+ Dynamic hashing allows this resizing to happen automatically, without requiring
+ manual intervention.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Flexibility
+\series default
+: Dynamic hashing allows the system to adjust the size of the hash table
+ based on the specific needs of the workload.
+ For example, if the workload is read-heavy, the system may allocate more
+ memory to the hash table to improve read performance.
+ If the workload is write-heavy, the system may allocate less memory to
+ the hash table to improve write performance.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Collision avoidance
+\series default
+: Collisions can cause performance degradation and may even lead to incorrect
+ results if they are not handled properly.
+ Dynamic hashing helps avoid collisions by resizing the hash table as needed
+ to ensure that the data is evenly distributed across the available slots.
+\end_layout
+
+\begin_layout Standard
+Without dynamic hashing, the functioning is to have a hash function 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ and an assignation function 
+\begin_inset Formula $h\left(x\right)$
+\end_inset
+
+.
+ The hash function distributes the values into a determined range, ideally
+ uniformly, while the assignation function decides in which region the record
+ should be stored.
+ A typically used assignation function is
+\begin_inset Formula 
+\[
+h\left(x\right)=f\left(x\right)\mod\#servers
+\]
+
+\end_inset
+
+ Note, nonetheless, that in this case, adding a new server implies modifying
+ the assignation function, which implies communicating the new function
+ to all servers, as well as a massive data transfer.
+ Thus, the importance of dynamic hashing.
+\end_layout
+
+\begin_layout Standard
+Another challenge, is that any access must go through the hash directory.
+\end_layout
+
+\begin_layout Example
+Let's see what could happen with an example.
+ Imagine we have three nodes, and they are working normal, until this point
+ is reached:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+If now we want to add a new machine, because we need more resources, the
+ situation after the restructuration would be as follows:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+N3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here, all red-colored records have been moved.
+ We see how this situation entails high transfer costs.
+\end_layout
+
+\begin_layout Subsubsection
+Linear hash
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Linear Hashing
+\series default
+ is a dynamic hashing technique that enables a hash table to grow or shrink
+ dynamically as the number of keys increases or decreases.
+ The hash table is divided into a series of buckets, each of which can hold
+ one or more keys.
+ When the number of keys in a bucket exceeds a certain threshold, the bucket
+ is split, and a new bucket is created to hold the overflow keys.
+ 
+\end_layout
+
+\begin_layout Standard
+We maintain a 
+\series bold
+pointer
+\series default
+ to the next bucket to split, and two hash functions are considered.
+ We take 
+\begin_inset Formula $n$
+\end_inset
+
+ such thath 
+\begin_inset Formula $2^{n}\leq\#servers<2^{n+1}$
+\end_inset
+
+ and use the functions 
+\begin_inset Formula $h_{1}\left(x\right)=x\mod2^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $h_{2}\left(x\right)=x\mod2^{n+1}$
+\end_inset
+
+.
+ When a bucket overflows, the pointed bucket splits.
+\end_layout
+
+\begin_layout Subsubsection
+Consistent hash
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Consistent Hashing
+\series default
+ is a technique used to distribute data across multiple nodes in a cluster.
+ It involves mapping each node and data item to a point on a circle, and
+ using the position of the item on the circle to determine which node it
+ should be stored on.
+ When a node is added or removed from the cluster, the items that were previousl
+y assigned to that node need to be redistributed across the remaining nodes.
+ In this case, we choose the hash function to lie on a range that is large
+ enough to cope with all our possible values.
+ The circle arrangement means that, to determine the node in which to store
+ an object, we do the following:
+\end_layout
+
+\begin_layout Itemize
+Compute 
+\begin_inset Formula $h\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Take the server 
+\begin_inset Formula $j$
+\end_inset
+
+ such that 
+\begin_inset Formula $id_{j-1}<h\left(x\right)\leq id_{j}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Store 
+\begin_inset Formula $h\left(x\right)$
+\end_inset
+
+ in 
+\begin_inset Formula $j$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Explain the structure of the HBase catalog
+\end_layout
+
+\begin_layout Standard
+The HBase catalog is a set of internal tables that HBase uses to store metadata
+ about the tables and regions in the cluster.
+ The catalog is managed by the 
+\series bold
+HMaster
+\series default
+ daemon and provides information about the location of regions, which servers
+ are serving them, and which versions of the data are available.
+\end_layout
+
+\begin_layout Standard
+The catalog consists of the following tables:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ROOT table
+\series default
+: The ROOT table is the first table accessed during startup and contains
+ information about the location of the META table.
+ It is always located on the first region server in the cluster and is stored
+ in memory.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+META table
+\series default
+: The META table contains information about the regions in the HBase cluster,
+ including their start and end keys, the region server hosting the region,
+ and the replicas for each region.
+ This information is used by HBase clients to locate the regions that contain
+ the data they need.
+\end_layout
+
+\begin_layout Itemize
+Namespace table: The namespace table contains information about the namespaces
+ in the HBase cluster, including their name and any associated configuration
+ settings.
+\end_layout
+
+\begin_layout Itemize
+Quota table: The quota table contains information about resource quotas
+ for tables, namespaces, and users in the HBase cluster.
+\end_layout
+
+\begin_layout Itemize
+ACL table: The ACL table contains information about access control lists
+ (ACLs) for tables and namespaces in the HBase cluster.
+\end_layout
+
+\begin_layout Standard
+All of these tables are HBase tables themselves, and are stored in the same
+ way as other tables in the cluster, with regions split across the available
+ region servers.
+ The ROOT and META tables are special in that they are stored in memory
+ on the first region server in the cluster, and are not split into regions
+ like other tables.
+\end_layout
+
+\begin_layout Standard
+The catalog is an essential component of the HBase architecture, as it provides
+ the means for clients to locate the regions that contain the data they
+ need, and for HBase to manage the distribution and replication of data
+ across the cluster.
+\end_layout
+
+\begin_layout Standard
+Thus, the main structure is a three-level structure, consisting on the ROOT
+ table, the META table and the data itself.
+\end_layout
+
+\begin_layout Subsection
+Explain the mistake compensation mechanism of the cache in HBase client
+\end_layout
+
+\begin_layout Standard
+HBase implements a client cache similar to that of HDFS to avoid constantly
+ disturbing the coordinator.
+ Thus, only the first time a key is requested by an application, the request
+ needs to go down the tree structure of metadata.
+ Eventually, some RegionServer will send the corresponding data to the client,
+ and this will take note in the cache of who did this.
+ In successive requests, that key will be found in the client cache and
+ the request will be directly addressed to the right RegionServer.
+\end_layout
+
+\begin_layout Standard
+The tree structure of HBase is more volatile than that of HDFS directory,
+ as well as multilevel; two facts that complicate its management.
+ It can happen that when the application finds the key in the cache and
+ requests it to the RegionServer, this one does not have that key anymore.
+ In this case, the RegionServer itself scales the request up the tree structure
+ to its parent.
+\end_layout
+
+\begin_layout Standard
+In the worst case, they key would not be under the parent either, and this
+ will propagate the request to the RootRegion.
+ Since the RootRegion has the information of the whole domain of keys, it
+ is guaranteed that it will be able to forward the request down the tree
+ to the appropriate MetaRegion, and this to the user RegionServer that now
+ has the key, which will directly send the corresponding value to the client.
+ Since we are assuming a three-level tree, this compensation actions will
+ require at most four extra calls between the different RegionServers.
+\end_layout
+
+\begin_layout Subsection
+Enumerate the ACID guarantees provided by HBase
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Atomicity
+\series default
+: only guaranteed at row level.
+ The classical concept of transaction affecting different rows does not
+ exist in HBase.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Consistency
+\series default
+: HBase does not provide any kind of integrity constraints.
+ Replication management at the disk level completely relies on that provided
+ by HDFS underneath.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Configuration of persistent data is eager/primary copy.
+\end_layout
+
+\begin_layout Itemize
+Synchronization of MemStores is lazy/primary copy.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Isolation
+\series default
+: it offers the 
+\series bold
+read commited ISO isolation level
+\series default
+ by locking all families at once for the same row.
+ There is not any way to wrap a set of multi-row operations into a single
+ unit.
+ Consequently, there is not any guarantee of snapshot isolation, since during
+ the execution of the scan rows can appear or dissapear, and the result
+ may not either correspond to the state before nor after the operation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Durability
+\series default
+: before confirming any modification in a table, the operation is annotated
+ in the log file, which guarantees it is never lost.
+ Thus, it follows a Write Ahead Log protocol.
+\end_layout
+
+\begin_layout Subsection
+Explain the execution flow of an HBase query both at global and local levels
+\end_layout
+
+\begin_layout Standard
+The execution flow of an HBase query can be divided into two levels: global
+ and local.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Global leve
+\series default
+l:
+\end_layout
+
+\begin_layout Enumerate
+Client sends a query to the HBase RegionServer that owns the row key or
+ range of row keys being queried.
+\end_layout
+
+\begin_layout Enumerate
+When a query is received by a HBase RegionServer, the Yet Another Resource
+ Negotiator (YARN) resource manager is consulted to determine if there are
+ available resources to handle the query.
+\end_layout
+
+\begin_layout Enumerate
+The RegionServer consults the HBase catalog to locate the region(s) that
+ contain the data being queried.
+ This allows for inter-query parallelism, as different queries can go to
+ different regions.
+ Moreover, if read replicas are enabled, read-only queries can be further
+ parallelized.
+\end_layout
+
+\begin_layout Enumerate
+The RegionServer forwards the query to each of the relevant region servers
+ that are serving the region(s) containing the data.
+ Here, intra-query parallelism is possible if the domain of the keys is
+ appropriately set.
+ Nonetheless, in general this is not possible.
+\end_layout
+
+\begin_layout Enumerate
+Each RegionServer performs the query locally and sends the results back
+ to the RegionServer that received the query.
+\end_layout
+
+\begin_layout Enumerate
+The RegionServer aggregates the results from the different regions and sends
+ the final result back to the client.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Local level
+\series default
+:
+\end_layout
+
+\begin_layout Enumerate
+When a query is received by a region server, it consults its own in-memory
+ cache to check if the required data is already present in memory.
+\end_layout
+
+\begin_layout Enumerate
+If the required data is not present in memory, the region server reads the
+ required data from disk and caches it in memory for future use.
+\end_layout
+
+\begin_layout Enumerate
+The region server performs the required operations on the cached data and
+ returns the result to the RegionServer that received the query.
+\end_layout
+
+\begin_layout Enumerate
+If required, the region server may write any changes back to disk after
+ the query is complete.
+\end_layout
+
+\begin_layout Subsection
+Given few queries, define the best logical structure of a table considering
+ its physical implications in terms of performance
+\end_layout
+
+\begin_layout Subsection
+Given the data in two leafs of a Log-Structured Merge-tree (LSM-tree), merge
+ them
+\end_layout
+
+\begin_layout Subsection
+Given the current structure of a Linear Hash, modify it according to insertions
+ potentially adding buckets
+\end_layout
+
+\begin_layout Standard
+To modify the Linear Hash structure to handle insertions potentially adding
+ buckets, first we need some definitions:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Already split buckets
+\series default
+: buckets before the pointed one.
+ In these we use 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+To be split buckets
+\series default
+: buckets between the pointer and 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+.
+ In these we use 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Created
+\series default
+: buckets between 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ and the end.
+ In these we use 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When we receive a new record, we follow the steps:
+\end_layout
+
+\begin_layout Enumerate
+We compute 
+\begin_inset Formula $h_{1}\left(x\right)$
+\end_inset
+
+.
+ If the correspondent bucket is already split, we take 
+\begin_inset Formula $h_{2}\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $h_{i}\left(x\right)$
+\end_inset
+
+ is not full, we introduce record 
+\begin_inset Formula $x$
+\end_inset
+
+ in it.
+\end_layout
+
+\begin_layout Enumerate
+Else, we split the pointed bucket, and create a new 
+\series bold
+overflow bucket
+\series default
+ (if it does not exist before) connected to the bucket that is full.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+We insert 
+\begin_inset Formula $x$
+\end_inset
+
+ in this overflow bucket.
+\end_layout
+
+\begin_layout Enumerate
+We update the values of the split bucket, taking 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+ to its values and moving them as needed.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Eventually, we will have space to allocate the new records.
+\end_layout
+
+\begin_layout Example
+Let's see one example.
+ We have the following situation:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Buckets
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{cyan}
+\end_layout
+
+\end_inset
+
+B0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Here, colour blue indicates the pointed bucket.
+ Now, we want to insert key 9.
+ Then, the result would be:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Buckets
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{cyan}
+\end_layout
+
+\end_inset
+
+B1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3,5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Overflow
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{green}
+\end_layout
+
+\end_inset
+
+B2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Say we now insert 11.
+ Then:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Buckets
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{cyan}
+\end_layout
+
+\end_inset
+
+B0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5,9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{green}
+\end_layout
+
+\end_inset
+
+B3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As we have splitted all the initial buckets, we increase 
+\begin_inset Formula $n$
+\end_inset
+
+ by 1 and reset the pointer to bucket 0.
+ 
+\end_layout
+
+\begin_layout Subsection
+Given the current structure of a Consistent Hash, modify it in case of adding
+ a bucket
+\end_layout
+
+\begin_layout Standard
+If we add a bucket, 
+\begin_inset Formula $k$
+\end_inset
+
+, to the current structure of a Consistent Hash, it will be located between
+ two buckets, 
+\begin_inset Formula $j$
+\end_inset
+
+ and 
+\begin_inset Formula $j-1$
+\end_inset
+
+.
+ Thus:
+\end_layout
+
+\begin_layout Itemize
+Objects between 
+\begin_inset Formula $id_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $id_{j}$
+\end_inset
+
+ stay in bucket 
+\begin_inset Formula $j$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Objects between 
+\begin_inset Formula $id_{j-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $id_{k}$
+\end_inset
+
+ are moved to bucket 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Imagine a range large enough is 41, and we take 
+\begin_inset Formula $h\left(x\right)=x\mod41$
+\end_inset
+
+.
+ We have the following structure:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BucketId
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Objects
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,5,7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8,13,14
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18,19,21,25,27,29
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34,37,38
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+We want to add a new node, with id 24:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BucketId
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Objects
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2,5,7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8,13,14
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18,19,21
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25,27,29
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+34,37,38
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Calculate the number of round trips needed in case of mistake compensation
+ of the tree metadata
+\end_layout
+
+\begin_layout Subsection
+Use HBase shell to create a table and access it
+\end_layout
+
+\begin_layout Subsection
+Use HBase API to create a table and access it
 \end_layout
 
 \begin_layout Standard
