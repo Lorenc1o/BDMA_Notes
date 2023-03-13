@@ -2165,6 +2165,715 @@ end{matlabcode}
 
 \end_layout
 
+\begin_layout Subsection
+Probabilistic approach
+\end_layout
+
+\begin_layout Standard
+A review on probability basics in Appendix 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Notes on probability theory, Bayes theorem and Bayesian learning
+\end_layout
+
+\begin_layout Standard
+These notes are adapted from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "AriasProbability"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Probability theory basic
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ be a sample space, i.e., the set of possible outcomes of an event, and 
+\begin_inset Formula $A\subset\Omega$
+\end_inset
+
+ an event.
+ A probability measure is a function
+\begin_inset Formula 
+\[
+P:\mathcal{P}\left(\Omega\right)\rightarrow\mathbb{R},
+\]
+
+\end_inset
+
+ that assigns a real number to every event, 
+\begin_inset Formula $P\left(A\right)$
+\end_inset
+
+.
+ This represents how likely it is that the experiment's outcome is in 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $\left(\Omega,P\right)$
+\end_inset
+
+ to be a probability space
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In fact, we need one more ingredient, 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+, which is a 
+\begin_inset Formula $\sigma$
+\end_inset
+
+-algebra of subsets of 
+\begin_inset Formula $\Omega$
+\end_inset
+
+.
+ This is just a formalization, but we can abuse notation here to simplify
+ some things.
+ 
+\end_layout
+
+\end_inset
+
+ we have to impose three axioms:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+A1)
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $P\left(A\right)\geq0,\forall A\subset\Omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+A2)
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $P\left(\Omega\right)=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+A3)
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $P\left(A\cup B\right)=P\left(A\right)+P\left(B\right)$
+\end_inset
+
+ if 
+\begin_inset Formula $A\cap B=\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+From these axioms, some consequences can be derived:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P\left(\overline{A}\right)\overset{def}{:=}P\left(\Omega\setminus A\right)=1-P\left(A\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Proof
+We can write 
+\begin_inset Formula $\Omega=A\cup\left(\Omega\setminus A\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $A\cap\left(\Omega\setminus A\right)=\emptyset$
+\end_inset
+
+, so we have
+\begin_inset Formula 
+\[
+1\overset{A2}{=}P\left(\Omega\right)=P\left(A\cup\left(\Omega\setminus A\right)\right)\overset{A3}{=}P\left(A\right)+P\left(\Omega\setminus A\right),
+\]
+
+\end_inset
+
+ thus:
+\begin_inset Formula 
+\[
+P\left(\overline{A}\right)=P\left(\Omega\setminus A\right)=1-P\left(A\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $P\left(\emptyset\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Proof
+\begin_inset Formula $P\left(\emptyset\right)=P\left(\overline{\Omega}\right)=1-P\left(\Omega\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $A\subset B$
+\end_inset
+
+, then 
+\begin_inset Formula $P\left(A\right)\leq P\left(B\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Proof
+In this case, we can write 
+\begin_inset Formula $B=A\cup\left(B\setminus A\right)$
+\end_inset
+
+, so 
+\begin_inset Formula $P\left(B\right)=P\left(A\right)+P\left(B\setminus A\right)$
+\end_inset
+
+ and we have the inequality.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $P\left(A\cup B\right)=P\left(A\right)+P\left(B\right)-P\left(A\cap B\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Proof
+We have 
+\begin_inset Formula $A=\left(A\setminus B\right)\cup\left(A\cap B\right)$
+\end_inset
+
+, 
+\begin_inset Formula $B=\left(B\setminus A\right)\cup\left(A\cap B\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $A\cup B=\left(A\setminus B\right)\cup\left(A\cap B\right)\cup\left(B\setminus A\right)$
+\end_inset
+
+, so
+\begin_inset Formula 
+\begin{align*}
+P\left(A\cup B\right)= & P\left(A\setminus B\right)+P\left(A\cap B\right)+P\left(B\setminus A\right)\\
+= & P\left(A\right)-P\left(A\cap B\right)+P\left(A\cap B\right)+P\left(B\right)-P\left(A\cap B\right)\\
+= & P\left(A\right)+P\left(B\right)-P\left(A\cap B\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $P\left(A\cup B\right)\leq P\left(A\right)+P\left(B\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Proof
+This is obvious from the previous result.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Joint probability
+\end_layout
+
+\begin_layout Standard
+It is usal to be interested in the probability of two events happening simultane
+ously.
+ This is called the 
+\series bold
+joint probability
+\series default
+ of events 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+P\left(A,B\right)\overset{def}{:=}P\left(A\cap B\right).
+\]
+
+\end_inset
+
+ The join probability is useful when an event can be decomposed in simpler
+ disjoint events, i.e., we have 
+\begin_inset Formula $A\subset B_{1}\cup...\cup B_{n}$
+\end_inset
+
+, with 
+\begin_inset Formula $B_{i}\cap B_{j}=\emptyset,\forall i\neq j$
+\end_inset
+
+.
+ In this situation, we can use the 
+\series bold
+sum rule
+\series default
+:
+\begin_inset Formula 
+\[
+P\left(A\right)=\sum_{i=1}^{n}P\left(A,B_{i}\right).
+\]
+
+\end_inset
+
+ This is also known as 
+\series bold
+marginalization
+\series default
+: when we know the joint probability 
+\begin_inset Formula $p\left(x,y\right)$
+\end_inset
+
+ and we want to compute 
+\begin_inset Formula $p\left(x\right)$
+\end_inset
+
+, we marginalize out 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ This basically means that if we know the probabilities of all possible
+ pairs 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+, we can know the probability of 
+\begin_inset Formula $x$
+\end_inset
+
+ by exploring all the possibilities.
+ Here, 'exploring' is using the sum rule:
+\begin_inset Formula 
+\[
+p\left(x\right)=\sum_{y}p\left(x,y\right)
+\]
+
+\end_inset
+
+ or
+\begin_inset Formula 
+\[
+p\left(x\right)=\int_{y}p\left(x,y\right)dy,
+\]
+
+\end_inset
+
+ if 
+\begin_inset Formula $y$
+\end_inset
+
+ is continuous.
+\end_layout
+
+\begin_layout Example
+We have two events:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x$
+\end_inset
+
+: earns more than 100k or earns less than 100k.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y$
+\end_inset
+
+: is a professor, a software engineer or a data scientist.
+\end_layout
+
+\begin_layout Standard
+We have some sources of information, and are able to determine that
+\begin_inset Formula 
+\[
+p\left(>100,prof\right)=0.05,\ p\left(>100,seng\right)=0.1,\ p\left(>100,dsci\right)=0.2,
+\]
+
+\end_inset
+
+ then we can conclude that
+\begin_inset Formula 
+\[
+p\left(>100\right)=0.05+0.1+0.2=0.35.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Conditional probability
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+conditional probability
+\series default
+ of 
+\begin_inset Formula $B$
+\end_inset
+
+ given 
+\begin_inset Formula $A$
+\end_inset
+
+ is the probability that 
+\begin_inset Formula $B$
+\end_inset
+
+ occurs, knowing that 
+\begin_inset Formula $A$
+\end_inset
+
+ has occurred.
+ This means that we have to restrict the space of possible outcomes, from
+ 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ to 
+\begin_inset Formula $A$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that 
+\begin_inset Formula $P\left(A\right)>0$
+\end_inset
+
+ is needed.
+\end_layout
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+P\left(B|A\right)=\frac{P\left(A\cap B\right)}{P\left(A\right)}.
+\]
+
+\end_inset
+
+ If we rearrange the terms, we can obtain the 
+\series bold
+product rule
+\series default
+:
+\begin_inset Formula 
+\[
+P\left(A,B\right)=P\left(B|A\right)P\left(A\right).
+\]
+
+\end_inset
+
+ This formula can be generalized to an arbitrary number of events, the 
+\series bold
+general product rule
+\series default
+, given by
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that here it is needed that all the intersections 
+\begin_inset Formula $A_{1}\cap...\cap A_{i}$
+\end_inset
+
+ have non-zero probability, for 
+\begin_inset Formula $i=1,...,n-1$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(A_{1},...,A_{n}\right)=\prod_{i=1}^{n}P\left(A_{i}|A_{1},...,A_{i-1}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Prove that
+\begin_inset Formula 
+\[
+P\left(A,B,C\right)=P\left(A\right)P\left(B|A\right)P\left(C|A,B\right)=P\left(C\right)P\left(B|C\right)P\left(A|B,C\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Then, prove the general product rule.
+\end_layout
+
+\begin_layout Standard
+Basically, we are asked to prove the general product rule by induction.
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $n=2$
+\end_inset
+
+, we have already proven it.
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $n=3$
+\end_inset
+
+, we hav
+\begin_inset Formula 
+\begin{align*}
+P\left(\left(A_{1}\cap A_{2}\right)\cap A_{3}\right)= & P\left(A_{3}|A_{1}\cap A_{2}\right)P\left(A_{1}\cap A_{2}\right)\\
+= & P\left(A_{3}|A_{1}\cap A_{2}\right)P\left(A_{2}|A_{1}\right)P\left(A_{1}\right),
+\end{align*}
+
+\end_inset
+
+ which is what we wanted.
+\end_layout
+
+\begin_layout Standard
+Now, assume it is true for 
+\begin_inset Formula $n-1$
+\end_inset
+
+.
+ Then, we have
+\begin_inset Formula 
+\begin{align*}
+P\left(A_{1}\cap...\cap A_{n}\right)= & P\left(\left(A_{1}\cap...\cap A_{n-1}\right)\cap A_{n}\right)\\
+= & P\left(A_{n}|A_{1}\cap...\cap A_{n-1}\right)P\left(A_{1}\cap...\cap A_{n-1}\right)\\
+\overset{induction}{=} & P\left(A_{n}|A_{1}\cap...\cap A_{n-1}\right)\prod_{i=1}^{n-1}P\left(A_{i}|A_{1},...,A_{i-1}\right)\\
+= & \prod_{i=1}^{n}P\left(A_{i}|A_{1},...,A_{i-1}\right).
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Bayes rule
+\end_layout
+
+\begin_layout Standard
+Bayes theorem gives an alternative formula for the conditional probability:
+\begin_inset Formula 
+\[
+P\left(A|B\right)=\frac{P\left(B|A\right)P\left(A\right)}{P\left(B\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Assuming all involved probabilities are non-zero:
+\begin_inset Formula 
+\[
+P\left(A|B\right)=\frac{P\left(A\cap B\right)}{P\left(B\right)}\overset{prod\ rule}{=}\frac{P\left(B|A\right)P\left(A\right)}{P\left(B\right)}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This rule is known to be useful to update the probability of an event happening,
+ when we are able to gather new information of related events.
+ 
+\begin_inset Formula $P\left(A\right)$
+\end_inset
+
+ is usually called the 
+\series bold
+prior probability
+\series default
+, and 
+\begin_inset Formula $P\left(A|B\right)$
+\end_inset
+
+ is the 
+\series bold
+a posteriori probability
+\series default
+, which means that we have observed 
+\begin_inset Formula $B$
+\end_inset
+
+, and want to update the probability estimate for 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Example of the Bayes rule in action
+\end_layout
+
+\begin_layout Example
+An English-speaking tourist visits a city whose language is not English.
+ A local friend tells him that 1 in 10 natives speak English, 1 in 5 people
+ in the streets are tourists and that half of the tourists speak English.
+ Our visitor stops comeone in the street and finds that this person speaks
+ English.
+ What is the probability that this person is a tourist?
+\end_layout
+
+\begin_layout Example
+We have
+\begin_inset Formula 
+\[
+P\left(EN|Tourist\right)=\frac{1}{2},\ P\left(EN|Local\right)=\frac{1}{10},\ P\left(Tourist\right)=\frac{1}{5}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+We want to update our knowledge about the event of this person being a tourist.
+ The prior probability is 
+\begin_inset Formula $\frac{1}{5}$
+\end_inset
+
+, but since we know that this person speaks english, we have new information
+ useful for updating the probability.
+ 
+\end_layout
+
+\begin_layout Example
+First, the total probability of someone speaking english is
+\begin_inset Formula 
+\[
+P\left(EN\right)\overset{sum\ rule+product\ rule}{=}P\left(EN|Tourist\right)P\left(Tourist\right)+P\left(EN|Local\right)P\left(Local\right)=\frac{1}{2}\frac{1}{5}+\frac{1}{10}\frac{4}{5}=\frac{9}{50}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now, the a posteriori probability of the person being a tourist, now that
+ we know that he speaks english is
+\begin_inset Formula 
+\[
+P\left(tourist|EN\right)=\frac{P\left(EN|Tourist\right)P\left(Tourist\right)}{P\left(EN\right)}=\frac{\frac{1}{2}\frac{1}{5}}{\frac{9}{50}}=\frac{5}{9}.
+\]
+
+\end_inset
+
+ As we can see (and as we should expect), knowing that the person speaks
+ english, our confidence that he is a tourist increases.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
