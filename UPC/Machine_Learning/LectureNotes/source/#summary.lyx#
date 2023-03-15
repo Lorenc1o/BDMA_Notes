@@ -3205,7 +3205,7 @@ logL\left(D;\mu,\sigma^{2}\right)=\log\left(L\left(D;\mu,\sigma^{2}\right)\right
 :
 \begin_inset Formula 
 \[
-\frac{\partial}{\partial\mu}logL=-\frac{1}{\sigma^{2}}\sum\left(x_{i}-\mu\right)=0\iff\sum\left(x_{i}-\mu\right)=0\iff\sum x_{i}-n\mu=0\iff\mu_{MLE}=\frac{\sum x_{i}}{n},
+\frac{\partial}{\partial\mu}logL=-\frac{1}{\sigma^{2}}\sum\left(x_{i}-\mu\right)=0\iff\sum\left(x_{i}-\mu\right)=0\iff\sum x_{i}-n\mu=0\iff\mu=\frac{\sum x_{i}}{n},
 \]
 
 \end_inset
@@ -3221,19 +3221,7 @@ logL\left(D;\mu,\sigma^{2}\right)=\log\left(L\left(D;\mu,\sigma^{2}\right)\right
 
 \begin_inset Formula 
 \[
-\iff\frac{1}{2\sigma^{4}}\sum\left(x_{i}-\mu\right)^{2}=\frac{n}{2\sigma^{2}}\iff\sum\left(x_{i}-\mu\right)^{2}=n\sigma^{2}\iff\sigma^{2}=\frac{\sum\left(x_{i}-\mu\right)^{2}}{n}.
-\]
-
-\end_inset
-
- Now, we substitute the value obtained for 
-\begin_inset Formula $\mu$
-\end_inset
-
-.
-\begin_inset Formula 
-\[
-\sigma_{MLE}^{2}=\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n}.
+\iff\frac{1}{2\sigma^{4}}\sum\left(x_{i}-\mu\right)^{2}=\frac{n}{2\sigma^{2}}\iff\sum\left(x_{i}-\mu\right)^{2}=n\sigma^{2}\iff\sigma^{2}=\frac{\sum\left(x_{i}-\mu\right)^{2}}{n}
 \]
 
 \end_inset
