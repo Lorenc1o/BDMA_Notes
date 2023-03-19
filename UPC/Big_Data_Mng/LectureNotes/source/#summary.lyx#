@@ -10683,30 +10683,12 @@ Query caching
  using alternative access paths.
  Instead, it compares plan execution for a query pattern every ~1,000 write
  operations and then caches the “winning” query plan until the next time
- the optimizer runs or you explicitly call an explain() on that query.
+ the optimizer runs or you explicitly call an explain() on that query1.
  The winning query plan is based on the number of “work units” (works) performed
  by the query execution plan when evaluating candidate plans.
  The works value represents an approximate measure of how much work a query
  plan requires to execute.
- The optimizer selects the plan with lowest works value as the winning plan
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-According to the professor: When a query is received, the cache is visited
- to see if there is a matching entry.
- If it is found, it is used to generate a plan for the current one, which
- will be then tested for some time.
- If the generated plan takes too long or there is not any query pattern
- in the cache matching the current query, the system launches different
- executions in parallel using alternative access paths.
- Eventually, one of such executions will finish and the others will be killed.
- The executed one will be the one kept in the cache.
-\end_layout
-
-\end_inset
-
-.
+ The optimizer selects the plan with lowest works value as the winning plan3.
 \end_layout
 
 \begin_layout Subsection
