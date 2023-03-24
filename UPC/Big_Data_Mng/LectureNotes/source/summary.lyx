@@ -10748,6 +10748,442 @@ Compare the access costs with different sharding distributions (i.e.
 
 \end_layout
 
+\begin_layout Section
+MapReduce I
+\end_layout
+
+\begin_layout Subsection
+Enumerate several use cases of MapReduce
+\end_layout
+
+\begin_layout Standard
+MapReduce was based on Google development and was originally conceived to
+ compute the page rank.
+ Nonetheless, it can be used in many different situations:
+\end_layout
+
+\begin_layout Itemize
+Batch processing: MapReduce can be used to process large volumes of data
+ in batches, such as log files, customer records, or social media data.
+\end_layout
+
+\begin_layout Itemize
+Data warehousing: MapReduce can be used to extract, transform, and load
+ (ETL) data into a data warehouse, such as Hadoop Distributed File System
+ (HDFS).
+\end_layout
+
+\begin_layout Itemize
+Search indexing: MapReduce can be used to index and search large volumes
+ of unstructured data, such as web pages, documents, or social media posts.
+\end_layout
+
+\begin_layout Itemize
+Machine learning: MapReduce can be used to train and evaluate machine learning
+ models on large datasets, such as image or speech recognition.
+\end_layout
+
+\begin_layout Itemize
+Fraud detection: MapReduce can be used to detect fraudulent activities in
+ financial transactions or insurance claims.
+\end_layout
+
+\begin_layout Itemize
+Recommendation engines: MapReduce can be used to analyze user behavior and
+ generate personalized recommendations, such as in e-commerce or online
+ media.
+\end_layout
+
+\begin_layout Itemize
+Log analysis: MapReduce can be used to analyze and visualize system logs,
+ such as web server logs, to identify patterns and anomalies.
+\end_layout
+
+\begin_layout Itemize
+Social network analysis: MapReduce can be used to analyze social networks
+ and identify communities, influencers, or trends.
+\end_layout
+
+\begin_layout Itemize
+Image and video processing: MapReduce can be used to process and analyze
+ large volumes of multimedia data, such as images or videos, for content-based
+ retrieval or object recognition.
+\end_layout
+
+\begin_layout Itemize
+Natural language processing: MapReduce can be used to process and analyze
+ natural language data, such as text or speech, for sentiment analysis,
+ topic modeling, or language translation.
+\end_layout
+
+\begin_layout Subsection
+Explain 6 benefits of using MapReduce
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Facilitates scalability
+\series default
+: MapReduce is designed to process large volumes of data and is highly scalable.
+ It can be used to handle increasing amounts of data by adding more machines
+ to the cluster, making it ideal for big data processing.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hidden parallelism
+\series default
+: MapReduce hides the complexities of parallel processing by dividing the
+ workload into smaller tasks and distributing them across multiple machines.
+ This allows for faster processing times and better resource utilization.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transparent distribution
+\series default
+: MapReduce abstracts away the details of distributed computing, making
+ it easier for developers to write code without worrying about the underlying
+ infrastructure.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Exploit data locality
+\series default
+: MapReduce schedules tasks on nodes that are in close proximity to the
+ data being processed, reducing network overhead and improving performance.
+ This is achieved by bringing the computation to the data instead of moving
+ the data to the computation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Balance workload
+\series default
+: MapReduce automatically balances the workload across nodes in the cluster,
+ ensuring that each machine is processing roughly the same amount of data.
+ This helps prevent resource bottlenecks and ensures that the job completes
+ in a reasonable amount of time.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Resilience to failure
+\series default
+: MapReduce is designed to be fault-tolerant and can handle failures gracefully.
+ If a machine fails, the job is automatically rescheduled on another machine.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Fine-grained fault tolerance
+\series default
+: MapReduce can recover from individual task failures, allowing jobs to
+ continue processing without needing to restart the entire job.
+ This reduces the impact of failures on the overall job completion time.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Useful in any domain
+\series default
+: MapReduce is a general-purpose processing framework that can be used in
+ any domain where there is a need to process large volumes of data in a
+ distributed manner.
+ The framework is not specific to any one industry or application, and can
+ be applied to a wide range of use cases, such as financial analysis, scientific
+ research, social media analytics, e-commerce, and more.
+ Additionally, MapReduce is not limited to structured data and can be used
+ to process unstructured and semi-structured data as well.
+ Its flexibility and versatility make it a popular choice for organizations
+ of all sizes and industries.
+\end_layout
+
+\begin_layout Subsection
+Describe what the MapReduce is in the context of a DDBMS
+\end_layout
+
+\begin_layout Standard
+In the context of a DDBMS, this framework introduces some changes:
+\end_layout
+
+\begin_layout Enumerate
+Elimination of the globar scheduler: as data was only going to be read,
+ no inconsistencies could arise, making the scheduler unnecessary.
+\end_layout
+
+\begin_layout Enumerate
+Elimination of the global query manager: it is the task of the developer
+ to decide how a query should be executed.
+\end_layout
+
+\begin_layout Enumerate
+MapReduce substitutes the Global Execution Manager.
+\end_layout
+
+\begin_layout Enumerate
+Disregard the complexities of the DDBMS, by implementing MapReduce on top
+ of Hadoop.
+\end_layout
+
+\begin_layout Subsection
+Recognize the signature of Map and Reduce functions
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+Map
+\series default
+ is a function that takes a pair 
+\begin_inset Formula $\left\langle key,value\right\rangle $
+\end_inset
+
+ of the input domain and obtain a set of zero or more new 
+\begin_inset Formula $\left\langle key,value\right\rangle $
+\end_inset
+
+ pairs of the output domain:
+\begin_inset Formula 
+\[
+\begin{array}{cccc}
+f: & T_{IK}\times T_{IV} & \longrightarrow & 2^{T_{OK}\times T_{OV}}\\
+ & \left\langle k,v\right\rangle  & \mapsto & \left\{ \left\langle k_{1}',v_{1}'\right\rangle ,...,\left\langle k_{n}',v_{n}'\right\rangle \right\} 
+\end{array},
+\]
+
+\end_inset
+
+ here 
+\begin_inset Formula $T_{IK}$
+\end_inset
+
+ is the domain of input keys, 
+\begin_inset Formula $T_{IV}$
+\end_inset
+
+ the domain of input values, 
+\begin_inset Formula $T_{OK}$
+\end_inset
+
+ the domain of output keys and 
+\begin_inset Formula $T_{OV}$
+\end_inset
+
+ the domain of output values.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+Reduce
+\series default
+ is a function that takes all the pairs with the same value, and return
+ a new set of 
+\begin_inset Formula $\left\langle key,value\right\rangle $
+\end_inset
+
+ pairs combining them:
+\begin_inset Formula 
+\[
+\begin{array}{cccc}
+f: & T_{OK}\times2^{T_{OV}} & \longrightarrow & 2^{T_{FK},T_{FV}}\\
+ & \left\langle k,\left\{ v_{1},...,v_{k}\right\} \right\rangle  & \mapsto & \left\{ \left\langle k_{1}',v_{1}'\right\rangle ,...,\left\langle k_{n}',v_{n}'\right\rangle \right\} 
+\end{array},
+\]
+
+\end_inset
+
+ here 
+\begin_inset Formula $T_{FK}$
+\end_inset
+
+ are the final keys and 
+\begin_inset Formula $T_{FV}$
+\end_inset
+
+ the final values.
+\end_layout
+
+\begin_layout Subsection
+Explain the phases of a MapReduce operation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Input
+\series default
+: reads data from a DFS.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If the input file format is already fragmented into a key-value structure
+ (such as SequenceFile), the key and value are taken from the file.
+\end_layout
+
+\begin_layout Itemize
+If the input file is raw, the framework constructs a key-value structure,
+ where the key is the tuple offset in the file, and the value is the row
+ itself.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Map
+\series default
+: for each input key-value pair, the 
+\color red
+Mapper machines
+\color inherit
+ execute the user-provided 
+\series bold
+map
+\series default
+ function, which can return 0 or more new pairs.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Partition
+\series default
+: the generated key-value pairs are assigned to 
+\color blue
+Reduce machines
+\color inherit
+ based on their key.
+ This phase guarantees that all ocurrences of the same key will be assigned
+ to the same Reducer.
+ Note, however, that data are not shipped yet.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Shuffle
+\series default
+: the 
+\color blue
+Reduce machines
+\color inherit
+ pull the generated key-value pairs from the Mapper machines.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sort & Comparison
+\series default
+: each 
+\color blue
+Reduce machine
+\color inherit
+ sorts their input key-value pairs based on the key.
+ This allows to generate, for each distinct key, their corresponding set
+ of values via the merge-sort algorithm.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reduce
+\series default
+: for each input structure key-set of values, the 
+\series bold
+reduce 
+\series default
+function is executed, which can return 0 or more key-value pairs.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Output
+\series default
+: the result of the 
+\series bold
+reduce
+\series default
+ function is written locally at each 
+\color blue
+Reduce machine
+\color inherit
+ leveraging on the DFS.
+\end_layout
+
+\begin_layout Subsection
+Justify to which extent MapReduce is generic
+\end_layout
+
+\begin_layout Itemize
+MapReduce is supported in many store systems, such as HBase, MongoDB or
+ CouchDB.
+\end_layout
+
+\begin_layout Itemize
+Its programming paradigm is computationally complete, which means that any
+ data process can be adapted to it.
+ Note, however, that some tasks adapt better than others, and it is not
+ necessarily efficient, partly because optimization is very limited because
+ of lack of expressivity.
+\end_layout
+
+\begin_layout Itemize
+Its signature is closed, so iterations can be chained.
+ However, fault tolerance is not guaranteed in between, and resources and
+ released to be requested again immediately, which is an inneficient handling
+ of resources.
+\end_layout
+
+\begin_layout Itemize
+It is criticized for being too low-level.
+ There are APIs for Ruby, Python, Java, C++, etc.
+ And there have been attemps to build declarative languages on top, like
+ HiveQL or Cassandra Query Language (CQL).
+\end_layout
+
+\begin_layout Subsection
+Simulate the execution of a simple MapReduce algorithm from the user (agnostic
+ of implementation details) perspective
+\end_layout
+
+\begin_layout Subsection
+Identify the usefulness of MapReduce in a given use case
+\end_layout
+
+\begin_layout Subsection
+Define the key in the output of the map for a simple problem
+\end_layout
+
+\begin_layout Subsection
+Provide the pseudo-code of map and reduce functions for a simple problem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
