@@ -3242,6 +3242,447 @@ logL\left(D;\mu,\sigma^{2}\right)=\log\left(L\left(D;\mu,\sigma^{2}\right)\right
 \end_layout
 
 \begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Compute the MLE for a Bernoulli distribution.
+ 
+\end_layout
+
+\begin_layout Example
+Now the observations are the results of 
+\begin_inset Formula $n$
+\end_inset
+
+ coin tosses.
+ We have to compute the parameter 
+\begin_inset Formula $p_{ML}$
+\end_inset
+
+ of the Bernoulli random variable, whose probability function is given by
+ 
+\begin_inset Formula 
+\[
+f\left(x\right)=p^{x}\left(1-p\right)^{1-x},\ p\in\left(0,1\right),\ x\in\left\{ 0,1\right\} .
+\]
+
+\end_inset
+
+ Now, we have 
+\begin_inset Formula $D=\left\{ x_{1},...,x_{n}\right\} \subset\left\{ 0,1\right\} ^{n}$
+\end_inset
+
+.
+ The likelihood function is
+\begin_inset Formula 
+\begin{align*}
+L\left(D;p\right)= & \prod_{i=1}^{n}f\left(x_{i}\right)=\prod_{i=1}^{n}p^{x_{i}}\left(1-p\right)^{1-x_{i}}=p^{\sum x_{i}}\left(1-p\right)^{n-\sum x_{i}}.
+\end{align*}
+
+\end_inset
+
+ We differentiate:
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial}{\partial p}L= & \sum x_{i}p^{\sum x_{i}-1}\left(1-p\right)^{n-\sum x_{i}}-p^{\sum x_{i}}\left[n-\sum x_{i}\right]\left(1-p\right)^{n-\sum x_{i}-1}\\
+= & p^{\sum x_{i}-1}\left(1-p\right)^{n-\sum x_{i}-1}\left[\sum x_{i}\left(1-p\right)-p\left(n-\sum x_{i}\right)\right]\\
+= & p^{\sum x_{i}-1}\left(1-p\right)^{n-\sum x_{i}-1}\left[\sum x_{i}-\cancel{p\sum x_{i}}-pn+\cancel{p\sum x_{i}}\right]\\
+= & p^{\sum x_{i}-1}\left(1-p\right)^{n-\sum x_{i}-1}\left[\sum x_{i}-pn\right].
+\end{align*}
+
+\end_inset
+
+ This derivative is zero if and only if
+\begin_inset Formula 
+\[
+\sum x_{i}-pn=0\iff p=\frac{\sum x_{i}}{n}=\overline{x}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Properties of estimators
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+If we have a dataset 
+\begin_inset Formula $D=\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $x_{i}\sim X$
+\end_inset
+
+ and 
+\begin_inset Formula $X$
+\end_inset
+
+ is a random variable, we call 
+\series bold
+estimator
+\series default
+ a function 
+\begin_inset Formula $h:\mathbb{R}^{n}\rightarrow\mathbb{R}^{k}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Usually, we focus on estimators that tell us something about the underlying
+ distribution 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ For example, it is usual to assume that 
+\begin_inset Formula $X$
+\end_inset
+
+ belongs to a certain family of random variables 
+\begin_inset Formula $X\in F\left(\theta\right)$
+\end_inset
+
+, so that we need to estimate the parameters 
+\begin_inset Formula $\theta=\left(\theta_{1},...,\theta_{k}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+There are some properties that are considered desirable for an estimator
+ to have:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unbiasedness
+\series default
+: an estimator 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+ is unbiased if in the long run it takes the value of estimated parameter.
+ If we define the 
+\series bold
+bias
+\series default
+ of an estimator as 
+\begin_inset Formula 
+\[
+Bias\left[\hat{\theta}\right]=E\left[\hat{\theta}\right]-\theta,
+\]
+
+\end_inset
+
+ then, the estimator is unbiased if
+\begin_inset Formula 
+\[
+Bias\left[\hat{\theta}\right]=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Low variance
+\series default
+: the variance of an estimator tells us how sensitive it is to variations
+ in the input data 
+\begin_inset Formula $D$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Var\left[\hat{\theta}\right]=E\left[\left(\hat{\theta}-E\left[\hat{\theta}\right]\right)^{2}\right]=E\left[\hat{\theta}^{2}\right]-E\left[\hat{\theta}\right]^{2}.
+\]
+
+\end_inset
+
+ In the case that
+\begin_inset Formula 
+\[
+Var\left[\hat{\theta}_{1}\right]<Var\left[\hat{\theta}_{2}\right],
+\]
+
+\end_inset
+
+ we say that 
+\begin_inset Formula $\hat{\theta}_{1}$
+\end_inset
+
+ is 
+\series bold
+more efficient
+\series default
+ than 
+\begin_inset Formula $\hat{\theta}_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The 
+\series bold
+Cramer-Rao bound
+\series default
+ gives a theoretical lower bound to the variance of an estimator, under
+ some hypotheses that are usually assumed true
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For further information one could read my notes from a course in Statistics
+ (in Spanish), 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lorencio2021"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Var\left(\hat{\theta}\right)\geq\frac{\left(\frac{\partial E\left[\hat{\theta}\right]}{\partial\theta}\right)^{2}}{E\left[\left(\frac{\partial\ln L}{\partial\theta}\right)^{2}\right]}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Efficiency
+\series default
+: an estimator is efficient if:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It is unbiased.
+\end_layout
+
+\begin_layout Itemize
+There is no other unbiased estimator with lower variance.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Consistency
+\series default
+: a sequence of estimators 
+\begin_inset Formula $\left\{ \hat{\theta}_{n}\right\} _{n\in\mathbb{N}}$
+\end_inset
+
+ is consistent if it converges in probability to the true value of the parameter
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\forall\varepsilon>0,\lim_{n\rightarrow\infty}P\left(\left|\theta-\hat{\theta}\right|<\varepsilon\right)=1.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Remark
+If the bias and the variance of an estimator tend to 0 with 
+\begin_inset Formula $n$
+\end_inset
+
+, then it is consistent.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Mean squeared error
+\series default
+: the mean squared error of an estimator is
+\begin_inset Formula 
+\[
+MSE\left(\hat{\theta}\right)=E\left[\left(\theta-\hat{\theta}\right)^{2}\right],
+\]
+
+\end_inset
+
+ which is a value that we seek to minimize.
+\end_layout
+
+\begin_layout Example
+Show that
+\begin_inset Formula 
+\[
+MSE\left(\hat{\theta}\right)=Bias\left[\hat{\theta}\right]^{2}+Var\left[\hat{\theta}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's start from the definition:
+\begin_inset Formula 
+\begin{align*}
+MSE\left(\hat{\theta}\right)=E\left[\left(\theta-\hat{\theta}\right)^{2}\right]= & E\left[\theta^{2}-2\theta\hat{\theta}+\hat{\theta}^{2}\right]=E\left[\theta^{2}\right]-2\theta E\left[\hat{\theta}\right]+E\left[\hat{\theta}^{2}\right]\\
+= & \theta^{2}-\theta E\left[\hat{\theta}\right]-\theta E\left[\hat{\theta}\right]+E\left[\hat{\theta}^{2}\right]-{\color{teal}E\left[\hat{\theta}\right]^{2}+E\left[\hat{\theta}\right]^{2}}\\
+= & \theta\left({\color{red}\theta-E\left[\hat{\theta}\right]}\right)-\theta E\left[\hat{\theta}\right]+{\color{blue}E\left[\hat{\theta}^{2}\right]-E\left[\hat{\theta}\right]^{2}}+E\left[\hat{\theta}\right]^{2}\\
+= & {\color{blue}Var\left[\hat{\theta}\right]}-\theta\cdot{\color{red}Bias\left[\hat{\theta}\right]}+E\left[\hat{\theta}\right]\left({\color{red}E\left[\hat{\theta}\right]-\theta}\right)\\
+= & {\color{blue}Var\left[\hat{\theta}\right]}+{\color{red}Bias\left[\hat{\theta}\right]}\left({\color{red}E\left[\hat{\theta}\right]-\theta}\right)\\
+= & {\color{blue}Var\left[\hat{\theta}\right]}+{\color{red}Bias\left[\hat{\theta}\right]}^{{\color{red}2}}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Compute the bias and the variance of the ML estimates 
+\begin_inset Formula $\left(\mu,\sigma^{2}\right)$
+\end_inset
+
+ of an univariate Gaussian.
+ Show that 
+\begin_inset Formula $\sigma_{ML}$
+\end_inset
+
+ is biased and that we can correct its biasedness by using a different estimator
+\begin_inset Formula 
+\[
+\hat{\sigma}^{2}=\frac{n}{n-1}\sigma_{ML}^{2}.
+\]
+
+\end_inset
+
+ Compute the bias and the variance of this new estimator.
+\end_layout
+
+\begin_layout Example
+Let's start with 
+\begin_inset Formula $\mu$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\begin{align*}
+Bias\left(\mu\right)= & Bias\left(\frac{\sum x_{i}}{n}\right)=E\left[\frac{\sum x_{i}}{n}\right]-E\left[X\right]=\frac{1}{n}E\left[\sum x_{i}\right]-E\left[X\right]=\frac{1}{n}\sum E\left[x_{i}\right]-E\left[X\right]\\
+= & \frac{1}{n}\sum E\left[X\right]-E\left[X\right]=\frac{n}{n}E\left[X\right]-E\left[X\right]=0,
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+Variance\left(\mu\right)= & E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-E\left[\frac{\sum x_{i}}{n}\right]^{2}\\
+= & \frac{1}{n^{2}}E\left[\left(\sum x_{i}\right)^{2}\right]-\frac{1}{n^{2}}E\left[\sum x_{i}\right]^{2}\\
+= & \frac{1}{n^{2}}E\left[\sum x_{i}^{2}+\sum_{i\neq j}x_{i}x_{j}\right]-\frac{1}{n^{2}}\left(\sum E\left[x_{i}\right]\right)^{2}\\
+= & \frac{1}{n^{2}}\left(\sum E\left[x_{i}^{2}\right]+\sum_{i\neq j}E\left[x_{i}x_{j}\right]\right)-\frac{1}{n^{2}}\left(\sum E\left[X\right]\right)^{2}\\
+= & \frac{1}{n^{2}}\left(\sum E\left[X^{2}\right]+\sum_{i\neq j}E\left[x_{i}\right]E\left[x_{j}\right]\right)-\frac{1}{n^{2}}n^{2}E\left[X\right]^{2}\\
+= & \frac{1}{n²}\left(nE\left[X^{2}\right]+\sum_{i\neq j}E\left[X\right]^{2}\right)-E\left[X\right]^{2}\\
+= & \frac{E\left[X^{2}\right]+n\left(n-1\right)E\left[X\right]^{2}-n^{2}E\left[X\right]^{2}}{n^{2}}\\
+= & \frac{E\left[X^{2}\right]-E\left[X\right]^{2}}{n^{2}}=\frac{Var\left[X\right]}{n^{2}}.
+\end{align*}
+
+\end_inset
+
+ Now 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+Bias\left(\sigma^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n}\right)=E\left[\frac{\sum\left(x_{i}-\mu\right)^{2}}{n}\right]-Var\left[X\right]\\
+= & \frac{1}{n}E\left[\sum x_{i}^{2}-2\mu\sum x_{i}+n\mu^{2}\right]-Var\left[X\right]\\
+= & E\left[X^{2}\right]-\frac{2}{n}E\left[\mu\right]nE\left[X\right]+E\left[\mu^{2}\right]-Var\left[X\right]\\
+= & E\left[X^{2}\right]-2E\left[X\right]^{2}+E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-Var\left[X\right]\\
+= & \cancel{E\left[X^{2}\right]-E\left[X\right]^{2}}-E\left[X\right]^{2}+E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-\cancel{Var\left[X\right]}\\
+= & \frac{1}{n^{2}}\left(nE\left[X^{2}\right]+\sum_{i\neq j}E\left[X\right]^{2}\right)-E\left[X\right]^{2}\\
+= & \frac{nE\left[X^{2}\right]+n\left(n-1\right)E\left[X\right]^{2}-n^{2}E\left[X\right]^{2}}{n^{2}}\\
+= & \frac{nE\left[X^{2}\right]-nE\left[X\right]^{2}}{n^{2}}=\frac{Var\left[X\right]}{n}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+Bias\left(\hat{\sigma}^{2}\right)=Bias\left(\frac{n}{n-1}\sigma^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n-1}\right)=E\left[\frac{\sum\left(x_{i}-\mu\right)^{2}}{n-1}\right]-Var\left[X\right]\\
+= & \frac{1}{n-1}E\left[\sum x_{i}^{2}-2\mu\sum x_{i}+n\mu^{2}\right]-Var\left[X\right]\\
+= & \frac{n}{n-1}E\left[X^{2}\right]-\frac{2}{n-1}E\left[\mu\right]nE\left[X\right]+\frac{n}{n-1}E\left[\mu^{2}\right]-Var\left[X\right]\\
+= & \frac{n}{n-1}E\left[X^{2}\right]-\frac{2n}{n-1}E\left[X\right]^{2}+\frac{\cancel{n}}{n-1}\frac{1}{n^{\cancel{2}}}\left(nE\left[X^{2}\right]+\sum_{i\neq j}E\left[X\right]^{2}\right)-Var\left[X\right]\\
+= & \frac{n^{2}E\left[X^{2}\right]-2n^{2}E\left[X\right]^{2}+nE\left[X^{2}\right]+n\left(n-1\right)E\left[X\right]^{2}-n\left(n-1\right)Var\left[X\right]}{n\left(n-1\right)}\\
+= & \frac{{\color{red}n^{2}Var\left[X\right]}-{\color{blue}n^{2}E\left[X\right]^{2}}+{\color{teal}nE\left[X^{2}\right]}{\color{blue}+n^{2}E\left[X\right]^{2}}-{\color{teal}nE\left[X\right]^{2}}-{\color{red}n^{2}Var\left[X\right]}+{\color{teal}nVar\left[X\right]}}{n\left(n-1\right)}\\
+= & 0.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+#TODO variance
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
