@@ -3621,7 +3621,7 @@ Let's start with
 \begin_layout Example
 \begin_inset Formula 
 \begin{align*}
-Bias\left(\mu\right)= & Bias\left(\frac{\sum x_{i}}{n}\right)=E\left[\frac{\sum x_{i}}{n}\right]-E\left[X\right]=\frac{1}{n}E\left[\sum x_{i}\right]-E\left[X\right]=\frac{1}{n}\sum E\left[x_{i}\right]-E\left[X\right]\\
+Bias\left(\mu_{MLE}\right)= & Bias\left(\frac{\sum x_{i}}{n}\right)=E\left[\frac{\sum x_{i}}{n}\right]-E\left[X\right]=\frac{1}{n}E\left[\sum x_{i}\right]-E\left[X\right]=\frac{1}{n}\sum E\left[x_{i}\right]-E\left[X\right]\\
 = & \frac{1}{n}\sum E\left[X\right]-E\left[X\right]=\frac{n}{n}E\left[X\right]-E\left[X\right]=0,
 \end{align*}
 
@@ -3630,7 +3630,7 @@ Bias\left(\mu\right)= & Bias\left(\frac{\sum x_{i}}{n}\right)=E\left[\frac{\sum 
 
 \begin_inset Formula 
 \begin{align*}
-Variance\left(\mu\right)= & E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-E\left[\frac{\sum x_{i}}{n}\right]^{2}\\
+Variance\left(\mu_{MLE}\right)= & E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-E\left[\frac{\sum x_{i}}{n}\right]^{2}\\
 = & \frac{1}{n^{2}}E\left[\left(\sum x_{i}\right)^{2}\right]-\frac{1}{n^{2}}E\left[\sum x_{i}\right]^{2}\\
 = & \frac{1}{n^{2}}E\left[\sum x_{i}^{2}+\sum_{i\neq j}x_{i}x_{j}\right]-\frac{1}{n^{2}}\left(\sum E\left[x_{i}\right]\right)^{2}\\
 = & \frac{1}{n^{2}}\left(\sum E\left[x_{i}^{2}\right]+\sum_{i\neq j}E\left[x_{i}x_{j}\right]\right)-\frac{1}{n^{2}}\left(\sum E\left[X\right]\right)^{2}\\
@@ -3643,15 +3643,15 @@ Variance\left(\mu\right)= & E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-
 \end_inset
 
  Now 
-\begin_inset Formula $\sigma^{2}$
+\begin_inset Formula $\sigma_{MLE}^{2}$
 \end_inset
 
 :
 \begin_inset Formula 
 \begin{align*}
-Bias\left(\sigma^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n}\right)=E\left[\frac{\sum\left(x_{i}-\mu\right)^{2}}{n}\right]-Var\left[X\right]\\
-= & \frac{1}{n}E\left[\sum x_{i}^{2}-2\mu\sum x_{i}+n\mu^{2}\right]-Var\left[X\right]\\
-= & E\left[X^{2}\right]-\frac{2}{n}E\left[\mu\right]nE\left[X\right]+E\left[\mu^{2}\right]-Var\left[X\right]\\
+Bias\left(\sigma_{MLE}^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n}\right)=E\left[\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n}\right]-Var\left[X\right]\\
+= & \frac{1}{n}E\left[\sum x_{i}^{2}-2\mu_{MLE}\sum x_{i}+n\mu_{MLE}^{2}\right]-Var\left[X\right]\\
+= & E\left[X^{2}\right]-\frac{2}{n}E\left[\mu_{MLE}\right]nE\left[X\right]+E\left[\mu_{MLE}^{2}\right]-Var\left[X\right]\\
 = & E\left[X^{2}\right]-2E\left[X\right]^{2}+E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-Var\left[X\right]\\
 = & \cancel{E\left[X^{2}\right]-E\left[X\right]^{2}}-E\left[X\right]^{2}+E\left[\left(\frac{\sum x_{i}}{n}\right)^{2}\right]-\cancel{Var\left[X\right]}\\
 = & \frac{1}{n^{2}}\left(nE\left[X^{2}\right]+\sum_{i\neq j}E\left[X\right]^{2}\right)-E\left[X\right]^{2}\\
@@ -3664,9 +3664,9 @@ Bias\left(\sigma^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^
 
 \begin_inset Formula 
 \begin{align*}
-Bias\left(\hat{\sigma}^{2}\right)=Bias\left(\frac{n}{n-1}\sigma^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n-1}\right)=E\left[\frac{\sum\left(x_{i}-\mu\right)^{2}}{n-1}\right]-Var\left[X\right]\\
-= & \frac{1}{n-1}E\left[\sum x_{i}^{2}-2\mu\sum x_{i}+n\mu^{2}\right]-Var\left[X\right]\\
-= & \frac{n}{n-1}E\left[X^{2}\right]-\frac{2}{n-1}E\left[\mu\right]nE\left[X\right]+\frac{n}{n-1}E\left[\mu^{2}\right]-Var\left[X\right]\\
+Bias\left(\hat{\sigma}^{2}\right)=Bias\left(\frac{n}{n-1}\sigma_{MLE}^{2}\right)= & Bias\left(\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n-1}\right)=E\left[\frac{\sum\left(x_{i}-\mu_{MLE}\right)^{2}}{n-1}\right]-Var\left[X\right]\\
+= & \frac{1}{n-1}E\left[\sum x_{i}^{2}-2\mu_{MLE}\sum x_{i}+n\mu_{MLE}^{2}\right]-Var\left[X\right]\\
+= & \frac{n}{n-1}E\left[X^{2}\right]-\frac{2}{n-1}E\left[\mu_{MLE}\right]nE\left[X\right]+\frac{n}{n-1}E\left[\mu_{MLE}^{2}\right]-Var\left[X\right]\\
 = & \frac{n}{n-1}E\left[X^{2}\right]-\frac{2n}{n-1}E\left[X\right]^{2}+\frac{\cancel{n}}{n-1}\frac{1}{n^{\cancel{2}}}\left(nE\left[X^{2}\right]+\sum_{i\neq j}E\left[X\right]^{2}\right)-Var\left[X\right]\\
 = & \frac{n^{2}E\left[X^{2}\right]-2n^{2}E\left[X\right]^{2}+nE\left[X^{2}\right]+n\left(n-1\right)E\left[X\right]^{2}-n\left(n-1\right)Var\left[X\right]}{n\left(n-1\right)}\\
 = & \frac{{\color{red}n^{2}Var\left[X\right]}-{\color{blue}n^{2}E\left[X\right]^{2}}+{\color{teal}nE\left[X^{2}\right]}{\color{blue}+n^{2}E\left[X\right]^{2}}-{\color{teal}nE\left[X\right]^{2}}-{\color{red}n^{2}Var\left[X\right]}+{\color{teal}nVar\left[X\right]}}{n\left(n-1\right)}\\
@@ -3675,11 +3675,396 @@ Bias\left(\hat{\sigma}^{2}\right)=Bias\left(\frac{n}{n-1}\sigma^{2}\right)= & Bi
 
 \end_inset
 
+ And we see how this one is, in fact, unbiased.
+\end_layout
+
+\begin_layout Subsection
+Maximum a posteriori estimation
+\end_layout
+
+\begin_layout Standard
+MAP (maximum a posteriori) estimation is a method of estimating the parameters
+ of a statistical model by finding the parameter values that maximize the
+ posterior probability distribution of the parameters, given the observed
+ data and a prior probability distribution over the parameters.
+ In contexts where the amount of data is limited or noisy, incorporating
+ prior knowledge or beliefs can help to produce more stable and accurate
+ estimates.
+ The prior distribution serves as a regularization term, allowing us to
+ control the degree of influence that the prior has on the estimate:
+\begin_inset Formula 
+\[
+\hat{\theta}_{MAP}=\arg\max_{\theta}P\left(\theta|D\right)=\arg\max_{\theta}\frac{P\left(D|\theta\right)P\left(\theta\right)}{P\left(D\right)}=\arg\max_{\theta}P\left(D|\theta\right)P\left(\theta\right),
+\]
+
+\end_inset
+
+ where the denominator can be ignored because it is constant for all possible
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+, so it does not change the 
+\begin_inset Formula $\arg\max$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Find the MAP estimate for 
+\begin_inset Formula $\mu$
+\end_inset
+
+ of an univariate Gaussian 
+\begin_inset Formula $X\sim\mathcal{N}\left(\mu,\sigma^{2}\right)$
+\end_inset
+
+ with Gaussian prior distribution for 
+\begin_inset Formula $\mu\sim\mathcal{N}\left(\mu_{0},\sigma_{0}^{2}\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $\sigma,\sigma_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{0}$
+\end_inset
+
+ are assumed to be known.
+\end_layout
+
+\begin_layout Example
+Let 
+\begin_inset Formula $D=\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $x_{i}\sim X$
+\end_inset
+
+, then
+\begin_inset Formula 
+\begin{align*}
+P\left(\mu|D\right)= & \frac{P\left(D|\mu\right)P\left(\mu\right)}{P\left(D\right)}=\frac{\prod_{i=1}^{n}P\left(x_{i}|\mu\right)P\left(\mu\right)}{P\left(D\right)}=\frac{\prod_{i=1}^{n}\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-\frac{1}{2}\frac{\left(x_{i}-\mu\right)^{2}}{\sigma^{2}}}\cdot\frac{1}{\sqrt{2\pi\sigma_{0}^{2}}}e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}}}{P\left(D\right)}\\
+= & \frac{\frac{1}{\left(2\pi\sigma^{2}\right)^{\frac{n}{2}}}\frac{1}{\sqrt{2\pi\sigma_{0}^{2}}}e^{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}\cdot e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}}}{P\left(D\right)},
+\end{align*}
+
+\end_inset
+
+ so we want to maximize
+\begin_inset Formula 
+\[
+f\left(\mu\right)=e^{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}\cdot e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}},
+\]
+
+\end_inset
+
+ or, its log function
+\begin_inset Formula 
+\[
+g\left(\mu\right)=\log f\left(\mu\right)=-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}.
+\]
+
+\end_inset
+
+ Thus,
+\begin_inset Formula 
+\begin{align*}
+\frac{d}{d\mu}g\left(\mu\right)= & \frac{1}{2\sigma^{2}}\sum_{i=1}^{n}2\left(x_{i}-\mu\right)-\frac{1}{2}\frac{2\left(\mu-\mu_{0}\right)}{\sigma_{0}^{2}}\\
+= & \frac{\sum\left(x_{i}-\mu\right)}{\sigma^{2}}-\frac{\mu-\mu_{0}}{\sigma_{0}^{2}}\\
+= & \frac{\sum x_{i}-n\mu}{\sigma^{2}}-\frac{\mu-\mu_{0}}{\sigma_{0}^{2}}\\
+= & \frac{\sum x_{i}}{\sigma^{2}}-\frac{n\mu\sigma_{0}^{2}+\sigma^{2}\mu}{\sigma^{2}\sigma_{0}^{2}}+\frac{\mu_{0}}{\sigma_{0}^{2}}\\
+= & \frac{\sum x_{i}}{\sigma^{2}}-\mu\frac{n\sigma_{0}^{2}+\sigma^{2}}{\sigma^{2}\sigma_{0}^{2}}+\frac{\mu_{0}}{\sigma_{0}^{2}}
+\end{align*}
+
+\end_inset
+
+ and this is zero if and only if
+\begin_inset Formula 
+\[
+\mu_{MAP}=\frac{\sigma^{2}\sigma_{0}^{2}}{\sigma^{2}+n\sigma_{0}^{2}}\left(\frac{\sum x_{i}}{\sigma^{2}}+\frac{\mu_{0}}{\sigma_{0}^{2}}\right)=\frac{\sigma^{2}\sigma_{0}^{2}}{\sigma^{2}+n\sigma_{0}^{2}}\left(\frac{\sigma_{0}^{2}\sum x_{i}+\sigma^{2}\mu_{0}}{\sigma^{2}\sigma_{0}^{2}}\right)=\frac{\sigma_{0}^{2}\sum x_{i}+\sigma^{2}\mu_{0}}{\sigma^{2}+n\sigma_{0}^{2}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
 
 \end_layout
 
 \begin_layout Example
-#TODO variance
+The maximum likelihood estimate of 
+\begin_inset Formula $p$
+\end_inset
+
+ for a Bernoulli r.v.
+ 
+\begin_inset Formula $X$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\[
+p_{ML}=\frac{\sum x_{i}}{n}.
+\]
+
+\end_inset
+
+ If we have 
+\begin_inset Formula $K>2$
+\end_inset
+
+ outcomes, then we have the categorical distribution, also known as multinoulli
+ or generalized Bernoulli, which has support 
+\begin_inset Formula $\left\{ 1,...,K\right\} $
+\end_inset
+
+.
+ Its parameters are 
+\begin_inset Formula $p=\left(p_{1},...,p_{K}\right)$
+\end_inset
+
+, representing the probability of observing each of the possible outcomes,
+ with 
+\begin_inset Formula $p_{i}\in\left[0,1\right],\forall i$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum p_{i}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+It is convenient to use the 
+\emph on
+one-of-K encoding 
+\emph default
+(also called one-hot encoding) for each outcome.
+ Thus, the pmf of this distribution becomes
+\begin_inset Formula 
+\[
+p\left(x\right)=\prod_{i=1}^{K}p_{i}^{x_{i}}.
+\]
+
+\end_inset
+
+ Now, given a sample 
+\begin_inset Formula $D=\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+ of possible outcomes for a multinoulli r.v.
+ 
+\begin_inset Formula $X$
+\end_inset
+
+, the maximum likelihood estimate for 
+\begin_inset Formula $p$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\hat{p}_{k}=\frac{1}{n}\sum x_{ik},
+\]
+
+\end_inset
+
+ for each 
+\begin_inset Formula $k\in\left\{ 1,...,K\right\} $
+\end_inset
+
+.
+ We can write this compactely as
+\begin_inset Formula 
+\[
+\hat{p}=\frac{1}{n}\sum x_{i}.
+\]
+
+\end_inset
+
+ If some category 
+\begin_inset Formula $k$
+\end_inset
+
+ is not present in our sample, then its corresponding ML estimate is going
+ to be 0.
+ These 0-estimates are problematic in predictive applications, because unseen
+ outcomes in the training data are considered to be impossible to happen,
+ and thus can never be predicted.
+ To avoid this, 
+\series bold
+pseudocounts
+\series default
+ are used instead.
+ These represent prior knowledge in the form of (imagined) counts 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ for each category 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ The idea is to assume that the data is augmented with our pseudocounts,
+ and then we estimate using maximum likelihood over the augmented data,
+ namely
+\begin_inset Formula 
+\[
+\hat{p}=\frac{c+\sum_{i}x_{i}}{n+\sum_{k}c_{k}},
+\]
+
+\end_inset
+
+ so the 
+\begin_inset Formula $k$
+\end_inset
+
+-th parameter is
+\begin_inset Formula 
+\[
+\hat{p}_{k}=\frac{c_{k}+\sum_{i}x_{ik}}{n+\sum_{k}c_{k}}.
+\]
+
+\end_inset
+
+ As an example, imagine that we obtain a sample from a die: 
+\begin_inset Formula $\left\{ 1,3,5,4,4,6\right\} $
+\end_inset
+
+.
+ If the vector of pseudocounts is 
+\begin_inset Formula $c=\left(1,1,1,1,1,1\right),$
+\end_inset
+
+ then the estimates are 
+\begin_inset Formula 
+\[
+\hat{p}_{1}=\frac{1+1}{6+6}=\frac{1}{6},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\hat{p}_{2}=\frac{1}{6+6}=\frac{1}{12},
+\]
+
+\end_inset
+
+ and so on.
+ Notice that although 2 has not been observed in 
+\begin_inset Formula $D$
+\end_inset
+
+, its probability estimate is not 0.
+ This special case where all pseudocounts are 1 is known as 
+\series bold
+Laplace smoothing
+\series default
+.
+\end_layout
+
+\begin_layout Example
+Prove that using maximum likelihood with pseudocounts corresponds to a MAP
+ estimate with Dirichlet prior with parameters 
+\begin_inset Formula $\left(c_{1}+1,...,c_{K}+1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+A Dirichlet distribution, 
+\begin_inset Formula $Dir\left(c_{1}+1,...,c_{K}+1\right)$
+\end_inset
+
+ has the density function:
+\begin_inset Formula 
+\[
+f\left(x\right)=\frac{\Gamma\left(\sum\left(c_{i}+1\right)\right)}{\prod\Gamma\left(c_{i}+1\right)}\prod x_{i}^{c_{i}}=\frac{\Gamma\left(\sum c_{i}+K\right)}{\prod c_{i}!}\prod x_{i}^{c_{i}}=\frac{\left(\sum c_{i}+K-1\right)!}{\prod c_{i}!}\prod x_{i}^{c_{i}}.
+\]
+
+\end_inset
+
+ To compute the MAP estimate, we use
+\begin_inset Formula 
+\begin{align*}
+P\left(D|p\right)P\left(p\right)= & \prod_{i}P\left(x_{i}|p\right)P\left(p\right)=\prod_{i}\prod_{k}p_{k}^{x_{ik}}\cdot\frac{\left(\sum c_{i}+K-1\right)!}{\prod c_{i}!}\prod_{k}p_{k}^{c_{k}}.
+\end{align*}
+
+\end_inset
+
+ Thus, we want to minimize
+\begin_inset Formula 
+\[
+f\left(p_{1},...,p_{K}\right)=\prod_{i,k}p_{k}^{x_{ik}}\prod_{k}p_{k}^{c_{k}},
+\]
+
+\end_inset
+
+ or, equivalently, its log
+\begin_inset Formula 
+\[
+g\left(p_{1},...,p_{K}\right)=\log f\left(p_{1},...,p_{K}\right)=\sum_{ik}x_{ik}\log\left(p_{k}\right)+\sum_{k}c_{k}\log\left(p_{k}\right).
+\]
+
+\end_inset
+
+ We have
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+\min & g\left(p_{1},...,p_{K}\right)\\
+s.a. & \sum p_{i}=1\\
+ & p_{i}\in\left[0,1\right],\forall i
+\end{array}.
+\]
+
+\end_inset
+
+ The lagrangian is
+\begin_inset Formula 
+\[
+L=g-\lambda\left(\sum p_{i}-1\right),
+\]
+
+\end_inset
+
+ so that
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial}{\partial p_{k}}L=\frac{\partial}{\partial p_{k}}g-\lambda= & \sum_{i}x_{ik}\frac{1}{p_{k}}+c_{k}\frac{1}{p_{k}}-\lambda=0\iff\lambda=\frac{\sum_{i}x_{ik}+c_{k}}{p_{k}}\iff p_{k}=\frac{\sum_{i}x_{ik}+c_{k}}{\lambda},
+\end{align*}
+
+\end_inset
+
+ and then
+\begin_inset Formula 
+\[
+1=\sum_{k}p_{k}=\sum_{k}\frac{\sum_{i}x_{ik}+c_{k}}{\lambda}=\frac{1}{\lambda}\left(n+\sum_{k}c_{k}\right)\iff\lambda=n+\sum_{k}c_{k}.
+\]
+
+\end_inset
+
+ Finally, substituting back, we obtain
+\begin_inset Formula 
+\[
+p_{k}=\frac{c_{k}+\sum_{i}x_{ik}}{n+\sum_{k}c_{k}},
+\]
+
+\end_inset
+
+ as we wanted!
 \end_layout
 
 \begin_layout Standard
