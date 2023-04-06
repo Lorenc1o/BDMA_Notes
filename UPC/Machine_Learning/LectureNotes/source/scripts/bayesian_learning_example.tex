@@ -1,0 +1,165 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./bayesian_learning_example_images/} }
+
+\begin{document}
+
+\matlabtitle{Bayesian Learning: an insightful example}
+
+\begin{par}
+\begin{flushleft}
+Suppose we have a dataset with X and Y values representing the relationship between the number of hours studied and test scores. Our true model is $y=2X+1$.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+X = [1,2,3,4,4.5]';
+y = [3,5,7,9,10]';
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+1)\textbf{ Prior beliefs}: To start, we are searching for a linear relationship y=a*X+b. First, we need to define prior distributions for a and b. These distributions represent our initial beliefs about the values of a and b before seeing any data. A common choice is to use normal distributions with a mean of 0 and a large variance (e.g., 1000) to indicate a high level of uncertainty. For example, a\textasciitilde{}N(0,1000) and b\textasciitilde{}N(0,1000).
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+mu_prior = [0;0];
+sigma_prior = 1000;
+V_prior = sigma_prior^2*eye(2) %Covariance matrix for prior distributions
+\end{matlabcode}
+\begin{matlaboutput}
+V_prior = 2x2    
+     1000000           0
+           0     1000000
+
+\end{matlaboutput}
+\begin{matlabcode}
+
+X_design = [X, ones(size(X))] %Design matrix [X,1]
+\end{matlabcode}
+\begin{matlaboutput}
+X_design = 5x2    
+    1.0000    1.0000
+    2.0000    1.0000
+    3.0000    1.0000
+    4.0000    1.0000
+    4.5000    1.0000
+
+\end{matlaboutput}
+
+\begin{par}
+\begin{flushleft}
+2) \textbf{Likelihood function}: We need to define a likelihood function, which describes the probability of the observed data given the parameters a and b. In linear regression, we typically assume that the errors are normally distributed. Therefore, the likelihood function can be represented as $y_i \sim \mathcal{N}(aX_i +b,\sigma^2 )$, where $\sigma^2$ is the variance of the error. We will assume it known, because the approaches to get it are a bit involved.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+sigma_error = 1;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+3) \textbf{Posterior distribution}: We update our beliefs about the coefficients a and b given the data by computing the posterior distribution. This is done by multiplying the prior distributions with the likelihood function and applying Bayes' theorem:
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+$P(a,b|X,y)=\frac{P(y|X,a,b)*P(a,b)}{P(Y|X)}$.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+Note that the denominator is a normalizing constant that ensures the posterior distribution sums to 1.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+$$V_{post} =(V_{prior}^{-1} +\frac{1}{\sigma_{error}^2 }\cdot X_{design}^T *X_{design} )^{-1}$$
+\end{par}
+
+\begin{par}
+$$\mu_{post} =V_{post} \cdot (V_{prior}^{-1} \cdot \mu_{prior} +\frac{1}{\sigma_{error}^2 }\cdot X_{design}^T \cdot y)$$
+\end{par}
+
+\begin{matlabcode}
+V_posterior = inv(inv(V_prior) + (1 / sigma_error^2) * (X_design' * X_design))
+\end{matlabcode}
+\begin{matlaboutput}
+V_posterior = 2x2    
+    0.1220   -0.3537
+   -0.3537    1.2256
+
+\end{matlaboutput}
+\begin{matlabcode}
+mu_posterior = V_posterior * (inv(V_prior) * mu_prior + (1 / sigma_error^2) * (X_design' * y))
+\end{matlabcode}
+\begin{matlaboutput}
+mu_posterior = 2x1    
+    2.0000
+    1.0000
+
+\end{matlaboutput}
+
+\begin{par}
+\begin{flushleft}
+4)\textbf{ Making predictions}: To make predictions for new X values, we can use the posterior predictive distribution, which accounts for the uncertainty in the estimates of a and b. 
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+% Number of samples
+n_samples = 1000;
+
+% Sample from the posterior distribution of a and b
+ab_samples = mvnrnd(mu_posterior, V_posterior, n_samples);
+
+% Prediction for new X value
+X_new = 3.5;
+
+% Generate predictions using the samples of a and b
+Y_new_samples = zeros(n_samples, 1);
+for i = 1:n_samples
+    a_sample = ab_samples(i, 1);
+    b_sample = ab_samples(i, 2);
+    
+    Y_new_mean_sample = [X_new, 1] * [a_sample; b_sample];
+    Y_new_samples(i) = Y_new_mean_sample + sigma_error * randn;
+end
+
+% Compute summary statistics for the predictions
+Y_new_mean = mean(Y_new_samples);
+Y_new_std = std(Y_new_samples);
+
+fprintf('Prediction for X = %d: Y = %.2f +/- %.2f\n', X_new, Y_new_mean, Y_new_std);
+\end{matlabcode}
+\begin{matlaboutput}
+Prediction for X = 3.500000e+00: Y = 7.98 +/- 1.13
+\end{matlaboutput}
+
+\begin{par}
+\begin{flushleft}
+The true value according to the model is 8, and we have obtained 7.98 +- 1.13, which is pretty good!
+\end{flushleft}
+\end{par}
+
+\end{document}

@@ -2170,7 +2170,313 @@ Probabilistic approach
 \end_layout
 
 \begin_layout Standard
-A review on probability basics in Appendix 
+A review on probability theory, Bayes theorem and Bayesian Learning is in
+ Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notes-on-probability"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Least squares regression from a probabilistic perspective
+\end_layout
+
+\begin_layout Standard
+We are noe going to derive the linear regression estimates using the principle
+ of maximum likelihood and the univariate Gaussian distribution, whose probabili
+ty density function is given by
+\begin_inset Formula 
+\[
+p\left(x\right)=\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-\frac{1}{2\sigma^{2}}\left(x-\mu\right)^{2}}.
+\]
+
+\end_inset
+
+ Given a sample 
+\begin_inset Formula $D=\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+, where 
+\begin_inset Formula $x_{i}\sim\mathcal{N}\left(\mu,\sigma\right)$
+\end_inset
+
+, we define its likelihood as the function
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\mu,\sigma,D\right)=P\left(D;\mu,\sigma\right)=\prod_{i}p\left(x_{i};\mu,\sigma\right).
+\]
+
+\end_inset
+
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Likelihood-example."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can see how the likelihood relates to '
+\emph on
+how likely it is that our points have been created froma certain distribution
+\emph default
+', because the red outcomes are more likely to appear from the blue distribution
+ than the green ones.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado9.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Likelihood-example."
+
+\end_inset
+
+Likelihood example.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, this can be used to select the distribution that best matches our data.
+ As an easy approach, suppose we want to decide between two distributions
+ 
+\begin_inset Formula $F_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $F_{2}$
+\end_inset
+
+, and we have a dataset 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ To decide, we can compute 
+\begin_inset Formula $\mathcal{L}\left(F_{1},D\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{L}\left(F_{2},D\right)$
+\end_inset
+
+ and select the distribution whose likelihood is greater.
+ This is visually exemplified in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Using-likelihood-to"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, where we can see that given the three red outcomes and the two distributions
+ (blue and green), the blue one should be preferred, because it mazimizes
+ the likelihood.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado10.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Using likelihood to select the distribution.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Using-likelihood-to"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This way, we can think of the likelihood of a function of the unknown parameters
+ of the distribution, with the dataset fixed, and we can maximize this function
+ to obtain the parameters that best describe our data.
+\end_layout
+
+\begin_layout Standard
+In the probabilistic setting of linear regression, we assume that each label
+ 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ we observe is normally distributed, with mean 
+\begin_inset Formula $\mu=x_{i}\theta$
+\end_inset
+
+ and variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+y_{i}=x_{i}\theta+\varepsilon_{i},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\varepsilon_{i}\sim\mathcal{N}\left(0,\sigma^{2}\right)$
+\end_inset
+
+.
+ This way, we seek to obtain 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+ that best describe our data.
+ Remember that
+\begin_inset Formula 
+\[
+y=\left(\begin{array}{c}
+y_{1}\\
+\vdots\\
+y_{n}
+\end{array}\right),\ X=\left(\begin{array}{cccc}
+1 & x_{11} & ... & x_{1d}\\
+\vdots & \vdots & \ddots & \vdots\\
+1 & x_{n1} & ... & x_{nd}
+\end{array}\right),
+\]
+
+\end_inset
+
+ so that the likelihood of the parameter vector 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\theta,\sigma\right)=P\left(y|X;\theta,\sigma^{2}\right)=\prod_{i=1}^{n}p\left(y_{i}|x_{i};\theta,\sigma^{2}\right).
+\]
+
+\end_inset
+
+ It is usual to maximize the log-likelihood instead, basically because the
+ likelihood tends to give values too close to zero (we may be multiplying
+ thousands of small values), so numerical problems may arise.
+ Thus:
+\begin_inset Formula 
+\begin{align*}
+l\left(\theta,\sigma^{2}\right)=\log\mathcal{L}\left(\theta,\sigma^{2}\right)= & \log\prod_{i=1}^{n}p\left(y_{i}|x_{i};\theta,\sigma^{2}\right)\\
+= & \sum_{i=1}^{n}\log p\left(y_{i}|x_{i};\theta,\sigma^{2}\right)\\
+= & \sum_{i=1}^{n}\log\left[\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-\frac{1}{2\sigma^{2}}\left(y_{i}-x_{i}\theta\right)^{2}}\right]\\
+= & \sum_{i=1}^{n}\left(\log\frac{1}{\sqrt{2\pi\sigma^{2}}}-\frac{1}{2\sigma^{2}}\left(y_{i}-x_{i}\theta\right)^{2}\right)\\
+= & -\frac{n}{2}\log\left(2\pi\sigma^{2}\right)-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(y_{i}-x_{i}\theta\right)^{2}\\
+= & -\frac{n}{2}\log\left(2\pi\sigma^{2}\right)-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(y-X\theta\right)^{T}\left(y-X\theta\right).
+\end{align*}
+
+\end_inset
+
+ At this point, we differentiate and set equal to 0:
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\theta}l\left(\theta,\sigma^{2}\right)=-\frac{1}{2\sigma^{2}}\left(-2X^{T}y+2X^{T}X\theta\right)=0
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{\partial}{\partial\sigma^{2}}l\left(\theta,\sigma^{2}\right)=-\frac{n}{2\sigma^{2}}+\frac{1}{2\sigma^{4}}\left(y-X\theta\right)^{T}\left(y-X\theta\right)=0,
+\]
+
+\end_inset
+
+ obtaining
+\begin_inset Formula 
+\[
+\theta_{ML}=\left(X^{T}X\right)^{-1}X^{T}y
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+\sigma_{ML}^{2}=\frac{1}{n}\left(y-X\theta\right)^{T}\left(y-X\theta\right)=\frac{1}{n}\sum_{i=1}^{n}\left(y_{i}-x_{i}\theta_{ML}\right)^{2}=MSE.
+\]
+
+\end_inset
+
+ It is noticeable that the maximum likelihood estimates concide with the
+ estimates we found minimizing the squared error.
+ This is a consequence of assuming gaussian noise, and other types of distributi
+on would give us the same estimates as minimizing a different error function.
+\end_layout
+
+\begin_layout Subsection
+Bias-Variance decomposition
 \end_layout
 
 \begin_layout Standard
@@ -2183,6 +2489,13 @@ A review on probability basics in Appendix
 \begin_layout Section
 \start_of_appendix
 Notes on probability theory, Bayes theorem and Bayesian learning
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Notes-on-probability"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3789,7 +4102,55 @@ g\left(\mu\right)=\log f\left(\mu\right)=-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\le
 
 \end_inset
 
+ A different way to do this is that we have
+\begin_inset Formula 
+\[
+P\left(\mu|D\right)=\frac{\frac{1}{\left(2\pi\sigma^{2}\right)^{\frac{n}{2}}}\frac{1}{\sqrt{2\pi\sigma_{0}^{2}}}e^{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}\cdot e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}}}{P\left(D\right)}\propto e^{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}\cdot e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}},
+\]
 
+\end_inset
+
+ and we want 
+\begin_inset Formula $\left(\mu_{n},\sigma_{n}\right)$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\[
+P\left(\mu|D\right)\propto e^{-\frac{\left(\mu-\mu_{n}\right)^{2}}{2\sigma_{n}^{2}}}
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula $P\left(\mu|D\right)\sim N\left(\mu_{n},\sigma_{n}^{2}\right)$
+\end_inset
+
+, so we can solve
+\begin_inset Formula 
+\[
+e^{-\frac{1}{2\sigma^{2}}\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}\cdot e^{-\frac{1}{2}\frac{\left(\mu-\mu_{0}\right)^{2}}{\sigma_{0}^{2}}}=e^{-\frac{\left(\mu-\mu_{n}\right)^{2}}{2\sigma_{n}^{2}}},
+\]
+
+\end_inset
+
+ obtaining
+\begin_inset Formula 
+\[
+\mu_{n}=\frac{\sigma_{0}^{2}\sum x_{i}+\sigma^{2}\mu_{0}}{\sigma^{2}+n\sigma_{0}^{2}}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\sigma_{n}=\frac{\sigma^{2}\sigma_{0}^{2}}{\sigma^{2}+n\sigma_{0}^{2}}.
+\]
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -4067,6 +4428,1833 @@ p_{k}=\frac{c_{k}+\sum_{i}x_{ik}}{n+\sum_{k}c_{k}},
  as we wanted!
 \end_layout
 
+\begin_layout Subsection
+Bayesian Learning
+\end_layout
+
+\begin_layout Standard
+In the Bayesian Learning framework, instead of working with point estimates
+ of our unknown parameter variables 
+\begin_inset Formula $\theta$
+\end_inset
+
+, we work with the whole posterior distribution 
+\begin_inset Formula $P\left(\theta|D\right)$
+\end_inset
+
+.
+ In this case, learning is the process by which starting with some prior
+ belief about the parameters and when facing some observations in the form
+ of a dataset 
+\begin_inset Formula $D$
+\end_inset
+
+, we update our belief about the possible values for our parameters in the
+ form of the posterior distribution.
+ This process is iterated over newly received data, so it can be viewed
+ as a sequential process, in which Bayes is invoked each time we need a
+ new posterior 
+\begin_inset Formula $P\left(\theta|D_{1},D_{2},...\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Bayesian learning in Matlab
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Bayesian Learning}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+We are going to obtain data from a distribution $
+\backslash
+mathcal{N}(5,2)$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_true = 5;
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma = 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+num_samples = 10;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rng('default') % For reproducibility
+\end_layout
+
+\begin_layout Plain Layout
+
+data = mu_true + sigma_true * randn(num_samples, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Set up the x-axis for plotting
+\end_layout
+
+\begin_layout Plain Layout
+
+x = linspace(-5, 10, 1000);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Plot the true distribution
+\end_layout
+
+\begin_layout Plain Layout
+
+figure;
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on;
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x, normpdf(x, mu_true, sigma_true), 'LineWidth', 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+title('Bayesian Learning');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('x');
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Probability Density');
+\end_layout
+
+\begin_layout Plain Layout
+
+xlim([-5, 10]);
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('N(5, 2)');
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Our prior is going to be a standard normal $
+\backslash
+mu 
+\backslash
+sim 
+\backslash
+mathcal{N}(0,1)$ and we are going to assume that $
+\backslash
+sigma$ is well approximated by the sample variance.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_prior = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_prior = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Now, we are going to update our beliefs with the obtained datapoints, and
+ the formulas for updating are:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+mu_n =
+\backslash
+frac{
+\backslash
+sigma_0^2 
+\backslash
+sum x_i +
+\backslash
+sigma^2 
+\backslash
+mu_0 }{
+\backslash
+sigma^2 +n
+\backslash
+sigma_0^2 }$$ 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+and
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+$
+\backslash
+sigma_n =
+\backslash
+frac{
+\backslash
+sigma^2 
+\backslash
+sigma_0^2 }{
+\backslash
+sigma^2 +n
+\backslash
+sigma_0^2 }$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = (sigma_prior^2*(sum(data))+var(data)*mu_prior)/(var(data)+num_sam
+ples*sigma_prior^2)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = 2.7734
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = (var(data)*sigma_prior^2)/(var(data)+num_samples*sigma_prior^2
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = 0.5561
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x, normpdf(x, mu_posterior, sqrt(var(data))), 'LineWidth', 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('x');
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Probability Density');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_prior = sigma_posterior;
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_prior = mu_posterior;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+data = mu_true + sigma_true * randn(num_samples, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = (sigma_prior^2*(sum(data))+var(data)*mu_prior)/(var(data)+num_sam
+ples*sigma_prior^2)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = 4.0179
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = (var(data)*sigma_prior^2)/(var(data)+num_samples*sigma_prior^2
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = 0.2034
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x, normpdf(x, mu_posterior, sqrt(var(data))), 'LineWidth', 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('x');
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Probability Density');
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_prior = sigma_posterior;
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_prior = mu_posterior;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+num_samples = 500;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+data = mu_true + sigma_true * randn(num_samples, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = (sigma_prior^2*(sum(data))+var(data)*mu_prior)/(var(data)+num_sam
+ples*sigma_prior^2)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = 4.7770
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = (var(data)*sigma_prior^2)/(var(data)+num_samples*sigma_prior^2
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_posterior = 0.0064
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(x, normpdf(x, mu_posterior, sqrt(var(data))), 'LineWidth', 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+xlabel('x');
+\end_layout
+
+\begin_layout Plain Layout
+
+ylabel('Probability Density');
+\end_layout
+
+\begin_layout Plain Layout
+
+leg = legend('True distribution', 'Learned distribution', 'New learned distribut
+ion', 'New new');
+\end_layout
+
+\begin_layout Plain Layout
+
+leg.Location = "northwest"
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/bayesian_learning_images/figure_0.eps
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+leg = 
+\end_layout
+
+\begin_layout Plain Layout
+
+  Legend (True distribution, Learned distribution, New learned distribution,
+ New new) with properties:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+         String: {'True distribution'  'Learned distribution'  'New learned
+ distribution'  'New new'}
+\end_layout
+
+\begin_layout Plain Layout
+
+       Location: 'northwest'
+\end_layout
+
+\begin_layout Plain Layout
+
+    Orientation: 'vertical'
+\end_layout
+
+\begin_layout Plain Layout
+
+       FontSize: 9
+\end_layout
+
+\begin_layout Plain Layout
+
+       Position: [0.1483 0.7446 0.3565 0.1545]
+\end_layout
+
+\begin_layout Plain Layout
+
+          Units: 'normalized'
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  Show all properties
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Predictive posterior
+\end_layout
+
+\begin_layout Standard
+When doing prediction in this framework, the whole distribution 
+\begin_inset Formula $P\left(\theta|D\right)$
+\end_inset
+
+ is used.
+ We view a prediction as a weighted average of all predictions each value
+ for 
+\begin_inset Formula $\theta$
+\end_inset
+
+ can make, weighted by its posterior probability (its expected value):
+\begin_inset Formula 
+\[
+P\left(x'|D\right)=E_{\theta|D}\left[x\right]=\int_{\Theta}p\left(x'|\theta,D\right)P\left(\theta|D\right)d\theta.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+An insightful example
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Bayesian Learning: an insightful example}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Suppose we have a dataset with X and Y values representing the relationship
+ between the number of hours studied and test scores.
+ Our true model is $y=2X+1$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = [1,2,3,4,4.5]';
+\end_layout
+
+\begin_layout Plain Layout
+
+y = [3,5,7,9,10]';
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+1)
+\backslash
+textbf{ Prior beliefs}: To start, we are searching for a linear relationship
+ y=a*X+b.
+ First, we need to define prior distributions for a and b.
+ These distributions represent our initial beliefs about the values of a
+ and b before seeing any data.
+ A common choice is to use normal distributions with a mean of 0 and a large
+ variance (e.g., 1000) to indicate a high level of uncertainty.
+ For example, a
+\backslash
+textasciitilde{}N(0,1000) and b
+\backslash
+textasciitilde{}N(0,1000).
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_prior = [0;0];
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_prior = 1000;
+\end_layout
+
+\begin_layout Plain Layout
+
+V_prior = sigma_prior^2*eye(2) %Covariance matrix for prior distributions
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+V_prior = 2x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+     1000000           0
+\end_layout
+
+\begin_layout Plain Layout
+
+           0     1000000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+X_design = [X, ones(size(X))] %Design matrix [X,1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+X_design = 5x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    2.0000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.0000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    4.0000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    4.5000    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+2) 
+\backslash
+textbf{Likelihood function}: We need to define a likelihood function, which
+ describes the probability of the observed data given the parameters a and
+ b.
+ In linear regression, we typically assume that the errors are normally
+ distributed.
+ Therefore, the likelihood function can be represented as $y_i 
+\backslash
+sim 
+\backslash
+mathcal{N}(aX_i +b,
+\backslash
+sigma^2 )$, where $
+\backslash
+sigma^2$ is the variance of the error.
+ We will assume it known, because the approaches to get it are a bit involved.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+sigma_error = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+3) 
+\backslash
+textbf{Posterior distribution}: We update our beliefs about the coefficients
+ a and b given the data by computing the posterior distribution.
+ This is done by multiplying the prior distributions with the likelihood
+ function and applying Bayes' theorem:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+$P(a,b|X,y)=
+\backslash
+frac{P(y|X,a,b)*P(a,b)}{P(Y|X)}$.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Note that the denominator is a normalizing constant that ensures the posterior
+ distribution sums to 1.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+$$V_{post} =(V_{prior}^{-1} +
+\backslash
+frac{1}{
+\backslash
+sigma_{error}^2 }
+\backslash
+cdot X_{design}^T *X_{design} )^{-1}$$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+mu_{post} =V_{post} 
+\backslash
+cdot (V_{prior}^{-1} 
+\backslash
+cdot 
+\backslash
+mu_{prior} +
+\backslash
+frac{1}{
+\backslash
+sigma_{error}^2 }
+\backslash
+cdot X_{design}^T 
+\backslash
+cdot y)$$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+V_posterior = inv(inv(V_prior) + (1 / sigma_error^2) * (X_design' * X_design))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+V_posterior = 2x2    
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.1220   -0.3537
+\end_layout
+
+\begin_layout Plain Layout
+
+   -0.3537    1.2256
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = V_posterior * (inv(V_prior) * mu_prior + (1 / sigma_error^2)
+ * (X_design' * y))
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+mu_posterior = 2x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+    2.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+4)
+\backslash
+textbf{ Making predictions}: To make predictions for new X values, we can
+ use the posterior predictive distribution, which accounts for the uncertainty
+ in the estimates of a and b.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+% Number of samples
+\end_layout
+
+\begin_layout Plain Layout
+
+n_samples = 1000;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Sample from the posterior distribution of a and b
+\end_layout
+
+\begin_layout Plain Layout
+
+ab_samples = mvnrnd(mu_posterior, V_posterior, n_samples);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Prediction for new X value
+\end_layout
+
+\begin_layout Plain Layout
+
+X_new = 3.5;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Generate predictions using the samples of a and b
+\end_layout
+
+\begin_layout Plain Layout
+
+Y_new_samples = zeros(n_samples, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+for i = 1:n_samples
+\end_layout
+
+\begin_layout Plain Layout
+
+    a_sample = ab_samples(i, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    b_sample = ab_samples(i, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y_new_mean_sample = [X_new, 1] * [a_sample; b_sample];
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y_new_samples(i) = Y_new_mean_sample + sigma_error * randn;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Compute summary statistics for the predictions
+\end_layout
+
+\begin_layout Plain Layout
+
+Y_new_mean = mean(Y_new_samples);
+\end_layout
+
+\begin_layout Plain Layout
+
+Y_new_std = std(Y_new_samples);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+fprintf('Prediction for X = %d: Y = %.2f +/- %.2f
+\backslash
+n', X_new, Y_new_mean, Y_new_std);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Prediction for X = 3.500000e+00: Y = 7.98 +/- 1.13
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+The true value according to the model is 8, and we have obtained 7.98 +-
+ 1.13, which is pretty good!
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
