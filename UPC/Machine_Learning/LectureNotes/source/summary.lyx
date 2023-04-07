@@ -2480,6 +2480,198 @@ Bias-Variance decomposition
 \end_layout
 
 \begin_layout Standard
+Let 
+\begin_inset Formula $f:\mathbb{R}^{d}\rightarrow\mathbb{R}$
+\end_inset
+
+ be the true function that we are trying to approximate and 
+\begin_inset Formula $D=\left\{ \left(x_{1},y_{1}\right),...,\left(x_{n},y_{n}\right)\right\} $
+\end_inset
+
+ a finite training dataset, where 
+\begin_inset Formula $y_{i}=f\left(x_{i}\right)+\varepsilon_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\varepsilon_{i}\sim\mathcal{N}\left(0,\sigma^{2}\right)$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $x\in\mathbb{R}^{d}$
+\end_inset
+
+ be a test data point.
+ The setup is using 
+\begin_inset Formula $D$
+\end_inset
+
+ to train a model 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ that we want to use to make predictions
+\begin_inset Formula 
+\[
+\hat{y}_{D}=\hat{f}\left(x\right).
+\]
+
+\end_inset
+
+ We are going to see how the expected squared error 
+\begin_inset Formula $\left(y-\hat{y}_{D}\right)^{2}$
+\end_inset
+
+, where 
+\begin_inset Formula $y$
+\end_inset
+
+ is the real value, can be decomosed as a sum of the following components:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Irreducible error
+\series default
+: given by 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bias
+\series default
+: the systematic limitation that the modelling assumptions impose.
+ For example, if we choose linear approximations, we will never be able
+ to model non-linear data well enough.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variance
+\series default
+: refers to the sensitivity of the model to the training set 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ The more the model varies when the training set is changed, the higher
+ variance it has.
+\end_layout
+
+\begin_layout Standard
+Let's do this:
+\begin_inset Formula 
+\begin{align*}
+E\left[\left(y-\hat{y}_{D}\right)^{2}\right]= & E\left[\left(f\left(x\right)+\varepsilon-\hat{y}_{D}\right)^{2}\right]=E\left[\left(f\left(x\right)+\varepsilon-\hat{y}_{D}+E\left[\hat{y}_{D}\right]-E\left[\hat{y}_{D}\right]\right)^{2}\right]\\
+= & E\left[\left({\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}+{\color{teal}\varepsilon}+{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}\right)^{2}\right]\\
+= & E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}^{2}\right]+E\left[{\color{teal}\varepsilon}^{2}\right]+E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}^{2}\right]\\
+ & +2E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}{\color{teal}\varepsilon}\right]+2E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}\right]\\
+ & +2E\left[{\color{teal}\varepsilon}{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}\right]\\
+= & E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}^{2}\right]+\sigma^{2}+E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}^{2}\right]\\
+ & +2E\left[\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)\right]\cancelto{0}{E\left[{\color{teal}\varepsilon}\right]}+2E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}\right]\cancelto{0}{E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}\right]}\\
+ & +2E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}\right]\cancelto{0}{E\left[{\color{teal}\varepsilon}\right]}\\
+= & E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}^{2}\right]+\sigma^{2}+E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}^{2}\right].
+\end{align*}
+
+\end_inset
+
+ And we now define
+\begin_inset Formula 
+\[
+Bias\left[\hat{y}_{D}\right]=E\left[{\color{red}\left({\color{red}f\left(x\right)-E\left[\hat{y}_{D}\right]}\right)}^{2}\right],
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Variance\left[\hat{y}_{D}\right]=E\left[{\color{blue}\left(E\left[\hat{y}_{D}\right]-\hat{y}_{D}\right)}^{2}\right].
+\]
+
+\end_inset
+
+ The Bias reflects the expected difference between our assumed model and
+ the real function, while the variance reflects the difference between the
+ assumed model and the obtained model.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visual-representation-of"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can see:
+\end_layout
+
+\begin_layout Itemize
+The linear model has high bias and low variance.
+\end_layout
+
+\begin_layout Itemize
+The polynomial of degree 3 has low bias and moderate variance.
+\end_layout
+
+\begin_layout Itemize
+The polynomial of degree 8 has low bias but high variance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado14.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Visual representation of the Bias-Variance errors.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visual-representation-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
