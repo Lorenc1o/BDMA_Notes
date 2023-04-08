@@ -2662,12 +2662,421 @@ name "fig:Visual-representation-of"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A summary of commonly used errors used for regression is shown in Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Common-error-functions."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
 \begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Abbreviation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Formula
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean squared error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{n}\sum_{i=1}^{n}\left(y_{i}-x_{i}\theta\right)^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+root mean squared error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RMSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sqrt{MSE}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+normalized root mean squared error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NRMSE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sqrt{\frac{MSE}{Var\left(y\right)}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+coefficient of determination
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1-NRMSE
+\begin_inset Formula $^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean absolute error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MAE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{n}\sum_{i=1}^{n}\left|y_{i}-x_{i}\theta\right|$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Common error functions.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Common-error-functions."
+
+\end_inset
+
 
 \end_layout
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Ridge Regression from Gaussian prior
+\end_layout
+
+\begin_layout Standard
+We are going to consider MAP estimates in this section, which are explained
+ in the Annex 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notes-on-probability"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Assume isotropic Gaussian prior on 
+\begin_inset Formula $d$
+\end_inset
+
+-dimensional 
+\begin_inset Formula $\theta$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\theta\sim\mathcal{N}\left(\mu=0,\Sigma=\tau^{2}I\right)$
+\end_inset
+
+, so that 
+\begin_inset Formula $\Sigma^{-1}=\frac{1}{\tau^{2}}I$
+\end_inset
+
+ and 
+\begin_inset Formula $\det\Sigma=\tau^{2d}$
+\end_inset
+
+.
+ Then, on one hand, we have
+\begin_inset Formula 
+\begin{align*}
+P\left(\theta;\mu=0,\Sigma=\tau^{2}I\right)= & \frac{1}{\det\left(\Sigma\right)^{\frac{1}{2}}\left(2\pi\right)^{\frac{d}{2}}}\exp\left\{ -\frac{1}{2}\left(y-\mu\right)^{T}\Sigma^{-1}\left(y-\mu\right)\right\} \\
+= & \frac{1}{\left(2\pi\tau^{2}\right)^{\frac{d}{2}}}\exp\left\{ -\frac{1}{2\tau^{2}}\theta^{T}\theta\right\} \\
+= & \frac{1}{\left(2\pi\tau^{2}\right)^{\frac{d}{2}}}\exp\left\{ -\frac{\left\Vert \theta\right\Vert ^{2}}{2\tau^{2}}\right\} .
+\end{align*}
+
+\end_inset
+
+ On the other hand, it is
+\begin_inset Formula 
+\begin{align*}
+P\left(\theta|y,X\right)\propto & P\left(y|X,\theta\right)P\left(\theta\right)\\
+\propto & \exp\left\{ -\frac{1}{2\sigma^{2}}\left(y-X\theta\right)^{T}\left(y-X\theta\right)\right\} \exp\left\{ -\frac{\left\Vert \theta\right\Vert ^{2}}{2\tau^{2}}\right\} \\
+= & \exp\left\{ -\frac{1}{2\sigma^{2}}\left(y-X\theta\right)^{T}\left(y-X\theta\right)-\frac{\left\Vert \theta\right\Vert ^{2}}{2\tau^{2}}\right\} .
+\end{align*}
+
+\end_inset
+
+ To obtain the MAP, we maximize the log of this expression:
+\begin_inset Formula 
+\begin{align*}
+\theta_{MAP}= & \arg\max_{\theta}\log\left[P\left(y|X,\theta\right)P\left(\theta\right)\right]\\
+= & \arg\max_{\theta}\left[-\frac{1}{2\sigma^{2}}\left(y-X\theta\right)^{T}\left(y-X\theta\right)-\frac{\left\Vert \theta\right\Vert ^{2}}{2\tau^{2}}\right]\\
+= & \arg\min_{\theta}\left[\left(y-X\theta\right)^{T}\left(y-X\theta\right)+\frac{\sigma^{2}}{\tau^{2}}\left\Vert \theta\right\Vert ^{2}\right]\\
+= & \arg\min_{\theta}\left[\left(y-X\theta\right)^{T}\left(y-X\theta\right)+\lambda\left\Vert \theta\right\Vert ^{2}\right]
+\end{align*}
+
+\end_inset
+
+ which is the 
+\series bold
+ridge regression 
+\series default
+estimate with 
+\begin_inset Formula $\lambda=\frac{\sigma^{2}}{\tau^{2}}$
+\end_inset
+
+.
+ We can now differenciate this expression to find its minimum:
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial}{\partial\theta}\left[\left\Vert y-X\theta\right\Vert ^{2}+\lambda\left\Vert \theta\right\Vert ^{2}\right]= & -y^{T}X-X^{T}y+2X^{T}X\theta+2\lambda\theta=-2X^{T}y+2X^{T}X\theta+2\lambda\theta=0\\
+\iff & \left(2X^{T}X+2\lambda I\right)\theta=2X^{T}y\\
+\iff & \theta_{MAP}=\theta_{ridge}=\left(X^{T}X+\lambda I\right)^{-1}X^{T}y.
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Remark
+There are a few remarks here:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\lambda$
+\end_inset
+
+ controls the complexity of the solution 
+\begin_inset Formula $\theta$
+\end_inset
+
+, the bigger 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is, the smaller 
+\begin_inset Formula $\theta$
+\end_inset
+
+ tends to be, leading to simpler solutions.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $X^{T}X+\lambda I$
+\end_inset
+
+ is guaranteed to be non-singular and behaves better numerically than 
+\begin_inset Formula $X^{T}X$
+\end_inset
+
+, specially if there is high correlation in the columns of 
+\begin_inset Formula $X$
+\end_inset
+
+, or if there are few observations relative to the amount of variables.
+\end_layout
+
+\begin_layout Itemize
+A general approach when we have a regularized objective function is to use
+ models that are potentially more complex than needed, and then adjust 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ until obtaining good result and simpler models.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Tuning 
+\begin_inset Formula $\lambda$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Cross-validation
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
