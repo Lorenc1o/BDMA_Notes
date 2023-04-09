@@ -3077,7 +3077,921 @@ Cross-validation
 \end_layout
 
 \begin_layout Standard
+Given a dataset 
+\begin_inset Formula $D$
+\end_inset
 
+, the 
+\begin_inset Formula $k$
+\end_inset
+
+-cross-validation approach starts by separating 
+\begin_inset Formula $D$
+\end_inset
+
+ into two subsets:
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+training dataset
+\series default
+, 
+\begin_inset Formula $D_{train}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+test dataset
+\series default
+, 
+\begin_inset Formula $D_{test}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+These are obtained in such a way that:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{train}\cap D_{test}=\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D_{train}\cup D_{test}=D$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, we divide 
+\begin_inset Formula $D_{train}$
+\end_inset
+
+ into 
+\begin_inset Formula $k$
+\end_inset
+
+ subsets of equal size, 
+\begin_inset Formula $\left\{ D_{train,i}\right\} _{i=1}^{k}$
+\end_inset
+
+, called 
+\series bold
+folds
+\series default
+, and imagine we want to decide on a set of values for our model's parameter
+ 
+\begin_inset Formula $\lambda\in\Lambda=\left\{ \lambda_{1},...,\lambda_{l}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For each 
+\begin_inset Formula $\lambda\in\Lambda$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+For each 
+\begin_inset Formula $i=1,...,k$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Train the model in 
+\begin_inset Formula $D_{train}\setminus D_{train,i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Evaluate the model in 
+\begin_inset Formula $D_{train,i}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Average the 
+\begin_inset Formula $k$
+\end_inset
+
+ evaluations to obtain an estimation of the performance of the model.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Select 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ that gives us the best estimation.
+\end_layout
+
+\begin_layout Subsubsection*
+Leave-one-out cross-validation (LOOCV)
+\end_layout
+
+\begin_layout Standard
+Is a special case of cross-validation, in which 
+\begin_inset Formula $k=n$
+\end_inset
+
+, i.e., each data point is a fold.
+\end_layout
+
+\begin_layout Subsubsection
+LOOCV for Ridge regression
+\end_layout
+
+\begin_layout Standard
+As a particularity of linear and ridge regression, for a given value of
+ 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, only one training is necessary for LOOCV, so we can proceed as follows:
+\end_layout
+
+\begin_layout Enumerate
+For each 
+\begin_inset Formula $\lambda\in\Lambda$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute the optimal solution
+\begin_inset Formula 
+\[
+\hat{\theta}_{\lambda}=\left(X^{T}X+\lambda I\right)^{-1}X^{T}y.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compute the 
+\emph on
+hat matrix 
+\emph default
+or smoothing matrix
+\begin_inset Formula 
+\[
+H_{\lambda}=\left(h_{ij}\right)_{ij}=X\left(X^{T}X+\lambda I\right)^{-1}X^{T}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compute LOOCV directly for each 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, without folding
+\begin_inset Formula 
+\[
+LOOCV\left(\lambda\right)=\frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_{i}-f\left(x_{i}\right)\theta_{\lambda}}{1-h_{ii}}\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ with minimum LOOCV.
+\end_layout
+
+\begin_layout Subsubsection
+Generalized Cross-Validation (GCV)
+\end_layout
+
+\begin_layout Standard
+Generalized Cross-Validation (GCV) is a model selection technique used to
+ estimate the performance of a model in terms of prediction accuracy.
+ GCV is particularly useful for choosing the optimal parameters in regularizatio
+n or smoothing methods, where the goal is to balance model complexity and
+ goodness of fit.
+ Examples of such methods include ridge regression, LASSO, and smoothing
+ splines.
+\end_layout
+
+\begin_layout Standard
+The main idea of GCV is to approximate the leave-one-out cross-validation
+ (LOOCV) error without actually performing the computationally expensive
+ process of fitting the model to all but one data point multiple times.
+ Also, it is more computationally stable than the previous approach.
+\end_layout
+
+\begin_layout Standard
+The GCV score is defined as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+GCV\left(\lambda\right)=\frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_{i}-f\left(x_{i}\right)\theta_{\lambda}}{1-\frac{Tr\left(H_{\lambda}\right)}{n}}\right)^{2}=\frac{MSE_{\lambda}}{\left(1-\frac{Tr\left(H_{\lambda}\right)}{n}\right)},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $Tr\left(H_{\lambda}\right)$
+\end_inset
+
+ is the trace of 
+\begin_inset Formula $H_{\lambda}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+LASSO regression
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+
+\begin_inset Formula $\boldsymbol{Lp-}$
+\end_inset
+
+norm
+\series default
+ of a vector 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\left\Vert \theta\right\Vert _{p}=\left(\sum_{i=1}^{n}\left|\theta_{d}\right|^{p}\right)^{\frac{1}{p}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+As we have seen, assuming an isotropic Gaussian prior on the parameters
+ leads to ridge regression, which minimizes the L2-norm of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and the squared error.
+\end_layout
+
+\begin_layout Standard
+Another very common choice is 
+\begin_inset Formula $p=1$
+\end_inset
+
+, which leads to 
+\series bold
+LASSO regression
+\series default
+.
+ Thus, LASSO regression minimizes the L1-norm of parameters and squared
+ error:
+\begin_inset Formula 
+\[
+\theta_{LASSO}=\arg\min_{\theta}\left[\left\Vert y-X\theta\right\Vert _{2}^{2}+\lambda\left\Vert \theta\right\Vert _{1}\right].
+\]
+
+\end_inset
+
+ In fact, LASSO regression arises assuming a Lapace distribution prior over
+ the parameters.
+\end_layout
+
+\begin_layout Standard
+Some characteristics:
+\end_layout
+
+\begin_layout Itemize
+LASSO regularized cost function is not quadratic anymore, and it has no
+ close solution, so an approximation procedure is used: the 
+\series bold
+least angle regression
+\series default
+, which provides an efficient way to compute the solutions for a list of
+ possible values for 
+\begin_inset Formula $\lambda>0$
+\end_inset
+
+, giving the 
+\series bold
+regularization path
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+LASSO regression gives sparse solutions, in which many coefficients/coordinates
+ of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ might be 0.
+ This means that LASSO performs feature selection automatically.
+\end_layout
+
+\begin_layout Subsection
+The full-Bayesian perspective
+\end_layout
+
+\begin_layout Standard
+Both maximum likelihood (ML) and maximum a priori (MAP) produce point estimates
+ of the parameters, while in Bayesian Learning
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Refer to Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notes-on-probability"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ for more details.
+\end_layout
+
+\end_inset
+
+ we want the full posterior distribution of the parameters.
+ The idea is that if we know the posterior distribution of the parameters,
+ then we can use all the information provided by this distribution for our
+ predictions, instead of just a single point-estimate that summarizes it.
+ For instance, if the probability function of the posterior is 
+\begin_inset Formula $p\left(\theta|D\right)$
+\end_inset
+
+ and we receive a new input point 
+\begin_inset Formula $x$
+\end_inset
+
+, then we can compute the probability of 
+\begin_inset Formula $f\left(x\right)=y$
+\end_inset
+
+ by
+\begin_inset Formula 
+\[
+p\left(y|x,D\right)=\int_{\Theta}p\left(y|x,\theta,D\right)p\left(\theta|D\right)d\theta.
+\]
+
+\end_inset
+
+Now, when we do this for all possible values of 
+\begin_inset Formula $y$
+\end_inset
+
+, we obtain the full distribution of the predictions, instead of just one
+ estimation.
+ Nonetheless, computing this integral is usually too hard, so it needs to
+ be approximated, but in the context of linear regression all these expressions
+ have close-form formulas
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For computational speed we may use approximations as well.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Technically, ML and MAP assume that 
+\begin_inset Formula $Y\sim\mathcal{N}\left(x^{T}\theta,\sigma^{2}\right),$
+\end_inset
+
+ so a prediction for a new test point 
+\begin_inset Formula $\overline{x}$
+\end_inset
+
+ is going to have a distribution 
+\begin_inset Formula $\mathcal{N}\left(\overline{x}^{T}\hat{\theta},\sigma^{2}\right).$
+\end_inset
+
+ Note now the lack of flexibility of this approach, since the width of the
+ normal distribution is going to be the same for any new test point, which
+ may be a dangerous assumption.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $D=\left\{ \left(x_{i},y_{i}\right)\right\} _{i=1}^{n}$
+\end_inset
+
+ be our dataset, with 
+\begin_inset Formula $x_{i}\in\mathbb{R}^{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{i}\in\mathbb{R}$
+\end_inset
+
+, and assume:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Y_{i},...,Y_{n}$
+\end_inset
+
+ are independent given 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Y_{i}\sim\mathcal{N}\left(x_{i}^{T}\theta,\frac{1}{a}\right)$
+\end_inset
+
+, with 
+\begin_inset Formula $a>0$
+\end_inset
+
+ being the prevision of the noise in the observations 
+\begin_inset Formula $\left(a=\frac{1}{\sigma^{2}}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+A spherical or isotropic Gaussian for the parameter's prior, 
+\begin_inset Formula $p\left(\theta\right)\sim\mathcal{N}\left(0,b^{-1}I\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ are known.
+\end_layout
+
+\begin_layout Itemize
+The only parameter variables are the coefficients 
+\begin_inset Formula $\theta=\left(\theta_{0},...,\theta_{d}\right)^{T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Then, the likelihood function is
+\begin_inset Formula 
+\[
+p\left(D|\theta\right)\propto\exp\left\{ -\frac{a}{2}\left(y-X\theta\right)^{T}\left(y-X\theta\right)\right\} .
+\]
+
+\end_inset
+
+ As usual, using Bayes, we can derive the posterior distribution
+\begin_inset Formula 
+\begin{align*}
+p\left(\theta|D\right)\propto & p\left(D|\theta\right)p\left(\theta\right)\\
+\propto & \exp\left\{ -\frac{a}{2}\left(y-X\theta\right)^{T}\left(y-X\theta\right)\right\} \exp\left\{ -\frac{b}{2}\theta^{T}\theta\right\} \\
+\propto & \exp\left\{ -\frac{a}{2}\left(y-X\theta\right)^{T}\left(y-X\theta\right)-\frac{b}{2}\theta^{T}\theta\right\} .
+\end{align*}
+
+\end_inset
+
+ Notice here that the exponent of this expression is quadratic on 
+\begin_inset Formula $\theta$
+\end_inset
+
+, so it is going to be a multivariate Gaussian
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The idea is that the product of two Gaussians is also Gaussian.
+ Think of it as if you are measuring height and IQ: these variables can
+ be assumed independent, and have a normal distribution.
+ You can multiply them and obtain a combined normal distribution in 2-D.
+ The idea here is basically the same.
+\end_layout
+
+\end_inset
+
+.
+ We need to turn the exponent into something resembling
+\begin_inset Formula 
+\[
+\left(\theta-\mu\right)^{T}Q\left(\theta-\mu\right),
+\]
+
+\end_inset
+
+ so that we can derive what the mean 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and the precision 
+\begin_inset Formula $Q$
+\end_inset
+
+ of the posterior density is.
+ For this, we are going to complete squares so that we can 'match the terms'
+ between 
+\begin_inset Formula $\left(\theta-\mu\right)^{T}Q\left(\theta-\mu\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $a\left(y-X\theta\right)^{T}\left(y-X\theta\right)+b\theta^{T}\theta$
+\end_inset
+
+.
+ On one hand:
+\begin_inset Formula 
+\begin{align*}
+\left(\theta-\mu\right)^{T}Q\left(\theta-\mu\right)= & \theta^{T}Q\theta-\theta Q\mu-\mu^{T}Q\theta+\mu^{T}Q\mu\\
+= & \theta^{T}Q\theta-2\theta^{T}Q\mu+const.
+\end{align*}
+
+\end_inset
+
+ We don't mind about constant terms with respect to 
+\begin_inset Formula $\theta$
+\end_inset
+
+, since we only care about proportionality.
+ On the other hand, we have:
+\begin_inset Formula 
+\begin{align*}
+a\left(y-X\theta\right)^{T}\left(y-X\theta\right)+b\theta^{T}\theta= & ay^{T}y-ay^{T}X\theta-a\theta^{T}X^{T}y+a\theta^{T}X^{T}X\theta+b\theta^{T}\theta\\
+= & ay^{T}y-2a\theta^{T}X^{T}y+\theta^{T}\left(aX^{T}X+bI\right)\theta.
+\end{align*}
+
+\end_inset
+
+ From here, we obtain that
+\begin_inset Formula 
+\[
+Q=aX^{T}X+bI,
+\]
+
+\end_inset
+
+ and we now match 
+\begin_inset Formula $-2a\theta^{T}X^{T}y$
+\end_inset
+
+ with 
+\begin_inset Formula $-2\theta^{T}Q\mu$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $Q$
+\end_inset
+
+ is invertible because it is positive definite, thanks to the 
+\begin_inset Formula $+bI$
+\end_inset
+
+, with 
+\begin_inset Formula $b>0$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+aX^{T}y=Q\mu\iff\mu=aQ^{-1}X^{T}y.
+\]
+
+\end_inset
+
+ Thus, the posterior probability is 
+\begin_inset Formula $p\left(\theta|D\right)\sim\mathcal{N}\left(\mu,Q^{-1}\right)$
+\end_inset
+
+ with
+\begin_inset Formula 
+\[
+Q=aX^{T}X+bI,\ \mu=aQ^{-1}X^{T}y.
+\]
+
+\end_inset
+
+ The MAP estimate can be directly obtained from here, since the maximum
+ density is obtained at the mean in any Gaussian distribution.
+ Additionally, in ridge regression we let 
+\begin_inset Formula $\lambda=\frac{b}{a}$
+\end_inset
+
+ and turn it into a parameter that we can tune to control complexity against
+ training error.
+\end_layout
+
+\begin_layout Subsubsection
+Using the posterior distribution for predictions
+\end_layout
+
+\begin_layout Standard
+Let's now see how to compute the 
+\series bold
+predictive distribution
+\series default
+, i.e., 
+\begin_inset Formula 
+\[
+p\left(y|x,D\right)=\int_{\Theta}p\left(y|x,\theta,D\right)p\left(\theta|D\right)d\theta.
+\]
+
+\end_inset
+
+ For this, we substitute the densities
+\begin_inset Formula 
+\begin{align*}
+p\left(y|x,D\right)= & \int_{\Theta}\mathcal{N}\left(y|x^{T}\theta,\frac{1}{a}\right)\mathcal{N}\left(\theta|Q^{-1}\right)d\theta\\
+\overset{w.r.t.\ y}{\propto} & \int_{\Theta}\exp\left\{ -\frac{a}{2}\left(y-x^{T}\theta\right)^{2}\right\} \exp\left\{ -\frac{1}{2}\left(\theta-\mu\right)^{T}Q\left(\theta-\mu\right)\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{a}{2}\left(y^{2}-2\left(x^{T}\theta\right)y+\left(x^{T}\theta\right)^{2}\right)-\frac{1}{2}\left(\theta^{T}Q\theta-2\theta^{T}Q\mu+\cancel{\mu^{T}Q\mu}\right)\right\} d\theta\\
+\propto & \int_{\Theta}\exp\left\{ -\frac{a}{2}\left(y^{2}-2\left(x^{T}\theta\right)y+\left(x^{T}\theta\right)^{2}\right)-\frac{1}{2}\left(\theta^{T}Q\theta-2\theta^{T}Q\mu\right)\right\} d\theta.
+\end{align*}
+
+\end_inset
+
+ Now, our objective is to set this integral to equate (or be proportional
+ to) another of the form 
+\begin_inset Formula 
+\[
+\int_{\Theta}\mathcal{N}\left(\theta|...\right)g\left(y\right)d\theta=g\left(y\right)\int_{\Theta}\mathcal{N}\left(\theta|...\right)d\theta=g\left(y\right),
+\]
+
+\end_inset
+
+ and finally to see that 
+\begin_inset Formula $g\left(y\right)\propto\mathcal{N}\left(y|...\right)$
+\end_inset
+
+.
+ We then have
+\begin_inset Formula 
+\begin{align*}
+p\left(y|x,D\right)\propto & \int_{\Theta}\exp\left\{ -\frac{a}{2}\left(y^{2}-2\left(x^{T}\theta\right)y+\left(x^{T}\theta\right)^{2}\right)-\frac{1}{2}\left(\theta^{T}Q\theta-2\theta^{T}Q\mu\right)\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[ay^{2}-2ax^{T}\theta y+a\theta^{T}xx^{T}\theta+\theta^{T}Q\theta-2\theta^{T}Q\mu\right]\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\theta^{T}\left(axx^{T}+Q\right)\theta-2\theta^{T}\left(xya+Q\mu\right)+ay^{2}\right]\right\} d\theta.
+\end{align*}
+
+\end_inset
+
+ Again, we want to match to something of the form 
+\begin_inset Formula $\left(\theta-m\right)^{T}L\left(\theta-m\right)=\theta^{T}L\theta-2\theta^{T}Lm+m^{T}Lm,$
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+L=axx^{T}+Q
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+Lm=xya+Q\mu\iff m=L^{-1}\left(xya+Q\mu\right),
+\]
+
+\end_inset
+
+ assuming 
+\begin_inset Formula $L^{-1}$
+\end_inset
+
+ exists for now.
+ Then:
+\begin_inset Formula 
+\begin{align*}
+p\left(y|x,D\right)\propto & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\theta^{T}\left(axx^{T}+Q\right)\theta-2\theta^{T}\left(xya+Q\mu\right)+ay^{2}\right]\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\theta^{T}L\theta-2\theta^{T}Lm+m^{T}Lm-m^{T}Lm+ay^{2}\right]\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\left(\theta-m\right)^{T}L\left(\theta-m\right)-m^{T}Lm+ay^{2}\right]\right\} d\theta.
+\end{align*}
+
+\end_inset
+
+ Notice here that 
+\begin_inset Formula $m$
+\end_inset
+
+ is independent of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ so that we have
+\begin_inset Formula 
+\begin{align*}
+p\left(y|x,D\right)\propto & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\left(\theta-m\right)^{T}L\left(\theta-m\right)-m^{T}Lm+ay^{2}\right]\right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\left(\theta-m\right)^{T}L\left(\theta-m\right)\right]\right\} \exp\left\{ -\frac{1}{2}\left\{ ay^{2}-m^{T}Lm\right\} \right\} d\theta\\
+= & \int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\left(\theta-m\right)^{T}L\left(\theta-m\right)\right]\right\} g\left(y\right)d\theta\\
+= & g\left(y\right)\int_{\Theta}\exp\left\{ -\frac{1}{2}\left[\left(\theta-m\right)^{T}L\left(\theta-m\right)\right]\right\} d\theta\\
+\propto & g\left(y\right)=\exp\left\{ -\frac{1}{2}\left\{ ay^{2}-m^{T}Lm\right\} \right\} .
+\end{align*}
+
+\end_inset
+
+ And now...
+ we complete squares again :D 
+\begin_inset Formula 
+\begin{align*}
+m^{T}Lm= & \left(ayx+Q\mu\right)^{T}L^{-1}\cancel{LL^{-1}}\left(ayx+Q\mu\right)\\
+= & ayx^{T}L^{-1}ayx+2ayx^{T}L^{-1}Q\mu+\cancelto{indep\ of\ y}{\mu^{T}Q^{T}L^{-1}Q\mu}\\
+= & \left(a^{2}x^{T}L^{-1}x\right)y^{2}+2\left(ax^{T}L^{-1}Q\mu\right)y+const.
+\end{align*}
+
+\end_inset
+
+So
+\begin_inset Formula 
+\[
+ay^{2}-m^{T}Lm=\left(a-a^{2}x^{T}L^{-1}x\right)y^{2}-2\left(ax^{T}L^{-1}Q\mu\right)y+const
+\]
+
+\end_inset
+
+ If 
+\begin_inset Formula $g\left(y\right)$
+\end_inset
+
+ is a Gaussian, then this should look something like
+\begin_inset Formula 
+\[
+\lambda\left(y-u\right)^{2}=\lambda y^{2}-2\lambda uy+\lambda u^{2},
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+\lambda=a-a^{2}x^{T}L^{-1}x
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+\lambda u=ax^{T}L^{-1}Q\mu,
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+u=\frac{1}{\lambda}ax^{T}L^{-1}Q\mu.
+\]
+
+\end_inset
+
+ And then, we have
+\begin_inset Formula 
+\begin{align*}
+p\left(y|x,D\right)\propto & g\left(y\right)\\
+\propto & \exp\left\{ -\frac{\lambda}{2}\left(y-u\right)^{2}\right\} ,
+\end{align*}
+
+\end_inset
+
+ so we have that 
+\begin_inset Formula $p\left(y|x,D\right)=\mathcal{N}\left(y|u,\frac{1}{\lambda}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Not only this, but
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The derivation for these values is a bit involved.
+ It can be consulted in 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.youtube.com/watch?v=LCISTY9S6SQ&t=287s"
+target "https://www.youtube.com/watch?v=LCISTY9S6SQ&t=287s"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+u=\mu^{T}x
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+\frac{1}{\lambda}=\frac{1}{a}+x^{T}Q^{-1}x.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We note now that the predictive distribution's mean prediction equals the
+ point-prediction of the MAP.
+ However, the variance of the prediction does depend on 
+\begin_inset Formula $x$
+\end_inset
+
+, which is good, since the unvertainty of out predictions depends on how
+ far observed samples are:
+\end_layout
+
+\begin_layout Itemize
+If observed samples are near from our new inputs, then we should be more
+ certain.
+\end_layout
+
+\begin_layout Itemize
+If they are far, then we should be less certain.
 \end_layout
 
 \begin_layout Standard
