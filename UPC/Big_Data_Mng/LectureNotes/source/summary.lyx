@@ -11425,6 +11425,2172 @@ Decide on the use of the combine function
 
 \end_layout
 
+\begin_layout Section
+Spark I
+\end_layout
+
+\begin_layout Subsection
+Name the main Spark contributions and characteristics
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+In-memory processing
+\series default
+: Spark stores data in memory, allowing faster processing and reducing the
+ time spent on reading and writing to disk.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Fault tolerance
+\series default
+: Spark uses Resilient Distributed Datasets (RDDs) to provide fault tolerance
+ and maintain data consistency.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lazy evaluation
+\series default
+: Spark delays execution until an action is called, optimizing the execution
+ plan for better performance.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Support for multiple languages
+\series default
+: Spark provides APIs for Scala, Java, Python, and R.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Advanced analytics
+\series default
+: Spark includes libraries for machine learning (MLlib), graph processing
+ (GraphX), and stream processing (Structured Streaming).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unified platform
+\series default
+: Spark combines batch processing, interactive queries, streaming, and machine
+ learning in a single platform.
+\end_layout
+
+\begin_layout Subsection
+Compare MapReduce and Spark
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Data storage
+\series default
+: MapReduce stores data on disk, while Spark stores data in-memory, leading
+ to faster processing in Spark.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Processing model
+\series default
+: MapReduce uses a two-stage model (Map and Reduce), while Spark supports
+ multi-stage in-memory processing with DAGs (Directed Acyclic Graphs).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ease of use
+\series default
+: Spark provides high-level APIs for multiple languages, while MapReduce
+ primarily uses Java, making Spark more accessible.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Libraries
+\series default
+: Spark includes built-in libraries for machine learning, graph processing,
+ and stream processing, whereas MapReduce relies on external libraries.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Iterative processing
+\series default
+: Spark is more suitable for iterative algorithms, as it can cache intermediate
+ results in memory, while MapReduce has to read and write to disk for each
+ iteration.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+MapReduce
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Spark
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Data Storage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+In-memory
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Processing model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+two-stage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+multi-stage with DAGS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Ease of use
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Java
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multiple languages
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Libraries
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Relies on external libraries
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Built-in libraries for ML, graphs, streams
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Iterative processing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Costly
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cheaper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Define a dataframe
+\end_layout
+
+\begin_layout Standard
+Dataframes offer a symmetrical treatment of rows and columns, both of which
+ can be referenced explicitly by position or by name.
+ The data stored in a dataframe has to adhere to a schema, but this is defined
+ at runtime, making it useful for data cleaning.
+ Dataframes offer a great variety of operations, enabling us to perform
+ relational-like operations, speadsheet operations and linear algebra operations.
+ Also, their query syntax is incementally composable and dataframes can
+ be natively embedded in an imperative language.
+\end_layout
+
+\begin_layout Subsection
+Distinguish dataframe from relation and matrix
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="4">
+<features rotate="90" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Dataframe
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Matrix
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Relation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Pandas DF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Spark DF
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Heterogeneously typed
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Homogeneously typed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Heterogeneously typed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lazily-induced schema
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rigid schema
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Numeric and non-numeric types
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Numeric types
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Numeric and non-numeric types
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Explicit column names
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No names
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Explicit column names
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Supports relational algebra
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Does not support relational algebra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Supports relational algebra
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ordered
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unordered
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ordered
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unordered
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Named rows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unnamed rows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No names
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unnamed rows
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Column-row symmetry
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Columns and rows are different
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Column-row symmetry
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Columns and rows are different
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Support linear algebra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Does not support linear algebra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Support linear algebra
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Does not support linear algebra
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Distinguish Spark and Pandas dataframe
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Distributed vs.
+ local
+\series default
+: Spark DataFrames are distributed across a cluster, requiring a Spark session
+ and enabling parallel processing, while Pandas DataFrames are local, single-nod
+e data structures.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Language
+\series default
+: Spark DataFrames are available in Scala, Java, Python, and R, while Pandas
+ DataFrames are specific to the Python language.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Immutability
+\series default
+ 
+\series bold
+vs mutability
+\series default
+: Spark DataFrames are immutable, meaning once created, they cannot be changed,
+ while Pandas DataFrames can be modified.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lazy evaluation
+\series default
+ 
+\series bold
+vs eager evaluation
+\series default
+: Spark DataFrames use lazy evaluation, while Pandas DataFrames execute
+ operations immediately (eager evaluation).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Scalability
+\series default
+: pandas DataFrames are not scalable, even if multithread oeprators exist,
+ manual splitting is required, while Sprak DataFrames are transparently
+ scalable in the Cloud.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transposability
+\series default
+: Pandas DataFrames are transposable, but Spark DataFrames are not.
+\end_layout
+
+\begin_layout Subsection
+Enumerate some abstraction on top of Spark
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Resilient Distributed Datasets (RDDs)
+\series default
+: RDDs are the fundamental abstraction in Spark, representing an immutable
+ distributed collection of objects that can be processed in parallel.
+ RDDs provide fault tolerance through lineage information and can be cached
+ across multiple stages for iterative algorithms.
+ They support low-level operations like map, filter, and reduce, allowing
+ developers to have fine-grained control over data processing.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+DataFrames
+\series default
+: DataFrames are a higher-level abstraction built on top of RDDs.
+ They represent a distributed collection of data organized into named columns,
+ similar to a relational database table.
+ DataFrames provide a convenient API for handling structured and semi-structured
+ data and allow for optimizations through the Catalyst query optimizer and
+ the Tungsten execution engine.
+ Operations like filtering, aggregation, and transformation are available
+ through the DataFrame API.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Spark SQL
+\series default
+: Spark SQL is a module that provides a programming interface for working
+ with structured and semi-structured data.
+ It allows users to query data using SQL as well as the DataFrame API.
+ Spark SQL integrates with the Spark ecosystem, enabling the use of SQL
+ queries with other Spark libraries like MLlib and GraphX.
+ It also supports reading from and writing to various data formats and storage
+ systems, such as Parquet, Avro, JSON, Hive, HBase, and JDBC.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+MLlib
+\series default
+: MLlib is Spark's built-in library for scalable machine learning.
+ It provides various machine learning algorithms for classification, regression,
+ clustering, and recommendation, as well as tools for feature extraction,
+ transformation, and model evaluation.
+ MLlib is designed to scale out across a cluster, enabling the processing
+ of large datasets for training and prediction tasks.
+ It supports both RDD-based and DataFrame-based APIs.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+GraphX
+\series default
+: GraphX is a library for graph processing and computation built on top
+ of Spark.
+ It allows users to work with graphs and perform graph-parallel computations
+ at scale.
+ GraphX provides a flexible graph computation API that enables users to
+ express graph algorithms like PageRank, connected components, and triangle
+ counting.
+ It also includes a collection of graph algorithms and builders to simplify
+ graph analytics tasks.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Structured Streaming
+\series default
+: Structured Streaming is a module for processing real-time data streams
+ in a fault-tolerant and scalable manner.
+ It provides a high-level API built on top of DataFrames, allowing users
+ to express complex streaming computations using the same operations as
+ batch processing.
+ Structured Streaming handles the incremental processing of data streams,
+ providing exactly-once processing guarantees and allowing for event-time
+ and late-data processing.
+ It supports various sources and sinks, such as Kafka, HDFS, and Delta Lake.
+\end_layout
+
+\begin_layout Subsection
+Provide the Spark pseudo-code for a simple problem using dataframes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Spark II
+\end_layout
+
+\begin_layout Subsection
+Define RDD
+\end_layout
+
+\begin_layout Standard
+RDD stands for 
+\series bold
+Resilient Distributed Dataset
+\series default
+.
+ It is the fundamental abstraction in Spark, representing an immutable distribut
+ed collection of objects that can be processed in parallel.
+ RDDs provide fault tolerance through lineage information, allowing for
+ data recovery in case of failures.
+\end_layout
+
+\begin_layout Subsection
+Distinguish between Base RDD and Pair RDD
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Base RDD
+\series default
+: A basic RDD consisting of a distributed collection of objects.
+ Base RDDs can be created from data stored in external storage systems or
+ by parallelizing a collection in the driver program.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pair RDD
+\series default
+: A special type of RDD where each element is a key-value pair.
+ Pair RDDs enable operations like grouping, reducing, and aggregating by
+ keys.
+ They are useful for tasks like counting words or computing sums per group.
+\end_layout
+
+\begin_layout Subsection
+Distinguish between transformations and actions
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Transformations
+\series default
+ are operations that create a new RDD from an existing one.
+ They are performed lazily, meaning they are only executed when an action
+ is called.
+ Examples of transformations include map, filter, and reduceByKey.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Actions
+\series default
+ are operations that return a value to the driver program or write data
+ to external storage systems.
+ Actions trigger the execution of transformations.
+ Examples of actions include count, collect, and saveAsTextFile.
+\end_layout
+
+\begin_layout Subsection
+Explain available transformations
+\end_layout
+
+\begin_layout Itemize
+map: Applies a function to each element in the RDD, creating a new RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+filter: Returns a new RDD containing only the elements that satisfy a given
+ predicate.
+ 
+\end_layout
+
+\begin_layout Itemize
+flatMap: Applies a function to each element and flattens the results into
+ a single RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+union: Returns a new RDD that contains the union of the elements in the
+ source RDD and another RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+distinct: Returns a new RDD containing the distinct elements of the original
+ RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+groupByKey: Groups the elements of the RDD by key.
+ 
+\end_layout
+
+\begin_layout Itemize
+reduceByKey: Groups the elements by key and reduces the values for each
+ key using a specified reduce function.
+ 
+\end_layout
+
+\begin_layout Itemize
+sortBy: Returns a new RDD that is sorted by the specified key function.
+\end_layout
+
+\begin_layout Subsection
+Explain available actions
+\end_layout
+
+\begin_layout Itemize
+count: Returns the number of elements in the RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+collect: Returns all elements of the RDD as an array to the driver program.
+ Be cautious with this action as it can cause the driver to run out of memory
+ for large RDDs.
+ 
+\end_layout
+
+\begin_layout Itemize
+take: Returns the first n elements of the RDD as an array.
+ 
+\end_layout
+
+\begin_layout Itemize
+first: Returns the first element of the RDD.
+ 
+\end_layout
+
+\begin_layout Itemize
+reduce: Aggregates the elements of the RDD using a given function.
+ 
+\end_layout
+
+\begin_layout Itemize
+saveAsTextFile: Writes the elements of the RDD to a text file in the specified
+ directory.
+\end_layout
+
+\begin_layout Subsection
+Name the main Spark runtime components
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Driver program
+\series default
+: The program that runs the main function and defines one or more Spark
+ operations.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cluster manager
+\series default
+: The component responsible for managing resources and scheduling tasks
+ in a cluster, such as YARN, Mesos, or the standalone Spark cluster manager.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Executor
+\series default
+: A process that runs on a worker node and executes tasks on behalf of the
+ driver program.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Task
+\series default
+: A unit of work that runs on an executor, representing a single stage of
+ a Spark operation.
+\end_layout
+
+\begin_layout Subsection
+Explain how to manage parallelism in Spark
+\end_layout
+
+\begin_layout Standard
+Parallelism in Spark can be managed by controlling the number of partitions
+ and the number of cores used by each executor.
+ You can set the default number of partitions when creating an RDD or by
+ repartitioning an existing RDD.
+ You can also configure the number of cores used by each executor in the
+ Spark configuration.
+\end_layout
+
+\begin_layout Subsection
+Explain how recoverability works in Spark
+\end_layout
+
+\begin_layout Standard
+Recoverability in Spark is achieved through RDD lineage information, which
+ records the sequence of transformations used to create an RDD.
+ If a partition of an RDD is lost due to a node failure, Spark can recompute
+ the partition using the lineage information and the transformations applied
+ to the original data.
+ This allows Spark to recover lost data without the need for data replication,
+ reducing overhead and improving fault tolerance.
+\end_layout
+
+\begin_layout Standard
+Also, data can be cached/persisted in up to two nodes.
+ As a rule of thumb, we should cache an RDD if it is parent of more than
+ one RDD.
+\end_layout
+
+\begin_layout Subsection
+Distinguish between narrow and wide dependencies
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Narrow dependencies
+\series default
+: In these dependencies, each partition of the parent RDD is used by at
+ most one partition of the child RDD.
+ This means that the data required for a single partition in the child RDD
+ can be found within a single partition of the parent RDD.
+ Examples of operations with narrow dependencies include map and filter.
+ Narrow dependencies allow for pipelining, reducing the overhead of data
+ shuffling.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Wide dependencies
+\series default
+: In these dependencies, each partition of the parent RDD may be used by
+ multiple partitions of the child RDD.
+ This means that the data required for a single partition in the child RDD
+ can be spread across multiple partitions of the parent RDD.
+ Examples of operations with wide dependencies include groupByKey and reduceByKe
+y.
+ Wide dependencies require data shuffling, which can be expensive in terms
+ of both time and resources.
+\end_layout
+
+\begin_layout Subsection
+Name the two mechanisms to share variables
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Broadcast variables
+\series default
+: These are read-only variables that are cached on each worker node, allowing
+ tasks to efficiently access large read-only data structures such as lookup
+ tables or dictionaries.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Accumulators
+\series default
+: These are variables that can be updated by tasks running on worker nodes
+ in a parallel and fault-tolerant manner.
+ They are typically used for counters and sums.
+ Accumulators can be updated only by associative and commutative operations
+ to ensure that Spark can combine their values correctly across multiple
+ tasks.
+\end_layout
+
+\begin_layout Subsection
+Provide the Spark pseudo-code for a simple problem using RDDs
+\end_layout
+
+\begin_layout Standard
+Problem: Word count using RDDs.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+from pyspark import SparkContext
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Create a Spark context
+\end_layout
+
+\begin_layout Plain Layout
+
+sc = SparkContext("local", "WordCount")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Read the input text file
+\end_layout
+
+\begin_layout Plain Layout
+
+text_file = sc.textFile("input.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Split each line into words, and map each word to a (word, 1) tuple
+\end_layout
+
+\begin_layout Plain Layout
+
+word_counts = (text_file.flatMap(lambda line: line.split(" "))
+\end_layout
+
+\begin_layout Plain Layout
+
+                        .map(lambda word: (word, 1))
+\end_layout
+
+\begin_layout Plain Layout
+
+                        .reduceByKey(lambda a, b: a + b))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Save the word count results as a text file
+\end_layout
+
+\begin_layout Plain Layout
+
+word_counts.saveAsTextFile("output")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Stream Data Management
+\end_layout
+
+\begin_layout Subsection
+Define a data stream
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+data stream
+\series default
+ is a dataset that is produced incrementally over time, instead of being
+ fully available before its processing begins.
+\end_layout
+
+\begin_layout Subsection
+Distinguish the two kinds of stream management systems
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stream Processing Engines (SPE)
+\series default
+: focus on highly available near-real-time processing and scalability.
+ They are designed to process data non-stop, mainly using relatively simple
+ 
+\color blue
+window aggregates
+\color inherit
+.
+ They facilitate plugging the stream to other databases.
+ For example, Spark streaming or S4.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Complex Event Processing (CEP)
+\series default
+: offer 
+\color blue
+rich windowing operations
+\color inherit
+ to define indicators based on thresholds and express 
+\color blue
+complex temporal correlations or patterns
+\color inherit
+.
+ These patterns sometimes need to be detected in long periods of time.
+ Therefore, the system needs to keep the corresponding logs and complex
+ states, complicating distribution and parallelization.
+ For example, Esper or T-Rex.
+\end_layout
+
+\begin_layout Subsection
+Recognize the importance of stream management
+\end_layout
+
+\begin_layout Standard
+Stream management is essential for handling continuous and dynamic data
+ sources, enabling real-time decision making, and providing insights into
+ the behavior of the system or environment.
+ It is crucial in many applications, such as monitoring and control systems,
+ financial markets, network traffic analysis, social media analysis, and
+ Internet of Things (IoT) environments.
+\end_layout
+
+\begin_layout Subsection
+Enumerate the most relevant chracteristics of streams
+\end_layout
+
+\begin_layout Itemize
+The arrival rate of data is not under the control of the system.
+ The pace is too fast to persist all data, but sometimes it is even too
+ fast to process every arriving element.
+\end_layout
+
+\begin_layout Itemize
+The number of elements is unbounded, requiring virtually an unbounded memory.
+ This means that drastic reduction is needed.
+\end_layout
+
+\begin_layout Itemize
+We need to keep data moving, using only volatile storage.
+\end_layout
+
+\begin_layout Itemize
+Support for near-real time application, so there is a need to scale and
+ parallelize.
+\end_layout
+
+\begin_layout Itemize
+Arrival order is not guaranteed to be the same as generation order, as some
+ data can be delayed for several reasons.
+\end_layout
+
+\begin_layout Itemize
+Imperfections must be assumed, as some data will be missing for different
+ reasons.
+\end_layout
+
+\begin_layout Itemize
+There is temporal locality, having a temporal evolution of data characteristics.
+\end_layout
+
+\begin_layout Itemize
+Approximate answers are acceptable, but keeping determinism.
+\end_layout
+
+\begin_layout Subsection
+Explain to which extent a DBMS can manage streams
+\end_layout
+
+\begin_layout Standard
+Using an RDBMS is possible in some exceptional cases in which some requirements
+ can be relaxed.
+\end_layout
+
+\begin_layout Standard
+Actually, 
+\series bold
+active databases
+\series default
+ were the precursors of SPEs.
+ Active Databases have the goal of automatically trigerring a response to
+ monitored events such as database updates, points in time or events external
+ to the database.
+ The operations provided by these databases are 
+\series bold
+ECA rules
+\series default
+, usually implemented via 
+\series bold
+triggers
+\series default
+, with the main objective of maintaining integrity constraints and derived
+ information.
+\end_layout
+
+\begin_layout Standard
+However, they fall short for more complex aggregations oveer time.
+ Moreover, ACID transactions encompass a large overhead on data ingestion,
+ hindering the capacity of processing large data streams arriving at a very
+ high pace.
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+If the arrival rate is not very high
+\color inherit
+, we can use temporary tables, available in many RDBMSs, whose operations
+ are much faster, since they are single user and kept in memory.
+ This allows to keep a tuple for every message in the stream, making the
+ table analogous to a sliding window over the stream.
+\end_layout
+
+\begin_layout Subsection
+Name 10 differences between DBMS and SPE
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+DBMS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+SPE
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Persistent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Volatile
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Random
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sequential
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Queries
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+One-time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Continuous
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Support
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unlimited disk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Limited RAM
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Order
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Current state
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sorted
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ingestion rate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Relatively low
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Extremely high
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Temporal requirements
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Little
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Near-real-time
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Accuracy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Exact data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Imprecise data
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Heterogeneity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Structured data
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Imperfections
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algorithms
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multiple passes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+One pass
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Characterize the kinds of queries in an SPE
+\end_layout
+
+\begin_layout Standard
+We can classify stream operations attending to three independent criteria:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Trigger
+\series default
+: we can either keep the queries continuously running or launch them at
+ some concrete instant.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Outputs
+\series default
+: the result of a query can be a set of elements, but can also be a simple
+ boolean interpreted as some kind of alert that detects a change in the
+ behavior of the stream.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Inputs
+\series default
+: queries cna obviously be evaluated over a subset of data in the stream,
+ which is somehow equivalent to analysing small datasets.
+ If we want to analyse the unbounded past stream as awhole, we need to rely
+ in some summary structure.
+\end_layout
+
+\begin_layout Standard
+The two most characteristics queries in stream processing are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Window-based operations
+\series default
+: we can see them as taking a snapshot of the stream.
+ Then, we can perform any operation as if we were working with a list of
+ static messages.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The point of this is getting rid of the problem of having the data on the
+ move.
+ However, simply taking a snapshot and never changing it would result oversimpli
+stic.
+ Thus, we take a neverending sequence of snapshots, and perform the analysis
+ one snapshot at a time.
+\end_layout
+
+\begin_layout Standard
+Therefore, a 
+\series bold
+window
+\series default
+ is defined by both its duration (size) and its sliding interval.
+ If both coincide, it is called a 
+\series bold
+tumbling window
+\series default
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Binary operations
+\series default
+: there are four possible ways of joininig relations and streams: Relation-Relat
+ion, Relation-Stream, Stream-Relation and Stream-Stream.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Note that 
+\color red
+Stream-Stream
+\color inherit
+ does not make much sense, because it is very unlikely that given two streams,
+ the two current elements can be joined.
+ If we want to join two streams, the most common approach is to take a snapshot
+ of one of them and use a Stream-Relation approach.
+\end_layout
+
+\begin_layout Standard
+Also, 
+\color red
+Relation-Relation
+\color inherit
+ are not interesting from the point of view of stream data processing.
+\end_layout
+
+\begin_layout Standard
+The two remaining options are actually the same.
+ Then, considering 
+\color blue
+Stream-Relation operations
+\color inherit
+, there are specific algorithms required which are different from those
+ that only deal with Relations, because one of the inputs is not static.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Explain the two parameters of a sliding window
+\end_layout
+
+\begin_layout Standard
+The window size is the interval of time in seconds for how much historical
+ data shall be contained in RDD before processing.
+ The sliding interval is the amount of time in seconds for how much the
+ window will shift.
+ 
+\end_layout
+
+\begin_layout Standard
+In more plain terms: the 
+\color blue
+sliding interval
+\color inherit
+ indicates when we process, and the 
+\color red
+window size
+\color inherit
+ indicates how much time back we take into account.
+ Note that if the interval is bigger than the size, we would be letting
+ some data go without processing it.
+ This info is exemplified in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Window-parameters-visualization."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ In the image, the second windowed stream is done with a tumbling window.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename stream_window.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Window parameters visualization.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Window-parameters-visualization."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Explain the three stream architectural patterns
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stream ingestion
+\series default
+: the objective of this pattern is to not lose any event.
+ For this, we can use queuing mechanisms as Kafka.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Near-real-time event processing
+\series default
+: the objective of this pattern is to react to events as soon as possible.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If we have a light-weight processing system, we can use Flume.
+\end_layout
+
+\begin_layout Itemize
+If the system is more complex, we might need to use a distirbution approach
+ that guarantees some locality is needed.
+ For this, we can use different queues, with Kafka, to efficiently distribute
+ the data to multiple engine instances.
+ Complex events are characterized by:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Pattern matching: state keeps all potential matches, using a Tree of a Non-Deter
+ministic Finite Automata.
+\end_layout
+
+\begin_layout Itemize
+Hard to distribute
+\end_layout
+
+\begin_layout Itemize
+Consider time constraints, absence of events, re-emision of events.
+\end_layout
+
+\begin_layout Standard
+The groupings can be:
+\end_layout
+
+\begin_layout Itemize
+Shuffle grouping: random.
+\end_layout
+
+\begin_layout Itemize
+Fields grouping: same value, same task.
+\end_layout
+
+\begin_layout Itemize
+All grouping: broadcast to all tasks.
+\end_layout
+
+\begin_layout Itemize
+Global groupin: all data to a single task.
+\end_layout
+
+\begin_layout Itemize
+None grouping: execution stays in the thread of origin of data, whenever
+ possible.
+\end_layout
+
+\begin_layout Itemize
+Direct grouping: producers direct the output to concrete predefined tasks.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+Explain the goals of Spark streaming architecture
+\end_layout
+
+\begin_layout Subsection
+Draw the architecture of Spark streaming
+\end_layout
+
+\begin_layout Subsection
+Identify the need of a stream ingestion pattern
+\end_layout
+
+\begin_layout Subsection
+Identify the need of a near-real time processing pattern
+\end_layout
+
+\begin_layout Subsection
+Identify the kind of message exchange pattern
+\end_layout
+
+\begin_layout Subsection
+Simulate the mesh-join algorithm
+\end_layout
+
+\begin_layout Subsection
+Estimate the cost of the mesh-join algorithm
+\end_layout
+
+\begin_layout Subsection
+Use windowing transformations in Spark streaming
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
