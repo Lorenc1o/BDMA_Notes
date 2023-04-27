@@ -4445,8 +4445,7 @@ repeat until convergence
 \backslash
 [r_{ik}=
 \backslash
-begin{cases}
-1 & if
+begin{cases}1 & if
 \backslash
  k=
 \backslash
@@ -4458,9 +4457,7 @@ mu_j||^2
 \backslash
 
 \backslash
-
 0 & otherwise
-
 \backslash
 end{cases}
 \backslash
@@ -8138,6 +8135,888 @@ No restrictions on
  are isotropic or spherical: each Gaussian component is forced to be spherical,
  so no correlation among input variables and same scaling across each input
  variable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Linear Classifiers
+\end_layout
+
+\begin_layout Standard
+In classification, we have a 
+\series bold
+labelled
+\series default
+ dataset, 
+\begin_inset Formula $D=\left\{ \left(x_{1},y_{1}\right),...,\left(x_{n},y_{n}\right)\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $x_{i}\in\mathbb{R}^{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{i}\in\mathcal{Y}=\left\{ l_{1},...,l_{K}\right\} $
+\end_inset
+
+ are 
+\series bold
+labels
+\series default
+.
+ Thus, the tuple 
+\begin_inset Formula $\left(x_{i},y_{i}\right)$
+\end_inset
+
+ means that the vector 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ is associated to the label 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+.
+ With this setup, we aim at producing a 
+\series bold
+classification model
+\series default
+, meaning a function that, given a new input 
+\begin_inset Formula $x'$
+\end_inset
+
+, predicts the label 
+\begin_inset Formula $y'$
+\end_inset
+
+ that it should be associated with.
+ Usually, we distinguish between two kinds of classification, attending
+ to the number of labels considered:
+\end_layout
+
+\begin_layout Itemize
+In 
+\series bold
+binary classification
+\series default
+, there are only two possible labels, 
+\begin_inset Formula $\left|\mathcal{Y}\right|=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+In 
+\series bold
+multi-class classification
+\series default
+, there are more than two labels, 
+\begin_inset Formula $\left|\mathcal{Y}\right|>2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, we introduce some useful terms:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tcolorbox}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+decision regions
+\series default
+ are a partition of the feature space, 
+\begin_inset Formula $\left\{ P_{1},...,P_{K}\right\} \subset\mathbb{R}^{d}$
+\end_inset
+
+, such that 
+\begin_inset Formula $\bigcap_{j=1}^{K}P_{j}=\emptyset$
+\end_inset
+
+, 
+\begin_inset Formula $\bigcup_{j=1}^{K}P_{j}=\mathbb{R}^{d}$
+\end_inset
+
+.
+ Intuitively, they are the regions in which we divide the feature space,
+ so that all elements inside a region have the same label.
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+decision boundaries
+\series default
+ are the points in the frontier between decision regions.
+\end_layout
+
+\begin_layout Definition
+A 
+\series bold
+classifier
+\series default
+ can then be understood as the creation of the decision regions.
+\end_layout
+
+\begin_layout Definition
+A 
+\series bold
+linear classifier
+\series default
+ is a classifier in which the decision boundaries are 
+\begin_inset Formula $d-1$
+\end_inset
+
+-dimensional hyperplanes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tcolorbox}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+A visualization.
+\end_layout
+
+\begin_layout Example
+In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Different-classifiers.-Linear"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can see different classification models and the regions they generate
+ for the iris dataset.
+ The left model correspond to a linear classifier, and we can see how the
+ decision boundaries are linear.
+ The other two models are not linear.
+\end_layout
+
+\begin_layout Example
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado16.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado17.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado18.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Different classifiers.
+ Linear (left).
+ Quadratic (middle).
+ knn (right).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Different-classifiers.-Linear"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Many useful classifiers don't just predict the input's class, but also the
+ probabilities of the input belonging to each class.
+ This is desirable, as it enables us to express uncertainty about the prediction
+ that we make.
+ For example, in binary classification it is a common approach to map the
+ target labels to be 0 or 1, and then make predictions as a continuous value
+ in 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+.
+ More explicitly, we can have labels 
+\begin_inset Formula $\mathcal{Y}=\left\{ 'sick','healthy'\right\} $
+\end_inset
+
+ and encode 
+\begin_inset Formula $'sick'=1$
+\end_inset
+
+, 
+\begin_inset Formula $'healthy'=0$
+\end_inset
+
+, so that given a patient 
+\begin_inset Formula $x'$
+\end_inset
+
+, we obtain a prediction 
+\begin_inset Formula $y'\in\left[0,1\right]$
+\end_inset
+
+, indicating the probability of the patient being sick.
+ 
+\end_layout
+
+\begin_layout Standard
+In classification with 
+\begin_inset Formula $K>2$
+\end_inset
+
+ classes, it is common to encode the labels using 
+\series bold
+one-hot encoding
+\series default
+, meaning that we map the labels into the set 
+\begin_inset Formula $\left\{ 0,1\right\} ^{K}$
+\end_inset
+
+.
+ For example, if we have three labels, then they are encoded as 
+\begin_inset Formula $\left\{ \left(1,0,0\right),\left(0,1,0\right),\left(0,0,1\right)\right\} $
+\end_inset
+
+.
+ When in this scenario, predictions are usually points in the 
+\begin_inset Formula $\left(K-1\right)$
+\end_inset
+
+-simplex, i.e., a prediction 
+\begin_inset Formula $y'=\left(y'_{1},...,y'_{K}\right)$
+\end_inset
+
+ must be 
+\begin_inset Formula $0\leq y'_{k}\leq1,\forall k$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{k}y'_{k}=1$
+\end_inset
+
+.
+ Each 
+\begin_inset Formula $y'_{k}$
+\end_inset
+
+ represents the probability of the input belonging to class 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Decision boundary in probabilistic models
+\end_layout
+
+\begin_layout Standard
+From a probabilistic perspective, we can think of the 
+\color blue
+joint probability of examples and labels
+\color inherit
+, 
+\begin_inset Formula $p\left(x,y\right)$
+\end_inset
+
+.
+ When we are building a classifier, we then want to minimize the expected
+ loss, or expected error.
+ Note, nonetheless, that loss here is a bit different from the regression
+ loss.
+ A natural way to think about this loss is through 
+\color red
+loss or cost matrices
+\color inherit
+.
+ A cost matrix is a table as the following:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Real
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y=l_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y=l_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y=l_{K}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y'=l_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{1,2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{1,K}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y'=l_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{2,1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{2,K}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ddots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vdots$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y'=l_{K}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{K,1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{K,2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This matrix indicates the cost of each error.
+ Note that not all errors need to have the same cost.
+ For example, in a medical context, it has a higher cost to predict that
+ a sick patient is healthy (this person could potentially die), than to
+ predict that a healthy person is sick (in which case further tests would
+ probably correct the mistake).
+ A cost matrix for this case could look like the following:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Real
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y=healthy$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y=sick$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Predicted
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y'=healthy$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+60
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y'=sick$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We will focus in the case of all errors having the same impact, which is
+ called the 
+\color blue
+0-1 loss
+\color inherit
+.
 \end_layout
 
 \begin_layout Standard
