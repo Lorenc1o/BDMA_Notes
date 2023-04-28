@@ -9514,12 +9514,7 @@ Also, it is important to ensure that we are correctly estimating the parameters
 
 \begin_layout Standard
 And it is clear that once we are relying on sample estimates instead of
- population parameters, we loose the optimality of the method.
-\end_layout
-
-\begin_layout Standard
-In practice, it is really hard to assess which assumptions hold and which
- ones do not, so we can be limited to use a trial and error approach.
+ population parameters, we loose the optimality of hte method
 \end_layout
 
 \begin_layout Standard
