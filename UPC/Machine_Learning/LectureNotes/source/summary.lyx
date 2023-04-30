@@ -9522,6 +9522,275 @@ In practice, it is really hard to assess which assumptions hold and which
  ones do not, so we can be limited to use a trial and error approach.
 \end_layout
 
+\begin_layout Subsubsection
+Regularized discriminant analysis (RDA)
+\end_layout
+
+\begin_layout Standard
+When data is scarce, some problems can arise while using discriminant analysis.
+ For example:
+\end_layout
+
+\begin_layout Itemize
+If there are more dimensions than samples with some label, i.e.
+ 
+\begin_inset Formula $d>n_{k}$
+\end_inset
+
+, for some 
+\begin_inset Formula $k$
+\end_inset
+
+, then QDA cannot be applied, because 
+\begin_inset Formula $\hat{\Sigma}_{k}$
+\end_inset
+
+ is singular.
+ The reason is that TODO: wtf xD
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+RDA
+\color inherit
+ computes the covariance matrices as
+\begin_inset Formula 
+\[
+\hat{\Sigma}_{k}\left(\alpha\right)=\alpha\hat{\Sigma}_{k}+\left(1-\alpha\right)\hat{\Sigma},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\alpha\in\left[0,1\right]$
+\end_inset
+
+ is the regularization parameter.
+ The method is QDA when 
+\begin_inset Formula $\alpha=1$
+\end_inset
+
+ and is LDA when 
+\begin_inset Formula $\alpha=0$
+\end_inset
+
+.
+ In any other case, it is something in between.
+ 
+\end_layout
+
+\begin_layout Standard
+A further way to regularize the matrices is by
+\begin_inset Formula 
+\[
+\hat{\Sigma}_{k}\left(\alpha,\gamma\right)=\left(1-\gamma\right)\hat{\Sigma}_{k}\left(\alpha\right)+\gamma\hat{\sigma}^{2}I,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\hat{\sigma}^{2}=\frac{Tr\left[\hat{\Sigma}_{k}\left(\alpha\right)\right]}{d}$
+\end_inset
+
+, and the diagonal term improves the well-conditioning of the method.
+\end_layout
+
+\begin_layout Subsection
+Naïve Bayes
+\end_layout
+
+\begin_layout Standard
+The 
+\color blue
+Naïve Bayes Classifier
+\color inherit
+ is a Bayesian classifier that assumes that the features are pair-wise independe
+nt in the class-conditional distribution.
+ This means that the probability can be written as
+\begin_inset Formula 
+\[
+p\left(x|y\right)=\prod_{j=1}^{d}p\left(x_{j}|y\right).
+\]
+
+\end_inset
+
+ This assumptions does not hold in general, but this approach can provide
+ a good approximation in many cases.
+ Also, it is practical, as the amount of parameters to estimate is small.
+ 
+\end_layout
+
+\begin_layout Standard
+As before, we classify the input record 
+\begin_inset Formula $x$
+\end_inset
+
+ in the class 
+\begin_inset Formula $c_{k}$
+\end_inset
+
+ that maximizes the discriminant function:
+\begin_inset Formula 
+\[
+g_{k}\left(x\right)=\log\pi_{k}+\sum_{j=1}^{K}\log p\left(x_{j}|y=c_{k}\right).
+\]
+
+\end_inset
+
+ Therefore, we need to
+\end_layout
+
+\begin_layout Enumerate
+Estimate the class priors as the sample frequency, 
+\begin_inset Formula $\pi_{k}=\frac{n_{k}}{n}.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Estimate the class-conditional densities for each input feature independently.
+\end_layout
+
+\begin_layout Standard
+Naïve Bayes can also be used in the case of categorical variables.
+ To model binary features, we can use, for example, the Bernoulli distribution
+\begin_inset Formula 
+\[
+P\left(x|p\right)=p^{x}\left(1-p\right)^{1-x},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $x\in\left\{ 0,1\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $p\in\left[0,1\right]$
+\end_inset
+
+ is the probability of the event happening.
+ For a binary feature, we would need to estimate 
+\begin_inset Formula $K$
+\end_inset
+
+ parameters, one for each class, so that
+\begin_inset Formula 
+\[
+P\left(x|y=c_{k}\right)=p_{k}^{x}\left(1-p_{k}\right)^{1-x}.
+\]
+
+\end_inset
+
+ If we had all our features as binary, then the discriminant functions would
+ be
+\begin_inset Formula 
+\begin{align*}
+g_{k}\left(x\right)= & \log\pi_{k}+\sum_{j=1}^{d}\log P\left(x_{j}|y=c_{k}\right)\\
+= & \log\pi_{k}+\sum_{j=1}^{d}\left[x_{j}\log p_{k,j}+\left(1-x_{j}\right)\log\left(1-p_{k,j}\right)\right],
+\end{align*}
+
+\end_inset
+
+ where 
+\begin_inset Formula $p_{k,j}$
+\end_inset
+
+ is the Bernoulli parameter for the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ feature and the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ class.
+ Note that this is a linear function with respect to to 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If instead we have categorical features with more values, we can then use
+ the Categorical distribution
+\begin_inset Formula 
+\[
+g_{k}\left(x\right)=\log\pi_{k}+\sum_{j=1}^{d}\sum_{v}\left[x_{j}=v\right]\log p_{k,j,v},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left[expr\right]$
+\end_inset
+
+ is 1 if 
+\begin_inset Formula $expr$
+\end_inset
+
+ is True and 0 otherwise, and 
+\begin_inset Formula $p_{k,j,v}$
+\end_inset
+
+ is the Categorical parameter for the value 
+\begin_inset Formula $v$
+\end_inset
+
+ of the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ feature and the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ class.
+\end_layout
+
+\begin_layout Standard
+Now, we need to estimate these parameters, for which we can use the sample
+ frequencies.
+ Note how 0-frequencies can be a problem, so it is a common approach to
+ utilize 
+\series bold
+Laplace smoothing
+\series default
+
+\begin_inset Formula 
+\[
+\hat{p}\left(v|y=c_{k}\right)=\frac{n_{k,v}+p}{n_{k}+pV}.
+\]
+
+\end_inset
+
+ Here:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $p\in\mathbb{R}^{+}$
+\end_inset
+
+ is a weight parameter assigned to the prior distribution of observing values
+ 
+\begin_inset Formula $v$
+\end_inset
+
+.
+ It is typically set to 1, just to avoid 0 values.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V$
+\end_inset
+
+ is the number of modalities (number of distinct values) of the feature
+ modelled.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
