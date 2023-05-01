@@ -9546,7 +9546,39 @@ If there are more dimensions than samples with some label, i.e.
 \end_inset
 
  is singular.
- The reason is that TODO: wtf xD
+ The reason is that each of the sample is adding a rank-1 matrix.
+ Therefore, to get a rank-
+\begin_inset Formula $d$
+\end_inset
+
+ matrix, we need at least 
+\begin_inset Formula $n_{k}$
+\end_inset
+
+ samples.
+ Not only this, but in fact, as we are subtracting the sample mean, the
+ last value is linearly dependant of the previous 
+\begin_inset Formula $n-1$
+\end_inset
+
+ values.
+ Therefore, we need at least 
+\begin_inset Formula $n_{k}+1$
+\end_inset
+
+ samples to be able to construct a rank-
+\begin_inset Formula $d$
+\end_inset
+
+ covariance matrix.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $d>n$
+\end_inset
+
+, then we cannot use QDA nor LDA, as all covariance matrices are singular.
 \end_layout
 
 \begin_layout Standard
@@ -9789,6 +9821,1077 @@ Laplace smoothing
 
  is the number of modalities (number of distinct values) of the feature
  modelled.
+\end_layout
+
+\begin_layout Example
+Naïve Bayes in MATLAB
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Naïve Bayes Classifier Example}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+Outlook = categorical({'Sunny'; 'Sunny'; 'Overcast'; 'Rainy'; 'Rainy'; 'Rainy';
+ 'Overcast'; 'Sunny'; 'Sunny'; 'Rainy'; 'Sunny'; 'Overcast'; 'Overcast';
+ 'Rainy'});
+\end_layout
+
+\begin_layout Plain Layout
+
+Temperature = categorical({'Hot'; 'Hot'; 'Hot'; 'Mild'; 'Cool'; 'Cool';
+ 'Cool'; 'Mild'; 'Cool'; 'Mild'; 'Mild'; 'Mild'; 'Hot'; 'Mild'});
+\end_layout
+
+\begin_layout Plain Layout
+
+Humidity = categorical({'High'; 'High'; 'High'; 'High'; 'Normal'; 'Normal';
+ 'Normal'; 'High'; 'Normal'; 'Normal'; 'Normal'; 'High'; 'Normal'; 'High'});
+\end_layout
+
+\begin_layout Plain Layout
+
+Wind = categorical({'Weak'; 'Strong'; 'Weak'; 'Weak'; 'Weak'; 'Strong';
+ 'Strong'; 'Weak'; 'Weak'; 'Weak'; 'Strong'; 'Strong'; 'Weak'; 'Strong'});
+\end_layout
+
+\begin_layout Plain Layout
+
+PlayBall = categorical({'No'; 'No'; 'Yes'; 'Yes'; 'Yes'; 'No'; 'Yes'; 'No';
+ 'Yes'; 'Yes'; 'Yes'; 'Yes'; 'Yes'; 'No'});
+\end_layout
+
+\begin_layout Plain Layout
+
+dataset = table(Outlook, Temperature, Humidity, Wind, PlayBall);
+\end_layout
+
+\begin_layout Plain Layout
+
+dataset
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabtableoutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tabular} {|c|c|c|c|c|c|}
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{ } & 
+\backslash
+mlcell{Outlook} & 
+\backslash
+mlcell{Temperature} & 
+\backslash
+mlcell{Humidity} & 
+\backslash
+mlcell{Wind} & 
+\backslash
+mlcell{PlayBall} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{1} & 
+\backslash
+mlcell{Sunny} & 
+\backslash
+mlcell{Hot} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{No} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{2} & 
+\backslash
+mlcell{Sunny} & 
+\backslash
+mlcell{Hot} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{No} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{3} & 
+\backslash
+mlcell{Overcast} & 
+\backslash
+mlcell{Hot} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{4} & 
+\backslash
+mlcell{Rainy} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{5} & 
+\backslash
+mlcell{Rainy} & 
+\backslash
+mlcell{Cool} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{6} & 
+\backslash
+mlcell{Rainy} & 
+\backslash
+mlcell{Cool} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{No} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{7} & 
+\backslash
+mlcell{Overcast} & 
+\backslash
+mlcell{Cool} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{8} & 
+\backslash
+mlcell{Sunny} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{No} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{9} & 
+\backslash
+mlcell{Sunny} & 
+\backslash
+mlcell{Cool} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{10} & 
+\backslash
+mlcell{Rainy} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{11} & 
+\backslash
+mlcell{Sunny} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{12} & 
+\backslash
+mlcell{Overcast} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{13} & 
+\backslash
+mlcell{Overcast} & 
+\backslash
+mlcell{Hot} & 
+\backslash
+mlcell{Normal} & 
+\backslash
+mlcell{Weak} & 
+\backslash
+mlcell{Yes} 
+\backslash
+
+\backslash
+ 
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+mlcell{14} & 
+\backslash
+mlcell{Rainy} & 
+\backslash
+mlcell{Mild} & 
+\backslash
+mlcell{High} & 
+\backslash
+mlcell{Strong} & 
+\backslash
+mlcell{No} 
+\backslash
+
+\backslash
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+hline
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabtableoutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+We compute the priors:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+num_yes = sum(dataset.PlayBall == "Yes");
+\end_layout
+
+\begin_layout Plain Layout
+
+num_no = sum(dataset.PlayBall =="No");
+\end_layout
+
+\begin_layout Plain Layout
+
+n = num_yes + num_no;
+\end_layout
+
+\begin_layout Plain Layout
+
+prior_yes = num_yes / n;
+\end_layout
+
+\begin_layout Plain Layout
+
+prior_no = num_no / n;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+We create a new record $x=(Sunny,Hot,Normal,Weak)$ and predict its class
+ using our functions:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+new_record = table(categorical({'Sunny'}), categorical({'Hot'}), categorical({'N
+ormal'}), categorical({'Weak'}), ...
+\end_layout
+
+\begin_layout Plain Layout
+
+                   'VariableNames', {'Outlook', 'Temperature', 'Humidity',
+ 'Wind'});
+\end_layout
+
+\begin_layout Plain Layout
+
+[predicted_class, conf] = naive_bayes_classify(new_record, {'Outlook', 'Temperat
+ure', 'Humidity', 'Wind'}, dataset, [prior_yes, prior_no], 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+fprintf('Predicted class for new record: %s with confidence %f
+\backslash
+n', char(predicted_class), conf);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Predicted class for new record: Yes with confidence 0.672948
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[predicted_class, conf] = naive_bayes_classify(new_record, {'Outlook', 'Temperat
+ure', 'Humidity', 'Wind'}, dataset, [prior_yes, prior_no], 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+fprintf('Predicted class for new record using Laplace Smoothing: %s with
+ confidence %f
+\backslash
+n', char(predicted_class), conf);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Predicted class for new record using Laplace Smoothing: Yes with confidence
+ 0.634538
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Now with the built-in classifier:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = table(Outlook, Temperature, Humidity, Wind);
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = PlayBall;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+mdl = fitcnb(X, Y, 'ClassNames', {'Yes', 'No'});
+\end_layout
+
+\begin_layout Plain Layout
+
+[predicted_class, conf, cost] = predict(mdl, new_record);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Display the predicted class and confidence
+\end_layout
+
+\begin_layout Plain Layout
+
+fprintf('Predicted class for new record: %s with confidence %f
+\backslash
+n', char(predicted_class(1)), conf(1));
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+Predicted class for new record: Yes with confidence 0.664913
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function prob = cond_prob(data, feature, target_class, value)
+\end_layout
+
+\begin_layout Plain Layout
+
+    subset = data(data.PlayBall == target_class, :);
+\end_layout
+
+\begin_layout Plain Layout
+
+    count = sum(subset.(feature) == value);
+\end_layout
+
+\begin_layout Plain Layout
+
+    prob = count / size(subset, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function prob = laplace_sm(data, feature, target_class, value, p)
+\end_layout
+
+\begin_layout Plain Layout
+
+    subset = data(data.PlayBall == target_class, :);
+\end_layout
+
+\begin_layout Plain Layout
+
+    count = sum(subset.(feature) == value);
+\end_layout
+
+\begin_layout Plain Layout
+
+    modalities = numel(unique(subset.(feature)));
+\end_layout
+
+\begin_layout Plain Layout
+
+    prob = (count + p) / (size(subset, 1) + p*modalities);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+function [predicted_class, conf] = naive_bayes_classify(record, features,
+ training_data, priors, lap)
+\end_layout
+
+\begin_layout Plain Layout
+
+    classes = categorical({'Yes', 'No'});
+\end_layout
+
+\begin_layout Plain Layout
+
+    probs = zeros(size(classes));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    for c = 1:length(classes)
+\end_layout
+
+\begin_layout Plain Layout
+
+        p = priors(c);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        for f = 1:length(features)
+\end_layout
+
+\begin_layout Plain Layout
+
+            feature = features{f};
+\end_layout
+
+\begin_layout Plain Layout
+
+            value = record.(feature);
+\end_layout
+
+\begin_layout Plain Layout
+
+            if lap == 0
+\end_layout
+
+\begin_layout Plain Layout
+
+                p = p * cond_prob(training_data, feature, classes(c), value);
+\end_layout
+
+\begin_layout Plain Layout
+
+            else
+\end_layout
+
+\begin_layout Plain Layout
+
+                p = p * laplace_sm(training_data, feature, classes(c), value,
+ lap);
+\end_layout
+
+\begin_layout Plain Layout
+
+            end
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        probs(c) = p;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    [~, idx] = max(probs);
+\end_layout
+
+\begin_layout Plain Layout
+
+    predicted_class = classes(idx);
+\end_layout
+
+\begin_layout Plain Layout
+
+    conf = probs(idx) / sum(probs);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Gaussian Naïve Bayes
+\end_layout
+
+\begin_layout Standard
+If we have numericla features, the usual approach is to assume they follow
+ Gaussian distributions, then we estimate their mean and variance using
+ MLE.
+ If all features are assumed Gaussian, this approach is equivalent to QDA
+ with diagonal covariance matrices.
+\end_layout
+
+\begin_layout Standard
+Other approaches are:
+\end_layout
+
+\begin_layout Itemize
+Discretize numerical values and proceed with Categorical NB.
+\end_layout
+
+\begin_layout Itemize
+Assume a different distribution and estimate its sample parameters from
+ data.
+\end_layout
+
+\begin_layout Standard
+Note that when the data is mixed, we can assume a different distribution
+ for each feature, and then add the log-likelihoods altogether.
 \end_layout
 
 \begin_layout Standard
