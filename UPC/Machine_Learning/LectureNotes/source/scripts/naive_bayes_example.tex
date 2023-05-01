@@ -1,0 +1,161 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./naive_bayes_example_images/} }
+
+\begin{document}
+
+\matlabtitle{Naïve Bayes Classifier Example}
+
+\begin{matlabcode}
+Outlook = categorical({'Sunny'; 'Sunny'; 'Overcast'; 'Rainy'; 'Rainy'; 'Rainy'; 'Overcast'; 'Sunny'; 'Sunny'; 'Rainy'; 'Sunny'; 'Overcast'; 'Overcast'; 'Rainy'});
+Temperature = categorical({'Hot'; 'Hot'; 'Hot'; 'Mild'; 'Cool'; 'Cool'; 'Cool'; 'Mild'; 'Cool'; 'Mild'; 'Mild'; 'Mild'; 'Hot'; 'Mild'});
+Humidity = categorical({'High'; 'High'; 'High'; 'High'; 'Normal'; 'Normal'; 'Normal'; 'High'; 'Normal'; 'Normal'; 'Normal'; 'High'; 'Normal'; 'High'});
+Wind = categorical({'Weak'; 'Strong'; 'Weak'; 'Weak'; 'Weak'; 'Strong'; 'Strong'; 'Weak'; 'Weak'; 'Weak'; 'Strong'; 'Strong'; 'Weak'; 'Strong'});
+PlayBall = categorical({'No'; 'No'; 'Yes'; 'Yes'; 'Yes'; 'No'; 'Yes'; 'No'; 'Yes'; 'Yes'; 'Yes'; 'Yes'; 'Yes'; 'No'});
+dataset = table(Outlook, Temperature, Humidity, Wind, PlayBall);
+dataset
+\end{matlabcode}
+\begin{matlabtableoutput}
+{
+\begin{tabular} {|c|c|c|c|c|c|}\hline
+\mlcell{ } & \mlcell{Outlook} & \mlcell{Temperature} & \mlcell{Humidity} & \mlcell{Wind} & \mlcell{PlayBall} \\ \hline
+\mlcell{1} & \mlcell{Sunny} & \mlcell{Hot} & \mlcell{High} & \mlcell{Weak} & \mlcell{No} \\ \hline
+\mlcell{2} & \mlcell{Sunny} & \mlcell{Hot} & \mlcell{High} & \mlcell{Strong} & \mlcell{No} \\ \hline
+\mlcell{3} & \mlcell{Overcast} & \mlcell{Hot} & \mlcell{High} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{4} & \mlcell{Rainy} & \mlcell{Mild} & \mlcell{High} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{5} & \mlcell{Rainy} & \mlcell{Cool} & \mlcell{Normal} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{6} & \mlcell{Rainy} & \mlcell{Cool} & \mlcell{Normal} & \mlcell{Strong} & \mlcell{No} \\ \hline
+\mlcell{7} & \mlcell{Overcast} & \mlcell{Cool} & \mlcell{Normal} & \mlcell{Strong} & \mlcell{Yes} \\ \hline
+\mlcell{8} & \mlcell{Sunny} & \mlcell{Mild} & \mlcell{High} & \mlcell{Weak} & \mlcell{No} \\ \hline
+\mlcell{9} & \mlcell{Sunny} & \mlcell{Cool} & \mlcell{Normal} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{10} & \mlcell{Rainy} & \mlcell{Mild} & \mlcell{Normal} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{11} & \mlcell{Sunny} & \mlcell{Mild} & \mlcell{Normal} & \mlcell{Strong} & \mlcell{Yes} \\ \hline
+\mlcell{12} & \mlcell{Overcast} & \mlcell{Mild} & \mlcell{High} & \mlcell{Strong} & \mlcell{Yes} \\ \hline
+\mlcell{13} & \mlcell{Overcast} & \mlcell{Hot} & \mlcell{Normal} & \mlcell{Weak} & \mlcell{Yes} \\ \hline
+\mlcell{14} & \mlcell{Rainy} & \mlcell{Mild} & \mlcell{High} & \mlcell{Strong} & \mlcell{No} \\ 
+\hline
+\end{tabular}
+}
+\end{matlabtableoutput}
+
+
+\begin{par}
+\begin{flushleft}
+We compute the priors:
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+num_yes = sum(dataset.PlayBall == "Yes");
+num_no = sum(dataset.PlayBall =="No");
+n = num_yes + num_no;
+prior_yes = num_yes / n;
+prior_no = num_no / n;
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+We create a new record $x=(Sunny,Hot,Normal,Weak)$ and predict its class using our functions:
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+
+new_record = table(categorical({'Sunny'}), categorical({'Hot'}), categorical({'Normal'}), categorical({'Weak'}), ...
+                   'VariableNames', {'Outlook', 'Temperature', 'Humidity', 'Wind'});
+[predicted_class, conf] = naive_bayes_classify(new_record, {'Outlook', 'Temperature', 'Humidity', 'Wind'}, dataset, [prior_yes, prior_no], 0);
+fprintf('Predicted class for new record: %s with confidence %f\n', char(predicted_class), conf);
+\end{matlabcode}
+\begin{matlaboutput}
+Predicted class for new record: Yes with confidence 0.672948
+\end{matlaboutput}
+\begin{matlabcode}
+[predicted_class, conf] = naive_bayes_classify(new_record, {'Outlook', 'Temperature', 'Humidity', 'Wind'}, dataset, [prior_yes, prior_no], 1);
+fprintf('Predicted class for new record using Laplace Smoothing: %s with confidence %f\n', char(predicted_class), conf);
+\end{matlabcode}
+\begin{matlaboutput}
+Predicted class for new record using Laplace Smoothing: Yes with confidence 0.634538
+\end{matlaboutput}
+
+\begin{par}
+\begin{flushleft}
+Now with the built-in classifier:
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+X = table(Outlook, Temperature, Humidity, Wind);
+Y = PlayBall;
+
+mdl = fitcnb(X, Y, 'ClassNames', {'Yes', 'No'});
+[predicted_class, conf, cost] = predict(mdl, new_record);
+
+% Display the predicted class and confidence
+fprintf('Predicted class for new record: %s with confidence %f\n', char(predicted_class(1)), conf(1));
+\end{matlabcode}
+\begin{matlaboutput}
+Predicted class for new record: Yes with confidence 0.664913
+\end{matlaboutput}
+\begin{matlabcode}
+
+\end{matlabcode}
+
+
+\begin{matlabcode}
+function prob = cond_prob(data, feature, target_class, value)
+    subset = data(data.PlayBall == target_class, :);
+    count = sum(subset.(feature) == value);
+    prob = count / size(subset, 1);
+end
+
+function prob = laplace_sm(data, feature, target_class, value, p)
+    subset = data(data.PlayBall == target_class, :);
+    count = sum(subset.(feature) == value);
+    modalities = numel(unique(subset.(feature)));
+    prob = (count + p) / (size(subset, 1) + p*modalities);
+end
+    
+function [predicted_class, conf] = naive_bayes_classify(record, features, training_data, priors, lap)
+    classes = categorical({'Yes', 'No'});
+    probs = zeros(size(classes));
+
+    for c = 1:length(classes)
+        p = priors(c);
+
+        for f = 1:length(features)
+            feature = features{f};
+            value = record.(feature);
+            if lap == 0
+                p = p * cond_prob(training_data, feature, classes(c), value);
+            else
+                p = p * laplace_sm(training_data, feature, classes(c), value, lap);
+            end
+        end
+
+        probs(c) = p;
+    end
+
+    [~, idx] = max(probs);
+    predicted_class = classes(idx);
+    conf = probs(idx) / sum(probs);
+end
+\end{matlabcode}
+
+\end{document}
