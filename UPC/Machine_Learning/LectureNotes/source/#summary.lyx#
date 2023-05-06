@@ -11061,7 +11061,15 @@ S=\sum_{i=0}^{d}w_{i}x_{i}=W^{T}X.
 \end_layout
 
 \begin_layout Itemize
-Finally, we apply the function 
+Finally, we apply the 
+\series bold
+activation
+\series default
+ 
+\series bold
+function
+\series default
+ 
 \begin_inset Formula 
 \[
 f\left(S\right)=\begin{cases}
@@ -11368,7 +11376,34 @@ W'=W-\eta\nabla E=W+\eta Xy.
 
 \end_inset
 
- The basic idea is that if we now utilize this new weights in the same 
+ The basic idea is that if we now utilize this new weights in the same input,
+ we would get
+\begin_inset Formula 
+\[
+W'^{T}X=\left(W+\eta Xy\right)^{T}X=W^{T}X+\eta yX^{T}X.
+\]
+
+\end_inset
+
+ Now, say 
+\begin_inset Formula $y=1$
+\end_inset
+
+, then it is
+\begin_inset Formula 
+\[
+W'^{T}X=W^{T}X+\eta\left\Vert X\right\Vert ^{2}>W^{T}X,
+\]
+
+\end_inset
+
+ so we have made the input to be closer to be positive, and thus correctly
+ classified.
+ If 
+\begin_inset Formula $y=-1$
+\end_inset
+
+ the same logic applies.
 \end_layout
 
 \begin_layout Example
@@ -12296,6 +12331,1956 @@ end
 \backslash
 end{matlabcode}
 \end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can improve the approach by choosing a different activation function,
+ which would be differentiable ideally.
+ A usual alternative is the 
+\series bold
+logistic function
+\series default
+
+\begin_inset Formula 
+\[
+\sigma\left(z\right)=\frac{1}{1+e^{-z}},
+\]
+
+\end_inset
+
+ which maps 
+\begin_inset Formula $\mathbb{R}\rightarrow\left[0,1\right]$
+\end_inset
+
+, so that this input can be interpreted as a probability, allowing us to
+ represent uncertainty in the prediction.
+ This function has the following properties:
+\end_layout
+
+\begin_layout Itemize
+It verifies a pseudo-symmetry
+\begin_inset Formula 
+\[
+\sigma\left(-z\right)=1-\sigma\left(z\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+It is differentiable, with derivative
+\begin_inset Formula 
+\[
+\sigma'\left(z\right)=\sigma\left(z\right)\left(1-\sigma\left(z\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Its inverse is the logit function
+\begin_inset Formula 
+\[
+logit\left(p\right)=\log\left(\frac{p}{1-p}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When we use the logistic function, we are performing what is called 
+\color blue
+logistic regression
+\color inherit
+ for binary classification.
+ Again, we have a dataset of pairs 
+\begin_inset Formula $\left(X_{i},y_{i}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $X_{i}\in\mathbb{R}^{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{i}\in\left[0,1\right]$
+\end_inset
+
+, associating label 
+\begin_inset Formula $y_{i}=1$
+\end_inset
+
+ with a positive example, and 
+\begin_inset Formula $y_{i}=0$
+\end_inset
+
+ with a negative example.
+ In logistic regression we model
+\begin_inset Formula 
+\[
+P\left(y=1|x\right)=\sigma\left(W^{T}X\right),
+\]
+
+\end_inset
+
+ where, again, 
+\begin_inset Formula $W$
+\end_inset
+
+ is the weight vector.
+ Therefore, we are modelling 
+\begin_inset Formula $y_{i}\sim Ber\left(p_{i}\right),$
+\end_inset
+
+ where 
+\begin_inset Formula $p_{i}=\sigma\left(W^{T}X_{i}\right)$
+\end_inset
+
+.
+ Notice that we don't assume anything about the distribution of 
+\begin_inset Formula $X$
+\end_inset
+
+, though.
+\end_layout
+
+\begin_layout Subsubsection*
+Why is logistic regression a linear classifier?
+\end_layout
+
+\begin_layout Standard
+When we classify, we need to set a 
+\color red
+threshold
+\color inherit
+ above which we classify the label to be 1.
+ Usually, this threshold is set to be 
+\begin_inset Formula $0.5$
+\end_inset
+
+.
+ Now,
+\begin_inset Formula 
+\[
+\sigma\left(z\right)>0.5\iff\frac{1}{1-e^{-z}}>0.5\iff1>0.5\left(1-e^{-z}\right)\iff2>1-e^{-z}\iff1>e^{-z}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\iff0>-z\iff z>0.
+\]
+
+\end_inset
+
+ And remember that 
+\begin_inset Formula $z=W^{T}X$
+\end_inset
+
+, so, in fact, we are classifying using the same criteria as before.
+\end_layout
+
+\begin_layout Standard
+At this point, we can try to use maximum likelihood in the search of an
+ optimal 
+\begin_inset Formula $W$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\mathcal{L}\left(W\right)= & \prod_{i=1}^{n}P\left(y_{i}|X_{i},W\right)=\prod_{i=1}^{n}Ber\left(y_{i}|\hat{y}_{i}=\sigma\left(W^{T}X_{i}\right)\right)\\
+= & \prod_{i=1}^{n}\hat{y}_{i}^{y_{i}}\left(1-\hat{y}_{i}\right)^{1-y_{i}}\\
+= & \prod_{i=1}^{n}\sigma\left(W^{T}X_{i}\right)^{y_{i}}\left(1-\sigma\left(W^{T}X_{i}\right)\right)^{1-y_{i}}.
+\end{align*}
+
+\end_inset
+
+ As usual, we take the log-likelihood, but in this case we minimize the
+ negative log-likelihood instead, which can be interpreted as an error function:
+\begin_inset Formula 
+\begin{align*}
+E\left(W\right)=-\log\mathcal{L}\left(W\right)= & -\sum_{i=1}^{n}\log P\left(y_{i}|X_{i},W\right)\\
+= & -\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}+\left(1-y_{i}\right)\log\left(1-\hat{y}_{i}\right).
+\end{align*}
+
+\end_inset
+
+ This error expression is known as 
+\series bold
+log loss
+\series default
+ or 
+\series bold
+binary cross-entropy
+\series default
+, and it is widely used in classification schemes.
+\end_layout
+
+\begin_layout Standard
+Now, as we aim to find its minimum, we compute its gradient.
+ For this, recall that
+\begin_inset Formula 
+\[
+\sigma'\left(z\right)=\sigma\left(z\right)\left(1-\sigma\left(z\right)\right),
+\]
+
+\end_inset
+
+ and notice that
+\begin_inset Formula 
+\[
+\frac{\partial W^{T}X_{i}}{\partial W}=X_{i}.
+\]
+
+\end_inset
+
+ Recall also that
+\begin_inset Formula 
+\[
+\left(f\circ g\right)'\left(x\right)=\left[g\left(f\left(x\right)\right)\right]'=g'\left(f\left(x\right)\right)\cdot f'\left(x\right).
+\]
+
+\end_inset
+
+ Now, let's go for this derivative:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\nabla E\left(W\right)= & \frac{\partial E\left(W\right)}{\partial W}=-\sum_{i=1}^{n}\frac{\partial y_{i}\log\sigma\left(W^{T}X_{i}\right)}{\partial W}+\frac{\partial\left(1-y_{i}\right)\log\left(1-\sigma\left(W^{T}X_{i}\right)\right)}{\partial W}\\
+= & -\sum_{i=1}^{n}\frac{y_{i}}{\bcancel{\sigma\left(W^{T}X_{i}\right)}}\bcancel{\sigma\left(W^{T}X_{i}\right)}\left(1-\sigma\left(W^{T}X_{i}\right)\right)X_{i}-\frac{1-y_{i}}{\cancel{1-\sigma\left(W^{T}X_{i}\right)}}\sigma\left(W^{T}X_{i}\right)\cancel{\left(1-\sigma\left(W^{T}X_{i}\right)\right)}X_{i}\\
+= & \sum_{i=1}^{n}\left(1-y_{i}\right)\sigma\left(W^{T}X_{i}\right)X_{i}-y_{i}\left(1-\sigma\left(W^{T}X_{i}\right)\right)X_{i}\\
+= & \sum_{i=1}^{n}\left[\left(1-y_{i}\right)\sigma\left(W^{T}X_{i}\right)-y_{i}\left(1-\sigma\left(W^{T}X_{i}\right)\right)\right]X_{i}\\
+= & \sum_{i=1}^{n}\left[\sigma\left(W^{T}X_{i}\right)-\cancel{y_{i}\sigma\left(W^{T}X_{i}\right)}-y_{i}+\cancel{y_{i}\sigma\left(W^{T}X_{i}\right)}\right]X_{i}\\
+= & \sum_{i=1}^{n}\left[\sigma\left(W^{T}X_{i}\right)-y_{i}\right]X_{i}\\
+= & \sum_{i=1}^{n}\left[\hat{y}_{i}-y_{i}\right]X_{i}.
+\end{align*}
+
+\end_inset
+
+ In this case, it is not possible to find a close-form solution, so we use
+ iterative methods to approximate local minima.
+ We are going to use 
+\color orange
+gradient descent
+\color inherit
+, which is one of the simplest approaches, but it is widely used.
+\end_layout
+
+\begin_layout Subsubsection
+Gradient descent
+\end_layout
+
+\begin_layout Standard
+Gradient descent is a general numerical method to find local minima of a
+ differentiable function 
+\begin_inset Formula $F\left(Z\right)$
+\end_inset
+
+.
+ The idea is to use the fact that the gradient of a vector function points
+ in the direction of maximum growth, and the negative gradient points in
+ the direction of maximum decrease.
+ Therefore, if we 'follow' this direction, we should approach a minimum
+ of the function, although it might not be the global minimum.
+\end_layout
+
+\begin_layout Standard
+The approach works as follows.
+ To approximate a local minimum of 
+\begin_inset Formula $F\left(W\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+We start at a weight vector 
+\begin_inset Formula $W_{0}$
+\end_inset
+
+ and set 
+\begin_inset Formula $k=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Compute 
+\begin_inset Formula $\nabla F\left(W_{k}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Update the weight vector
+\begin_inset Formula 
+\[
+W_{k+1}=W_{k}-\gamma\nabla F\left(W_{k}\right).
+\]
+
+\end_inset
+
+ Also update 
+\begin_inset Formula $k=k+1$
+\end_inset
+
+.
+ The parameter 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is called 
+\color blue
+learning rate
+\color inherit
+, and it quantifies 'how much' we advance in the direction of the gradient.
+ It has to be chosen beforehand and it is critical, since:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is too big, we might jump over the minimum and the method might never converge.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is too small, the method might converge too slowly.
+\end_layout
+
+\begin_layout Standard
+Related to the learning rate is the importance of 
+\color red
+feature scaling
+\color inherit
+, as the same learning rate impacts all features, so if they have different
+ scales, the method might be good for some of them, but bad for others.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Repeat until convergence or maximum number of steps is reached.
+\end_layout
+
+\begin_layout Subsubsection
+Newton's algorithm
+\end_layout
+
+\begin_layout Standard
+Newton's algorithm
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+There is an infinite amount of Newton's algorithms haha, this is one of
+ them :D
+\end_layout
+
+\end_inset
+
+ is an algorithm used to find roots of a function which converges faster
+ than gradient descent and does not need a learning rate parameter.
+ As this algorithm finds roots (i.e.
+ zeros), we don't apply directly to 
+\begin_inset Formula $F$
+\end_inset
+
+, but rather to its gradient.
+ Thus, in this case, we need 
+\begin_inset Formula $F$
+\end_inset
+
+ to be twice differentiable and to be able to afford computing its second
+ derivatives, which can sometimes be costly.
+\end_layout
+
+\begin_layout Standard
+In this case, the algorithm works as follows:
+\end_layout
+
+\begin_layout Enumerate
+We start at a weight vector 
+\begin_inset Formula $W_{0}$
+\end_inset
+
+ and set 
+\begin_inset Formula $k=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Compute the Hessian of 
+\begin_inset Formula $F$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+H\left(F\left(W\right)\right)=\nabla^{2}F\left(W\right)=\left(\begin{array}{cccc}
+\frac{\partial^{2}F\left(W\right)}{\partial W_{1}^{2}} & \frac{\partial F\left(W\right)}{\partial W_{1}\partial W_{2}} & \dots & \frac{\partial F\left(W\right)}{\partial W_{1}\partial W_{d}}\\
+\frac{\partial F\left(W\right)}{\partial W_{2}\partial W_{1}} & \frac{\partial F\left(W\right)}{\partial^{2}W_{2}} & \dots & \frac{\partial F\left(W\right)}{\partial W_{2}\partial W_{d}}\\
+\vdots & \vdots & \ddots & \vdots\\
+\frac{\partial F\left(W\right)}{\partial W_{d}\partial W_{1}} & \frac{\partial F\left(W\right)}{\partial W_{d}\partial W_{2}} & \dots & \frac{\partial F\left(W\right)}{\partial^{2}W_{d}}
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Update the weight vector
+\begin_inset Formula 
+\[
+W_{k+1}=W_{k}-H\left(F\left(W_{k}\right)\right)^{-1}\nabla F\left(W_{k}\right),
+\]
+
+\end_inset
+
+ and set 
+\begin_inset Formula $k=k+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Repeat until convergence or maximum number of steps is reached.
+\end_layout
+
+\begin_layout Remark
+Notice that:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The update rule is obtained by finding the minimum of the second order Taylor
+ series of 
+\begin_inset Formula $F$
+\end_inset
+
+ around 
+\begin_inset Formula $W_{k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+No learning rate is needed this time, but we need to compute the Hessian.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Iterated Reweighted Least Squares (IRLS)
+\end_layout
+
+\begin_layout Standard
+When we apply Newton's method to the log-likelihood of the logistic regression,
+ it is called the IRLS method.
+ The gradient of the log-likelihood is
+\begin_inset Formula 
+\[
+\nabla E\left(W\right)=\sum_{i=1}^{n}\left(y_{i}-\hat{y}_{i}\right)X_{i}=X^{T}\left(y-\sigma\left(W^{T}X\right)\right)
+\]
+
+\end_inset
+
+ and the Hessian
+\begin_inset Formula 
+\[
+H\left(F\left(W\right)\right)=\sum_{i=1}^{n}\hat{y}_{i}\left(1-\hat{y}_{i}\right)X_{i}X_{i}^{T}=X^{T}diag\left(\hat{y}_{i}\left(1-\hat{y}_{i}\right)\right)X.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Logistic regression example using MATLAB
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Logistic Regression example}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+rng(5)
+\end_layout
+
+\begin_layout Plain Layout
+
+X1 = rand([100,1])*2.+1;
+\end_layout
+
+\begin_layout Plain Layout
+
+X2 = rand([100,1])*3.;
+\end_layout
+
+\begin_layout Plain Layout
+
+y = double(X2>X1.*1.5-1)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+y = 100x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+     1
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     0
+\end_layout
+
+\begin_layout Plain Layout
+
+     1
+\end_layout
+
+\begin_layout Plain Layout
+
+     1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+X = [X1 X2];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f=gscatter(X1,X2,y,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(X1,X1.*1.5-1,'g')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('0','1','Real separation','Location','northoutside')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/logistic_regression_example_images/figure_0.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Let's train using gradient descent:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[n, d] = size(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+X_bias = [ones(n,1) X]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+X_bias = 100x3    
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.4440    2.9554
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.7415    2.4042
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.4134    0.1619
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.8372    0.5714
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.9768    1.3573
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.2235    2.1088
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.5318    0.9961
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    2.0368    1.0799
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.5936    2.7644
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000    1.3754    2.8609
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+[W,niter] = train_GD(X_bias,y,0.1,1e-3,20)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = 3x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+    3.9647
+\end_layout
+
+\begin_layout Plain Layout
+
+  -13.2924
+\end_layout
+
+\begin_layout Plain Layout
+
+   13.2435
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+niter = 20
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+y_hat = my_predict(X_bias,W);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f2=gscatter(X1,X2,y_hat,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(X1,X1.*1.5-1,'g')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('0','1','Real separation','Location','northoutside')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/logistic_regression_example_images/figure_1.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+We can observe how it is quite ok...
+ Let's increment the max
+\backslash
+_iter parameters:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[W,niter] = train_GD(X_bias,y,0.1,1e-3,1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = 3x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+   20.9642
+\end_layout
+
+\begin_layout Plain Layout
+
+  -27.7530
+\end_layout
+
+\begin_layout Plain Layout
+
+   17.3205
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+niter = 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+y_hat = my_predict(X_bias,W);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f3=gscatter(X1,X2,y_hat,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(X1,X1.*1.5-1,'g')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('0','1','Real separation','Location','northoutside')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/logistic_regression_example_images/figure_2.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+And in fact it is much better! :D
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Let's see how IRLS performs:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[W,niter_NR] = train_NR(X_bias,y,1e-3,1000,1e-3)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = 3x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+1.0e+05 *
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.6554
+\end_layout
+
+\begin_layout Plain Layout
+
+   -2.0991
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.2912
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+niter_NR = 227
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+y_hat = my_predict(X_bias,W);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f4=gscatter(X1,X2,y_hat,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+plot(X1,X1.*1.5-1,'g')
+\end_layout
+
+\begin_layout Plain Layout
+
+legend('0','1','Real separation','Location','northoutside')
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/logistic_regression_example_images/figure_3.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+We can see how this time we also obtain nice separation, and this one even
+ finishes before maxiter is reached.
+ In fact, we can try to see how many iterations would GD need:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+[W,niter_GD] = train_GD(X_bias,y,0.1,1e-3,1000000)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = 3x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+  110.2037
+\end_layout
+
+\begin_layout Plain Layout
+
+ -146.6376
+\end_layout
+
+\begin_layout Plain Layout
+
+   92.3106
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+niter_GD = 449262
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Therefore, we obtain an enormous speedup:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+speedup = niter_GD / niter_NR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+speedup = 1.9791e+03
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Almost 2000 times faster in terms of iterations...
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function S = state(X, W)
+\end_layout
+
+\begin_layout Plain Layout
+
+    S = X*W;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function s=logistic(S)
+\end_layout
+
+\begin_layout Plain Layout
+
+    s = 1./(1+exp(-S));
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function ds=grad_logistic(y, y_hat, X)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ds = X' * (y_hat - y);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function H = hess_logistic(y_hat, X)
+\end_layout
+
+\begin_layout Plain Layout
+
+    D = diag(y_hat .* (1 - y_hat));
+\end_layout
+
+\begin_layout Plain Layout
+
+    H = X' * D * X;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function [W,niter]=train_GD(X, y, lr, threshold, maxiter)
+\end_layout
+
+\begin_layout Plain Layout
+
+    [~, d] = size(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    W = ones(d, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for niter=1:maxiter
+\end_layout
+
+\begin_layout Plain Layout
+
+        st = state(X,W);
+\end_layout
+
+\begin_layout Plain Layout
+
+        y_hat = logistic(st);
+\end_layout
+
+\begin_layout Plain Layout
+
+        ds = grad_logistic(y, y_hat, X);
+\end_layout
+
+\begin_layout Plain Layout
+
+        v = vecnorm(abs(ds));
+\end_layout
+
+\begin_layout Plain Layout
+
+        if v < threshold
+\end_layout
+
+\begin_layout Plain Layout
+
+            break
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+        W = W - lr*ds;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function [W, niter] = train_NR(X, y, threshold, maxiter, lambda)
+\end_layout
+
+\begin_layout Plain Layout
+
+    [~, d] = size(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    W = ones(d, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    I = eye(d);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for niter = 1:maxiter
+\end_layout
+
+\begin_layout Plain Layout
+
+        st = state(X, W);
+\end_layout
+
+\begin_layout Plain Layout
+
+        y_hat = logistic(st);
+\end_layout
+
+\begin_layout Plain Layout
+
+        gradient = grad_logistic(y, y_hat, X);
+\end_layout
+
+\begin_layout Plain Layout
+
+        v = vecnorm(abs(gradient));
+\end_layout
+
+\begin_layout Plain Layout
+
+        if v < threshold
+\end_layout
+
+\begin_layout Plain Layout
+
+            break
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+        H = hess_logistic(y_hat, X);
+\end_layout
+
+\begin_layout Plain Layout
+
+        W = W - inv(H + lambda * I) * gradient; %We add a term to avoid
+ singularities
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function pred = my_predict(X, W)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p = logistic(state(X, W));
+\end_layout
+
+\begin_layout Plain Layout
+
+    pred = double(p >= 0.5);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Multi-class logistic regression
+\end_layout
+
+\begin_layout Standard
+The multi-class case, 
+\begin_inset Formula $K>2$
+\end_inset
+
+, is handled by having a separator 
+\begin_inset Formula $W^{\left(k\right)}$
+\end_inset
+
+ for each class 
+\begin_inset Formula $k=1,...,K$
+\end_inset
+
+.
+ In this case, instead of a Bernoulli distribution for the targets 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+, we use a categorical distribution.
+ Each target 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ is represented with its one.hot encoding.
+\end_layout
+
+\begin_layout Standard
+In this case, the likelihood function is
+\begin_inset Formula 
+\[
+\mathcal{L}\left(W^{\left(1\right)},...,W^{\left(K\right)}\right)=\prod_{i=1}^{n}\prod_{k=1}^{K}\hat{y}_{ik}^{y_{ik}},
+\]
+
+\end_inset
+
+ and the 
+\series bold
+cross-entropy los
+\series default
+s is
+\begin_inset Formula 
+\[
+E\left(W^{\left(1\right)},...,W^{\left(K\right)}\right)=-\sum_{i=1}^{n}\sum_{k=1}^{k}y_{ik}\log\hat{y}_{ik}.
+\]
+
+\end_inset
+
+ As in the binary case, we optimize this by using gradient descent or Newton's
+ method.
+\end_layout
+
+\begin_layout Subsubsection
+Regularization
+\end_layout
+
+\begin_layout Standard
+Finally, note that we can add regularization to the weights, in the same
+ way we did for linear regression, by adding the 
+\begin_inset Formula $L1$
+\end_inset
+
+ or 
+\begin_inset Formula $L2$
+\end_inset
+
+ norms of the weights to the cross-entropy loss
+\begin_inset Formula 
+\[
+E_{lasso}\left(W\right)=-\sum_{i=1}^{n}\left[y_{i}\log\hat{y}_{i}+\left(1-y_{i}\right)\log\left(1-\hat{y}_{i}\right)\right]+\lambda\sum_{j=1}^{d}
+\]
 
 \end_inset
 
