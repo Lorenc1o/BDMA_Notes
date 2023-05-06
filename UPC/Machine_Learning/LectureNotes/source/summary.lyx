@@ -10894,6 +10894,1412 @@ Note that when the data is mixed, we can assume a different distribution
  for each feature, and then add the log-likelihoods altogether.
 \end_layout
 
+\begin_layout Subsection
+Perceptron and Logistic Regression
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+perceptron
+\series default
+ is a mathematical model of the functioning of a neuron in our brain.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:A-neuron."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ we can see a diagram of a neuron.
+ Other neurons transmit signals into our neuron via the dendrites, then
+ 'something' happens inside the neuron, and it transmits or not signals
+ through its axon towards the neurons to which it is connected.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename neuron.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A neuron.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:A-neuron."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This behavior was mathematically modeled by Roosenblatt in his pioneer paper
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rosenblatt_1958"
+literal "false"
+
+\end_inset
+
+.
+ He did this with the concept of perceptron:
+\end_layout
+
+\begin_layout Itemize
+A perceptron is a function 
+\begin_inset Formula $F:\mathbb{R}^{d}\rightarrow\left\{ -1,1\right\} $
+\end_inset
+
+, where
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $d$
+\end_inset
+
+ is the number of inputs.
+ In the neuron analogy, it is the number of dendrites of the neuron.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left\{ -1,1\right\} $
+\end_inset
+
+ represents that a neuron can send a signal, 
+\begin_inset Formula $F=1$
+\end_inset
+
+, or not, 
+\begin_inset Formula $F=-1$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+This function operates in the following maner:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For each input 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+, there is a weight 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+, for 
+\begin_inset Formula $i=1,...,d$
+\end_inset
+
+.
+ This models somehow the strength of the connection between two neurons.
+\end_layout
+
+\begin_layout Itemize
+There is an aritificial input called 
+\series bold
+bias
+\series default
+, which is always set to 1 and serves the purpose of being able to center
+ the inputs.
+ It is usually depicted by 
+\begin_inset Formula $x_{0}=1$
+\end_inset
+
+ and goes with its weight 
+\begin_inset Formula $w_{0}$
+\end_inset
+
+, used to determine the true bias.
+\end_layout
+
+\begin_layout Itemize
+The inputs are weighted and sum, to form a state of the neuron
+\begin_inset Formula 
+\[
+S=\sum_{i=0}^{d}w_{i}x_{i}=W^{T}X.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Finally, we apply the function 
+\begin_inset Formula 
+\[
+f\left(S\right)=\begin{cases}
+1 & if\ S>0\\
+-1 & otherwise
+\end{cases}.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Therefore,
+\begin_inset Formula 
+\[
+F\left(x\right)=f\left(S\left(x\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+This is depicted in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:A-simple-perceptron."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Notice
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename perceptron.drawio.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A simple perceptron.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:A-simple-perceptron."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This way, we can classify the input variables 
+\begin_inset Formula $X\in\mathbb{R}^{d}$
+\end_inset
+
+ into two classes, 1 or -1.
+ But...
+ what are the weights?
+\end_layout
+
+\begin_layout Example
+Imagine we have the following classification function
+\begin_inset Formula 
+\[
+class\left(x\right)=\begin{cases}
+1 & if\ x>0.5\\
+-1 & otherwise
+\end{cases},
+\]
+
+\end_inset
+
+ then it is easy to construct a perceptron that can classify the instances.
+ We have:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $d=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w_{0}=0.5,w_{1}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Therefore, we have
+\begin_inset Formula 
+\[
+F\left(X\right)=f\left(w_{0}+w_{1}x\right)=f\left(x-0.5\right)=\begin{cases}
+1 & if\ x-0.5>0\\
+-1 & otherwise
+\end{cases}=\begin{cases}
+1 & if\ x>0.5\\
+-1 & otherwise
+\end{cases}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And we are good!
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+In this previous example we can grab some intuition on how the weights are
+ chosen, but doing this by hand is not scalable at all.
+ When we have several input variables, this process is complicated quite
+ a lot.
+ Luckily, the 
+\series bold
+perceptron algorithm
+\series default
+ helps us estimate the weigths.
+\end_layout
+
+\begin_layout Standard
+This algorithm is an on-line algorithm, meaning that it process one training
+ example at a time, updating 
+\begin_inset Formula $W$
+\end_inset
+
+ incrementally.
+ The training examples are pairs 
+\begin_inset Formula $\left(X,y\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $X\in\mathbb{R}^{d}$
+\end_inset
+
+ and 
+\begin_inset Formula $y\in\left\{ -1,1\right\} $
+\end_inset
+
+.
+ Also, we can scale all 
+\begin_inset Formula $X$
+\end_inset
+
+ to lie in the unit sphere, because this also scales the hyperplanes of
+ classification and classes remain the same.
+ The algorithm goes as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+init W=0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for i in range(1,e):
+\end_layout
+
+\begin_layout Plain Layout
+
+	for each (X,y):
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+		compute prediction=<@$F(S(W^TX))$@>
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+		if prediction != y:
+\end_layout
+
+\begin_layout Plain Layout
+
+			# update W
+\end_layout
+
+\begin_layout Plain Layout
+
+			W = W + lr*X*y
+\end_layout
+
+\begin_layout Plain Layout
+
+return W
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Perceptron algorithm (input X, classes y, learning rate lr, epochs e) ->
+ weights W
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The updates are made like that because:
+\end_layout
+
+\begin_layout Itemize
+if 
+\begin_inset Formula $y=1$
+\end_inset
+
+, then we want 
+\begin_inset Formula $S\left(W^{T}X\right)$
+\end_inset
+
+ to be > 0, but it is < 0.
+ With the update, we now have
+\begin_inset Formula 
+\[
+\left(W+X\right)^{T}X=W^{T}X+X^{T}X=W^{T}X+1>W^{T}X,
+\]
+
+\end_inset
+
+ which is one unit closer to our objective.
+\end_layout
+
+\begin_layout Itemize
+if 
+\begin_inset Formula $y=-1$
+\end_inset
+
+, the same logic applies.
+\end_layout
+
+\begin_layout Example
+A simple perceptron in MATLAB
+\end_layout
+
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+matlabtitle{Perceptron Example}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+rng(5)
+\end_layout
+
+\begin_layout Plain Layout
+
+X = rand([100,1]);
+\end_layout
+
+\begin_layout Plain Layout
+
+y = 2*(double(X>0.5)-0.5*ones(size(X)));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f=gscatter(X,zeros(size(X)),y,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+ylim([-0.1,0.1])
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_0.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+Now, let's manually use our perceptron:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = [-0.5; 1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W = 2x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+   -0.5000
+\end_layout
+
+\begin_layout Plain Layout
+
+    1.0000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Add the bias
+\end_layout
+
+\begin_layout Plain Layout
+
+X_bias = [ones(size(X)) X];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pred = zeros(size(X));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:length(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = X_bias(i,:)';
+\end_layout
+
+\begin_layout Plain Layout
+
+    S = state(x,W);
+\end_layout
+
+\begin_layout Plain Layout
+
+    pred(i) = my_sign(S);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f2=gscatter(X,zeros(size(X)),pred,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+ylim([-0.1,0.1])
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_1.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+It classified perfectly! Now let's train the algorithm:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+% Add the bias
+\end_layout
+
+\begin_layout Plain Layout
+
+X_bias = [ones(size(X)) X];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Train the model
+\end_layout
+
+\begin_layout Plain Layout
+
+W2 = train(X_bias,y,0.1,10)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+W2 = 2x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+   -0.1000
+\end_layout
+
+\begin_layout Plain Layout
+
+    0.2013
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pred2 = zeros(size(X_bias));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:length(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = X_bias(i,:)';
+\end_layout
+
+\begin_layout Plain Layout
+
+    S = state(x,W2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    pred2(i) = my_sign(S);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f3=gscatter(X,zeros(size(X)),pred2,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+ylim([-0.1,0.1])
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_2.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+This is quite interesting...
+ it found different weights, but it classified eveything well.
+ This must break somewhere.
+ Let's try to determine where:
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+X = 0.45:0.001:0.55;
+\end_layout
+
+\begin_layout Plain Layout
+
+X = X';
+\end_layout
+
+\begin_layout Plain Layout
+
+y = 2*(double(X>0.5)-0.5*ones(size(X)));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+X_bias = [ones(size(X)) X];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pred3 = zeros(size(X));
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for i=1:length(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = X_bias(i,:)';
+\end_layout
+
+\begin_layout Plain Layout
+
+    S = state(x,W2);
+\end_layout
+
+\begin_layout Plain Layout
+
+    pred3(i) = my_sign(S);
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+f4=gscatter(X_bias,zeros(size(X)),pred3==y,'br','o');
+\end_layout
+
+\begin_layout Plain Layout
+
+hold on
+\end_layout
+
+\begin_layout Plain Layout
+
+ylim([-0.1,0.1])
+\end_layout
+
+\begin_layout Plain Layout
+
+xlim([0.45,0.55])
+\end_layout
+
+\begin_layout Plain Layout
+
+hold off
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_3.eps
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+y(pred3~=y)
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+ans = 4x1    
+\end_layout
+
+\begin_layout Plain Layout
+
+    -1
+\end_layout
+
+\begin_layout Plain Layout
+
+    -1
+\end_layout
+
+\begin_layout Plain Layout
+
+    -1
+\end_layout
+
+\begin_layout Plain Layout
+
+    -1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlaboutput}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+This means that our model is actually setting the bound a little bit before
+ 0.5 (as can be seen in the graph).
+ This should be improved by increasing the size of X.
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{flushleft}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{par}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{matlabcode}
+\end_layout
+
+\begin_layout Plain Layout
+
+function S = state(X, W)
+\end_layout
+
+\begin_layout Plain Layout
+
+    S = W'*X;
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function pred = my_sign(S)
+\end_layout
+
+\begin_layout Plain Layout
+
+    if S > 0
+\end_layout
+
+\begin_layout Plain Layout
+
+        pred = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+    else
+\end_layout
+
+\begin_layout Plain Layout
+
+        pred = -1;
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+function W = train(X, y, lr, epochs)
+\end_layout
+
+\begin_layout Plain Layout
+
+    [~, d] = size(X);
+\end_layout
+
+\begin_layout Plain Layout
+
+    W = zeros(d, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+    for epoch = 1:epochs
+\end_layout
+
+\begin_layout Plain Layout
+
+        for i = 1:length(X)
+\end_layout
+
+\begin_layout Plain Layout
+
+            x = X(i,:)';
+\end_layout
+
+\begin_layout Plain Layout
+
+            pred = my_sign(state(x, W));
+\end_layout
+
+\begin_layout Plain Layout
+
+            if pred ~= y(i)
+\end_layout
+
+\begin_layout Plain Layout
+
+                W = W + lr*x*y(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+            end
+\end_layout
+
+\begin_layout Plain Layout
+
+        end
+\end_layout
+
+\begin_layout Plain Layout
+
+    end
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{matlabcode}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
