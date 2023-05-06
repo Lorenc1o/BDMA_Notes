@@ -11406,6 +11406,68 @@ W'^{T}X=W^{T}X+\eta\left\Vert X\right\Vert ^{2}>W^{T}X,
  the same logic applies.
 \end_layout
 
+\begin_layout Standard
+In fact, under some conditions, convergence is ensured:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tcolorbox}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+
+\series bold
+Perceptron convergence theorem
+\end_layout
+
+\begin_layout Theorem
+For any finite set of linearly separable labeled examples, the Perceptron
+ Learning Algorithm will halt after a finite number of iterations.
+ In other words, after a finite number of iterations, the algorithm yields
+ a vector W that classifies perfectly all the examples.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tcolorbox}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof can be read in 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://web.mit.edu/course/other/i2course/www/vision_and_learning/perceptron_notes.pdf"
+target "https://web.mit.edu/course/other/i2course/www/vision_and_learning/perceptron_notes.pdf"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Example
 A simple perceptron in MATLAB
 \end_layout
