@@ -11337,36 +11337,38 @@ Perceptron algorithm (input X, classes y, learning rate lr, epochs e) ->
 \end_layout
 
 \begin_layout Standard
-The updates are made like that because:
-\end_layout
-
-\begin_layout Itemize
-if 
-\begin_inset Formula $y=1$
-\end_inset
-
-, then we want 
-\begin_inset Formula $S\left(W^{T}X\right)$
-\end_inset
-
- to be > 0, but it is < 0.
- With the update, we now have
+The updates are made like that because we can consider the error function
 \begin_inset Formula 
 \[
-\left(W+X\right)^{T}X=W^{T}X+X^{T}X=W^{T}X+1>W^{T}X,
+E\left(W\right)=-W^{T}Xy
 \]
 
 \end_inset
 
- which is one unit closer to our objective.
-\end_layout
-
-\begin_layout Itemize
-if 
-\begin_inset Formula $y=-1$
+ only when 
+\begin_inset Formula $X$
 \end_inset
 
-, the same logic applies.
+ is misclasified.
+ In that case, 
+\begin_inset Formula $W^{T}Xy<0$
+\end_inset
+
+ and thus the minus sign.
+ We want to minimize this error, for which we follow a gradient descent
+ approach (we will deepen on this later), so we update 
+\begin_inset Formula $W$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+W'=W-\eta\nabla E=W+\eta Xy.
+\]
+
+\end_inset
+
+ The basic idea is that if we now utilize this new weights in the same 
 \end_layout
 
 \begin_layout Example
@@ -11441,47 +11443,27 @@ hold off
 end{matlabcode}
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-
-\backslash
-begin{center}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-includegraphics[width=
-\backslash
-maxwidth{56.69844455594581em}]{figure_0.eps}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_0.eps
+	scale 60
+
+\end_inset
+
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-vspace{1em}
-\end_layout
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
 
@@ -11662,36 +11644,27 @@ hold off
 end{matlabcode}
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
-
-\backslash
-begin{center}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-includegraphics[width=
-\backslash
-maxwidth{56.69844455594581em}]{figure_1.eps}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_1.eps
+	scale 60
+
+\end_inset
+
 
 \end_layout
+
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
 
@@ -11877,32 +11850,27 @@ hold off
 end{matlabcode}
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
 
-\backslash
-begin{center}
 \end_layout
 
-\begin_layout Plain Layout
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_2.eps
+	scale 60
+
+\end_inset
 
 
-\backslash
-includegraphics[width=
-\backslash
-maxwidth{56.69844455594581em}]{figure_2.eps}
 \end_layout
 
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
 
@@ -12053,28 +12021,27 @@ hold off
 end{matlabcode}
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
 
-\backslash
-begin{center}
 \end_layout
 
-\begin_layout Plain Layout
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename scripts/perceptron_example_images/figure_3.eps
+	scale 60
+
+\end_inset
 
 
-\backslash
-includegraphics[width=
-\backslash
-maxwidth{56.69844455594581em}]{figure_3.eps}
 \end_layout
 
-\begin_layout Plain Layout
-
-
-\backslash
-end{center}
-\end_layout
+\end_deeper
+\begin_layout Example
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
 
