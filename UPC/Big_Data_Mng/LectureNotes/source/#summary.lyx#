@@ -13892,32 +13892,6 @@ ssc.awaitTermination()
 \end_layout
 
 \begin_layout Standard
-In this example, we first create a DStream from a socket text stream.
- We then split each line into words and create key-value pairs for each
- word.
- The key is the word itself, and the value is 1, representing a single occurrenc
-e of the word.
-\end_layout
-
-\begin_layout Standard
-We then use the reduceByKeyAndWindow function to calculate the word count
- within a sliding window.
- In this case, the window duration is set to 10 seconds, and the slide duration
- is set to 2 seconds.
- The reduceByKeyAndWindow function takes two lambda functions as arguments
- - the first one is used to add the values when a new RDD enters the window,
- and the second one is used to subtract the values when an RDD exits the
- window.
-\end_layout
-
-\begin_layout Standard
-Finally, we print the word counts within the window using the pprint function
- and start the streaming context.
- The streaming context will run until terminated by the user or an error
- occurs.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
