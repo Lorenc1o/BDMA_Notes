@@ -1686,6 +1686,22 @@ Return all neighbour nodes of 'John'
 
 \begin_deeper
 \begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (john {name:'John'})-[:friend]-(f)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN john, f;
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -1694,7 +1710,263 @@ Return all neighbour nodes of 'John'
 Return the incident nodes of all edges
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n1)-[e]->(n2)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN e, n1, n2;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_deeper
+\end_deeper
+\begin_layout Subsubsection
+GQL
+\end_layout
+
+\begin_layout Standard
+There is an ongoing big effort towards stardardization of Graph Query Languages,
+ through the GQL project.
+\end_layout
+
+\begin_layout Section
+Graph Processing
+\end_layout
+
+\begin_layout Exercise
+Understand the relationships between the basic graph operations.
+ Answer the following questions:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Is adjacency subsumed by reachability?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+No, because there is no way to compute all adjacent nodes to a given node
+ by answering reachability queries.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Is adjacency subsumed by pattern matching?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Yes, the adjacency query 
+\begin_inset Formula $Adjacent\left(x\right)$
+\end_inset
+
+ is equivalent to the pattern matching query 
+\begin_inset Formula $Match\left(x\rightarrow y\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Is reachability subsumed by pattern matching?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Yes, the reachability query 
+\begin_inset Formula $Reachable\left(x,y\right)$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $!not\_empty\left(Match\left(x\rightarrow^{*}y\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Exercise
+Note that in the cases in which a query is subsumed in another, it makes
+ sense to have the simplified version, which can be optimized as a simpler
+ case of pattern matching.
+\end_layout
+
+\begin_layout Standard
+Notice that so far, the operations have been presented conceptually, being
+ agnostic of the underlying technology.
+ The theoretical costs are:
+\end_layout
+
+\begin_layout Itemize
+Adjacency is linear in the amount of vertices to visit 
+\begin_inset Formula $O\left(\left|V\right|\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Reachability is 
+\begin_inset Formula $O\left(\left|V\right|^{3}\right)$
+\end_inset
+
+ using Dijkstra's shortest path.
+\end_layout
+
+\begin_layout Itemize
+Label-constrained reachability is 
+\begin_inset Formula $O\left(\left|V\right|\right)$
+\end_inset
+
+ for a single pair of vertices and 
+\begin_inset Formula $O\left(\left|V\right|^{3}\right)$
+\end_inset
+
+ for all pairs.
+ It is NP-complete if we enforce no-repeated-edges isomorphism semantics.
+\end_layout
+
+\begin_layout Itemize
+Pattern matching in general is NP-complete.
+\end_layout
+
+\begin_layout Itemize
+Navigational pattern matching is also NP-complete, but can be reduced to
+ 
+\begin_inset Formula $O\left(\left|V\right|^{3}\right)$
+\end_inset
+
+ using bounded simulation algorithms.
+\end_layout
+
+\begin_layout Exercise
+Identify the most efficient algorithm to solve a given query.
+ Assume a graph containing relationships and nodes of actors and films (the
+ same as before, but with virtually more information).
+ Define:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+A query that should be solved as an Adjacency problem.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Retrieve all pairs of 
+\begin_inset Formula $\left(Person,Film\right)$
+\end_inset
+
+ such that 
+\begin_inset Formula $Person$
+\end_inset
+
+ acts in 
+\begin_inset Formula $Film$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename exercise_queries.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+A query that should be solved as a Label-constrained Reachability problem.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Retrieve all pairs of actors related by coacting relationship.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename exercise_queries.drawio_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+A query that should be solved as a Navigational Pattern matching problem
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+People and movies in which the person acts and directs.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename exercise_queries_2.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+NO! This can be done with reachability, repeating the same node:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename exercise_queries_3.drawio (1).png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So, we need something else...
+ If we fix something in the middle, then we cannot use reachability.
+ For example, retrieve all co-actors related by the Movie Titanic:
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+Dijkstra's algorithm
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
