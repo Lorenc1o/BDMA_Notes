@@ -1,0 +1,1718 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BDM-MIRI - Semantic Data Management
+\end_layout
+
+\begin_layout Date
+Spring 2023
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename upc-logo.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professors: Anna Queralt, Óscar Romero 
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.antonio.lorencio@estudiantat..upc.edu
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Semantic Data Management
+\emph default
+ taught at the Universitat Politècnica de Catalunya by Professors Anna Queralt
+ and Óscar Romero in the academic year 22/23.
+ Most of the content of this document is adapted from the course notes by
+ Abelló and Nadal, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Romero2023"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList algorithm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Property Graphs
+\end_layout
+
+\begin_layout Section
+Property Graphs
+\end_layout
+
+\begin_layout Subsection
+Definitions
+\end_layout
+
+\begin_layout Standard
+Property graphs were born in the database community, with the idea of enabling
+ the possibility to query and process data in graph form.
+ Up to date, there is not any official standard.
+\end_layout
+
+\begin_layout Standard
+Property graphs are 
+\series bold
+ocurrence-based
+\series default
+, which means that they are defined by the particular instances inserted,
+ without a pre-existent enforceable schema.
+ The instances are represented by two main constructs:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nodes
+\series default
+: represent entities.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Edges
+\series default
+: relate pairs of nodes, and may represent different types of relationships.
+\end_layout
+
+\begin_layout Standard
+Both nodes and edges might be 
+\series bold
+labeled
+\series default
+ and can have a ser of properties, represented as 
+\series bold
+attributes
+\series default
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In some definitions, edges are not allowed to have attributes.
+\end_layout
+
+\end_inset
+
+.
+ In addition, edges can be defined to be directed or undirected.
+ Moreover, multi-graphs are allowed, meaning that two nodes can be related
+ by multiple edges.
+\end_layout
+
+\begin_layout Standard
+More formally:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+property graph
+\series default
+, 
+\begin_inset Formula $G$
+\end_inset
+
+, is a tuple 
+\begin_inset Formula $\left(V,E,\rho,\lambda,\sigma,Lab,Prop,Val\right)$
+\end_inset
+
+, where:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $V$
+\end_inset
+
+ is a finite set of vertices.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $E$
+\end_inset
+
+ is a finite set of edges, such that 
+\begin_inset Formula $V$
+\end_inset
+
+ and 
+\begin_inset Formula $E$
+\end_inset
+
+ have no elements in common
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Usually, we will identify vertices and edges by their key identifier.
+ Thus, this condition means that a key represents either a node or an edge,
+ but not both at the same time.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Lab$
+\end_inset
+
+ is a set of labels.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Prop$
+\end_inset
+
+ is a set of properties and 
+\begin_inset Formula $Val$
+\end_inset
+
+ is the set of possible values that the properties can take.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\rho:E\rightarrow V\times V$
+\end_inset
+
+ is a total function
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+A total function is a function 
+\begin_inset Formula $f:Dom\rightarrow Im$
+\end_inset
+
+ such that 
+\begin_inset Formula $\forall x\in Dom,\exists y\in Im|f\left(x\right)=y$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+ Basically, 
+\begin_inset Formula $\rho$
+\end_inset
+
+ assigns each edge 
+\begin_inset Formula $e\in E$
+\end_inset
+
+ to the pair of nodes that it relates, 
+\begin_inset Formula $\left(u,v\right)\in V\times V$
+\end_inset
+
+.
+ Usually, 
+\begin_inset Formula $\rho\left(e\right)=\left(u,v\right)$
+\end_inset
+
+ means that edge 
+\begin_inset Formula $e$
+\end_inset
+
+ starts in 
+\begin_inset Formula $u$
+\end_inset
+
+ and ends in 
+\begin_inset Formula $v$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\lambda:\left(V\cup E\right)\rightarrow Lab$
+\end_inset
+
+ is a total function.
+ Now, for each vertex and each edge, we assign a label to it
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In some definitions, it is possible to assign a set of labels, so that 
+\begin_inset Formula $\lambda:\left(V\cup E\right)\rightarrow2^{Lab}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sigma:\left(V\cup E\right)\times Prop\rightarrow Val$
+\end_inset
+
+ is a partial function
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+A partial function is a function that is not necessarily total.
+\end_layout
+
+\end_inset
+
+.
+ Here, we are assigning the values of each property of each node/edge.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+A simple graph.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplegraph.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+In this example, we have the visual representation of a simple graph.
+ Let's create each of the components of the formal definition:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $V=\left\{ n_{1},n_{2},n_{3}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $E=\left\{ e_{1},e_{2},e_{3}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Lab=\left\{ Person,Movie,acts\_in,directs\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Prop=\left\{ name,gender,title,role,ref\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Val=\left\{ Clint\ Eastwood,Anna\ Levine,male,female,Unforgiven,Bill,Delilah,IMDb\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda\left(n_{1}\right)=Person,\lambda\left(n_{2}\right)=Movie,\lambda\left(n_{3}\right)=Person,\lambda\left(e_{1}\right)=acts\_in,\lambda\left(e_{2}\right)=directs,\lambda\left(e_{3}\right)=acts\_in$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma\left(n_{1},name\right)=Clint\ Eastwood,\sigma\left(n_{1},gender\right)=male,\sigma\left(n_{2},title\right)=Unforgiven,\sigma\left(n_{3},name\right)=Anna\ Levine,$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\sigma\left(n_{3},gender\right)=female,\sigma\left(e_{1},role\right)=Bill,\sigma\left(e_{1},ref\right)=IMDb,\sigma\left(e_{3},role\right)=Delilah,\sigma\left(e_{3},ref\right)=IMDb$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+Traversal Navigation
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+graph traversal pattern
+\series default
+ is defined as the ability to rapidly traverse structures to an arbitrary
+ depth and with an arbitrary path description.
+\end_layout
+
+\begin_layout Standard
+This framework is totally opposite to set theory, on which relational databases
+ are based on.
+ In the relational theory, this is equivalent to joining data and selecting
+ data, while in a graph database, the relationships are explicit (there
+ no foreign keys), there is no need to add nodes for artificial concepts
+ and we can consider the joins as being hard-wired in the data.
+ This makes traversing from one node to another a constant time operation.
+\end_layout
+
+\begin_layout Standard
+Traversing graph data depends on three main variables:
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+query topology
+\series default
+, which refers to the complexity of what are we looking for, and the 
+\series bold
+traversal seeds
+\series default
+, which are the way in which the search is started.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+size of the graph
+\series default
+, typically measured as the number of edges.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+topology of the graph
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+Graph operations
+\end_layout
+
+\begin_layout Standard
+There are basically two types of operations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Content-based queries
+\series default
+: in these queries, the value is relevant.
+ We want to get a specific node, or the value of some attributes of a node/edge,
+ etc.
+ For example, aggregations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Topological queries
+\series default
+: in this case, only the topology of the graph is considered.
+ Several business problems are solved using graph algorithms exploring the
+ graph topology.
+ For example, computing the betweenness centrality of a node.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hybrid approaches
+\series default
+: leverage both types of queries.
+\end_layout
+
+\begin_layout Standard
+Of these types, we are going to focus on topological queries.
+\end_layout
+
+\begin_layout Subsubsection
+Topological queries
+\end_layout
+
+\begin_layout Subsubsection*
+Adjacency queries
+\end_layout
+
+\begin_layout Standard
+Two nodes are adjacent if there is an edge between them (usually disregarding
+ direction).
+ Therefore, the adjacency of a node is defined as all nodes adjacent to
+ it:
+\begin_inset Formula 
+\[
+Adjacency\left({\color{blue}n}\right)=N|{\color{red}n_{i}}\in N\iff\exists{\color{green}{\color{teal}e}}:\rho\left({\color{green}{\color{teal}e}}\right)=\left({\color{red}n_{i}},{\color{blue}n}\right)\lor\rho\left({\color{teal}e}\right)=\left({\color{blue}n},{\color{red}n_{i}}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The computational cost of this operation is linear on the number of edges
+ to visit.
+\end_layout
+
+\begin_layout Standard
+Examples of use cases are finding all friends of a person, airports with
+ direct connection,...
+\end_layout
+
+\begin_layout Subsubsection*
+Reachability queries
+\end_layout
+
+\begin_layout Standard
+A node is reachable from another node if there is a set of edges, called
+ a 
+\series bold
+walk
+\series default
+, that can be traversed to get from one to the other (in this case, direction
+ is usually taken into account, but it could be disregarded if needed).
+ Now, the definition is as follows:
+\begin_inset Formula 
+\[
+Reachability\left(n_{or},n_{dest}\right)=True\iff
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\exists Walk\left({\color{blue}n_{or}},{\color{red}n_{dest}}\right)=\left(e_{1},...,e_{m}\right)|\exists{\color{teal}n_{1},...,n_{m-1}}:\rho\left(e_{1}\right)=\left({\color{blue}n_{or}},{\color{teal}n_{1}}\right),\rho\left(e_{2}\right)=\left({\color{teal}n_{1},n_{2}}\right),...,\rho\left(e_{m}\right)=\left({\color{teal}n_{m-1}},{\color{red}n_{dest}}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additional constraints can be defined:
+\end_layout
+
+\begin_layout Itemize
+Fixed-length paths: we can fix the number of edges and nodes of the walk.
+\end_layout
+
+\begin_layout Itemize
+Shortest path: find the walk that minimizes some metric, such as the number
+ of hops or the sum of weights of the edges,...
+\end_layout
+
+\begin_layout Itemize
+Non-repeated nodes: in this case the walk is called a 
+\series bold
+path
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Non-repeated edges: in this case the walk is called a 
+\series bold
+trail
+\series default
+.
+ Note that a path is more restrictive than a trail.
+\end_layout
+
+\begin_layout Itemize
+Regular simple paths: we can restrict the path to respect some regular expressio
+n.
+\end_layout
+
+\begin_layout Standard
+The computational cost is high for large graphs, and it also depends on
+ what constraints are we imposing.
+ For instance, if we want to compute the shortest path, we can use 
+\series bold
+Dijkstra's algorithm
+\series default
+, which is 
+\begin_inset Formula $O\left(\left|V\right|^{2}\right)$
+\end_inset
+
+, or 
+\begin_inset Formula $O\left(\left|E\right|\cdot\left|V\right|\log\left|V\right|\right)$
+\end_inset
+
+ using priority queues.
+\end_layout
+
+\begin_layout Standard
+Examples of use cases are finding all friends of a friend, all flight connection
+s,...
+\end_layout
+
+\begin_layout Subsubsection*
+Label-constrained reachability
+\end_layout
+
+\begin_layout Standard
+We compute reachability, imposing that all edges in the walk have a label
+ in a defined set of labels:
+\begin_inset Formula 
+\[
+G_{L}^{*}=\left\{ \left(s,t\right)|\exists p\in paths\left(s,t\right)\ such\ that\ \lambda\left(e\right)\in L,\forall e\in p\right\} .
+\]
+
+\end_inset
+
+ Another way to see this is that we are trying to determine all pairs of
+ nodes such that there is a path between them such that the concatenation
+ of the edge labels along the path forms a string in the language denoted
+ by the regular expresion 
+\begin_inset Formula $\left(l_{1}\cup...\cup l_{n}\right)^{*}$
+\end_inset
+
+, where 
+\begin_inset Formula $L=\left\{ l_{1},...,l_{n}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Typically, the allowed topology and labels involved are expressed as a regular
+ expression.
+ In general, this problem is known to be NP-complete.
+\end_layout
+
+\begin_layout Subsubsection*
+Pattern matching
+\end_layout
+
+\begin_layout Standard
+In this case, we want to find all subgraphs that follow a given pattern.
+ More formally, we have 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+ and a pattern 
+\begin_inset Formula $P=\left(V_{p},E_{p}\right)$
+\end_inset
+
+ and we want to find all 
+\begin_inset Formula $G'=\left(V',E'\right)$
+\end_inset
+
+ such that 
+\begin_inset Formula $V'\subset V,E'\subset E$
+\end_inset
+
+ and 
+\begin_inset Formula $P\cong G'$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $G'$
+\end_inset
+
+ are isomorphic, i.e., there are biyections 
+\begin_inset Formula $V'\overset{f_{1}}{\rightarrow}V_{p}$
+\end_inset
+
+ and 
+\begin_inset Formula $E'\overset{f_{2}}{\rightarrow}E_{p}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This problem is also NP-complete.
+\end_layout
+
+\begin_layout Standard
+Examples of use cases are finding all groups of cities such that all of
+ them are directly connected by flights (find cliques),...
+\end_layout
+
+\begin_layout Subsection
+Property Graph Patterns
+\end_layout
+
+\begin_layout Standard
+Among the operations that we have seen so far, it is interesting, in the
+ context of property graphs, to focus on pattern matching.
+ Now, we use 
+\series bold
+basic graph patterns (bgps)
+\series default
+, which are equivalent to conjunctive queries, and are a property graph
+ where variables can appear in place of any constant.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+match
+\series default
+ for a bgp is a mapping from variables to constants, such that when the
+ mapping is applied to the bgp, the result is a subgraph of the original
+ graph.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+results
+\series default
+ for a bgp are all mappings from variables in the query to constants that
+ comprise a match.
+\end_layout
+
+\begin_layout Example
+A simple pattern matching.
+ Assume we have the same graph we used before:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplegraph.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+And the following bgp:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplebgp.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Here, I have coloured variables in red, and left constant in black.
+\end_layout
+
+\begin_layout Example
+Let's see some matches:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplebgp_1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplebgp_2.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+And so on...
+\end_layout
+
+\begin_layout Subsubsection
+Evaluating graph patterns
+\end_layout
+
+\begin_layout Standard
+Now, we are going to formalize a bit the intuition built in the previous
+ explanation and example.
+ Evaluating a bgp 
+\begin_inset Formula $P$
+\end_inset
+
+, against a graph 
+\begin_inset Formula $G$
+\end_inset
+
+ corresponds to listing all possible matches of 
+\begin_inset Formula $P$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $G$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given an edge-labelled graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+ and a bgp 
+\begin_inset Formula $P=\left(V',E'\right)$
+\end_inset
+
+, a 
+\series bold
+match
+\series default
+ of 
+\begin_inset Formula $P$
+\end_inset
+
+ in 
+\begin_inset Formula $G$
+\end_inset
+
+ is a mapping 
+\begin_inset Formula 
+\[
+h:Const\cup Var\rightarrow Const
+\]
+
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+For each constant 
+\begin_inset Formula $a\in Const$
+\end_inset
+
+, 
+\begin_inset Formula $h\left(a\right)=a$
+\end_inset
+
+, i.e., constants are preserved.
+\end_layout
+
+\begin_layout Enumerate
+For each edge 
+\begin_inset Formula $\left(b,l,c\right)\in E'$
+\end_inset
+
+, we have 
+\begin_inset Formula $\left(h\left(b\right),h\left(l\right),h\left(c\right)\right)\in E$
+\end_inset
+
+.
+ This imposes that
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Each edge of 
+\begin_inset Formula $P$
+\end_inset
+
+ is mapped to an edge of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+The structure of 
+\begin_inset Formula $P$
+\end_inset
+
+ is preserved in its image under 
+\begin_inset Formula $h$
+\end_inset
+
+ in 
+\begin_inset Formula $G$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Semantics of a match
+\end_layout
+
+\begin_layout Standard
+Matches can be defined using different semantics on what we consider equivalent
+ graphs, and what conditions the function 
+\begin_inset Formula $h$
+\end_inset
+
+ have to meet:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Homomorphism-based semantics
+\series default
+: multiple variables in 
+\begin_inset Formula $P$
+\end_inset
+
+ can map to the same constant in 
+\begin_inset Formula $G$
+\end_inset
+
+ (
+\begin_inset Formula $h$
+\end_inset
+
+ is not necessarily inyective).
+ This correspondes to the familiar semantics of select-from-where queries
+ in relational databases.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Isomorphism-based queries
+\series default
+: we add the constraint that 
+\begin_inset Formula $h$
+\end_inset
+
+ must be inyective.
+ 
+\end_layout
+
+\begin_layout Standard
+Nonetheless, there are intermediate solutions:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Strict isomorphism
+\series default
+: corresponds to the isomorphism-based queries, in its stricter sense.
+ 
+\begin_inset Formula $h$
+\end_inset
+
+ is inyective.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+No repeated-node semantics
+\series default
+: 
+\begin_inset Formula $h$
+\end_inset
+
+ is only inyective for nodes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+No repeated-edge semantics
+\series default
+: 
+\begin_inset Formula $h$
+\end_inset
+
+ is only inyective for edges.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Graph Query Languages
+\end_layout
+
+\begin_layout Standard
+Graph Query Languages are declarative languages used to query a graph.
+ Typically, a GQL matches an extended version of pattern matching, and each
+ database engine chooses fix semantics for it, not existing a common agreement
+ nor standard.
+ There are also APIs provigin implementation of graph metrica or label-constrain
+ed shortest path, which, depending on the metric or algorithm chosen, maps
+ to adjacency, reachability or pattern matching.
+\end_layout
+
+\begin_layout Subsection
+Types of queries
+\end_layout
+
+\begin_layout Standard
+There are different types of queries, each of them using a different access
+ plan:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Adjacency queries
+\series default
+: neighbourhood queries require accessing the basic data structure and navigate
+ it.
+ Thus, their performance depends on the database implementation and the
+ specific query, as the time to find a node or edge depends on this implementati
+on.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Regular path queries
+\series default
+: combine pattern matching and reachability and require specific graph-oriented
+ algorithms.
+ They are equivalent to conjunctive queries.
+ They are also called navigational graph patterns.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+RPQs extend the bgp definition by allowing regular expressions on edges
+ to describe path queries in a pattern, i.e., a 
+\series bold
+path
+\series default
+ is described as
+\begin_inset Formula 
+\[
+x\overset{\alpha}{\rightarrow}y\ over\ G,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $x,y$
+\end_inset
+
+ are nodes in 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a regular expression over 
+\begin_inset Formula $Lab$
+\end_inset
+
+.
+ The regular expressions differ from language to language.
+ Some usual expressions are:
+\end_layout
+
+\begin_layout Itemize
+The Kleene star *: 0 or more ocurrences.
+\end_layout
+
+\begin_layout Itemize
+The Kleene plus +: 1 or more ocurrences.
+\end_layout
+
+\begin_layout Itemize
+Concatenation 
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Inverse 
+\begin_inset Formula $^{-}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Union 
+\begin_inset Formula $|$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Combinations of them and the labels in 
+\begin_inset Formula $Lab$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Some simple RPQs.
+ In our previous example, we can define some simple RPQs:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Find all co-actors of all actors:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename RPQ.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Retrieve all actors you can reach by transitively following the co-actoring
+ relationship, at least once:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename RPQ.drawio (1).png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Complex graph patterns
+\series default
+: add further expressivity beyond conjunctive queries, such as groupings,
+ aggregations and set operations.
+ The previous RPQs are equivalent to conjunctive queries without projections,
+ but database languages are richer than this, enforcing GQLs to implement
+ more complex semantics.
+ 
+\series bold
+GraphQL
+\series default
+ was the first graph algebra extending RPQs with relational-like operators.
+\end_layout
+
+\begin_layout Subsection
+Popular languages
+\end_layout
+
+\begin_layout Subsubsection
+Cypher
+\end_layout
+
+\begin_layout Standard
+Cypher was created by Neo4j, and acts as a de facto standard, adopted by
+ other graph databases.
+ It is a high-level, declarative language, providing both DDL (Data Definition
+ Language) and DML (Data Modification Language) capabilities, and allowing
+ navigational graph patterns, except concatenation.
+\end_layout
+
+\begin_layout Standard
+It applies pattern matching under 
+\color blue
+no-repeated-edges isomorphism
+\color inherit
+ semantics.
+ The available clauses are:
+\end_layout
+
+\begin_layout Itemize
+DML:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+MATCH: the graph pattern to match.
+\end_layout
+
+\begin_layout Itemize
+WHERE: filtering criteria.
+\end_layout
+
+\begin_layout Itemize
+WITH: divides a query into multiple distinct parts.
+\end_layout
+
+\begin_layout Itemize
+RETURN: define what to return.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+DDL:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+CREATE | MERGE: creates nodes and relationship.
+ Merge does it only if it does not exist beforehand, entailing an overhead.
+\end_layout
+
+\begin_layout Itemize
+DELETE: removes nodes, relationships and properties.
+\end_layout
+
+\begin_layout Itemize
+SET: set values of properties.
+\end_layout
+
+\begin_layout Itemize
+FOREACH: performs updating actions once per element in a list.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Cypher applies a data pipeline, where each stage is a MATCH-WHERE-WITH/RETURN
+ block, allowing the definition of aliases to be passed between stages.
+\end_layout
+
+\begin_layout Standard
+For example, uppose you have a graph database with 
+\family typewriter
+Person
+\family default
+ nodes and two types of relationships:
+\family typewriter
+ FRIENDS_WITH
+\family default
+ and 
+\family typewriter
+WORKS_WITH
+\family default
+.
+ You want to find all mutual friends of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ who also work with someone named 
+\family typewriter
+Charlie
+\family default
+.
+ You can achieve this with the following Cypher query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (alice:Person {name: 'Alice'})-[:FRIENDS_WITH]-(mutual_friend:Person)-[:FR
+IENDS_WITH]-(bob:Person {name: 'Bob'})
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH mutual_friend
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (mutual_friend)-[:WORKS_WITH]-(charlie:Person {name: 'Charlie'})
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN mutual_friend.name
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this query, we have three stages in the data pipeline:
+\end_layout
+
+\begin_layout Enumerate
+MATCH (Stage 1): Match the graph pattern where 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ have mutual friends.
+ Bind the 
+\family typewriter
+mutual_friend
+\family default
+ node.
+\end_layout
+
+\begin_layout Enumerate
+WITH: Pass the 
+\family typewriter
+mutual_friend
+\family default
+ node to the next stage.
+\end_layout
+
+\begin_layout Enumerate
+MATCH (Stage 2): Match the graph pattern where the
+\family typewriter
+ mutual_friend
+\family default
+ from the previous stage works with 
+\family typewriter
+Charlie
+\family default
+.
+\end_layout
+
+\begin_layout Enumerate
+RETURN: Return the name of the mutual friend who meets both criteria (being
+ a mutual friend of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ and working with 
+\family typewriter
+Charlie
+\family default
+).
+\end_layout
+
+\begin_layout Standard
+In this example, the 
+\family typewriter
+WITH
+\family default
+ clause is used to separate the query into two stages.
+ The first stage finds all mutual friends of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+, and the second stage filters those mutual friends to only include the
+ ones who work with 
+\family typewriter
+Charlie
+\family default
+.
+ The use of 
+\family typewriter
+WITH
+\family default
+ here is what enables the pipelining of stages in the query.
+\end_layout
+
+\begin_layout Example
+Given the following graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename cypher_example.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Return all nodes
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return all edges
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH ()-[e]-()
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN e;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return all neighbour nodes of 'John'
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return the incident nodes of all edges
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "upc"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
