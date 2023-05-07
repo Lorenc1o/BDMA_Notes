@@ -1213,6 +1213,536 @@ Graph Query Languages
 \end_layout
 
 \begin_layout Standard
+Graph Query Languages are declarative languages used to query a graph.
+ Typically, a GQL matches an extended version of pattern matching, and each
+ database engine chooses fix semantics for it, not existing a common agreement
+ nor standard.
+ There are also APIs provigin implementation of graph metrica or label-constrain
+ed shortest path, which, depending on the metric or algorithm chosen, maps
+ to adjacency, reachability or pattern matching.
+\end_layout
+
+\begin_layout Subsection
+Types of queries
+\end_layout
+
+\begin_layout Standard
+There are different types of queries, each of them using a different access
+ plan:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Adjacency queries
+\series default
+: neighbourhood queries require accessing the basic data structure and navigate
+ it.
+ Thus, their performance depends on the database implementation and the
+ specific query, as the time to find a node or edge depends on this implementati
+on.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Regular path queries
+\series default
+: combine pattern matching and reachability and require specific graph-oriented
+ algorithms.
+ They are equivalent to conjunctive queries.
+ They are also called navigational graph patterns.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+RPQs extend the bgp definition by allowing regular expressions on edges
+ to describe path queries in a pattern, i.e., a 
+\series bold
+path
+\series default
+ is described as
+\begin_inset Formula 
+\[
+x\overset{\alpha}{\rightarrow}y\ over\ G,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $x,y$
+\end_inset
+
+ are nodes in 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a regular expression over 
+\begin_inset Formula $Lab$
+\end_inset
+
+.
+ The regular expressions differ from language to language.
+ Some usual expressions are:
+\end_layout
+
+\begin_layout Itemize
+The Kleene star *: 0 or more ocurrences.
+\end_layout
+
+\begin_layout Itemize
+The Kleene plus +: 1 or more ocurrences.
+\end_layout
+
+\begin_layout Itemize
+Concatenation 
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Inverse 
+\begin_inset Formula $^{-}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Union 
+\begin_inset Formula $|$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Combinations of them and the labels in 
+\begin_inset Formula $Lab$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Some simple RPQs.
+ In our previous example, we can define some simple RPQs:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Find all co-actors of all actors:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename RPQ.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Retrieve all actors you can reach by transitively following the co-actoring
+ relationship, at least once:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename RPQ.drawio (1).png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Complex graph patterns
+\series default
+: add further expressivity beyond conjunctive queries, such as groupings,
+ aggregations and set operations.
+ The previous RPQs are equivalent to conjunctive queries without projections,
+ but database languages are richer than this, enforcing GQLs to implement
+ more complex semantics.
+ 
+\series bold
+GraphQL
+\series default
+ was the first graph algebra extending RPQs with relational-like operators.
+\end_layout
+
+\begin_layout Subsection
+Popular languages
+\end_layout
+
+\begin_layout Subsubsection
+Cypher
+\end_layout
+
+\begin_layout Standard
+Cypher was created by Neo4j, and acts as a de facto standard, adopted by
+ other graph databases.
+ It is a high-level, declarative language, providing both DDL (Data Definition
+ Language) and DML (Data Modification Language) capabilities, and allowing
+ navigational graph patterns, except concatenation.
+\end_layout
+
+\begin_layout Standard
+It applies pattern matching under 
+\color blue
+no-repeated-edges isomorphism
+\color inherit
+ semantics.
+ The available clauses are:
+\end_layout
+
+\begin_layout Itemize
+DML:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+MATCH: the graph pattern to match.
+\end_layout
+
+\begin_layout Itemize
+WHERE: filtering criteria.
+\end_layout
+
+\begin_layout Itemize
+WITH: divides a query into multiple distinct parts.
+\end_layout
+
+\begin_layout Itemize
+RETURN: define what to return.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+DDL:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+CREATE | MERGE: creates nodes and relationship.
+ Merge does it only if it does not exist beforehand, entailing an overhead.
+\end_layout
+
+\begin_layout Itemize
+DELETE: removes nodes, relationships and properties.
+\end_layout
+
+\begin_layout Itemize
+SET: set values of properties.
+\end_layout
+
+\begin_layout Itemize
+FOREACH: performs updating actions once per element in a list.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Cypher applies a data pipeline, where each stage is a MATCH-WHERE-WITH/RETURN
+ block, allowing the definition of aliases to be passed between stages.
+\end_layout
+
+\begin_layout Standard
+For example, uppose you have a graph database with 
+\family typewriter
+Person
+\family default
+ nodes and two types of relationships:
+\family typewriter
+ FRIENDS_WITH
+\family default
+ and 
+\family typewriter
+WORKS_WITH
+\family default
+.
+ You want to find all mutual friends of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ who also work with someone named 
+\family typewriter
+Charlie
+\family default
+.
+ You can achieve this with the following Cypher query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=SQL"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (alice:Person {name: 'Alice'})-[:FRIENDS_WITH]-(mutual_friend:Person)-[:FR
+IENDS_WITH]-(bob:Person {name: 'Bob'})
+\end_layout
+
+\begin_layout Plain Layout
+
+WITH mutual_friend
+\end_layout
+
+\begin_layout Plain Layout
+
+MATCH (mutual_friend)-[:WORKS_WITH]-(charlie:Person {name: 'Charlie'})
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN mutual_friend.name
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this query, we have three stages in the data pipeline:
+\end_layout
+
+\begin_layout Enumerate
+MATCH (Stage 1): Match the graph pattern where 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ have mutual friends.
+ Bind the 
+\family typewriter
+mutual_friend
+\family default
+ node.
+\end_layout
+
+\begin_layout Enumerate
+WITH: Pass the 
+\family typewriter
+mutual_friend
+\family default
+ node to the next stage.
+\end_layout
+
+\begin_layout Enumerate
+MATCH (Stage 2): Match the graph pattern where the
+\family typewriter
+ mutual_friend
+\family default
+ from the previous stage works with 
+\family typewriter
+Charlie
+\family default
+.
+\end_layout
+
+\begin_layout Enumerate
+RETURN: Return the name of the mutual friend who meets both criteria (being
+ a mutual friend of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+ and working with 
+\family typewriter
+Charlie
+\family default
+).
+\end_layout
+
+\begin_layout Standard
+In this example, the 
+\family typewriter
+WITH
+\family default
+ clause is used to separate the query into two stages.
+ The first stage finds all mutual friends of 
+\family typewriter
+Alice
+\family default
+ and 
+\family typewriter
+Bob
+\family default
+, and the second stage filters those mutual friends to only include the
+ ones who work with 
+\family typewriter
+Charlie
+\family default
+.
+ The use of 
+\family typewriter
+WITH
+\family default
+ here is what enables the pipelining of stages in the query.
+\end_layout
+
+\begin_layout Example
+Given the following graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename cypher_example.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Return all nodes
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN n;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return all edges
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH ()-[e]-()
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN e;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return all neighbour nodes of 'John'
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (john {name:'John'})-[:friend]-(f)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN john, f;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return the incident nodes of all edges
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+MATCH (n1)-[e]->(n2)
+\end_layout
+
+\begin_layout Plain Layout
+
+RETURN e, n1, n2;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsubsection
+GQL
+\end_layout
+
+\begin_layout Standard
+There is an ongoing big effort towards stardardization of Graph Query Languages,
+ through the GQL project.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
