@@ -15065,11 +15065,7 @@ Final considerations
 \end_layout
 
 \begin_layout Itemize
-
-\color red
-Making predictions can be slow
-\color inherit
-, specially if the training dataset is large.
+Making predictions can be slow, specially if the training dataset is large.
  To improve the prediction speed, there are several approaches:
 \end_layout
 
@@ -15111,95 +15107,10 @@ on algorithm and the edited nearest neighbor rule.
 \end_layout
 
 \begin_layout Itemize
-Use approximate neighbors, for example using 
-\color blue
-locality sensitive hashing
-\color inherit
-.
- The main idea behind LSH is to hash the input items in such a way that
- similar items are more likely to be hashed to the same bucket.
- By doing this, it reduces the search space for nearest neighbors and allows
- for faster retrieval.
- LSH trades off some accuracy for improved speed, making it suitable for
- large-scale applications where an approximate answer is acceptable.
+Use approximate neighbors, for example using locality sensitive hashing.
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
-\begin_inset Formula $kNN$
-\end_inset
-
- is 
-\color red
-prone to overfitting
-\color inherit
-.
- To avoid this, usual approaches include:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\color blue
-Remove noisy examples
-\color inherit
- from the training data, for example, data points with neierst neighbors
- of different class.
-\end_layout
-
-\begin_layout Itemize
-Again, use 
-\color blue
-prototypes
-\color inherit
-.
-\end_layout
-
-\begin_layout Itemize
-Set the 
-\color blue
-appropriate value of 
-\begin_inset Formula $k$
-\end_inset
-
-
-\color inherit
-.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-It suffers from the 
-\color red
-curse of dimensionality
-\color inherit
-: as dimension increases, everything seems to be close.
-\end_layout
-
-\begin_layout Itemize
-Suffers from the presence of 
-\color red
-irrelevant features
-\color inherit
-, so 
-\color blue
-feature selection
-\color inherit
- is an important pre-processing step.
-\end_layout
-
-\begin_layout Itemize
-
-\color blue
-Standardization
-\color inherit
- of features is crucial to avoid 
-\color red
-domination of features with larger values
-\color inherit
-.
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
