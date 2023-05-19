@@ -16579,6 +16579,351 @@ end{matlabcode}
 
 \end_layout
 
+\begin_layout Subsection
+Random Forests
+\end_layout
+
+\begin_layout Standard
+Let's deepen a bit in the bagging technique, which we said it can be used
+ to reduce the variance of our estimates by averaging the estimates obtained
+ from independent models.
+ Assume we have 
+\begin_inset Formula $B$
+\end_inset
+
+ models 
+\begin_inset Formula $\left\{ M_{b}\right\} _{b=1}^{B}$
+\end_inset
+
+, and an input 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ Each model produces an estimate
+\begin_inset Formula 
+\[
+Y_{b}=M_{b}\left(x\right),
+\]
+
+\end_inset
+
+ which tries to predict the real value 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ Let's suppose these estimates are unbiased, i.e.
+ 
+\begin_inset Formula $E\left[Y_{b}\right]=y,\forall b$
+\end_inset
+
+.
+ Then, the average of the estimates is
+\begin_inset Formula 
+\[
+E\left[\frac{1}{B}\sum_{b}Y_{b}\right]=\frac{1}{B}\sum_{b}E\left[Y_{b}\right]=\frac{1}{B}\sum_{b}y=y.
+\]
+
+\end_inset
+
+Therefore, this average is also an unbiased estimate of the value 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ Let's see what happens with the variance when we perform this average.
+ If we assume that the models are independent and that they all have the
+ same variance, then it follows
+\begin_inset Formula 
+\begin{align*}
+Var\left[\frac{1}{B}\sum_{b}Y_{b}\right]= & \frac{1}{B^{2}}Var\left[\sum_{b}Y_{b}\right]\\
+= & \frac{1}{B^{2}}\left(\sum_{b}Var\left[Y_{b}\right]+\cancelto{0}{2\sum_{i\neq j}Cov\left(Y_{i},Y_{j}\right)}\right)\\
+= & \frac{1}{B^{2}}\sum_{b}Var\left[Y_{b}\right]\\
+= & \frac{Var\left[Y_{b}\right]}{B}.
+\end{align*}
+
+\end_inset
+
+ Thus, the variance is reduced, making the predictions more consistent.
+ 
+\end_layout
+
+\begin_layout Standard
+Since trees typically suffer from high variance (overfitting), so they seem
+ like a good candidate to apply this technique.
+ The application of bagging to trees are the 
+\series bold
+random forests
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+First, a 
+\color blue
+bootstrapped dataset
+\color inherit
+ is created by randomly selecting samples from the original dataset with
+ repetition.
+ The samples that not chosen for the bootstrapped dataset are placed in
+ a separate dataset, the 
+\color red
+out-of-bag dataset (OOB)
+\color inherit
+.
+\end_layout
+
+\begin_layout Standard
+Then, we want to generate a diverse collection of trees that are better
+ than a random choice, and are as independent from each other as possible.
+ If we construct all these trees using the usual algorithm, then they will
+ be very similar, so we have to inject stochasticity into this process.
+ This is done by:
+\end_layout
+
+\begin_layout Itemize
+The sampling introduces stochasticity, but it is usually not enough to provide
+ independence between the trees.
+\end_layout
+
+\begin_layout Itemize
+We can manipulate features or targets, by not taking some of them into account.
+ This is done for each tree, so that different trees focus on different
+ features, providing the independence that we seek.
+\end_layout
+
+\begin_layout Itemize
+Change the learning parameters, the impurity function,...
+\end_layout
+
+\begin_layout Itemize
+Performing combinations of the above methods.
+\end_layout
+
+\begin_layout Standard
+The pseudocode of the random forest training algorithm is shown in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:random_forest(D,n_estimators,max"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python,morekeywords={to, end, Output,do,from,on}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for b=1 to n_estimators do
+\end_layout
+
+\begin_layout Plain Layout
+
+	Sample <@$D_b$@> as a bootstrap of max_samples from D
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	Create tree <@$T_b$@> on <@$D_b$@>, adding nodes by
+\end_layout
+
+\begin_layout Plain Layout
+
+		- Select max_features variables at random from all variables
+\end_layout
+
+\begin_layout Plain Layout
+
+		- Pick the best variable/split point according to Gini/SSE
+\end_layout
+
+\begin_layout Plain Layout
+
+		- Split the current node according to the split found
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Output forest <@$
+\backslash
+{T_1,...,T_B
+\backslash
+}$@>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:random_forest(D,n_estimators,max"
+
+\end_inset
+
+random_forest(D,n_estimators,max_samples,max_features)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To make predictions on a test example 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+For classification: output class probabilities or majority vote among 
+\begin_inset Formula $\left\{ T_{1}\left(x\right),...,T_{B}\left(x\right)\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+For regression: output average prediction 
+\begin_inset Formula $\frac{1}{B}\sum_{b}T_{b}\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Then, to estimate the generalization error, we can use the OOB dataset to
+ compute the 
+\series bold
+OOB error
+\series default
+.
+ This generalization error can be used as a validation error to select appropria
+te values for the hyperparameters, so we don't need to perform cross-validation.
+\end_layout
+
+\begin_layout Subsubsection
+Interpretability of random forests
+\end_layout
+
+\begin_layout Standard
+If n_estimators is too big (there are many trees in the forest), then it
+ can be difficult to comprehend the decision process of the model: it is
+ not interpretable.
+ We can do variable importance plot to interpret better the results:
+\end_layout
+
+\begin_layout Itemize
+Gini based variable importance: we can add gini impurity gains for variables
+ in the splits in each tree in the forest, and sort the variables by their
+ sum.
+ This approach is biased towards categorical variables with many splits.
+\end_layout
+
+\begin_layout Itemize
+Permutation based variable importance: for each variable, we can permmute
+ values and compute the difference in the OOB error metrics.
+ If a variable is important, then accuracy in the permuted copy should decrease.
+ We then sort the variables using this difference.
+ This approach is more reliable, but is slower.
+\end_layout
+
+\begin_layout Subsubsection
+Proximities
+\end_layout
+
+\begin_layout Standard
+The idea of proximity of samples in a tree is that when two examples fall
+ into the same leaf of a decision tree, this is evidence supporting the
+ fact that these two examples are similar in some sense.
+\end_layout
+
+\begin_layout Standard
+In the wider sense of forests, we can build a 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ similarity matrix, where each entry 
+\begin_inset Formula $\left(i,j\right)$
+\end_inset
+
+ correspond to the fraction of trees in the forest such that 
+\begin_inset Formula $x_{i},x_{j}$
+\end_inset
+
+ end up in the same leaf.
+ This matrix can be used in distance/similarity based methods, or to apply
+ PCA to obtain numeric representation of the data.
+\end_layout
+
+\begin_layout Subsubsection
+Imbalanced data in classification
+\end_layout
+
+\begin_layout Standard
+In random forest, there are several techniques to deal with imbalaced data:
+\end_layout
+
+\begin_layout Itemize
+Use 
+\begin_inset Formula $F-score$
+\end_inset
+
+ for model selection.
+\end_layout
+
+\begin_layout Itemize
+Under-sampling majority class/over-sampling minority class when building
+ the bootstrapped dataset.
+\end_layout
+
+\begin_layout Itemize
+Use of weights when computing errors.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
