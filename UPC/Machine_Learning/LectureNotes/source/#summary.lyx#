@@ -15565,27 +15565,32 @@ ylabel('Sepal width');
 end{matlabcode}
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+begin{center}
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename scripts/classification_trees_images/figure_0.eps
-	scale 60
-
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+includegraphics[width=
+\backslash
+maxwidth{56.69844455594581em}]{figure_0.eps}
 \end_layout
 
-\end_deeper
-\begin_layout Example
-\begin_inset ERT
-status open
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \begin_layout Plain Layout
 
@@ -16049,27 +16054,32 @@ legend('versicolor','setosa','virginica')
 end{matlabcode}
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+begin{center}
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename scripts/classification_trees_images/figure_1.eps
-	scale 60
-
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+includegraphics[width=
+\backslash
+maxwidth{56.69844455594581em}]{figure_1.eps}
 \end_layout
 
-\end_deeper
-\begin_layout Example
-\begin_inset ERT
-status open
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \begin_layout Plain Layout
 
@@ -16175,27 +16185,32 @@ legend('versicolor','setosa','virginica')
 end{matlabcode}
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+begin{center}
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename scripts/classification_trees_images/figure_2.eps
-	scale 60
-
-\end_inset
+\begin_layout Plain Layout
 
 
+\backslash
+includegraphics[width=
+\backslash
+maxwidth{56.69844455594581em}]{figure_2.eps}
 \end_layout
 
-\end_deeper
-\begin_layout Example
-\begin_inset ERT
-status open
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \begin_layout Plain Layout
 
