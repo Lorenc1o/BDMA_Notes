@@ -2466,5 +2466,1654 @@ Consider a cluster of ten worker machines and a single coordinator, which
  Briefly justigy both numbers.
 \end_layout
 
+\begin_layout Section
+Key-Value Stores
+\end_layout
+
+\begin_layout Subsection
+Theoretical questions
+\end_layout
+
+\begin_layout Subsubsection
+Which is the main difference between the hash functions used in the linear
+ hash and consistent hash algorithms?
+\end_layout
+
+\begin_layout Subsubsection
+With respect to distributed systems, explain what is a distributed hash
+ table (DHT), and provide a brief description of how consistent hashing
+ guarantees balancing keys when adding new servers.
+\end_layout
+
+\begin_layout Subsection
+Exercises
+\end_layout
+
+\begin_layout Subsubsection
+Let’s assume we have a Consistent hash with D = 16, and the hash function
+ is simply the module of the IP address or the key, and suppose the current
+ state of the consistent hash is (position in the ring:key|key|...):
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+What happens when we insert objects 30 and 58? Draw the result.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+What happens in the structure when we register a new server with IP address
+ 37? Draw the result.
+\end_layout
+
+\begin_layout Subsubsection
+Let's suppose we have a Linear Hash and the hash function is simply the
+ module of the key, the capacity of a bucket is only four entries, and curent
+ state of the linear hash is (bucketID: key|key|...):
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado9.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+What happens in the structure when we insert keys 14, 27, 37 and 44? Draw
+ the result.
+\end_layout
+
+\begin_layout Subsubsection
+Let's suppose that we have an LSM Tree that reached the threshold to consider
+ the MemStore is full, and it contains four entries with format 
+\begin_inset Formula $\left[key,value,timestamp\right]$
+\end_inset
+
+ needing 10 characters each.
+ the content of the different structures is:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+MemStore: 
+\begin_inset Formula $\left[1,v,t50\right],\left[15,v,t49\right],\left[17,v,t47\right],\left[29,v,t48\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Commit Log: 
+\begin_inset Formula $\left[17,v,t47\right],\left[29,v,t48\right],\left[15,v,t49\right],\left[1,v,t50\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SSTable: 
+\begin_inset Formula $\left[13,v,t23\right],\left[25,v,t17\right],\left[35,v,t40\right],\left[59,v,t38\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Index: 
+\begin_inset Formula $\left[13,0\right],\left[25,30\right],\left[35,60\right],\left[59,90\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Assuming that the minimum size of an SSTable is 120 characters and on having
+ two SSTables, a minor compactation is automatically triggered.
+ Explicit the content of all structures once the compactation is done.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+MemStore:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Commit Log:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SSTable:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Index:
+\end_layout
+
+\begin_layout Subsubsection
+Briefly explain what is wrong in this linear hash structure, or if you think
+ it is right, explicitly say so:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado10.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Suppose you have a hash function whose range has size 100 (i.e., D=100), and
+ a Consistent Hash structure with 5 machines (M1,...,M5) whose identifiers
+ map to values 
+\begin_inset Formula $h\left(M1\right)=0,h\left(M2\right)=20,h\left(M3\right)=40,h\left(M4\right)=60$
+\end_inset
+
+ and 
+\begin_inset Formula $h\left(M5\right)=80$
+\end_inset
+
+.
+ What happens if you have an object mapped to value 
+\begin_inset Formula $h\left(O\right)=90$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Subsubsection
+Given an empty consistent hash with 
+\begin_inset Formula $h\left(x\right)=x\%32$
+\end_inset
+
+ (i.e., we directly take module 32 to both the keys and the bucket IDs), and
+ unlimited capacity in each bucket, consider you have a cluster of four
+ machines with IDs 19,22,75,92 and draw the result of inserting the following
+ keys in the given order: 12, 4, 10, 49, 42, 60, 53, 47, 27, 26, 28, 13,
+ 52.
+\end_layout
+
+\begin_layout Subsubsection
+Suppose you implement a system to store images in hundreds of machines with
+ thousands of users using HBase with a single column-family.
+ These images taken at time VT belong to a person P who tags each with a
+ single subject S (e.g.
+ family, friends, etc.) and are concurrently uploaded into the system at
+ time TT in personal batches containing multiple pictures of different subjects
+ taken at different times.
+ Each person can then retrieve all his/her pictures of one single subject
+ taken that were taken after a given time.
+ Precisely define the key you would use if you exclusively prioritize (i.e.,
+ do not consider any other criteria):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Load balancing on ingestion:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Assumptions made:
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Load balancing on querying:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Assumptions made:
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+I/O cost (i.e., minimum blocks retrieved) on ingestion:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Assumptions made:
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+I/O cost (i.e., minimum blocks retrieved) on querying:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Assumptions made:
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Given an empty linear hash with 
+\begin_inset Formula $f\left(x\right)=x$
+\end_inset
+
+ (i.e., we directly apply the module to the keys), and a capacity of four
+ keys per bucket, draw the result of inserting the following keys in the
+ given order: 12, 4, 10, 49, 42, 60, 63, 53, 47, 27, 26, 28, 13, 52.
+\end_layout
+
+\begin_layout Section
+Document Stores
+\end_layout
+
+\begin_layout Subsection
+Problems
+\end_layout
+
+\begin_layout Subsubsection
+Optimize the performance of the following document design:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+{"_id": 123,
+\end_layout
+
+\begin_layout Plain Layout
+
+"name": "Alberto"
+\end_layout
+
+\begin_layout Plain Layout
+
+"address": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"street": "Jordi Girona",
+\end_layout
+
+\begin_layout Plain Layout
+
+"city": "Barcelona",
+\end_layout
+
+\begin_layout Plain Layout
+
+"zip_code": "08034"},
+\end_layout
+
+\begin_layout Plain Layout
+
+"telephone1": "93 4137889",
+\end_layout
+
+\begin_layout Plain Layout
+
+"telephone2": "93 4137840",
+\end_layout
+
+\begin_layout Plain Layout
+
+"telephone3": "123456789"
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Optimize the performance of the following pipe:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+db.partsupp.aggregate([
+\end_layout
+
+\begin_layout Plain Layout
+
+{"$sort": {"n_name": 1, "s_name": 1, "p_partkey": 1}},
+\end_layout
+
+\begin_layout Plain Layout
+
+{"$match": {"part.p_size": 5},
+\end_layout
+
+\begin_layout Plain Layout
+
+{"$project": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"supplier.s_name": 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+"supplier.s_phone": 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+"supplier.s_comment": 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+"_id": 0
+\end_layout
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\begin_layout Plain Layout
+
+])
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Assume you have a MongoDB collection which occupies 6 chunks evenly distributed
+ in 3 shards (i.e., 2 chunks per shard).
+ Being the document ID also the shard key, the chunk of a document is determined
+ by means of a hash function.
+ Assuming that accessing one document takes one time unit (existing indexes
+ are used at no cost) and we have 6000 documents in the collection, 
+\begin_inset Formula $k$
+\end_inset
+
+ of which have value 'YYY' for attribute 'other', how many units would take
+ the following operations
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+As typically in RDBMS optimizers, assume uniform distribution of values
+ and statistical independence between pairs of attributes.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $FindOne\left(\left\{ \_id:"XXX"\right\} \right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ \_id:\left\{ \$in:\left[1,...,3000\right]\right\} \right\} \right)$
+\end_inset
+
+, being 
+\begin_inset Formula $\left[1,6000\right]$
+\end_inset
+
+ the range of existing IDs.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY"\right\} \right)$
+\end_inset
+
+, being the attribute indexed.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY\right\} \right)$
+\end_inset
+
+, being the attribute not indexed.
+\end_layout
+
+\begin_layout Subsubsection
+Assume you have a MongoDB collection which occupies 6 chunks unevenly distribute
+d in 3 shards (i.e., 1, 2 and 3 chunks per shard, respectively).
+ Being the document Id also the shard key, the chunk of a document is determined
+ by means of a hash function.
+ Assuming that accessing one document takes one time unit (existing indexes
+ are used at no cost) and we have 6000 documents in the collection, 
+\begin_inset Formula $k$
+\end_inset
+
+ of which have value 'YYY' for attribute 'other', how many times units would
+ take the following operations
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+As typically in RDBMS optimizers, assume uniform distribution of values
+ and statistical independence between pairs of attributes.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $FindOne\left(\left\{ \_id:"XXX"\right\} \right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ \_id:\left\{ \$in:\left[1,...,3000\right]\right\} \right\} \right)$
+\end_inset
+
+, being 
+\begin_inset Formula $\left[1,6000\right]$
+\end_inset
+
+ the range of existing IDs.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY"\right\} \right)$
+\end_inset
+
+, being the attribute indexed.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY\right\} \right)$
+\end_inset
+
+, being the attribute not indexed.
+\end_layout
+
+\begin_layout Subsubsection
+Assume you have a MongoDB collection which occupies 6 chunks evenly distributed
+ in 3 shards (i.e., 2 chunks per shard).
+ Being the document Id also the shard key, the chunk of a document is determined
+ by range.
+ Assuming that accessing one document takes one time unit (existing indexes
+ are used at no cost) and we have 6000 documents in the collection, 
+\begin_inset Formula $k$
+\end_inset
+
+ of which have value 'YYY' for attribute 'other', how many times units would
+ take the following operations
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+As typically in RDBMS optimizers, assume uniform distribution of values
+ and statistical independence between pairs of attributes.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $FindOne\left(\left\{ \_id:"XXX"\right\} \right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ \_id:\left\{ \$in:\left[1,...,3000\right]\right\} \right\} \right)$
+\end_inset
+
+, being 
+\begin_inset Formula $\left[1,6000\right]$
+\end_inset
+
+ the range of existing IDs.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY"\right\} \right)$
+\end_inset
+
+, being the attribute indexed.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $Find\left(\left\{ other:"YYY\right\} \right)$
+\end_inset
+
+, being the attribute not indexed.
+\end_layout
+
+\begin_layout Subsubsection
+Assume a MongoDB collection of JSON documents following the structure shown
+ below.
+ Indicate a sequence of stage operators that can be used in a pipeline to
+ compute the top five departments in terms of number of employees such that
+ its location has at least one performance_review greater than 7.
+ In the example below, since both locations have performance reviewss greater
+ than 7, manufacturing has a total of 90 employees, while billing and sales
+ have 80 and 40 employees, respectively.
+ You need only to provide the names of the stage operators and the sequence
+ in which they are applied.
+ You should not use the mapreduce feature of MongoDB, but rather the specific
+ stage operators provided by MongoDB.
+ You do not need to explicitly handle the case of ties (i.e., in the case
+ of ties, you may return any of the tied documents to complete the top five).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+{ "location": "Barcelona",
+\end_layout
+
+\begin_layout Plain Layout
+
+"budget": 3.000.000,
+\end_layout
+
+\begin_layout Plain Layout
+
+"departments": [ { "name": "sales", "employees": 40 }, { "name": "manufacturing"
+,
+\end_layout
+
+\begin_layout Plain Layout
+
+"employees": 75 } ],
+\end_layout
+
+\begin_layout Plain Layout
+
+"performance_reviews": [ 7, 6, 3 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+},
+\end_layout
+
+\begin_layout Plain Layout
+
+{ "location": "Brussels",
+\end_layout
+
+\begin_layout Plain Layout
+
+"budget": 5.000.000,
+\end_layout
+
+\begin_layout Plain Layout
+
+"departments": [ { "name": "manufacturing", "employees": 15 }, { "name":
+ "billing
+\end_layout
+
+\begin_layout Plain Layout
+
+", "employees": 80 } ],
+\end_layout
+
+\begin_layout Plain Layout
+
+"performance_reviews": [ 6, 8, 7 ]
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Imagine you want to design a system to maintain data about citizens and
+ doubt whether to use HBase or MongoDB.
+ Precisely, for each citizen, it will store: their personal data (with pID),
+ their city data (with cID) and their employment data.
+ We also know the workload (i.e., queries and frequency of execution) is as
+ follows:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+: average salary in Barcelona (50% frequency) - information obtained from
+ the set of city and employment data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+: average weight for you people (less than 18 years old) (45% frequency)
+ - information obtained from the set of personal data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\begin_inset Formula $Q_{3}$
+\end_inset
+
+: number of VIPs (5% frequency) - information obtained from the set of personal
+ data.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Discuss your choice of technology and data model, without pre-computing
+ the results of the queries.
+ Clearly specify the structure of the data (i.e., tables/collections, keys,
+ values, etc.), trade-offs, and assumptions made.
+\end_layout
+
+\begin_layout Subsubsection
+Analyze (i.e., briefly give pros and cons) the following JSON design compared
+ to other equivalent JSON designs from the three perspectives:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+"BID-PRODUCT":{
+\end_layout
+
+\begin_layout Plain Layout
+
+"B_ID": int(4), "B_PRICE": int(4), "U_ID": int(4),
+\end_layout
+
+\begin_layout Plain Layout
+
+"PRODUCT": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"P_ID": int(4), "P_INFO": varchar(100)
+\end_layout
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\begin_layout Plain Layout
+
+"PRODUCT-SELLER-REGION": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"P_ID": int(4), "P_INFO": varchar(100),
+\end_layout
+
+\begin_layout Plain Layout
+
+"USER": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"U_ID": int(4), "U_F_NAME": varchar(20),
+\end_layout
+
+\begin_layout Plain Layout
+
+"REGION": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"R_ID": int(4), "R_NAME": varchar(10)
+\end_layout
+
+\begin_layout Plain Layout
+
+}}}
+\end_layout
+
+\begin_layout Plain Layout
+
+"PRODUCT-COMMENTS": {
+\end_layout
+
+\begin_layout Plain Layout
+
+"P_ID": int(4), "P_INFO": varchar(100),
+\end_layout
+
+\begin_layout Plain Layout
+
+"COMMENTS": [{
+\end_layout
+
+\begin_layout Plain Layout
+
+"C_ID": int(4), "C_TITLE": varchar(20), "U_ID": int(4)
+\end_layout
+
+\begin_layout Plain Layout
+
+}]}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Read (a.k.a Query)
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Pros:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cons:
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Update
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Pros:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cons:
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Memory (a.k.a.
+ Space)
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Pros:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cons:
+\end_layout
+
+\end_deeper
+\begin_layout Section
+New Relational Architecture
+\end_layout
+
+\begin_layout Subsection
+Theoretical questions
+\end_layout
+
+\begin_layout Subsubsection
+Briefly explain the concept of associativity in the context of memory usage.
+ Identify the benefit of high (respectively low) associativity.
+\end_layout
+
+\begin_layout Subsection
+Problems
+\end_layout
+
+\begin_layout Subsubsection
+Assume you have a SanssouciuDB table T stored row-wise, which ocupies 300
+ blocks and contains tuples with three variable length attributes [
+\bar under
+A
+\bar default
+,B,C] (underlined attribute is declared to be the primary key of the table).
+ Assume there is no index and give the average cost of each query assuming
+ accessing one block is one second.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SELECT A,B,C FROM T WHERE A=x; (being x a constant)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SELECT SUM(B) FROM T;
+\end_layout
+
+\begin_layout Subsubsection
+Assume you have a SanssouciuDB table T stored column-wise, which ocupies
+ 300 blocks and contains tuples with three variable length attributes [
+\bar under
+A
+\bar default
+,B,C] (underlined attribute is declared to be the primary key of the table).
+ Assume there is no index, storage of each attribute uses exactly the same
+ space after compression (i.e., 100 blocks), and run length encoding has been
+ applied for non-key attributes storing ending row position per run.
+ Give the average cost of each query assuming accessing one block is one
+ second and explicit any other assumption you make.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SELECT A,B,C FROM T WHERE A=x; (being x a constant)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SELECT SUM(B) FROM T;
+\end_layout
+
+\begin_layout Subsubsection
+Assume that there is a table T with attributes [
+\bar under
+A
+\bar default
+,B,C] (the underlined attribute is the primary key of the table), which
+ occupies 300 disk blocks of 8 KB each, with 100 B per row.
+ All three attributes require the same space (even in case of compression).
+ Supposing that there is not any index, which would be the minimum amount
+ of memory required to process (do not consider the memory required to store
+ the final output of the query) the following query in either row storage
+ or column storage (briefly justify your answer and explicit any assumption
+ you make).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SELECT A FROM T WHERE B='x' and C='y';
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Row storage:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Column storage:
+\end_layout
+
+\begin_layout Subsubsection
+Without considering compression and assuming a disk block size of 8 KB,
+ is there any case where a query retrieving all tuples, but only half of
+ the equally-sized attributes of a relaitonal table performs better in row
+ storage without any kind of vertical partitioning than in columnar storage?
+ Numerically justify your answer.
+\end_layout
+
+\begin_layout Subsubsection
+Represent the given column with dictionary and run-length encoding storing
+ and row position.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Table
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dictionary
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+End Row
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Code
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Given the two columns of a table represented with run-length encoding using
+ dictionary, give the position of the row(s) that fulfill the predicate
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Charlie AND Beta
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Briefly explain how a column store would obtain them.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top" width="8cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dictionary
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bravo
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charlie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Values
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dictionary Positions
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dictionary
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Alpha
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Beta
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Values
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dictionary Positions
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Distributed Processing Frameworks
+\end_layout
+
 \end_body
 \end_document
