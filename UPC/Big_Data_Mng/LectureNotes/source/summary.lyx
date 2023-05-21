@@ -14209,6 +14209,274 @@ It is possible to show false positives, depending on the stream.
 
 \end_layout
 
+\begin_layout Section
+Big Data Architectures
+\end_layout
+
+\begin_layout Subsection
+Explain the problem of a spaguetti architecture
+\end_layout
+
+\begin_layout Standard
+In Big Data contexts, it is common to find different requirements for different
+ tasks, as well as different tools that provide means to perform these tasks,
+ with different capabilities.
+ Therefore, we can have different tasks spread over different independent
+ and heterogeneous systems.
+ For example, just looking at Hadoop, we find HDFS and HBase for storage,
+ HCatalog for modeling, Sqoop for ingestion, Spark for processing and SparQL
+ for querying.
+\end_layout
+
+\begin_layout Standard
+The spaguetti architecture arises when we solve our tasks' requirements
+ one by one, finding what we consider the best option for that specific
+ task at each moment.
+ This implies that we will end up using tens of different tools, making
+ integration more costly, creating artificially complex pipelines and difficulti
+ng the scalability of the system as a whole.
+ Therefore, architectural designs arise to avoid this problem.
+\end_layout
+
+\begin_layout Subsection
+Explain the need of the Lambda Architecture
+\end_layout
+
+\begin_layout Standard
+The Lambda Architecture addresses the problem of computing arbitrary functions
+ on arbitrary data in real-time by combining both batch and stream processing
+ methods.
+ This makes it possible to handle both low-latency real-time data and keep
+ the benefits of batch processing for more complex analytics.
+\end_layout
+
+\begin_layout Standard
+Batch layer stores all incoming data and allows for computation over large
+ data sets, while the speed layer deals with recent data to provide real-time
+ views.
+ This allows the system to provide precomputed views from the batch layer
+ and recent data views from the speed layer, meeting the demands of both
+ latency and accuracy.
+\end_layout
+
+\begin_layout Subsection
+Explain the difference between Kappa and Lambda Architectures
+\end_layout
+
+\begin_layout Standard
+The Lambda Architecture includes two layers, the batch and the speed layer,
+ while the Kappa Architecture only uses a streaming layer.
+ Lambda uses batch processing for handling large data sets and stream processing
+ for real-time data, while Kappa uses stream processing for all data.
+ Kappa Architecture is often simpler because it only requires maintaining
+ one system, but it may not be suitable for all kinds of computations, especiall
+y for those that are naturally easier to express as batch computations.
+\end_layout
+
+\begin_layout Subsection
+Justify the need of a Data Lake
+\end_layout
+
+\begin_layout Standard
+The main idea of a Data Lake is 
+\series bold
+Load-first,Model-later
+\series default
+.
+ In traditional analytical frameworks, the approach is to model the schema
+ beforehand, in a Model-first,Load-later manner.
+ This approach restricts the potential analysis that could be done in the
+ data, since all information that is not compliant with the defined schema
+ is lost.
+ Therefore, the idea is to store the raw data and then create on-demand
+ views of this raw data to handle all analysis that we might need in the
+ future.
+ The problems of this approach, usual in traditional Data Warehouses systems
+ are that the 
+\color red
+transformations become permanent
+\color inherit
+, the 
+\color red
+schema is fixed
+\color inherit
+ and that the users of the data need to comply with the schema as well,
+ imposing them to learn the schema, what can be done, and what cannot (
+\color red
+high entry barriers
+\color inherit
+).
+\end_layout
+
+\begin_layout Subsection
+Identify the difficulties of a Data Lake
+\end_layout
+
+\begin_layout Standard
+If we don't organize properly the Data Lake, then it could become really
+ hard to track all the data that is stored in it, effectively transforming
+ the Data Lake into what is called a 
+\color red
+Data Swamp
+\color inherit
+.
+ The second problem is that, since each required analysis will need 
+\color red
+specific processing
+\color inherit
+, it is easy to end up having lots of different transformation pipelines,
+ which are very case-specific and can be hard to reuse.
+\end_layout
+
+\begin_layout Subsection
+Explain the need of each component in the Bolster Architecture
+\end_layout
+
+\begin_layout Standard
+The Bolster Architecture is a reference architecture for Big Data systems.
+ It was designed to facilitate the design of Big Data systems in multiple
+ organizations and performed by a research-oriented team.
+ The architecture is based on two families of Big Data architectures and
+ leverages the Big Data dimensions (the five "V's") and the requirements
+ defined for each of them.
+\end_layout
+
+\begin_layout Standard
+The Bolster Architecture consists of several components, each with a specific
+ function:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Semantic Layer
+\series default
+: This layer contains the Metadata Management System (MDM), which is responsible
+ for providing the other components with the necessary information to describe
+ and model raw data, as well as keeping the footprint about data usage.
+ The MDM contains all the metadata artifacts, represented by means of RDF
+ ontologies leveraging the benefits provided by Semantic Web technologies,
+ needed to deal with data governance and assist data exploitation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Batch Layer
+\series default
+: This layer stores a copy of the master data set in raw format as data
+ are ingested.
+ This layer also pre-computes Batch Views that are provided to the Serving
+ Layer.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Speed Layer
+\series default
+: This layer ingests and processes real-time data in the form of streams.
+ Results are then stored, indexed, and published in Real-time Views.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Serving Layer
+\series default
+: Similarly to the Speed Layer, this layer also stores, indexes, and publishes
+ data resulting from the Batch Layer processing in Batch Views.
+\end_layout
+
+\begin_layout Standard
+The Bolster Architecture addresses the two main drawbacks identified in
+ the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+-architecture: it considers Variety, Variability, and Veracity as first-class
+ citizens and refines the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+-architecture to facilitate its instantiation.
+ These changes boil down to a precise definition of the components and their
+ interconnections.
+\end_layout
+
+\begin_layout Subsection
+Map the components of the Bolster Architecture to the RDBMS Architecture
+\end_layout
+
+\begin_layout Standard
+The 
+\color blue
+Semantic Layer
+\color inherit
+ in the Bolster Architecture, which contains the Metadata Management System
+ (MDM), can be compared to the 
+\color red
+system catalog
+\color inherit
+ in an RDBMS.
+ The MDM stores machine-readable semantic annotations, similar to how the
+ system catalog in an RDBMS stores metadata about the database.
+\end_layout
+
+\begin_layout Standard
+The 
+\color blue
+Batch Layer, Speed Layer, and Serving Layer
+\color inherit
+ in the Bolster Architecture handle data storage and processing.
+ These layers can be compared to the 
+\color red
+data storage and processing
+\color inherit
+ components of an RDBMS.
+\end_layout
+
+\begin_layout Standard
+The Batch Layer stores a copy of the master data set in raw format as data
+ are ingested and pre-computes Batch Views that are provided to the Serving
+ Layer.
+ This is similar to how an RDBMS stores and processes data.
+\end_layout
+
+\begin_layout Standard
+The Speed Layer ingests and processes real-time data in the form of streams.
+ Results are then stored, indexed, and published in Real-time Views.
+ This can be compared to the real-time data processing capabilities of some
+ RDBMSs.
+\end_layout
+
+\begin_layout Standard
+The Serving Layer stores, indexes, and publishes data resulting from the
+ Batch Layer processing in Batch Views.
+ This is similar to how an RDBMS stores, indexes, and retrieves data.
+\end_layout
+
+\begin_layout Standard
+However, it's important to note that the Bolster Architecture and an RDBMS
+ have different purposes and are designed to handle different types of data
+ and workloads.
+ The Bolster Architecture is designed for Big Data systems, which often
+ involve processing large volumes of unstructured or semi-structured data,
+ while an RDBMS is typically used for structured data and transactional
+ workloads.
+\end_layout
+
+\begin_layout Subsection
+Given a use case, define its software architecture
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
