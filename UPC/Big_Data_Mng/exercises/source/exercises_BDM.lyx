@@ -1,0 +1,2470 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+\usepackage{ifsym}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\ljoin}{\footnotesize \textifsym{|><} \normalsize}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BDM-MIRI - Big Data Management - Exercises
+\end_layout
+
+\begin_layout Date
+Spring 2023
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../LectureNotes/source/upc-logo.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Alberto Abelló
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose.antonio.lorencio@estudiantat..upc.edu
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This are the exercises of the course 
+\emph on
+Big Data Management
+\emph default
+ taught at the Universitat Politècnica de Catalunya by Professor Alberto
+ Abelló in the academic year 22/23.
+ Some exercises have been solved in class (marked with 
+\color red
+*
+\color inherit
+).
+\end_layout
+
+\begin_layout Address
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Big Data Design
+\end_layout
+
+\begin_layout Subsection
+Theoretical questions
+\end_layout
+
+\begin_layout Subsubsection
+Briefly explain what 'physical independence' is, which is the general position
+ of NOSQL systems on this, and why they take this position.
+\end_layout
+
+\begin_layout Subsubsection
+In the framework of the RUM conjecture, name six data structures we saw
+ in the course (not concrete tool implementations) and place them in the
+ corresponding category:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Read optimized:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Write optimized:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Space optimized:
+\end_layout
+
+\begin_layout Subsubsection
+Compare a B-tree and a LSM-tree in the context of the RUM conjectura (i.e.
+ as an answer to this question, three brief explanations of the form 'From
+ the perspective of X, Y-tree is better than Z-tree, because of this and
+ that' are expected).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+R:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+U:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+M:
+\end_layout
+
+\begin_layout Subsection
+Problems
+\end_layout
+
+\begin_layout Subsubsection
+Consider
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+['BCN', POPULATION:{VALUE:'2 000 000'}, REGION{VALUE:'CAT'}]
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+['BCN', ALL:{VALUE:'2 000 000;CAT'}]
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+['BCN', ALL:{POPULATION:'2 000 000'; REGION:'CAT'}]
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Place {1,2,3} in the table:
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Less variable schema
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+More variable schema
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Less explicit schema
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Formula $\downarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+More explicit schema
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Name two criteria you would use to choose among them.
+\end_layout
+
+\begin_layout Subsubsection
+Consider the following conceptual schema and propose several design alternatives
+ to translate it to a logical representation(e.g.
+ using JSON notation).
+ Then, explain which is the best alternative and why.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Distributed Data
+\end_layout
+
+\begin_layout Subsection
+Theoretical questions
+\end_layout
+
+\begin_layout Subsubsection
+Which kind of database is this according to the distribution of data?
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Explain what is (a) a distributed system, and (b) a parallel system.
+ Compare both of them (i.e.
+ what has one and not the other and vice-versa).
+\end_layout
+
+\begin_layout Subsubsection
+Which two kinds of schema information contains the Global Conceptual Schema
+ that does not contain the Local Conceptual Schema in the Extended ANSI-SPARC
+ Architecture for DDBMS? 
+\color red
+*
+\end_layout
+
+\begin_layout Enumerate
+Fragmentation
+\end_layout
+
+\begin_layout Enumerate
+Allocation
+\end_layout
+
+\begin_layout Subsubsection
+In the context of distributed data management, name the four big challenges
+ that need to be carefully considered in the presence of distribution from
+ the tenant/user point of view.
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Enumerate
+Data design.
+\end_layout
+
+\begin_layout Enumerate
+Catalog management.
+\end_layout
+
+\begin_layout Enumerate
+Transaction management.
+\end_layout
+
+\begin_layout Enumerate
+Query processing.
+\end_layout
+
+\begin_layout Subsubsection
+Name the three characteristics of fragmentation that make it correct.
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Enumerate
+Disjoint.
+\end_layout
+
+\begin_layout Enumerate
+Complete.
+\end_layout
+
+\begin_layout Enumerate
+Reconstructible.
+\end_layout
+
+\begin_layout Subsubsection
+Which is the main problem in having replicas, and which is the innovation
+ introduced by some NOSQL tools to solve it? 
+\color red
+*
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Problem:
+\series default
+ Consistency.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Innovation: 
+\series default
+Eventual consistency.
+\end_layout
+
+\begin_layout Subsubsection
+Given 
+\begin_inset Formula $N$
+\end_inset
+
+ replicas, let's call 
+\begin_inset Formula $R$
+\end_inset
+
+ the ReadConcern parameter of MongoDB and 
+\begin_inset Formula $W$
+\end_inset
+
+ the WriteConcert (which indicate, respectively, the number of copies it
+ reads and writes before confirming the operation to the user).
+ Give the equation involving those variables that corresponds to the eventually
+ consistent configuration.
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+The formula is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+W+R<N.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+What is the difference between query cost and query response time...
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+In centralized systems?
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+In distributed systems?
+\end_layout
+
+\begin_layout Subsubsection
+Name the two factors that make it impossible to have linear scalability
+ according to the Universal Scalability Law.
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Enumerate
+Programs are not fully parallelizable.
+\end_layout
+
+\begin_layout Enumerate
+There are communication costs.
+\end_layout
+
+\begin_layout Subsection
+Problems
+\end_layout
+
+\begin_layout Subsubsection
+Briefly explain (a) which fragmentation strategy has been applied for the
+ tables below and whether this fragmentation strategy is (b) complete, (c)
+ disjoint and (d) allows to reconstruct the global relations (if so, (e)
+ indicate the operation).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Global Relations
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+Kids(
+\bar under
+kidId
+\bar default
+, name, address, age)
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+Toys(
+\bar under
+toyId
+\bar default
+, name, price)
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+Request(
+\bar under
+kidId, toyId
+\bar default
+, willingness)
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+Note that 
+\family typewriter
+requests(kidId)
+\family default
+ is a FK to 
+\family typewriter
+kids(kidId)
+\family default
+ and 
+\family typewriter
+requests(toyId)
+\family default
+ is a FK to 
+\family typewriter
+toys(toyId)
+\family default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Fragments
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+K1 = Kids[kidId, name]
+\end_layout
+
+\begin_layout Plain Layout
+K2 = Kids[kidId, address, age]
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+T1 = Toys(price 
+\begin_inset Formula $\geq$
+\end_inset
+
+ 150)
+\end_layout
+
+\begin_layout Plain Layout
+T2 = toys(price 
+\begin_inset Formula $<$
+\end_inset
+
+ 150)
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+R1 = Requests 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ljoin
+\end_layout
+
+\end_inset
+
+ T1 
+\end_layout
+
+\begin_layout Plain Layout
+R2 = Requests 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ljoin
+\end_layout
+
+\end_inset
+
+ T2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+You are a customer using an e-commerce based on heavy replication (e.g.
+ Amazon):
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Show a database replication strategy (e.g.
+ sketch it) where:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+You buy an item, but this item does not appear in your basket.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+You reload the page: the item appears.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+What happened?
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Show a database replication strategy (e.g.
+ sketch it) where:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+You delete an item from your command, and add another one: the basket shows
+ both items.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+What happened? Will the situation change if you reload the page?
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Consider the following architecture and answer the questions
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+From S.
+ Abiteboul et al.
+ 
+\emph on
+Web Data Management
+\emph default
+.
+ Cambridge Press, 2011.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Centralized architecture.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Centralized-architecture."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Latency
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bandwidth
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx5\times10^{-3}s\left(5\ millisec.\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+At best 100 MB/s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+How long would it take (i.e.
+ response time) to read 1TB with sequential access (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Centralized-architecture."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)? (in secs)
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+How long would a single random access (i.e.
+ reading one tuple, of for example 100 B, through an index) take (i.e.
+ response time), assuming we already have the physical address? (in secs)
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado4.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Shared-memory architecture.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Shared-memory-architecture."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Latency
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bandwidth
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx5\times10^{-3}s\left(5\ millisec.\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+At best 100 MB/s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+3.
+ 
+\end_layout
+
+\end_inset
+
+
+\series bold
+How long would it take (i.e.
+ response time) to read 1TB with parallel access (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Shared-memory-architecture."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)? Assume 100 disks (i.e.
+ 100 replicas of the whole data) on the same machine with shared-memory
+ and infinite CPU capacity.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+4.
+ 
+\end_layout
+
+\end_inset
+
+
+\series bold
+How long would a single ranodm access (i.e.
+ reading one tuple, of 100 B, through an index) take (i.e.
+ response time), assuming we already have the physical address? (in secs)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado5.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Shared-nothing architecture.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Shared-nothing-architecture."
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Latency
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bandwidth
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Disk
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx5\times10^{-3}s\left(5\ millisec.\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+At best 100 MB/s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LAN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx1/2\ \times10^{-2}s\left(1-2\ millisec.\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx1\ GB/s\left(single\ rack\right)\approx10\ MB/s\left(switched\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Internet
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Highly variable (10-100ms)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Highly variable (few MB/s, 10MB/s)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+It is approximately one order of magnitude to exchange main memory data
+ between 2 machines in a data center, that to read on the disk.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Exchanging through the Internet is slow and unreliable with respect to LANs.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+5.
+ 
+\end_layout
+
+\end_inset
+
+
+\series bold
+How long would it take (i.e.
+ response time) to read 1TB with distributed access (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Shared-nothing-architecture."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)? Assume 100 shared-nothing machines (with all data replicated in each
+ of them) in a star-shape LAN in a single rack where all data is sent to
+ the center of the star in only one network hop.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+6.
+ 
+\end_layout
+
+\end_inset
+
+
+\series bold
+How long would it take (i.e.
+ response time) to read 1TB with distributed access (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Shared-nothing-architecture."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)? Assume 100 shared-nothing machines (with all data replicated in each
+ of them) in a star-shape cluster of machines connected through the Internet
+ where all data is sent ot the center of the star in only one network hop.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+7.
+ 
+\end_layout
+
+\end_inset
+
+
+\series bold
+How long would a single random access (i.e.
+ reading one tuple, of 100 B, through an index) take (i.e.
+ response time), assuming we already have the physical address? (in secs)
+\end_layout
+
+\begin_layout Subsubsection
+What are the main differences between these two distributed access plans?
+ Under which assumptions is one or the other better?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT *
+\end_layout
+
+\begin_layout Plain Layout
+
+FROM employee e, assignedTo a
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE e.#emp = a.#emp AND a.responsability = 'manager'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+The database is:
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+Employee(
+\bar under
+#emp
+\bar default
+, empName, degree)
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+S4: E1 = Employee(#emp 
+\begin_inset Formula $\leq$
+\end_inset
+
+ 'E3')
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+S3: E2 = Employee(#emp 
+\begin_inset Formula $>$
+\end_inset
+
+ 'E3')
+\end_layout
+
+\begin_layout Plain Layout
+——————————————————
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+AssignedTo(
+\bar under
+#emp, #proj
+\bar default
+, responsability, fullTime)
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+FK: #emp references Employee
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+S1: A1 = AssignedTo(#emp 
+\begin_inset Formula $\leq$
+\end_inset
+
+ 'E3')
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+S2: A2 = AssignedTo(#emp 
+\begin_inset Formula $>$
+\end_inset
+
+ 'E3')
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado6.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Distributed Access Plans
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Compute the fragment query (data location stage) for the database setting
+ and query below and find in how many ways we can assign the operations
+ to the different sites.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+The database setting is:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A distributed database with 5 sites (i.e.
+ database nodes): 
+\begin_inset Formula $S_{1},S_{2},S_{3},S_{4}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{5}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+3 relations in the databaset: 
+\begin_inset Formula $R,S$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Each relation is horizontally fragmented in two fragments (we refer to them
+ by the name of the relation and a subindex, for example: 
+\begin_inset Formula $R_{1},R_{2}$
+\end_inset
+
+).
+ You can consider them to be correct (i.e.
+ complete, disjoint and reconstructible).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Each fragment is replicated at all sites.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+We have the following query
+\begin_inset Formula 
+\[
+Q_{1}=\sigma\left(R\right)\Join\sigma\left(S\right)\Join T.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+The process tree of the query is:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado7.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Consider a left-deep process tree corresponding to a query, where each internal
+ node is a join, and every leaf a data source (e.g.
+ relational table).
+ Knowing that the tree contains 9 nodes (including leaves), the system has
+ as much parallelism capacity as needed to run all the joins in pipelining
+ mode (no other kind of parallelism is available), which is the occupancy
+ if the overall cost of the serial query is 4 seconds? Explicit any assumption
+ you need to make.
+\end_layout
+
+\begin_layout Subsection
+Extra
+\end_layout
+
+\begin_layout Subsubsection
+Give five types of data or software resourcea that can be usefully shared.
+ Give examples of their sharing as it occurs in practice in distributed
+ systems.
+\end_layout
+
+\begin_layout Subsubsection
+How might the clocks in two computers that are linked by a local network
+ by synchronized without reference to an external time source? What factors
+ limit the accuracy of the procedure you have described? How could the clocks
+ in a large number of computers connected by the Internet be synchronized?
+ Discuss the accuracy of that procedure.
+\end_layout
+
+\begin_layout Subsubsection
+Consider the implementation strategies for massively multiplayer online.
+ In particular, what advantages do you see in adopting a single server approach
+ for representing the state of the multiplayer game? What problems can you
+ identify and how might they be resolved?
+\end_layout
+
+\begin_layout Subsubsection
+A server program wirtten in one language (for example, C++) provides the
+ implementation of a BLOB object that is intended to be accessed by clients
+ that may be written in a different language (for example, Java).
+ The client and server computers may have different harware, but all of
+ them are attached to the Internet.
+ Describe the problems due to each of the aspects of heterogeneity that
+ need to be solved to make it possible for a client object to invoke a method
+ on the server object.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Programming languages:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Implementations by different developers:
+\end_layout
+
+\begin_layout Subsubsection
+The INFO service manages a potentially very large set of resources, each
+ of which can be accessed by users throughout the Internet by means of a
+ key (a string name).
+ Discuss an approach to the design of the names of the resources that achieves
+ the minimum loss of performance as the number of resources in the service
+ increases.
+ Suggest how the INFO service can be implemented so as to avoid performance
+ bottlenecks when the number of users becomes very large.
+\end_layout
+
+\begin_layout Subsubsection
+A server process maintains a shared information object such as the BLOB
+ object of exercise 2.3.4.
+ Give arguments for and against allowing the client requests to be executed
+ concurrently by the server.
+ In thec ase that they are executed concurrently, give an example of possible
+ 'interference' that can occur between the operations of different clients.
+ Suggest how such interference may be prevented.
+\end_layout
+
+\begin_layout Subsubsection
+A service is implemented by several servers.
+ Explain why resources might be transferred between them.
+ Would it be satisfactory for clients to multicast all requests to the group
+ of servers as a way of achieving mobility transparency for clients?
+\end_layout
+
+\begin_layout Section
+Distributed File System
+\end_layout
+
+\begin_layout Subsection
+Theoretical questions
+\end_layout
+
+\begin_layout Subsubsection
+How does HDFS decide where to place the different chunks of a file?
+\end_layout
+
+\begin_layout Subsection
+Problems
+\end_layout
+
+\begin_layout Subsubsection
+Given a table with ten blocks (
+\begin_inset Formula $B=10$
+\end_inset
+
+) and 17 tuples per block (
+\begin_inset Formula $R=17$
+\end_inset
+
+) for a total of 170 tuples, compare the cost of reading the whole table
+ sequentially, against the cost of accessing seven random (potentially repeated)
+ tuples in an unknown order.
+ Assume that seek time is 
+\begin_inset Formula $12ms$
+\end_inset
+
+, average rotation time is 
+\begin_inset Formula $3ms$
+\end_inset
+
+ and transferring one block is 
+\begin_inset Formula $0.03ms$
+\end_inset
+
+.
+ You should consider which is the probability that two tuples accessed consecuti
+vely are actually in the same block, but ignore the presence of any cache
+ or buffer pool mechanism.
+\end_layout
+
+\begin_layout Subsubsection
+Consider a table stored in HDFS with the following characteristics:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(T\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+256 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left|T\right|$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+64
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(row\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $cols\left(T\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(cell\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(Header\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(Footer\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Given the configuration parameters, how much space would you need to store
+ it in a horizontal layout (i.e.
+ Avro)?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaRow\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaBody\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Given the configuration parameters, how much space would you need to store
+ it in a hybrid layout (i.e.
+ Parquet)?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaCol\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaRowGroup\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(RowGroup\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Given the configuration parameters, how much data would you need to retrieve
+ it in a hybrid layout (i.e.
+ Parquet) to select one row (e.g.
+ given its key) if the table is not sorted?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaCol\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(MetaRowGroup\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $size\left(RowGroup\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8 MB
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Given a file with 
+\begin_inset Formula $C$
+\end_inset
+
+ chunks and 
+\begin_inset Formula $N$
+\end_inset
+
+ nodes in the cluster, find the probability that HDFS uses all the nodes
+ in case 
+\begin_inset Formula $C\geq N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Consider an HDFS cluster with 100 data nodes, without replication.
+ If I upload a file with 10 chunks and 10 disk blocks each, answer the following
+ questions and briefly justify your answer.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Which is the maximum number of machines actually contain data?
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Which is the probability of the maximum number of machines actually contain
+ data?
+\end_layout
+
+\begin_layout Subsubsection
+Given a file of 3.2 GB stored in an HDFS cluster of 50 machines, and containing
+ 
+\begin_inset Formula $16\times10^{5}$
+\end_inset
+
+ key-value pairs in a SequenceFile, estimate the execution time of a Spark
+ job containing a single map transformation and an action storing the result
+ in a file.
+ Explicit any assumption you make and consider also the following parameters:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Chunk size: 128 MB (default)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Replication factor: 3 (default)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Map function (i.e.
+ the parameter of the transformation) execution time: 
+\begin_inset Formula $10^{-3}$
+\end_inset
+
+ sec/call (this is the only cost you have to consider)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Save action execution time: 0 sec (do not consider this cost)
+\end_layout
+
+\begin_layout Subsubsection
+Given a file with 3.2 GB of raw data stored in an HDFS cluster of 50 machines,
+ and containing 
+\begin_inset Formula $16\times10^{5}$
+\end_inset
+
+ rows in a Parquet file; consider you have a query over an attribute 'A=constant
+' and this attribute contains only 100 different and equiprobable velues.
+ Assuming any kind of compression has been disabled, explicit any assumption
+ you need to make and give the amount of raw data (i.e.
+ do not count metadata) it would need to fetch from disk.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Replication factor: 3 (default)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Chunk size: 128 MB (default)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+RowGroup size: 32 MB
+\end_layout
+
+\begin_layout Subsubsection
+Consider a cluster of ten worker machines and a single coordinator, which
+ contains a sequence file of 128 MB stored in HDFS with an OS block size
+ of 32 KB in all machines and a chunk size of 64 MB.
+ On the event of a client retrieving that file, give the number of control
+ messages (do not consider data messages) that will travel the network in
+ the case of (a) a client cache miss and in the case of (b) a client cache
+ hit.
+ Briefly justigy both numbers.
+\end_layout
+
+\end_body
+\end_document
