@@ -17038,7 +17038,6 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status open
@@ -17047,7 +17046,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_1.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -17229,7 +17228,6 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status open
@@ -17238,7 +17236,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_2.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -17340,7 +17338,7 @@ G^{\left(2\right)}\circ G^{\left(1\right)}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{
 , which is applied in each perceptron of the second layer as
 \begin_inset Formula 
 \[
-y_{k}^{\left(2\right)}\left(x\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)^{T}}\cdot y^{\left(1\right)}\left(x\right)\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)^{T}}\cdot g^{\left(1\right)}\left[W^{\left(1\right)^{T}}\cdot x\right]\right).
+y_{k}^{\left(2\right)}\left(x\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)}^{T}\cdot y^{\left(1\right)}\left(x\right)\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)}^{T}\cdot g^{\left(1\right)}\left[W^{\left(1\right)}^{T}\cdot x\right]\right).
 \]
 
 \end_inset
@@ -17354,7 +17352,7 @@ Creating
 \end_inset
 
  combinations of the input variables, 
-\begin_inset Formula $W^{\left(1\right)^{T}}\cdot x$
+\begin_inset Formula $W^{\left(1\right)}^{T}\cdot x$
 \end_inset
 
 , where 
@@ -17475,7 +17473,6 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status open
@@ -17484,7 +17481,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_3.png
-	scale 40
+	scale 60
 
 \end_inset
 
@@ -17563,28 +17560,15 @@ No connections are allowed within layers.
 
 \begin_layout Standard
 A brief visualization on different kinds of networks is depicted in Figure
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Different-kinds-of"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -17594,7 +17578,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_3.png
-	scale 25
+	scale 40
 
 \end_inset
 
@@ -17613,10 +17597,6 @@ MLP.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -17630,7 +17610,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_4.png
-	scale 25
+	scale 40
 
 \end_inset
 
@@ -17649,23 +17629,12 @@ FFNN not MLP.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\align center
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename mlp_5.png
-	scale 25
-
-\end_inset
-
 
 \end_layout
 
@@ -17694,13 +17663,6 @@ RNN.
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Different kinds of NN.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Different-kinds-of"
-
-\end_inset
-
 
 \end_layout
 
