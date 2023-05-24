@@ -17038,6 +17038,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -17046,7 +17047,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_1.png
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -17228,6 +17229,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -17236,7 +17238,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_2.png
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -17338,7 +17340,7 @@ G^{\left(2\right)}\circ G^{\left(1\right)}:\mathbb{R}^{n}\rightarrow\mathbb{R}^{
 , which is applied in each perceptron of the second layer as
 \begin_inset Formula 
 \[
-y_{k}^{\left(2\right)}\left(x\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)}^{T}\cdot y^{\left(1\right)}\left(x\right)\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)}^{T}\cdot g^{\left(1\right)}\left[W^{\left(1\right)}^{T}\cdot x\right]\right).
+y_{k}^{\left(2\right)}\left(x\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)^{T}}\cdot y^{\left(1\right)}\left(x\right)\right)=g_{k}^{\left(2\right)}\left(w_{k}^{\left(2\right)^{T}}\cdot g^{\left(1\right)}\left[W^{\left(1\right)^{T}}\cdot x\right]\right).
 \]
 
 \end_inset
@@ -17352,7 +17354,7 @@ Creating
 \end_inset
 
  combinations of the input variables, 
-\begin_inset Formula $W^{\left(1\right)}^{T}\cdot x$
+\begin_inset Formula $W^{\left(1\right)^{T}}\cdot x$
 \end_inset
 
 , where 
@@ -17473,6 +17475,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -17481,7 +17484,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_3.png
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -17560,15 +17563,28 @@ No connections are allowed within layers.
 
 \begin_layout Standard
 A brief visualization on different kinds of networks is depicted in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Different-kinds-of"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -17578,7 +17594,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_3.png
-	scale 40
+	scale 25
 
 \end_inset
 
@@ -17597,6 +17613,10 @@ MLP.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -17610,7 +17630,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename mlp_4.png
-	scale 40
+	scale 25
 
 \end_inset
 
@@ -17629,12 +17649,23 @@ FFNN not MLP.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename mlp_5.png
+	scale 25
+
+\end_inset
+
 
 \end_layout
 
@@ -17663,7 +17694,446 @@ RNN.
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+Different kinds of NN.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Different-kinds-of"
 
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Error functions
+\end_layout
+
+\begin_layout Subsubsection
+Regression
+\end_layout
+
+\begin_layout Standard
+The error in the regression case can be the empirical mean square error,
+ i.e.,
+\begin_inset Formula 
+\[
+E\left(W\right)=\frac{1}{2}\sum_{i=1}^{n}\left(y_{i}-y_{W}\left(x_{i}\right)\right)^{2},
+\]
+
+\end_inset
+
+ where the dataset is 
+\begin_inset Formula $\left\{ \left(x_{i},y_{i}\right)\right\} _{i=1}^{n},y_{W}\left(x_{i}\right)$
+\end_inset
+
+ is the prediction of 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ with the weight matrix 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ Note that in this formula we are assuming a single output, but it can be
+ easily generalized as
+\begin_inset Formula 
+\[
+E\left(W\right)=\frac{1}{2}\sum_{i=1}^{n}\left\Vert y_{i}-y_{W}\left(x_{i}\right)\right\Vert ^{2}.
+\]
+
+\end_inset
+
+ As usual, our objective will be to minimize this error.
+\end_layout
+
+\begin_layout Subsubsection
+Binary classification
+\end_layout
+
+\begin_layout Standard
+If the target values are 
+\begin_inset Formula $y_{i}\in\left\{ 0,1\right\} $
+\end_inset
+
+, then we can express
+\begin_inset Formula 
+\[
+P\left(y|x\right)=y_{W}\left(x\right)^{y}\left(1-y_{W}\left(x\right)\right)^{1-y}.
+\]
+
+\end_inset
+
+ If we assume independent and identically distributed examples, then we
+ can define our likelihood function as
+\begin_inset Formula 
+\[
+\mathcal{L}\left(W\right)=\prod_{i=1}^{n}y_{W}\left(x_{i}\right)^{y_{i}}\left(1-y_{W}\left(x_{i}\right)\right)^{1-y_{i}},
+\]
+
+\end_inset
+
+ and the negative log-likelihood defines the 
+\series bold
+cross-entropy error
+\series default
+:
+\begin_inset Formula 
+\[
+E\left(W\right)=\text{-\ensuremath{\log\mathcal{L}\left(W\right)=-\sum_{i=1}^{n}y_{i}\log\left(y_{W}\left(x_{i}\right)\right)+\left(1-y_{i}\right)\log\left(1-y_{W}\left(x_{i}\right)\right).}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Multi-class classification
+\end_layout
+
+\begin_layout Standard
+The last error formula can be generalized for multi-class classification
+ with 
+\begin_inset Formula $K>2$
+\end_inset
+
+ classes, as the 
+\series bold
+generalized cross-entropy error
+\series default
+:
+\begin_inset Formula 
+\[
+E\left(W\right)=-\sum_{i=1}^{n}\sum_{k=1}^{K}y_{i,k}\log\left(y_{W,k}\left(x_{i}\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Training the MLP: Backprogragation
+\end_layout
+
+\begin_layout Standard
+Notice that the error functions that we have defined can be very complex,
+ and there is no closed form solution to minimize them.
+ Therefore, some iterative approach is necessary, as we did with the perceptron.
+ But we encounter now a new problem: if we do gradient descent on the neural
+ network, we will need to compute lots of gradients, and computing a gradient
+ is not cheap.
+ The idea to make this process more efficient is to use the chain rule and
+ to notice that many of the gradients that we compute are actually used
+ in many places along the network for the computation of the final gradient.
+ Therefore, an improved version for computing gradients was developed: the
+ 
+\series bold
+backpropagation algorithm
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection
+The chain rule
+\end_layout
+
+\begin_layout Standard
+The chain rule
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For more information you can just visit 
+\begin_inset CommandInset href
+LatexCommand href
+name "Wikipedia"
+target "https://en.wikipedia.org/wiki/Chain_rule"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ states that, given two composable differentiable functions 
+\begin_inset Formula $f,g$
+\end_inset
+
+, it is
+\begin_inset Formula 
+\[
+\frac{d}{dx}f\left(g\left(x\right)\right)=f'\left(g\left(x\right)\right)\cdot g'\left(x\right).
+\]
+
+\end_inset
+
+In the multivariate case, when we want to compute the derivative of 
+\begin_inset Formula $f\left(g_{1}\left(x\right),...,g_{m}\left(x\right)\right)$
+\end_inset
+
+, it is
+\begin_inset Formula 
+\[
+\frac{d\left(f\left(g_{1}\left(x\right),...,g_{m}\left(x\right)\right)\right)}{dx}=\sum_{i=1}^{m}\frac{\partial f}{\partial y_{i}}\left(g_{1}\left(x\right),...,g_{m}\left(x\right)\right)\cdot\frac{dg_{i}}{dx}\left(x\right).
+\]
+
+\end_inset
+
+ This is sometimes written by naming 
+\begin_inset Formula $z=f\left(g_{1}\left(x\right),...,g_{m}\left(x\right)\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{i}=g_{i}\left(x\right)$
+\end_inset
+
+, so that the formula becomes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Notice the abuse of notation though.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{dz}{dx}=\sum_{i=1}^{m}\frac{dz}{dy_{i}}\frac{dy_{i}}{dx}.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Example
+Let's do an example to understand how this can be helpful in the case of
+ neural networks.
+\end_layout
+
+\begin_layout Example
+Imagine we have the functions:
+\begin_inset Formula 
+\begin{align*}
+y_{1} & =x_{1}^{2}\cdot e^{x_{2}}\\
+y_{2} & =x_{2}^{3}\\
+z= & y_{1}\left(1-e^{y_{2}}\right),
+\end{align*}
+
+\end_inset
+
+ and we want to compute the gradient of 
+\begin_inset Formula $z$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ We can write this as a diagram:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_1.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+We simply need to compute the gradient using the chain rule:
+\begin_inset Formula 
+\[
+\nabla z=\left(\begin{array}{c}
+\frac{dz}{dx_{1}}\\
+\frac{dz}{dx_{2}}
+\end{array}\right)=\left(\begin{array}{c}
+{\color{blue}\frac{dz}{dy_{1}}}\frac{dy_{1}}{dx_{1}}+{\color{red}\frac{dz}{dy_{2}}}\frac{dy_{2}}{dx_{1}}\\
+{\color{blue}\frac{dz}{dy_{1}}}\frac{dy_{1}}{dx_{2}}+{\color{red}\frac{dz}{dy_{2}}}\frac{dy_{2}}{dx_{2}}
+\end{array}\right)=\left(\begin{array}{c}
+{\color{blue}\left(1-e^{y_{2}}\right)}2x_{1}e^{x_{2}}-{\color{red}y_{1}e^{y_{2}}}\cdot0\\
+{\color{blue}\left(1-e^{y_{2}}\right)}x_{1}^{2}e^{x_{2}}-{\color{red}y_{1}e^{y_{2}}}3x_{2}^{2}
+\end{array}\right)=\left(\begin{array}{c}
+{\color{blue}\left(1-e^{y_{2}}\right)}2x_{1}e^{x_{2}}\\
+{\color{blue}\left(1-e^{y_{2}}\right)}x_{1}^{2}e^{x_{2}}-{\color{red}y_{1}e^{y_{2}}}3x_{2}^{2}
+\end{array}\right).
+\]
+
+\end_inset
+
+ Basically, the idea is to be able to reuse as many values as possible (notice
+ the coloured expressions).
+ To do this, we can compute 
+\series bold
+local derivatives
+\series default
+ in each layer, and 
+\emph on
+propagate
+\emph default
+ them back to the previous layer, multiplying them.
+ The previous computation can be done in the diagram as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_2.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Note that:
+\end_layout
+
+\begin_layout Enumerate
+We can avoid unnecessary computations by storing at each node:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Forward values: when we evaluate 
+\begin_inset Formula $y_{1}\left(x_{1},x_{2}\right)$
+\end_inset
+
+, we can keep this value stored in the node, because we will need it later.
+ In this example we did symbolic differentiation, so this was not necessary,
+ but in neural networks we need to first to the forward pass, and then assess
+ the error.
+\end_layout
+
+\begin_layout Enumerate
+Local derivatives: when we evaluate 
+\begin_inset Formula $\frac{dy_{1}}{dx_{2}}$
+\end_inset
+
+, we can keep this value stored in the node, because we will use it several
+ times.
+\end_layout
+
+\begin_layout Enumerate
+Backwards gradients: local derivatives are sent to those nodes that will
+ need them, so that each of this derivatives is computed only once.
+ Then the gradient is constructed little by little, backwards, in a dynamic
+ programming manner.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+When the gradients are flowing backwards, each node has to sum all incoming
+ gradients, according to the multivariate chain rule (if there is only one
+ incoming gradient, we just take that one).
+\end_layout
+
+\begin_layout Subsubsection
+The backpropagation algorithm
+\end_layout
+
+\begin_layout Standard
+The pseudocode for backpropagation is as in Algorithm 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+1.
+ Forward pass
+\end_layout
+
+\begin_layout Plain Layout
+
+	- for layer in {1...c+1}
+\end_layout
+
+\begin_layout Plain Layout
+
+		a[layer] = W[layer]^T * z[layer-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+		z[layer] = g[a[layer]] # apply g[.] to each component of a[layer]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+2.
+ Backward pass
+\end_layout
+
+\begin_layout Plain Layout
+
+	- d[c+1] = g'[a[c+1]] .* (z[c+1]-y) # .* is the component-wise product
+\end_layout
+
+\begin_layout Plain Layout
+
+	- grad[c+1] = z[c]*d[c+1]^T
+\end_layout
+
+\begin_layout Plain Layout
+
+	- for layer in {c...1}
+\end_layout
+
+\begin_layout Plain Layout
+
+		d[layer] = g'[a[layer]] .* (w[layer+1]*d[layer+1]) # w is the
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Backpropagation.
 \end_layout
 
 \end_inset
