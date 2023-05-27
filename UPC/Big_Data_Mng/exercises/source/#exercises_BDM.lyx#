@@ -9328,40 +9328,7 @@ Assume we ingest a stream with an event every time a ticket is sold at a
 
 \series bold
 Which theaters would be considered heavy hitters (using the approximate
- method) considering a required frequency of 33%? Provide a detailed answer(i.e.,
- describe the content of the auxiliary structure after processing every
- message).
-\end_layout
-
-\begin_layout Section
-Architectures
-\end_layout
-
-\begin_layout Subsection
-Theoretical questions
-\end_layout
-
-\begin_layout Subsubsection
-What problems do Data Lakes solve?
-\end_layout
-
-\begin_layout Subsection
-Problems
-\end_layout
-
-\begin_layout Subsubsection
-Consider the software architecture below and briefly explain the main management
- (maintenance) risk it has.
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename pegado11.png
-
-\end_inset
-
-
+ method) considering a required frequency of 33%? Provide a det
 \end_layout
 
 \end_body
