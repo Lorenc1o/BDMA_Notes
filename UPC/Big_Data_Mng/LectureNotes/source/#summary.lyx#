@@ -14517,27 +14517,6 @@ Explain how to choose the best layout
 Identify the difference between column-sotres and NOSQL related to transactions
 \end_layout
 
-\begin_layout Subsection
-Explain 3 difficulties of pipelining in column-stores
-\end_layout
-
-\begin_layout Subsection
-Explain 3 problems to implement parallelism in in-memory column-stores
-\end_layout
-
-\begin_layout Subsection
-Explain 5 query optimization techniques specific to columnar storage
-\end_layout
-
-\begin_layout Subsection
-Given a data setting, justify the choice of either row or column storage
-\end_layout
-
-\begin_layout Subsection
-Given the data in a column, use run-length encoding with dictionary to compress
- it
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset

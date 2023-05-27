@@ -290,6 +290,86 @@ Introduction
 \end_layout
 
 \begin_layout Standard
+I gave ChatGPT the index of these notes, and asked him for an introduction
+ for them.
+ Here is the result:
+\end_layout
+
+\begin_layout Standard
+Welcome to the comprehensive study notes for your course in Machine Learning.
+ This document is designed to provide you with a thorough overview of the
+ primary topics in machine learning, to supplement your coursework and study.
+\end_layout
+
+\begin_layout Standard
+Our journey will begin with an overview of Machine Learning and the foundational
+ elements that build this exciting field.
+ The aim is to provide you with a sound understanding of the core principles
+ and techniques involved in the development and application of Machine Learning
+ algorithms.
+\end_layout
+
+\begin_layout Standard
+We will kick-off with 'Linear Regression,' a cornerstone of machine learning,
+ going in-depth into topics like least squares method, issues encountered
+ in linear regression, basis functions, and probabilistic approaches.
+ It will also focus on Bias-Variance decomposition, ridge regression, LASSO
+ regression, and finally, a full-Bayesian perspective.
+\end_layout
+
+\begin_layout Standard
+Our exploration then continues with 'Clustering' where we cover important
+ clustering techniques like k-Means, k-Means++, and ways to determine the
+ optimal number of clusters.
+ We delve deeper into the realm of Gaussian Mixtures and the Expectation-Maximiz
+ation technique.
+\end_layout
+
+\begin_layout Standard
+In the 'Linear Classifiers' chapter, we inspect the decision boundary in
+ probabilistic models, generative classifiers, Naive Bayes, and methodologies
+ like Perceptron and Logistic Regression.
+\end_layout
+
+\begin_layout Standard
+Following this, we introduce 'Nearest Neighbor Prediction'—a different way
+ of approaching classification problems.
+ The section will equip you with tools to understand the concept of locality
+ and choosing the best 'k', and how to combine outputs to make predictions.
+\end_layout
+
+\begin_layout Standard
+We also explore the use of 'Trees and Random Forests' in machine learning.
+ It will demystify decision trees and random forests, dealing with imbalanced
+ data in classification, and providing insights into the interpretability
+ of random forests.
+\end_layout
+
+\begin_layout Standard
+Next, we journey into the world of 'Neural Networks' with the 'Multi-Layer
+ Perceptron (MLP)', learning about the different error functions used for
+ regression, binary classification, and multi-class classification.
+ We also cover the critical process of training the MLP using Backpropagation
+ and some common activation functions.
+\end_layout
+
+\begin_layout Standard
+Finally, the notes conclude with an appendix section, 'Notes on probability
+ theory, Bayes theorem and Bayesian learning.' This section is critical for
+ understanding the probability theory basics, Bayes rule in the context
+ of learning, maximum likelihood estimation, properties of estimators, maximum
+ a posteriori estimation, and finally, Bayesian learning.
+\end_layout
+
+\begin_layout Standard
+These notes aim to serve as a comprehensive reference guide for you as you
+ explore machine learning, providing both a high-level understanding of
+ the field and the mathematical and algorithmic details that underlie each
+ concept.
+ Happy learning!
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
@@ -2318,6 +2398,7 @@ how likely it is that our points have been created froma certain distribution
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2395,6 +2476,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2711,6 +2793,7 @@ The polynomial of degree 8 has low bias but high variance.
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2767,6 +2850,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -10929,6 +11013,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -11120,6 +11205,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -14411,6 +14497,7 @@ noprefix "false"
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement h
 wide false
 sideways false
 status open
@@ -14943,6 +15030,7 @@ In 1-nearest neighbor, the decision regions correspond the union of each
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -14999,6 +15087,7 @@ The decision boundaries and regions are non-linear, but they get smoother
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -18073,6 +18162,132 @@ noprefix "false"
  Let's break it down.
 \end_layout
 
+\begin_layout Itemize
+
+\family typewriter
+a[layer]
+\family default
+=
+\begin_inset Formula $a^{\left(l\right)}$
+\end_inset
+
+ is the input vector for layer 
+\begin_inset Formula $l$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+z[layer]
+\family default
+=
+\begin_inset Formula $z^{\left(l\right)}$
+\end_inset
+
+ is the output vector for layer 
+\begin_inset Formula $l$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $z^{\left(l\right)}=g_{l}\left[a^{\left(l\right)}\right]$
+\end_inset
+
+, where 
+\begin_inset Formula $g_{l}$
+\end_inset
+
+ is the activation function of layer 
+\begin_inset Formula $l$
+\end_inset
+
+ (note in the pseudocode we are assuming the same 
+\begin_inset Formula $g$
+\end_inset
+
+ working on all layers).
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+W[layer]
+\family default
+=
+\begin_inset Formula $W^{\left(l\right)}$
+\end_inset
+
+ is the weight matrix of layer 
+\begin_inset Formula $l$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+w[layer]
+\family default
+=
+\begin_inset Formula $\hat{W}^{\left(l\right)}$
+\end_inset
+
+ is the weight matrix of layer 
+\begin_inset Formula $l$
+\end_inset
+
+, without the weight of the bias.
+\end_layout
+
+\begin_layout Itemize
+d[layer]=
+\begin_inset Formula $\delta^{\left(l\right)}$
+\end_inset
+
+ is the local gradient at layer 
+\begin_inset Formula $l$
+\end_inset
+
+, computed as 
+\begin_inset Formula 
+\[
+\delta^{\left(out\right)}=g_{out}'\left[a^{\left(out\right)}\right]\odot\left(z^{\left(out\right)}-y\right)
+\]
+
+\end_inset
+
+ for the output layer, 
+\begin_inset Formula $out$
+\end_inset
+
+ or 
+\family typewriter
+d[c+1]
+\family default
+ in the pseudocode, and 
+\begin_inset Formula 
+\[
+\delta^{\left(l\right)}=g_{l}'\left[a^{\left(l\right)}\right]\odot\left(\hat{W}^{\left(l\right)}\delta^{\left(l+1\right)}\right)
+\]
+
+\end_inset
+
+ for the rest of the layers, i.e., the hidden layers.
+ Here, 
+\begin_inset Formula $\odot$
+\end_inset
+
+ is the Hadamard product, i.e., the component-wise product.
+ In the pseudocode, this is expressed by '
+\family typewriter
+.*
+\family default
+'.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float algorithm
 placement h
@@ -18135,7 +18350,7 @@ status open
 
 \begin_layout Plain Layout
 
-		d[layer] = df[a[layer]] .* (w[layer+1]*d[layer+1]) # w[k] is W[k] without
+		d[layer] = dg[a[layer]] .* (w[layer+1]*d[layer+1]) # w[k] is W[k] without
  the bias weigth
 \end_layout
 
@@ -18176,9 +18391,276 @@ Backpropagation.
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
+
+\begin_layout Example
+Let's perform an example.
+ Here is our neural network:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_3.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+It is a fully connected two-layer network.
+ Let's follow the algorithm, defining each of the variables at a time.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Forward pass.
+\end_layout
+
+\end_inset
+
+ We define 
+\begin_inset Formula $a^{\left(1\right)}=x,a^{\left(2\right)}=z^{\left(1\right)}=g_{1}\left[a^{\left(1\right)}\right],a^{\left(out\right)}=z^{\left(2\right)}=g_{2}\left[a^{2}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $z^{\left(out\right)}=z=g_{out}\left[a^{\left(out\right)}\right]$
+\end_inset
+
+ :
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_4.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Backward pass.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Step 0.
+ Layer out (c+1).
+\end_layout
+
+\end_inset
+
+ Define 
+\begin_inset Formula $d^{\left(out\right)}=g_{out}'\left[a^{\left(out\right)}\right]\odot\left(z^{\left(out\right)}-y\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $grad^{\left(out\right)}=z^{\left(2\right)}\cdot\delta^{\left(out\right)^{T}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_5.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Step 1.
+ Layer 2.
+\end_layout
+
+\end_inset
+
+ Define 
+\begin_inset Formula $d^{\left(2\right)}=g_{2}'\left[a^{\left(2\right)}\right]\odot\left(\hat{W}^{\left(out\right)}\delta^{\left(out\right)}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $grad^{\left(2\right)}=z^{\left(1\right)}\delta^{\left(2\right)^{T}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_6.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+Step 2.
+ Layer 1.
+\end_layout
+
+\end_inset
+
+ Define 
+\begin_inset Formula $d^{\left(1\right)}=g_{1}'\left[a^{\left(1\right)}\right]\odot\left(\hat{W}^{\left(2\right)}\delta^{\left(2\right)}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $grad^{\left(1\right)}=z^{\left(0\right)}\delta^{\left(1\right)^{T}}=a^{\left(1\right)}\delta^{\left(1\right)^{T}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename backprop_7.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Example
+And that's it! Now we can use the gradient at each layer to train the network,
+ updating the weights in layer 
+\begin_inset Formula $l$
+\end_inset
+
+ according to:
+\begin_inset Formula 
+\[
+W^{\left(l\right)}=W^{\left(l\right)}-\gamma\cdot grad^{\left(l\right)},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is the learning rate.
+\end_layout
+
+\begin_layout Subsection
+Some activation functions
+\end_layout
+
+\begin_layout Subsubsection
+Logistic
+\end_layout
+
+\begin_layout Standard
+The logistic function is 
+\begin_inset Formula $\sigma:\mathbb{R}\rightarrow\left(0,1\right)$
+\end_inset
+
+, defined by
+\begin_inset Formula 
+\[
+\sigma\left(x\right)=\frac{1}{1+e^{-x}}
+\]
+
+\end_inset
+
+ with derivative
+\begin_inset Formula 
+\[
+\frac{d}{dx}\sigma\left(x\right)=\sigma\left(x\right)\left(1-\sigma\left(x\right)\right).
+\]
+
+\end_inset
+
+ In this case, for the backpropagation algorithm, we use
+\begin_inset Formula 
+\[
+g'\left[a^{\left(l\right)}\right]=g\left[a^{\left(l\right)}\right]\odot\left(1-g\left[a^{\left(l\right)}\right]\right)=z^{\left(l\right)}\odot\left(1-z^{\left(l\right)}\right),
+\]
+
+\end_inset
+
+ which is a very efficient formula, since we have all this values computed
+ in the forward pass.
+\end_layout
+
+\begin_layout Subsubsection
+Hyperbolic tangent
+\end_layout
+
+\begin_layout Standard
+The hyperbolic tangent function is 
+\begin_inset Formula $tanh:\mathbb{R}\rightarrow\left(-1,1\right)$
+\end_inset
+
+, defined by
+\begin_inset Formula 
+\[
+tanh\left(x\right)=\frac{e^{x}-e^{-x}}{e^{x}+e^{-x}},
+\]
+
+\end_inset
+
+ with derivative
+\begin_inset Formula 
+\[
+\frac{d}{dx}tanh\left(x\right)=1-\left(tanh\left(x\right)\right)^{2}.
+\]
+
+\end_inset
+
+ Thus, we end up with another very efficient formula
+\begin_inset Formula 
+\[
+g'\left[a^{\left(l\right)}\right]=1-z^{\left(l\right)}\odot z^{\left(l\right)}.
+\]
 
 \end_inset
 
