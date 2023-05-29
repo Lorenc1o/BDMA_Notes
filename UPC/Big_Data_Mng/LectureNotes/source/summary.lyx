@@ -14485,20 +14485,223 @@ In-Memory Columnar Databases (New Relational Architecture)
 Justify the viability of in-memory databases
 \end_layout
 
+\begin_layout Standard
+In-memory databases store data in the main memory (RAM) of a computer rather
+ than on disk, which results in much faster access times and thus faster
+ query processing.
+ Here are some reasons justifying their viability:
+\end_layout
+
+\begin_layout Itemize
+Increased performance: Accessing data in memory is orders of magnitude faster
+ than disk-based storage, reducing response times for data retrieval and
+ analysis.
+\end_layout
+
+\begin_layout Itemize
+Real-time analytics: In-memory databases can handle complex queries and
+ perform transactions in real-time, which is crucial for applications requiring
+ immediate insight, like financial trading systems or telecommunications
+ networks.
+\end_layout
+
+\begin_layout Itemize
+Scalability: Modern systems provide capabilities to distribute data across
+ multiple servers, allowing in-memory databases to scale horizontally to
+ accommodate larger data sets.
+\end_layout
+
+\begin_layout Itemize
+Reduced complexity: Because data is stored in memory, there is no need to
+ maintain indexes or perform complex optimizations that are typically required
+ with disk-based databases, simplifying database management.
+\end_layout
+
+\begin_layout Standard
+However, it's worth noting that in-memory databases also have their trade-offs.
+ They can be more expensive due to the cost of RAM, and they can also face
+ challenges with data persistence, as data in memory is volatile.
+ But these challenges can often be overcome with techniques like database
+ replication and persistent storage backups.
+\end_layout
+
 \begin_layout Subsection
 Explain the principles of NUMA architecture
+\end_layout
+
+\begin_layout Standard
+NUMA (Non-Uniform Memory Access) is a computer memory design used in multiproces
+sing, where the memory access time depends on the memory location relative
+ to the processor.
+ Under NUMA, a processor can access its own local memory faster than non-local
+ memory (memory local to another processor or memory shared between processors).
+ This facilitates scaling up by growing a single machine.
+ There are two main trade-offs:
+\end_layout
+
+\begin_layout Itemize
+The smaller the memory, the less latency and higher bandwidth.
+\end_layout
+
+\begin_layout Itemize
+The more performant the memory, the more expensive it is.
+\end_layout
+
+\begin_layout Standard
+Also, this architecture allows parallelism in the different cores and CPUs.
+\end_layout
+
+\begin_layout Standard
+This architecture is also much faster and expensive than a cluster of shared-not
+hing machines, but it's clear that they are also much harder to manage if
+ we want to push it to its full potential.
+ The principles of NUMA are:
+\end_layout
+
+\begin_layout Itemize
+Local Memory: Each processor in a NUMA architecture has its own local memory.
+ When a processor needs to access data from its own local memory, it can
+ do so quickly.
+\end_layout
+
+\begin_layout Itemize
+Non-local Memory: When a processor needs to access memory that isn't local
+ (i.e., memory that is attached to a different processor), it can take longer.
+ This is because the processor must go over the interconnect bus to reach
+ the memory associated with the other processor.
+\end_layout
+
+\begin_layout Itemize
+Processor Interconnect: The processors in a NUMA system are connected through
+ an interconnect bus.
+ This interconnect can be used to share data between processors.
+\end_layout
+
+\begin_layout Itemize
+Scalability: NUMA architecture is designed to scale.
+ As more processors are added, more local memory is added to the system,
+ potentially improving overall system performance.
+\end_layout
+
+\begin_layout Standard
+NUMA architectures are used in systems with large numbers of processors,
+ providing benefits over traditional symmetric multiprocessing (SMP) systems.
+ However, to get the best performance from a NUMA system, software (like
+ a database management system) should be NUMA-aware and designed to minimize
+ non-local memory accesses.
 \end_layout
 
 \begin_layout Subsection
 Enumerate 3 techniques to optimize cache usage
 \end_layout
 
+\begin_layout Enumerate
+
+\series bold
+Locality awareness
+\series default
+: aims at reducing the number of idle CPU cycles waiting for the arrival
+ of data.
+ The system can benefit from 
+\color blue
+spacial locality
+\color inherit
+, i.e., there is a high chance of accessing data contiguous to data already
+ accessed; and 
+\color blue
+temporal locality
+\color inherit
+, i.e., there is a high chance of accessing data that has been recently accessed.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Flexible caching
+\series default
+: has the purpose of bringing and keeping as much relevant data as possible
+ in cache.
+ It is related to associativity which describes how different blocks of
+ memory map to the same cache location.
+ A fully associative cache allows a memory block to be placed in any cache
+ location.
+ This flexibility allows the cache to store more relevant data, but it comes
+ at the cost of increased complexity and slower lookup times.
+ Therefore: low associativity facilitates searching, since a disk block
+ can only be found in few places, but complicates replacement.
+ High associativity facilitates replacement, but makes it more difficult
+ for searching.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cache-concious design
+\series default
+: this is relevant for DBMS developers, that need to be aware of cache line
+ size, to only use multiple of that size in the code, optimizing access
+ to data.
+\end_layout
+
 \begin_layout Subsection
 Give 4 arguments supporting columnar storage
 \end_layout
 
+\begin_layout Itemize
+Higher data compression ratios.
+ Columnar storage allows for better data compression, as the data stored
+ in a column is usually of the same type, leading to a high degree of redundancy.
+ Techniques like run-length encoding, dictionary encoding, and bitmap encoding
+ can be applied for more effective data compression.
+\end_layout
+
+\begin_layout Itemize
+Higher performance for column operations.
+ Columnar storage is ideal for OLAP (Online Analytical Processing) queries
+ which typically scan and aggregate over a small subset of the total columns
+ in the table.
+ Since data is stored column-wise, it can lead to significant IO reduction
+ and faster execution times.
+\end_layout
+
+\begin_layout Itemize
+Parallelization.
+ Columnar storage enables efficient parallel processing, as operations can
+ be performed on individual columns independently.
+ This allows for more efficient use of modern hardware architectures, including
+ multi-core CPUs and vectorized instruction sets.
+\end_layout
+
+\begin_layout Itemize
+Elimination of additional indexes.
+\end_layout
+
 \begin_layout Subsection
 Explain 3 classical optimization techniques in RDBMS related to column storage
+\end_layout
+
+\begin_layout Itemize
+Vertical partitioning: each table can be split as a set of two-column partitions
+ 
+\begin_inset Formula $\left(key,attributes\right)$
+\end_inset
+
+, which improves useful reads ratio.
+ This helps in optimizing query performance by reducing the amount of data
+ scanned for a particular query.
+ If a query only requires a subset of the total columns in a table, it's
+ more efficient to scan a vertically partitioned table that contains only
+ those necessary columns.
+\end_layout
+
+\begin_layout Itemize
+Use index-only query plans: we can create a collection of indexes that cover
+ all columns used in a query, so no table access is needed.
+\end_layout
+
+\begin_layout Itemize
+Use a collection of materialized views, such that there is a view with exactly
+ the columns needed to answer the queries.
 \end_layout
 
 \begin_layout Subsection
@@ -14509,24 +14712,263 @@ Sketch the functional architecture of SanssouciuDB
 Explain 4 optimizations implemented in SanssouciuDB to improve data access
 \end_layout
 
+\begin_layout Itemize
+Use stored procedures.
+\end_layout
+
+\begin_layout Itemize
+Data ages by dynamic horizontal partitioning, depending on the lifecycle
+ of objects.
+ By default, only active data is incorporated into query processing.
+ The definition of active data is given by the application.
+\end_layout
+
+\begin_layout Itemize
+Modifications are performed on a differential buffer, with a merge process
+ carried out per table.
+ This implies decompressing the table and compressing everything back again.
+ This is done on-line.
+\end_layout
+
+\begin_layout Itemize
+There are append-only tables, being timepoint representation for OLTP and
+ interval representation for OLAP.
+\end_layout
+
 \begin_layout Subsection
 Explain how to choose the best layout
 \end_layout
 
+\begin_layout Standard
+We should choose 
+\series bold
+columnar storage
+\series default
+ when:
+\end_layout
+
+\begin_layout Itemize
+Calculations are executed on a single column or a few columns only.
+\end_layout
+
+\begin_layout Itemize
+The table is searched based on the values of a few columns.
+\end_layout
+
+\begin_layout Itemize
+The table has a large number of columns.
+\end_layout
+
+\begin_layout Itemize
+The table has a large number of rows, and columnar operations are required.
+\end_layout
+
+\begin_layout Itemize
+The majority of columns contain only a few distinct values, resulting in
+ high compression rates.
+\end_layout
+
+\begin_layout Standard
+We should choose 
+\series bold
+row storage
+\series default
+ when:
+\end_layout
+
+\begin_layout Itemize
+The table has a small number of rows, such as configuration tables.
+\end_layout
+
+\begin_layout Itemize
+The application needs to process only a single record at a time (many selects
+ of updates of single records).
+\end_layout
+
+\begin_layout Itemize
+The application typically needs to access the complete records.
+\end_layout
+
+\begin_layout Itemize
+The columns contain mainly distinct values, so compression rates would be
+ low.
+\end_layout
+
+\begin_layout Itemize
+Aggregations and fast searching are not required.
+\end_layout
+
 \begin_layout Subsection
-Identify the difference between column-sotres and NOSQL related to transactions
+Identify the difference between column-stores and NOSQL related to transactions
+\end_layout
+
+\begin_layout Standard
+In column-stores, we avoid replication management by only storing atomic
+ data, relying on the performance obtained in aggregate queries.
+ With on-the-fly aggregation, the aggregate values are always up-to-date.
+ Also, we reach this way higher concurrency, since we can aggregate different
+ measures concurrently for different columns.
+ We can still replicate some small and static tables.
+ Since these systems provide full ACID support, the consistency is strong,
+ in a eager/secondary-copy synchronization mechanism scheme.
 \end_layout
 
 \begin_layout Subsection
 Explain 3 difficulties of pipelining in column-stores
 \end_layout
 
+\begin_layout Enumerate
+
+\series bold
+Short process trees
+\series default
+: In column-stores, operations are often applied to each column independently,
+ which can result in a shallow process tree (with few levels of nested operation
+s).
+ This can limit the opportunities for pipelining, as each operation may
+ complete quickly and there may be fewer opportunities to overlap operations.
+\end_layout
+
+\begin_layout Enumerate
+Some operators need 
+\series bold
+all input data at once
+\series default
+: Certain operators, like sort or aggregate, need to process the entire
+ input column before they can produce any output.
+ This can make it more difficult to pipeline operations, as you have to
+ wait for these operators to complete before passing their output to the
+ next operator in the pipeline.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Skewed cost of operations
+\series default
+: In column-stores, the cost of operations can vary significantly depending
+ on the specific column and operation.
+ For example, operations on a column with a high cardinality (many unique
+ values) or a large amount of data may be more expensive than operations
+ on a column with low cardinality or less data.
+ This skew can make it harder to evenly distribute work across a pipeline
+ and maintain high throughput.
+\end_layout
+
 \begin_layout Subsection
 Explain 3 problems to implement parallelism in in-memory column-stores
 \end_layout
 
+\begin_layout Enumerate
+
+\series bold
+High startup cost
+\series default
+: Parallelism involves dividing a task among multiple processing units.
+ However, there is a startup cost associated with setting up these parallel
+ tasks, including the time to divide the task and synchronize the results.
+ If the tasks are too small or the number of tasks is too high, the overhead
+ of managing these tasks can outweigh the benefits of parallel execution.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Contention
+\series default
+ (at harware level): Parallel tasks often need to access shared resources,
+ such as memory or input/output devices.
+ If multiple tasks try to access these resources at the same time, they
+ can interfere with each other, leading to contention.
+ This can degrade performance and limit the effectiveness of parallel execution.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Skewness
+\series default
+: refers to a situation where the data or the workload is not evenly distributed
+ across the tasks.
+ For example, if one task gets assigned a larger portion of the data or
+ a more complex operation, it can take longer to complete than the other
+ tasks.
+ This can cause the other tasks to sit idle while waiting for the skewed
+ task to complete, reducing the overall efficiency of parallel execution.
+\end_layout
+
 \begin_layout Subsection
 Explain 5 query optimization techniques specific to columnar storage
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Late materialization
+\series default
+: In column-stores, a query result is usually composed by combining values
+ from multiple columns.
+ With late materialization, the database delays combining these values as
+ long as possible.
+ This allows the database to operate on smaller amounts of data, which can
+ significantly improve performance for queries that only need a subset of
+ a table's columns.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tuples are identified by position
+\series default
+: In columnar databases, tuples (or rows) are often identified by their
+ position in the column rather than by a unique key.
+ This allows the database to directly access the relevant data in each column
+ without having to perform an additional lookup, which can improve performance.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Column-specific compression techniques
+\series default
+: Because all the values in a column are of the same type, columnar databases
+ can use specialized compression techniques that take advantage of this
+ uniformity.
+ Techniques such as dictionary encoding, run-length encoding, and bitmap
+ encoding can achieve high compression rates and improve query performance
+ by reducing I/O.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Block iteration
+\series default
+: Columnar databases often store data in blocks, each containing a subset
+ of a column's values.
+ By iterating over these blocks instead of individual values, the database
+ can reduce CPU cache misses and improve performance.
+ Values inside a block can be iterated as in an array (they are fixed-width),
+ codified/compressed together, and exploited for parallelism of pipelining.
+ When we combine block iteration with late materialization, we are doing
+ what is called 
+\series bold
+vectorized query processing
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Specific join algorithms
+\series default
+: Joining tables is a common operation in relational databases.
+ In columnar databases, join operations can be optimized by using algorithms
+ that take advantage of the columnar storage format.
+ For example, a hash join can be more efficient in a columnar database because
+ it operates on individual columns and can take advantage of column-specific
+ compression.
 \end_layout
 
 \begin_layout Subsection
