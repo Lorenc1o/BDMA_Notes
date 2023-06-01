@@ -7445,31 +7445,6 @@ The execution could be as follows:
 \end_layout
 
 \end_deeper
-\begin_layout Example
-The colors indicate the same as in the previous example.
- The green node is the source node for the algorithm and the numbers indicate
- the weights of the edges.
-\end_layout
-
-\begin_layout Subsubsection
-TLAV: Graph Distribution
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Part
-Knowledge Graphs
-\end_layout
-
-\begin_layout Section
-Introduction to Knowledge Graphs
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
