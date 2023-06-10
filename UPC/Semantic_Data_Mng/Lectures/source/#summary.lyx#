@@ -9187,7 +9187,7 @@ And the instantiation of the data:
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="14" columns="2">
+<lyxtabular version="3" rows="15" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top" width="8cm">
@@ -9297,7 +9297,7 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
-:clintEastwood rdf:type Person
+:clintEastwood rdf:type :Person
 \end_layout
 
 \end_inset
@@ -9317,7 +9317,7 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
-:clintEastwood rdf:type Person
+:clintEastwood rdf:type :Person
 \end_layout
 
 \begin_layout Plain Layout
@@ -9444,7 +9444,7 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
-:annaLevine 
+:annaLevine :gender :female
 \end_layout
 
 \end_inset
@@ -9453,7 +9453,545 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
+:annaLevine rdf:type :Person
+\end_layout
 
+\begin_layout Plain Layout
+:female rdf:type :genderClass
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah :roleName 'Delilah'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah :ref 'IMDB'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood :directs :Unforgiven
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type :Director
+\end_layout
+
+\begin_layout Plain Layout
+:Unforgiven rdf:type :Movie
+\end_layout
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+SPARQL
+\end_layout
+
+\begin_layout Standard
+SPARQL Protocol And RDF Query Language (SPARQL) is the standard query language
+ for RDF(S) graphs, being also a W3C recommendation and supporting RDFS
+ and OWL under specific entailments.
+\end_layout
+
+\begin_layout Standard
+SPARQL is based on navigational pattern matching, and simple RDF graphs
+ are used as query patterns.
+ The semantics applied are homomorphism semantics.
+\end_layout
+
+\begin_layout Example
+A simple query:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT x, z
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	x Lectures y,
+\end_layout
+
+\begin_layout Plain Layout
+
+	y TaughtIn z,
+\end_layout
+
+\begin_layout Plain Layout
+
+	z rdf:type Faculty
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+SPARQL has 4 basic forms that retrive either result sets or RDF graphs:
+\end_layout
+
+\begin_layout Itemize
+SELECT: returns all, or a subset of, the variables bound in a query pattern
+ match.
+\end_layout
+
+\begin_layout Itemize
+CONSTRUCT: returns an RDF graph constructed by substituting variables in
+ a set of triple templates.
+\end_layout
+
+\begin_layout Itemize
+ASK: returns a boolean indicating whether a query pattern is matched or
+ not.
+\end_layout
+
+\begin_layout Itemize
+DESCRIBE: returns an RDF graph that describes the resources found.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+SPARQL Endpoint
+\series default
+ is an endpoint accepting SPARQL queries and returning the results via HTTP.
+\end_layout
+
+\begin_layout Example
+A more complete example:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PREFIX fib: <http://www.fib.edu/elements/>
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?lecturer ?course
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		?lecturer fib:lectures ?course
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+This query is equivalent to: SELECT x,y WHERE x LECTURES y.
+\end_layout
+
+\begin_layout Standard
+SPARQL allows property paths based on regular expressions.
+\end_layout
+
+\begin_layout Example
+Take into account the following graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+And write the following queries, assuming no entailment regime:
+\end_layout
+
+\begin_layout Enumerate
+Get the name of all actors that participated in Juno:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PREFIX mov: <url>
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		mov:juno mov:stars ?actor.
+\end_layout
+
+\begin_layout Plain Layout
+
+		?actor mov:name ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the name of all directors:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PREFIX mov <url>
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		?dir rdf:type :Director.
+\end_layout
+
+\begin_layout Plain Layout
+
+		?dir mov:name ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+UNION
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		?dir mov:directs ?mov.
+\end_layout
+
+\begin_layout Plain Layout
+
+		?dir mov:name ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the name of all persons:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PREFIX mov: <url>
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		?person mov:name ?name
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Get the title of all movies:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PREFIX mov: <url>
+\end_layout
+
+\begin_layout Plain Layout
+
+SELECT ?title
+\end_layout
+
+\begin_layout Plain Layout
+
+WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		?movie mov:title ?title.
+\end_layout
+
+\begin_layout Plain Layout
+
+		?movie rdf:type ?movie
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Entailment Regimes
+\end_layout
+
+\begin_layout Standard
+The most basic entailment regime supported by SPARQL is 
+\series bold
+simple entailment
+\series default
+, in which graph patterns are evaluated by means of pattern matching under
+ homomorphism semantics.
+\end_layout
+
+\begin_layout Standard
+Nonetheless, more elaborate entailment relations have been developed, to
+ retrieve solutions that are logical consequences of the axioms asserted.
+ The most popular ones are RDFS entailment and OWL 2 RDF-Based Semantics
+ entailment.
+\end_layout
+
+\begin_layout Subsection
+RDFS Inference Rules
+\end_layout
+
+\begin_layout Standard
+The RDFS entailment rules are presented in the following table:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+If S contains
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Then S RDFS entails recognizing D:
 \end_layout
 
 \end_inset
@@ -9465,6 +10003,17 @@ Inference
 
 \begin_layout Plain Layout
 
+\series bold
+rdfs1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+any IRI a in D
 \end_layout
 
 \end_inset
@@ -9473,7 +10022,497 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
+a 
+\color red
+rdf:type rdfs:Datatype
+\end_layout
 
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:domain
+\color inherit
+ x.
+\end_layout
+
+\begin_layout Plain Layout
+y a z.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+y 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:range
+\color inherit
+ x.
+\end_layout
+
+\begin_layout Plain Layout
+y a z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs4a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs4b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+y 
+\color red
+rdf:type rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+y 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type
+\color inherit
+ 
+\color red
+rdf:Property
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ b.
+\end_layout
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x b y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ 
+\color red
+rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+y 
+\color red
+rdfs:subClassOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:ContainerMembershipProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ 
+\color red
+rdfs:Member
 \end_layout
 
 \end_inset
@@ -9484,6 +10523,1408 @@ Inference
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+rdfs13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Datatype
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ 
+\color red
+rdfs:Literal
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The RDFS Paradox
+\end_layout
+
+\begin_layout Standard
+The Russel's Paradox is a theoretical paradox that arises within a naïve
+ set theory, by considering the set of all sets that are not members of
+ themselves.
+ This paradox arises in RDFS.
+ This means that the RDFS regime entailment is flawed, and the reason is
+ that the RDFS core classes and properties are ill-defined.
+ The problems are:
+\end_layout
+
+\begin_layout Itemize
+rdfs:Class is an instance of itself.
+ This allows the possibility of having inifinitely many layers of classes.
+\end_layout
+
+\begin_layout Itemize
+rdfs:Resource is a superclass and an instance of rdfs:Class at the same
+ time.
+\end_layout
+
+\begin_layout Itemize
+rdfs:subClassOf, rdf:type, rdfs:Range and rdfs:Domain are both used to define
+ the other RDFS primitives and the user metadata.
+\end_layout
+
+\begin_layout Standard
+The SPARQL community rethought the RDFS metamodel to introduce 
+\series bold
+fix-point reasoning
+\series default
+, disallowing for infinite inference loops, and having elements organized
+ in a strict order, i.e., an element cannot be an element and a set at the
+ same time, and no element can be placed twice in a taxonomy at different
+ levels.
+ This gave birth to the 
+\series bold
+modified RDFS Entailment Regime
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="8cm">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+If S contains
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Then S RDFS entails recognizing D:
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+any IRI a in D
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdf:type rdfs:Datatype
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:domain
+\color inherit
+ x.
+\end_layout
+
+\begin_layout Plain Layout
+y a z.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+y 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:range
+\color inherit
+ x.
+\end_layout
+
+\begin_layout Plain Layout
+y a z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs4a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs4b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+y 
+\color red
+rdf:type rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+y 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\xout on
+\color teal
+rdfs6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdf:type rdf:Property
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdfs:subPropertyOf x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a 
+\color red
+rdfs:subPropertyOf
+\color inherit
+ b.
+\end_layout
+
+\begin_layout Plain Layout
+x a y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x b y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\xout on
+\color teal
+rdfs8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdf:type rdfs:Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdfs:subClassOf rdfs:Resource
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+z 
+\color red
+rdf:type
+\color inherit
+ y
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\xout on
+\color teal
+rdfs10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdf:type rdfs:Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdfs:subClassOf x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ y.
+\end_layout
+
+\begin_layout Plain Layout
+y 
+\color red
+rdfs:subClassOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ z
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\xout on
+\color teal
+rdfs12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdf:type rdfs:ContainerMembershipProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\xout on
+\color teal
+x rdfs:subPropertyOf rdfs:Member
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+rdfs13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdf:type rdfs:Datatype
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+x 
+\color red
+rdfs:subClassOf
+\color inherit
+ 
+\color red
+rdfs:Literal
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Ontology Languages: Description Logics
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+ontology
+\series default
+ is a formal description of a domain in terms of the concepts and roles
+ or properties between them.
+ More precisely, it is a controlled vocabulary or schema, usually called
+ the 
+\series bold
+TBOX
+\series default
+, with aligned instances, or 
+\series bold
+ABOX
+\series default
+.
+\end_layout
+
+\begin_layout Definition
+The TBOX and ABOX assertions are described with formal semantics and, based
+ on its formal semantics, it defines inference rules, based on some kind
+ of reasoning.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that RDF graphs are not ontologies and that RDFS are ontologies only
+ if we take care of making them to be, by following the good practices.
+ OWL graphs (we will see them later) are forced to be ontologies.
+\end_layout
+
+\begin_layout Subsection
+Logic Based Ontology Languages
+\end_layout
+
+\begin_layout Standard
+First Order Logic (FOL) is suitable for knowledge representation, since
+ classes can be represented as unary predicates, properties/relationship
+ as binary predicates and constraints as logical formulas using the predicates.
+\end_layout
+
+\begin_layout Standard
+Nonetheless, we must take into consideration of undecidability problem:
+ there is no algorithm that determines if a FOL formula implies another.
+ Therefore, we have to work with decidable fragments of FOL:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Description logics
+\series default
+: binary predicates with bounded number of variables.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Datalog
+\series default
+: Horn-clauses.
+\end_layout
+
+\begin_layout Standard
+The characteristics of these are summarized in the following table:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Datalog
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description Logics
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Focus
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instances
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Knowledge
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Approach
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Centralized
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Decentralized
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reasoning
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Closed-World Assumption
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open-World Assumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unique name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unique name assumption
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Non-unique name assumption
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The open-world assumption implies that everything can be true, unless the
+ opposite is explicitly indicated.
+\end_layout
+
+\begin_layout Subsection
+TBOX
+\end_layout
+
+\begin_layout Standard
+A TBOX is characterized by a set of constructs for building complex concepts
+ and roles from atomic ones.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Concepts
+\series default
+ correspond to classes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Roles
+\series default
+ correspond to relationships.
+\end_layout
+
+\begin_layout Standard
+Then, the TBOX defines the terminology of the domain, with formal semantics
+ given in terms of interpretations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+An 
+\series bold
+interpretation
+\series default
+ 
+\begin_inset Formula $\mathcal{I}=\left(\Delta^{\mathcal{I}},\cdot^{\mathcal{I}}\right)$
+\end_inset
+
+ consists of a nonempty set 
+\begin_inset Formula $\Delta^{\mathcal{I}}$
+\end_inset
+
+, the 
+\series bold
+domain
+\series default
+ of 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+, and an 
+\series bold
+interpretation function
+\series default
+ 
+\begin_inset Formula $\cdot^{\mathcal{I}}$
+\end_inset
+
+, which maps:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each individual, i.e., each element in the real world that we want to represent,
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ to an element 
+\begin_inset Formula $a^{\mathcal{I}}\in\Delta^{\mathcal{I}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Each atomic concept 
+\begin_inset Formula $A$
+\end_inset
+
+ to a subset 
+\begin_inset Formula $A^{\mathcal{I}}\subset\Delta^{\mathcal{I}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Each atomic role 
+\begin_inset Formula $P$
+\end_inset
+
+ to a subset 
+\begin_inset Formula $P^{\mathcal{I}}\subset\Delta^{\mathcal{I}}\times\Delta^{\mathcal{I}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With these basic pieces, we can construct more complex concepts:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Construct
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Syntax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Semantics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+atomic concept
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $A^{\mathcal{I}}\subset\Delta^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Doctor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+atomic role
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P^{\mathcal{I}}\subset\Delta^{\mathcal{I}}\times\Delta^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hasChild
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+atomic negation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot A$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta^{\mathcal{I}}\setminus A^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot$
+\end_inset
+
+Doctor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+conjunction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C\sqcap D$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C^{\mathcal{I}}\cap D^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Human
+\begin_inset Formula $\sqcap$
+\end_inset
+
+Male
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+unqualified existence restriction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists R$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\exists b:\left(a,b\right)\in R^{\mathcal{I}}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists$
+\end_inset
+
+hasChild
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+value restriction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\forall R.C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\forall b,\left(a,b\right)\in R^{\mathcal{I}}\implies b\in C^{\mathcal{I}}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\forall$
+\end_inset
+
+hasChild.Male
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bottom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\perp$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\emptyset$
+\end_inset
+
 
 \end_layout
 
@@ -9506,7 +11947,3611 @@ Inference
 
 \end_layout
 
+\begin_layout Standard
+In this table, 
+\begin_inset Formula $C$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+ denote arbitrary concepts, i.e., a combination of atomic concepts through
+ appropriate constructs, and 
+\begin_inset Formula $R$
+\end_inset
+
+ an arbitrary role, i.e., a combination of atomic roles through appropriate
+ constructs.
+\end_layout
+
+\begin_layout Standard
+The combination of these constructrs form the basic language 
+\begin_inset Formula $\mathcal{AL}$
+\end_inset
+
+ of the family of 
+\begin_inset Formula $\mathcal{AL}$
+\end_inset
+
+ languages.
+ However, this can be extended, adding new constructs:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Construct
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{AL}\cdot$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Syntax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Semantics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+disjunction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{U}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C\sqcup D$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C^{\mathcal{I}}\cup D^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(Human\sqcap Doctor\right)\sqcup\left(Human\sqcap\left(\lnot Patient\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+top
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\intercal$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qualified existence restriction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{E}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists R.C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\exists b:\left(a,b\right)\in R^{\mathcal{I}}\land b\in C^{\mathcal{I}}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists$
+\end_inset
+
+Treats.Doctor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+full negation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{C}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta^{\mathcal{I}}\setminus C^{\mathcal{I}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot\left(\exists Treats.Doctor\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+number restrictions
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{N}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\geq k\ R\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\#\left\{ b:\left(a,b\right)\in R^{\mathcal{I}}\right\} \geq k\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\geq5$
+\end_inset
+
+ Treats
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\leq k\ R\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\#\left\{ b:\left(a,b\right)\in R^{\mathcal{I}}\right\} \leq k\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq5$
+\end_inset
+
+ Treats
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+qualified number restriction
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{Q}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\geq k\ R.C\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\#\left\{ b:\left(a,b\right)\in R^{\mathcal{I}}\land b\in C^{\mathcal{I}}\right\} \geq k\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\geq5$
+\end_inset
+
+ Treats.
+\begin_inset Formula $\left(Doctor\sqcap Male\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\leq k\ R.C\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a|\#\left\{ b:\left(a,b\right)\in R^{\mathcal{I}}\land b\in C^{\mathcal{I}}\right\} \leq k\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\leq5$
+\end_inset
+
+ Treats.
+\begin_inset Formula $\left(Doctor\sqcap Female\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inverse role
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R^{-}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ \left(b,a\right)|\left(a,b\right)\in R^{\mathcal{I}}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Treats
+\begin_inset Formula $^{-}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+role closure
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $reg$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $R^{*}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(R^{\mathcal{I}}\right)^{*}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(Treats\right)^{*}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+What is the meaning of these axioms:
+\end_layout
+
+\begin_layout Itemize
+Disjunction: 
+\begin_inset Formula 
+\[
+\forall hasChild.\left(Doctor\sqcup Lawyer\right)
+\]
+
+\end_inset
+
+ Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\forall b:\left(a,b\right)\in hasChild^{\mathcal{I}}\implies b\in Doctor^{\mathcal{I}}\lor b\in Lawyer^{\mathcal{I}}\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities such that all their childs are a doctor
+ or a lawyer.
+\end_layout
+
+\begin_layout Itemize
+Qualified existencial restriction:
+\begin_inset Formula 
+\[
+\exists hasChild.Doctor
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\exists b:\left(a,b\right)\in hasChild^{\mathcal{I}}\land b\in Doctor^{\mathcal{I}}\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities that has a child who is a doctor.
+\end_layout
+
 \end_deeper
+\begin_layout Itemize
+Full negation:
+\begin_inset Formula 
+\[
+\lnot\left(Doctor\sqcup Lawyer\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Formally:
+\begin_inset Formula 
+\[
+\Delta^{\mathcal{I}}\setminus\left(Doctor^{\mathcal{I}}\cup Lawyer^{\mathcal{I}}\right)
+\]
+
+\end_inset
+
+ Natural language: all entities that not a doctor nor a lawyer.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Number restrictions:
+\begin_inset Formula 
+\[
+\left(\ge2\ hasChild\right)\sqcap\left(\le1\ sibling\right)
+\]
+
+\end_inset
+
+ Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\#\left\{ b:\left(a,b\right)\in hasChild^{\mathcal{I}}\right\} \geq2\land\#\left\{ c:\left(a,c\right)\in siblings^{\mathcal{I}}\right\} \le1\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities that have at least two childs and at most
+ one sibling.
+\end_layout
+
+\begin_layout Itemize
+Qualified number restrictions:
+\begin_inset Formula 
+\[
+\left(\ge2\ hasChild.Doctor\right)
+\]
+
+\end_inset
+
+ Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\#\left\{ b:\left(a,b\right)\in hasChild^{\mathcal{I}}\land b\in Doctor^{I}\right\} \geq2\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities that have at least two childs that are doctors.
+\end_layout
+
+\begin_layout Itemize
+Inverse role:
+\begin_inset Formula 
+\[
+\forall hasChild^{-}.Doctor
+\]
+
+\end_inset
+
+ Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\forall b:\left(b,a\right)\in hasChild^{\mathcal{I}}\implies b\in Doctor^{\mathcal{I}}\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities that are childs of doctors.
+\end_layout
+
+\begin_layout Itemize
+Reflexive-transitive role closure:
+\begin_inset Formula 
+\[
+\exists hasChild.Doctor
+\]
+
+\end_inset
+
+ Formally:
+\begin_inset Formula 
+\[
+\left\{ a|\exists b:\left(a,b\right)\in\left(hasChild^{\mathcal{I}}\right)^{*}\land b\in Doctor^{\mathcal{I}}\right\} 
+\]
+
+\end_inset
+
+ Natural language: all entities that are ascendent of some doctor.
+\end_layout
+
+\begin_layout Standard
+A Description Logics TBOX only includes terminological axioms of the following
+ form:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Inclusion
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $C_{1}\sqsubseteq C_{2}$
+\end_inset
+
+ is satisfied by 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ if 
+\begin_inset Formula $C_{1}^{\mathcal{I}}\subseteq C_{2}^{\mathcal{I}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $R_{1}\sqsubseteq R_{2}$
+\end_inset
+
+ is satisfied by 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ if 
+\begin_inset Formula $R_{1}^{\mathcal{I}}\subseteq R_{2}^{\mathcal{I}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Equivalence
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $C_{1}\sqsubseteq C_{2},C_{2}\sqsubseteq C_{1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+A TBOX example
+\end_layout
+
+\begin_layout Example
+The following axioms define a TBOX:
+\begin_inset Formula 
+\begin{align*}
+Woman\equiv & Person\sqcap Female\\
+Man\equiv & Person\sqcap\lnot Woman\\
+Mother\equiv & Woman\sqcap\exists hasChild.Person\\
+Father\equiv & Man\sqcap\exists hasChild.Person\\
+Parent\equiv & Father\sqcup Mother\\
+Grandmother\equiv & Mother\sqcap\exists hasChild.Parent\\
+MotherWithManyChildren\equiv & Mother\sqcap\geq3\ hasChild\\
+MotherWithoutDaughter\equiv & Mother\sqcap\forall hasChild.\lnot Woman\\
+Wife\equiv & Woman\sqcap\exists hasHusband.Man
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+ABOX
+\end_layout
+
+\begin_layout Standard
+The ABOX defines the instances in terms of the terminological axioms defined
+ in the TBOX, by using concept (
+\begin_inset Formula $Student\left(Pere\right)$
+\end_inset
+
+) and role (
+\begin_inset Formula $Teaches\left(Oscar,Pere\right)$
+\end_inset
+
+) assertions.
+\end_layout
+
+\begin_layout Example
+A knowledge base (TBOX+ABOX)
+\end_layout
+
+\begin_layout Example
+The TBOX assertions are the following:
+\end_layout
+
+\begin_layout Itemize
+Inclusion assertions on concepts:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+Father\equiv & Human\sqcap Male\sqcap\exists hasChild\\
+HappyFather\sqsubseteq & Father\sqcap\forall hasChild.\left(Doctor\sqcup Lawyer\sqcup HappyPerson\right)\\
+HappyAnc\sqsubseteq & \forall descendant.HappyFather\\
+Teacher\sqsubseteq & \lnot Doctor\sqcap\lnot Lawyer
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Inclusion assertions on roles:
+\begin_inset Formula 
+\begin{align*}
+hasChild\sqsubseteq & descendant\\
+hasFather\sqsubseteq & hasChild^{-}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The ABOX membership assertions are:
+\begin_inset Formula 
+\[
+Teacher\left(mary\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+hasFather\left(mary,john\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+HappyAnc\left(john\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The following UML diagram
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado9.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+can be represented as the TBOX:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\begin{align*}
+\exists hasFather\sqsubseteq & Person\\
+\exists hasFather^{-}\sqsubseteq & Person\\
+Person\sqsubseteq & \exists hasFather
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Models of a Description Logics Ontology
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+model
+\series default
+ of a knowledge base 
+\begin_inset Formula $\mathcal{O}=\left\langle \mathcal{T},\mathcal{A}\right\rangle $
+\end_inset
+
+ is an interpretation 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ that satisfies all assertions in 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ and all assertions in 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+If there is a model for 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+, then it is 
+\series bold
+satisfiable
+\series default
+.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ 
+\series bold
+logically implies
+\series default
+ an assertion 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, written 
+\begin_inset Formula $\mathcal{O}\models\alpha$
+\end_inset
+
+ if 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is satisfied by all models of 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Satisfiability looks for contrasictions in the asserted axioms.
+ Without negations, everything is satisfiable, and TBOX axioms are just
+ used to infer knowledge for the asserted elements.
+ This is the case of RDFS, and in case of an error, the knowledge base will
+ simply infer wrong knowledge, but no error nor alert will be rased.
+\end_layout
+
+\begin_layout Standard
+Including negation, we can identify mistakes in the ABOX, since such interpretat
+ions will not be a model for that ontology.
+\end_layout
+
+\begin_layout Example
+Is the following interpretation a model? Can you think of an interpretation
+ that is a model?
+\end_layout
+
+\begin_layout Example
+The TBOX is:
+\begin_inset Formula 
+\begin{align*}
+\exists Teaches\sqsubseteq & Teacher\\
+\exists Teaches^{-}\sqsubseteq & Course\\
+Teacher\sqsubseteq & \lnot Course
+\end{align*}
+
+\end_inset
+
+ And the ABOX is:
+\begin_inset Formula 
+\[
+Teaches\left(x,x\right).
+\]
+
+\end_inset
+
+ It is not a model, because 
+\begin_inset Formula 
+\[
+Teaches\left(x,x\right)\overset{\exists Teaches\sqsubseteq Teacher}{\models}Teacher\left(x\right)\overset{Teacher\sqsubseteq\lnot Course}{\models}\lnot Course\left(x\right)
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+Teaches\left(x\right)\overset{\exists Teaches^{-}\sqsubseteq Course}{\models}Course\left(x\right),
+\]
+
+\end_inset
+
+ and both expressions cannot evaluate to true at the same time.
+\end_layout
+
+\begin_layout Example
+To make a model, we can change the ABOX to be
+\begin_inset Formula 
+\[
+Teaches\left(x,y\right),
+\]
+
+\end_inset
+
+ in which case all assertions from the TBOX and the ABOX can be satisfied.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Description Logics Reasoning
+\end_layout
+
+\begin_layout Example
+Consider the following TBOX and make all possible inferences:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\begin{align*}
+Researcher\sqsubseteq & \lnot Professor\\
+Researcher\sqsubseteq & \lnot Lecturer\\
+\exists TeachesTo^{-}\sqsubseteq & Student\\
+Student\sqcap\lnot Undergrad\sqsubseteq & GraduateStudent\\
+\exists TeachesTo.Undergrad\sqsubseteq & Professor\sqcup Lecturer
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The TBOX inferences are:
+\begin_inset Formula 
+\begin{align*}
+Researcher\sqsubseteq & \exists TeachesTo.GraduateStudent
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Do the same with this ABOX:
+\begin_inset Formula 
+\begin{align*}
+TeachesTo\left(dupond,pierre\right)\\
+\lnot GraduateStudent\left(pierre\right)\\
+\lnot Professor\left(dupond\right)
+\end{align*}
+
+\end_inset
+
+ The ontology inferences are:
+\begin_inset Formula 
+\begin{align*}
+Undergrad\left(pierre\right)\\
+Lecturer\left(dupond\right)
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+TBOX Reasoning
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Concept Satisfiability
+\series default
+: a concept 
+\begin_inset Formula $C$
+\end_inset
+
+ is satisfiable with respect to the TBOX 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ if there is a model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ such that 
+\begin_inset Formula $C^{\mathcal{I}}$
+\end_inset
+
+ is not empty, i.e., 
+\begin_inset Formula $T\cancel{\models}C\equiv\perp$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Subsumption
+\series default
+: a concept 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ is subsumed by another concept 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+ with respect to the TBOX 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ if, for every model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+, we have 
+\begin_inset Formula $C_{1}^{\mathcal{I}}\subseteq C_{2}^{\mathcal{I}}$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\mathcal{T}\models C_{1}\sqsubseteq C_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Equivalence
+\series default
+: 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+ are equivalent with respect to 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ if, for every model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ we have 
+\begin_inset Formula $C_{1}^{\mathcal{I}}=C_{2}^{\mathcal{I}}$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\mathcal{T}\models C_{1}\equiv C_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disjointness
+\series default
+: 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+ are disjoint with respect to 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ if, for every model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+, we have 
+\begin_inset Formula $C_{1}^{\mathcal{I}}\cap C_{2}^{\mathcal{I}}=\emptyset$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\mathcal{T}\models C_{1}\sqcap C_{2}\equiv\perp$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Functionality implication
+\series default
+: a functionality assertion, 
+\begin_inset Formula $\left(funct\ R\right)$
+\end_inset
+
+, is logically implied by 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ if, for every model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{T},$
+\end_inset
+
+we have that 
+\begin_inset Formula $\left(o,o_{1}\right)\in R^{\mathcal{I}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(o,o_{2}\right)\in R^{\mathcal{I}}$
+\end_inset
+
+ implies 
+\begin_inset Formula $o_{1}=o_{2}$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\mathcal{T}\models\left(funct\ R\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Reasoning complexity
+\end_layout
+
+\begin_layout Standard
+In the next table, the complexity for concept satisfiability for each of
+ the logic families we have seen is shown:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Family
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Complexity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{AL},\mathcal{ALN}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PTIME
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{ALU},\mathcal{ALUN}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NP-complete
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{ALE}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+coNP-complete
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{ALC},\mathcal{ALCN},\mathcal{ALCI},\mathcal{ALCQI}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+PSPACE-complete
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It can be observed that there are two sources of complexity:
+\end_layout
+
+\begin_layout Itemize
+The union 
+\begin_inset Formula $\left(\mathcal{U}\right)$
+\end_inset
+
+ is of type NP.
+\end_layout
+
+\begin_layout Itemize
+The existential quantification 
+\begin_inset Formula $\left(\mathcal{E}\right)$
+\end_inset
+
+ is of type coNP.
+\end_layout
+
+\begin_layout Standard
+When they are combined, the complexity jumps to PSPACE.
+\end_layout
+
+\begin_layout Standard
+Note that number restrictions 
+\begin_inset Formula $\left(\mathcal{N}\right)$
+\end_inset
+
+ do not add complexity.
+\end_layout
+
+\begin_layout Subsubsection
+Ontology Reasoning
+\end_layout
+
+\begin_layout Standard
+The problem of 
+\series bold
+ontology satisfiability
+\series default
+ consists of verifying whether an ontology is satisfiable or not, i.e., whether
+ the ontology 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ admits at least one model.
+\end_layout
+
+\begin_layout Standard
+The problem of 
+\series bold
+concept instance checking
+\series default
+ consists of verifying whether an individual 
+\begin_inset Formula $c$
+\end_inset
+
+ is an instance of a concept 
+\begin_inset Formula $C$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+, i.e., whether 
+\begin_inset Formula $\mathcal{O}\models C\left(c\right)$
+\end_inset
+
+ or not.
+\end_layout
+
+\begin_layout Standard
+The problem of 
+\series bold
+role instance checking
+\series default
+ consists of verifying whther a pair 
+\begin_inset Formula $\left(c_{1},c_{2}\right)$
+\end_inset
+
+ of individuals is an instance of a role 
+\begin_inset Formula $R$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+, i.e., whether 
+\begin_inset Formula $\mathcal{O}\models R\left(c_{1},c_{2}\right)$
+\end_inset
+
+ or not.
+\end_layout
+
+\begin_layout Standard
+The problem of 
+\series bold
+query answering
+\series default
+ consists of finding the certain answers:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+certain answers
+\series default
+ to query 
+\begin_inset Formula $q\left(x\right)$
+\end_inset
+
+ over 
+\begin_inset Formula $\mathcal{O}=\left\langle \mathcal{T},\mathcal{A}\right\rangle $
+\end_inset
+
+, denoted 
+\begin_inset Formula $cert\left(q,\mathcal{O}\right)$
+\end_inset
+
+ are the tuples 
+\begin_inset Formula $c$
+\end_inset
+
+ of constants of 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ such that 
+\begin_inset Formula $c\in q^{\mathcal{I}}$
+\end_inset
+
+, for every model 
+\begin_inset Formula $\mathcal{I}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We need to bear in mind the 
+\series bold
+open-world assumption
+\series default
+: something evaluates to false only if it contradicts other information
+ in the ontology.
+\end_layout
+
+\begin_layout Example
+Open-world assumption illustrative example.
+\end_layout
+
+\begin_layout Example
+Consider the following ABOX:
+\begin_inset Formula 
+\begin{align*}
+hasSon\left(Iokaste,Oedipus\right)\\
+hasSon\left(Iokaste,Polyneikes\right)\\
+hasSon\left(Oedipus,Polyneikes\right)\\
+hasSon\left(Polyneikes,Thersandros\right)\\
+patricide\left(Oedipus\right)\\
+\lnot patricide\left(Thersandros\right)
+\end{align*}
+
+\end_inset
+
+ This is visually shown as: #TODO add this
+\end_layout
+
+\begin_layout Example
+Consider the query:
+\begin_inset Formula 
+\[
+Query\equiv\exists hasSon.\left(patricide\sqcap\exists hasSon.\lnot patricide\right)
+\]
+
+\end_inset
+
+ Does 
+\begin_inset Formula 
+\[
+ABOX\models Query\left(Iokaste\right)?
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Yes!
+\end_layout
+
+\begin_layout Example
+Since there is no information of whether 
+\begin_inset Formula $patricide\left(Polyneikes\right)$
+\end_inset
+
+ is true or not, we need to evaluate all possibilities.
+\end_layout
+
+\begin_layout Example
+If 
+\begin_inset Formula $patricide\left(Polyneikes\right)$
+\end_inset
+
+ is true, then 
+\begin_inset Formula $hasSon\left(Iokaste,Polyneikes\right)\land patricide\left(Polyneikes\right)\land hasSon\left(Polyneikes,Thersandros\right)\land\lnot patricide\left(Thersandros\right).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+If 
+\begin_inset Formula $patricide\left(Polyneikes\right)$
+\end_inset
+
+ is false, then 
+\begin_inset Formula $hasSon\left(Iokaste,Oedipus\right)\land patricide\left(Oedipus\right)\land hasSon\left(Oedipus,Polyneikes\right)\land\lnot patricide\left(Thersandros\right).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Modeling with Description Logics
+\end_layout
+
+\begin_layout Standard
+It is hard to build good ontologies using description logics, because the
+ names of the classes are irrelevant, classes are overlapping by default
+ and the domain and range definitions are axioms, not constraints.
+ In addition, we need to cope with the open world assumption and the non-unique
+ name assumption, i.e., the same concept might be instantiated with two different
+ names or IDs in the knowledge base
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Some families, such as DL-Lite family, assume the unique name assumption.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Ontology Web Language (OWL)
+\end_layout
+
+\begin_layout Standard
+OWL is a W3C recommendation, based on OIL and DAML, and using RDF and XML
+ as the underlying representation.
+ There were three languages in OWL 1.0: Lite, DL and Full; later, OWL 2.0
+ eliminated OWL Lite and added three profiles, RL, QL and EL.
+\end_layout
+
+\begin_layout Subsection
+OWL Axioms
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OWL axiom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DL syntax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+subClassOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}\sqsubseteq C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Human
+\begin_inset Formula $\sqsubseteq$
+\end_inset
+
+Animal
+\begin_inset Formula $\sqcap$
+\end_inset
+
+Biped
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equivalentClass
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}\equiv C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Man
+\begin_inset Formula $\equiv$
+\end_inset
+
+Human
+\begin_inset Formula $\sqcap$
+\end_inset
+
+Male
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+disjointWith
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}\sqsubseteq\lnot C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Man
+\begin_inset Formula $\sqsubseteq\lnot$
+\end_inset
+
+Female
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sameIndividualAs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a_{1}\right\} \equiv\left\{ a_{2}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ presBush\right\} \equiv\left\{ G.W.Bush\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+differentFrom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a_{1}\right\} \sqsubseteq\lnot\left\{ a_{2}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ john\right\} \sqsubseteq\lnot\left\{ peter\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+subPropertyOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{1}\sqsubseteq P_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hasDaughter
+\begin_inset Formula $\sqsubseteq$
+\end_inset
+
+hasChild
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equivalentProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{1}\equiv P_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hasCost
+\begin_inset Formula $\equiv$
+\end_inset
+
+hasPrice
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inverseOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{1}\equiv P_{2}^{-}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hasChild
+\begin_inset Formula $\equiv$
+\end_inset
+
+hasParent
+\begin_inset Formula $^{-}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+transitiveProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P^{+}\sqsubseteq P$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ancestor
+\begin_inset Formula $^{+}\sqsubseteq$
+\end_inset
+
+ancestor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+functionalProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T\sqsubseteq\left(\leq1P\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Person\sqsubseteq\left(\leq1\ hasFather\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inverseFunctionalProperty
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T\sqsubseteq\left(\leq1P^{-}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Citizen\sqsubseteq\left(\leq1\ hasSSN^{-}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+OWL Constructs
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+OWL construct
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DL syntax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+intersectionOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}\sqcap...\sqcap C_{n}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Human
+\begin_inset Formula $\sqcap$
+\end_inset
+
+Male
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+unionOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}\sqcup...\sqcup C_{n}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Doctor
+\begin_inset Formula $\sqcup$
+\end_inset
+
+Lawyer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+complementOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\lnot$
+\end_inset
+
+Male
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+oneOf
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ a_{1}\right\} \sqcup...\sqcup\left\{ a_{n}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left\{ john\right\} \sqcup\left\{ mary\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+allValuesFrom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\forall P.C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\forall hasChild.Doctor$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+someValuesFrom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists P.C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\exists hasChild.Lawyer$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+maxCardinality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\leq nP\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\leq1\ hasChild\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+minCardinality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\geq nP\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\geq2\ hasChild\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Constructs such as owl:someValuesFrom, owl:allValuesFrom, owl:minCardinality,
+ owl:maxCardinality are expressed using blank nodes, together with owl:Restricti
+on by means of reification.
+\end_layout
+
+\begin_layout Example
+Defining :Department 
+\begin_inset Formula $\sqsubseteq\forall$
+\end_inset
+
+:Leads.:Professor 
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+_:a rdfs:subClassOf owl:Restriction
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:onProperty :Leads
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:allValuesFrom :Professor
+\end_layout
+
+\begin_layout Plain Layout
+
+:Department rdfs:subClassOf _:a
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Here:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+rdfs:subClassOf owl:Restriction indicate that _:a is a complex constraint
+\end_layout
+
+\begin_layout Itemize
+owl:onProperty indicates the constrained property (:Leads in this case)
+\end_layout
+
+\begin_layout Itemize
+owl:allValuesFrom denotes the qualified constraint or cardinality
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Defining :student 
+\begin_inset Formula $\sqsubseteq\geq3$
+\end_inset
+
+:RegisteredTo and :student 
+\begin_inset Formula $\sqsubseteq\leq6$
+\end_inset
+
+:RegisteredTo
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+_:a rdfs:subClassOf owl:Restriction
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:onProperty :RegisteredTo
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:minCardinality 3
+\end_layout
+
+\begin_layout Plain Layout
+
+_:b rdfs:subClassOf owl:Restriction
+\end_layout
+
+\begin_layout Plain Layout
+
+_:b owl:onProperty :RegisteredTo
+\end_layout
+
+\begin_layout Plain Layout
+
+_:b owl:maxCardinality 6
+\end_layout
+
+\begin_layout Plain Layout
+
+:Student rdfs:subClassOf _:a
+\end_layout
+
+\begin_layout Plain Layout
+
+:Student rdfs:subClassOf _:b
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Defining 
+\begin_inset Formula $C_{1}\sqsubseteq\exists P.C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+_:a rdfs:subClassOf owl:Restriction
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:onProperty :P
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:someValuesFrom C
+\end_layout
+
+\begin_layout Plain Layout
+
+C1 rdfs:subClassOf _:a
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Defining 
+\begin_inset Formula $\exists:TeachesTo.:Undergrad\sqsubseteq:Professor\sqcup:Lecturer$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+_:a rdfs:subClassOf owl:Restriction
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:onProperty :TeachesTo
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a owl:someValuesFrom :Undergrad
+\end_layout
+
+\begin_layout Plain Layout
+
+_:b owl:unionOf (:Professor,:Lecturer)
+\end_layout
+
+\begin_layout Plain Layout
+
+_:a rdfs:subClassOf _:b
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+OWL Implementation
+\end_layout
+
+\begin_layout Standard
+OWL uses RDF syntax, i.e., URIs and literals that conform valid triplets.
+ It reuses some URIs from RDFS, but the whole RDFS is not embedded in OWL.
+ In addition, it adds new properties and classes based on description logics
+ and defined at the OWL namespace.
+\end_layout
+
+\begin_layout Subsection
+OWL 2.0 Profiles
+\end_layout
+
+\begin_layout Itemize
+OWL 2 EL: based in EL++, suitable for knowledge bases with large numebr
+ of properties and classes.
+ The reasoning is polynomial with respect to the size of the TBOX.
+\end_layout
+
+\begin_layout Itemize
+OWL 2 QL: based on DL-Lite, captures ER and UML expressive power.
+ The reasoning is reducible to LOGSPACE.
+\end_layout
+
+\begin_layout Itemize
+OWL 2 RL: based on description logic programs, provides scalable reasoning
+ without sacrificing much expressivity.
+ The reasoning is polynomial with respect to the size of the ontology.
+\end_layout
+
+\begin_layout Section
+Graph-Based Virtual Data Integration
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Data Integration
+\series default
+ is an area of study within data management aiming at facilitating transparent
+ acces to a variety of heterogeneous data sources.
+ 
+\end_layout
+
+\begin_layout Standard
+There are two main ways to perform data integration:
+\end_layout
+
+\begin_layout Itemize
+Physical data integration: in physical data integration, the data is integrated
+ by explicit and real modification and movement of the data, storing the
+ transformed data in an integrated database.
+\end_layout
+
+\begin_layout Itemize
+Virtual data integration: in this case, the approach is to encapsulate the
+ physical data with views, with these being those that are integrated and
+ queried.
+ Therefore, in virtual data integration, data remains at the origin, and
+ it is provided to the system transparently by means of views.
+\end_layout
+
+\begin_layout Standard
+Virtual Data Integration is suitable when data sources are not under our
+ control, and the owners require a federation, when we do not want to move
+ the data from where it resides, when data freshness is crucial (ETLs run
+ from time to time and the period between updates is called the 
+\series bold
+update window
+\series default
+), and when we want to systematically trace all the data available within
+ a company or organization (
+\series bold
+data provenance
+\series default
+).
+\end_layout
+
+\begin_layout Standard
+There is consensus that graph-based solutions are the way to go for data
+ integration and governance, because graph-based data models are richer
+ than any other data model and can express any construct, with knowledge
+ graphs preferred over property graphs because they facilitate linking TBOX/ABOX
+ with little effort.
+ In addition, they allow to represent all data integration constructs with
+ the same formalism: target schema + source schema + mappings.
+\end_layout
+
+\begin_layout Standard
+There are two main approaches to achieve data integration:
+\end_layout
+
+\begin_layout Itemize
+Ontology-based data access: this is a monolithic approach, in which the
+ TBOX is directly related to the sources via mappings.
+\end_layout
+
+\begin_layout Itemize
+Ontology-mediated queries: this approach relies on the concept of 
+\series bold
+wrapper
+\series default
+, which is a view presenting the source data.
+ Thus, it allows to select a subset of the data source to be exposed to
+ the whole integration system, allowing for security and modularity, as
+ well as pay-as-you-go data integration, i.e., building the integrated schema
+ incrementally as new data sources arrive.
+\end_layout
+
+\begin_layout Subsection
+Local-As-View (LAV) Integration - Ontology-Mediated Queries (OMQ)
+\end_layout
+
+\begin_layout Standard
+OMQ us a family of systems performing graph-based data integration with
+ LAV (and conceptually GAV is also possible).
+ It is based on the well-known 
+\series bold
+wrapper-mediator architecture.
+\end_layout
+
+\begin_layout Standard
+To make the querying rewriting feasible, they adopt several measures:
+\end_layout
+
+\begin_layout Itemize
+Exact mappings (closed-world assumption).
+\end_layout
+
+\begin_layout Itemize
+Very basic reasoning capabilities: only taxonomies and domain/range inference.
+\end_layout
+
+\begin_layout Subsubsection
+Big Data Integration Ontology
+\end_layout
+
+\begin_layout Standard
+The BDIO revisits the Data Integration framework and construcs an ontology
+ as follows:
+\end_layout
+
+\begin_layout Itemize
+It defines the 
+\series bold
+global level
+\series default
+, 
+\begin_inset Formula $G$
+\end_inset
+
+, which is the integrated view of the data.
+\end_layout
+
+\begin_layout Itemize
+It defines the 
+\series bold
+source levels
+\series default
+, 
+\begin_inset Formula $S$
+\end_inset
+
+, which are views (wrappers) on the data sources.
+\end_layout
+
+\begin_layout Itemize
+And it defines the 
+\series bold
+mappings
+\series default
+, 
+\begin_inset Formula $M$
+\end_inset
+
+, which are the LAV mappings between 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+wrapper
+\series default
+ represents a view on the source, and we can think of it as a named query
+ over the source (a view).
+\end_layout
+
+\begin_layout Standard
+Some typical assumptions made by wrappers are:
+\end_layout
+
+\begin_layout Itemize
+They expose the source data in tabular format (1NF).
+\end_layout
+
+\begin_layout Itemize
+A data source may generate several wrappers.
+\end_layout
+
+\begin_layout Itemize
+Typically, new versions of data are considered new wrappers.
+\end_layout
+
+\begin_layout Example
+A LAV Integration
+\end_layout
+
+\begin_layout Example
+First, we define the global level, 
+\begin_inset Formula $G$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename lav_0.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Now, we need to expose the sources by means of wrappers.
+ For this, we automatically bootstrap the attributes projected by the wrappers.
+\end_layout
+
+\begin_layout Example
+For instance, let's say our data comes from three sources, Q1, Q2 and Q3:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Q1: ID and compute the lag ratio
+\end_layout
+
+\begin_layout Plain Layout
+
+	db.getCollection('vod').aggregate([
+\end_layout
+
+\begin_layout Plain Layout
+
+		{$project: {
+\begin_inset Quotes eld
+\end_inset
+
+VoDMonitorId
+\begin_inset Quotes erd
+\end_inset
+
+: true,
+\end_layout
+
+\begin_layout Plain Layout
+
+					
+\begin_inset Quotes eld
+\end_inset
+
+lagRatio
+\begin_inset Quotes erd
+\end_inset
+
+: {$divide: [
+\begin_inset Quotes eld
+\end_inset
+
+$waitTime
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+$watchTime
+\begin_inset Quotes erd
+\end_inset
+
+]}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	)]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Q2: All attributes for tweets in English.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Q3: association target app -> monitor, feedback gathering tool
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+We end up with the following:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename lav_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Finally, we need to define the LAV mappings for the wrappers.
+ A LAV mapping for a wrapper Q is defined as 
+\begin_inset Formula $M=\left\langle G,S\right\rangle $
+\end_inset
+
+ where 
+\begin_inset Formula $G$
+\end_inset
+
+ is a named graph and 
+\begin_inset Formula $S$
+\end_inset
+
+ is a set of triples of the form:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+<x, owl:sameAs, y>
+\end_layout
+
+\end_deeper
+\begin_layout Example
+where <x, rdf:type, S:Attribute> and <y, rdf:type, G:Feature>.
+\end_layout
+
+\begin_layout Example
+In our example, we can define the LAV mapping for the wrappers for source
+ Q1:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+-- First we define G, the named graph
+\end_layout
+
+\begin_layout Plain Layout
+
+Q1 S:provides {
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:InfoMonitor G:hasFeature sup:lagRatio .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:VoDMonitor sup:generatesQoS sup:InfoMonitor .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:VoDMonitor G:hasFeature sup:idMonitor
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+-- Now we define S, the 
+\begin_inset Quotes eld
+\end_inset
+
+same as
+\begin_inset Quotes erd
+\end_inset
+
+ triples
+\end_layout
+
+\begin_layout Plain Layout
+
+q1:lagRatio owl:sameAs sup:lagRatio
+\end_layout
+
+\begin_layout Plain Layout
+
+q1:VoDMonitorId owl:sameAs sup:idMonitor
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+For source Q2:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Q2 S:provides {
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:FeedbackGatheringTool sup:generatesOpinion duv:UserFeedback .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:FeedbackGatheringTool G:hasFeature sup:idFGTool .
+\end_layout
+
+\begin_layout Plain Layout
+
+				duv:UserFeedback G:hasFeature dct:description
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+q2:feedbackGatheringId owl:sameAs sup:idFGTool
+\end_layout
+
+\begin_layout Plain Layout
+
+q2:tweet owl:sameAs dct:description
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+And for source Q3:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Q3 S:provides {
+\end_layout
+
+\begin_layout Plain Layout
+
+				sc:SoftwareApplication sup:hasMonitor sup:VoDMonitor .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sc:SoftwareApplication sup:hasFGTool sup:FeedbackGatheringTool .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sc:SoftwareApplication G:hasFeature sup:idSoftApp .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:VoDMonitor G:hasFeature sup:idMonitor .
+\end_layout
+
+\begin_layout Plain Layout
+
+				sup:FeedbackGatheringTool G:hasFeature sup:idFGTool
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+q3:MonitorId owl:sameAs sup:idMonitor
+\end_layout
+
+\begin_layout Plain Layout
+
+q3:TargetApp owl:sameAs sup:idSoftApp
+\end_layout
+
+\begin_layout Plain Layout
+
+q3:FeedbackId owl:sameAs sup:idFGTool
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+And we end up with the following integrated view of the data:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename lav_2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Query Answering - Rewriting Algorithm
+\end_layout
+
+\begin_layout Standard
+Any SPARQL query on the global graph must be rewritten as a query in terms
+ of the wrappers, which provide the way to access the actual data.
+\end_layout
+
+\begin_layout Standard
+For example, assume the following SPARQL query:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SELECT ?w, ?t WHERE
+\end_layout
+
+\begin_layout Plain Layout
+
+	?t rdf:type sup:lagRatio .
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+	?x G:hasFeature ?t .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?x rdf:type sup:InfoMonitor .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?y sup:generatedQoS ?x .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?y rdf:type sup:VoDMonitor .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?z sup:hasMonitor ?y .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?z rdf:type sc:SoftwareApp .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?z G:hasFeature ?w .
+\end_layout
+
+\begin_layout Plain Layout
+
+	?w rdf:type sup:idSoftwareApp .
+\end_layout
+
+\begin_layout Plain Layout
+
+	FILTER ?w = 
+\begin_inset Quotes eld
+\end_inset
+
+SUPERSEDE
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We start from terminal features.
+ In this case, sup:lagRatio which maps to q1:lagRatio:
+\begin_inset Formula 
+\[
+\Pi_{t}\left(\rho_{q1:lagRatio\rightarrow t}\left(Q1\right)\right),
+\]
+
+\end_inset
+
+ then, we go up the ontology, reaching sup:InfoMonitor.
+ The query does not change at this point because this is schema information
+ covered by Q1.
+ We continue going up, until sup:VoDMonitor, and the query still remains
+ the same.
+ Now, we reach sc:SoftwareApplication, which is not covered by Q1, but by
+ Q3.
+ Therefore, we need to join them somehow.
+ Q1 and Q3 share sup:idMonitor, so we join them using this attribute:
+\begin_inset Formula 
+\[
+\Pi_{t}\left(\rho_{q1:lagRatio\rightarrow t}\left(\sigma_{q1:VoDMonitorId=q3:MonitorId}\left(Q1\times Q3\right)\right)\right),
+\]
+
+\end_inset
+
+ we continue reading the query, reaching sup:idSoftwareApp, which is another
+ feature that needs to be added to the query:
+\begin_inset Formula 
+\[
+\Pi_{w,t}\left(\rho_{q1:lagRatio\rightarrow t}\rho_{q3:targetApp\rightarrow w}\left(\sigma_{q1:VoDMonitorId=q3:MonitorId}\left(Q1\times Q3\right)\right)\right),
+\]
+
+\end_inset
+
+ finally, we have to apply the filter
+\begin_inset Formula 
+\[
+\sigma_{w="SUPERSEDE"}\left(\Pi_{w,t}\left(\rho_{q1:lagRatio\rightarrow t}\rho_{q3:targetApp\rightarrow w}\left(\sigma_{q1:VoDMonitorId=q3:MonitorId}\left(Q1\times Q3\right)\right)\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Computational Complexity
+\end_layout
+
+\begin_layout Standard
+This query rewriting algorithm is linear in the size of the subgraph of
+ 
+\begin_inset Formula $G$
+\end_inset
+
+ to navigate, linear in the size of the wrappers mappings and exponential
+ in the number of wrappers that may join.
+ The good thing is that evidence shows that typically BigData sources have
+ few join points and therefore the exponential complexity is affordable
+ in real cases.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
