@@ -8620,6 +8620,925 @@ SPARQL-star
  is an extension of SPARQL to query RDF-star graphs.
 \end_layout
 
+\begin_layout Section
+RDF Schema (RDFS)
+\end_layout
+
+\begin_layout Standard
+RDFS extends RDF to not only consider data instances, but also schema.
+ In this case, we can define classes and relationships between them, using
+ the same principles as for instances.
+ It defines 
+\emph on
+rdfs:
+\emph default
+, a namespace for RDFS, in which a set of resources needed to express contraints
+ is defined.
+\end_layout
+
+\begin_layout Standard
+RDFS allows to specify the following constraints:
+\end_layout
+
+\begin_layout Itemize
+Declare resources as instances of certain classes.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+:Oscar :type :lecturer
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Inclusion statements between classes and between properties, which allow
+ us to define 
+\series bold
+taxonomies
+\series default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+:lecturer :subclassOf :human
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Assert the class of a subject (or an object) of a property
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The predicate :parentOf must relate instnaces of the class :human.
+ Therefore, any subject/object of a triple where :parentOf is the predicate
+ is atumatically asserted as :human.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+RDFS statements at the schema level
+\end_layout
+
+\begin_layout Itemize
+Instances:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+:Oscar rdf:type :Lecturer
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Taxonomies:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Classes: :Lecturer rdfs:subclassOf :Human
+\end_layout
+
+\begin_layout Itemize
+Relationships: :ResponsibleFor rdfs:subpropertyOf :Lecutres
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Domain and Range:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+:Lectures rdfs:domain :Human
+\end_layout
+
+\begin_layout Itemize
+:Lectures rdfs:range :Course
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+RDFS Core Classes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdfs:Resource
+\series default
+: the class of all resources.
+ Everything is a resource.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdfs:Class
+\series default
+: the class of all classes.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdfs:Literal
+\series default
+: the class of all literals.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdf:Property
+\series default
+: the class of all properties.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdf:Statement
+\series default
+: the class of all statements.
+\end_layout
+
+\begin_layout Standard
+These core classes add another level of abstraction above the metadata layer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado7.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Three layers of abtraction of RDFS from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Romero2023"
+literal "false"
+
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Three-layers-of"
+
+\end_inset
+
+ The red arrows are 
+\emph on
+rdf:type
+\emph default
+ relationships.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+RDFS Inference
+\end_layout
+
+\begin_layout Standard
+In RDFS we can infer new instances (knowledge) from the statements created
+ by the users.
+ It is based on 
+\series bold
+rule-based reasoning
+\series default
+ and there are two kinds of inference:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Core type inference
+\series default
+: it infers the type with regards to the core classes of an asserted resource
+ R.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Domain-specific inference
+\series default
+: it can be:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Inclusion dependencies:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If :A rdfs:subclassOf :B and :B rdfs:subclassOf :C then :A rdfs:subclassOf
+ :C.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Type inference: it infers the type of an asserted resource R with respect
+ to a user created class X.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+RDFS Core Properties
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+rdf:type
+\series default
+: relates a resource to its class:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:oscar rdf:type :lecturer
+\end_layout
+
+\begin_layout Standard
+The subject resource (:oscar) is declared to be an instance of the object
+ class (:lecturer).
+\end_layout
+
+\begin_layout Itemize
+The inferred knowledge is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Core type inference: the object is inferred as a Class:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lecturer rdf:type rdfs:Class
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+rdfs:subClassOf
+\series default
+: relates a class to one of its superclasses:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lecturer rdfs:subClassOf :human
+\end_layout
+
+\begin_layout Standard
+\align center
+:oscar rdf:type :lecturer
+\end_layout
+
+\begin_layout Standard
+The subject and object are declared as classes and any instance of the subject
+ is declared as an instance of the object.
+\end_layout
+
+\begin_layout Itemize
+The inferred knowledge is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Core type inference: the subject and object are inferred as classes:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lecturer rdf:type rdfs:Class
+\end_layout
+
+\begin_layout Standard
+\align center
+:human rdf:type rdfs:Class
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Domain specific inference: inclusion dependency:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:oscar rdf:type :human
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+rdfs:subPropertyOf
+\series default
+: relates a property to one of its superproperties:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:responsibleFor rdfs:subPropertyOf :lectures
+\end_layout
+
+\begin_layout Standard
+\align center
+:oscar :responsibleFor :OD
+\end_layout
+
+\begin_layout Standard
+The subject and object resources are declared to be properties and any subject,
+ object related by subject predicate are automatically declared as to be
+ related by the object predicate.
+\end_layout
+
+\begin_layout Itemize
+The inferred knowledge is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Core type inference: the subject and object are inferred as properties:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:responsibleFor rdf:type rdf:Property
+\end_layout
+
+\begin_layout Standard
+\align center
+:lectures rdf:type rdf:Property
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Domain specific inference: inclusion dependency:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:oscar :lectures :OD
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+rdfs:domain
+\series default
+: specifies the domain of a property:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lectures rdf:domain :lecturer
+\end_layout
+
+\begin_layout Standard
+\align center
+:oscar :lectures :OD
+\end_layout
+
+\begin_layout Itemize
+The inferred knowledge is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Core type inference: the subject is declared to be a property and the object
+ is declared to be a class:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lectures rdf:type rdf:Property
+\end_layout
+
+\begin_layout Standard
+\align center
+:lecturer rdf:type rdfs:Class
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Domain specific inference: type inference:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:oscar rdf:type :lecturer
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+rdfs:range
+\series default
+: specifies the range of a property:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lectures rdf:range :course
+\end_layout
+
+\begin_layout Standard
+\align center
+:oscar :lectures :OD
+\end_layout
+
+\begin_layout Itemize
+The inferred knowledge is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Core type inference: the subject is declared to be a proeprty and the object
+ is declared to be a class:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:lectures rdf:type rdf:Property
+\end_layout
+
+\begin_layout Standard
+\align center
+:course rdf:type rdfs:Class
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Domain specific inference: type inference:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+:OD rdf:type :course
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Example
+An RDFS graph.
+\end_layout
+
+\begin_layout Example
+Consider the graph that we have used many times already:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename simplegraph.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Create a correct RDFS graph capturing as much constraints as possible from
+ it.
+ What triples may you infer from the asserted RDFS graph?
+\end_layout
+
+\begin_layout Example
+The RDFS graph can be the following:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename rdfs.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+And the instantiation of the data:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="15" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="8cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Instantiation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inference
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood :hasRole :bill
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type Actor
+\end_layout
+
+\begin_layout Plain Layout
+:bill rdf:type :role
+\end_layout
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill :inMovie :Unforgiven
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill rdf:type :role
+\end_layout
+
+\begin_layout Plain Layout
+:Unforgiven rdf:type :Movie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:Ungorgiven :title 'Unforgiven'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:Unforgiven rdf:type :Movie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood :name 'Clint Eastwood'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type :Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood :gender :male
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type :Person
+\end_layout
+
+\begin_layout Plain Layout
+:male rdf:type :genderClass
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill :roleName 'Bill'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill :red 'IMDB'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:bill rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine :hasRole :delilah
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine rdf:type :Actor
+\end_layout
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\begin_layout Plain Layout
+:annaLevine rdf:type :Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah :inMovie :Unforgiven
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\begin_layout Plain Layout
+:Unforgiven rdf:type :Movie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine :name 'Anna Levine'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine rdf:type :Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine :gender :female
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:annaLevine rdf:type :Person
+\end_layout
+
+\begin_layout Plain Layout
+:female rdf:type :genderClass
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah :roleName 'Delilah'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah :ref 'IMDB'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:delilah rdf:type :role
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood :directs :Unforgiven
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type :Director
+\end_layout
+
+\begin_layout Plain Layout
+:Unforgiven rdf:type :Movie
+\end_layout
+
+\begin_layout Plain Layout
+:clintEastwood rdf:type Person
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
