@@ -7445,6 +7445,1108 @@ The execution could be as follows:
 \end_layout
 
 \end_deeper
+\begin_layout Example
+The colors indicate the same as in the previous example.
+ The green node is the source node for the algorithm and the numbers indicate
+ the weights of the edges.
+\end_layout
+
+\begin_layout Subsubsection
+TLAV: Graph Distribution
+\end_layout
+
+\begin_layout Standard
+We have seen that TLAV graph processing requires the graph data to be exposed
+ in the form of two views: the set of vertices and the set of edges.
+ Let's see how TLAV can be achieved in a distributed environment.
+ Let's begin with an example:
+\end_layout
+
+\begin_layout Example
+Consider the following distributed graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename tlav.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+This graph can be represented as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename tlav_0.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Here, we have depicted the two views, partitioned.
+ Each partition is depicted by a yellow rectangle.
+ And the instances are stored in the partitions.
+ Note that the vertices do not store the nodes, I have draw them like that
+ to facilitate readability.
+\end_layout
+
+\begin_layout Example
+Now, we want to set up a simple TLAV environment.
+ We are going to send messages 
+\begin_inset Formula $\left\{ a_{m},b_{m},c_{m},f_{m}\right\} $
+\end_inset
+
+.
+ Each message is sent to the node it is named after.
+ For example, 
+\begin_inset Formula $a_{m}$
+\end_inset
+
+ goes to node 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ The nodes will send the message to all nodes to which they are connected,
+ and these will generate a message named after them.
+ For example, if 
+\begin_inset Formula $b$
+\end_inset
+
+ receive a message, it will send 
+\begin_inset Formula $b_{m}$
+\end_inset
+
+.
+ The first superstep of this process is:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename tlav_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Note how messages can be merged in two ways: intrapartition and interpartition.
+ The messages in the white box would be sent to the vertices for the next
+ superstep.
+\end_layout
+
+\begin_layout Standard
+It is very important to realize that states can only be shared through messages,
+ since there is no shared memory.
+ 
+\end_layout
+
+\begin_layout Standard
+About the vertex kernel, keep in mind the after its execution, the vertices
+ send messages to adjacent vertices, and these messages could be as complex
+ as needed, and they can even modify the graph.
+ The kernel must also include a 
+\series bold
+halt condition
+\series default
+, so that a node knows when to stop sending messages, and convergence can
+ be achieved.
+\end_layout
+
+\begin_layout Subsubsection*
+Pregel
+\end_layout
+
+\begin_layout Standard
+Pregel is a very famous TLAV framework.
+ Its model of computation is as follows:
+\end_layout
+
+\begin_layout Itemize
+Input: a directed graph with three views:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+List of nodes, uniquely identified.
+\end_layout
+
+\begin_layout Itemize
+List of edges.
+\end_layout
+
+\begin_layout Itemize
+Triplet views: an edge and its nodes information, showing all the information
+ for the edge.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Processing: in each superstep the vertices work in parallel.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+They can modify their state, the state of their outgoing edges, receive
+ messages from the previous superstep, send messages to other vertices for
+ the next superstep and modify the graph topology.
+\end_layout
+
+\begin_layout Itemize
+The algorithm finishes based on a voting to halt.
+ This means that when a node halts, it becomes inactive and stop sending
+ processing and sending messages, until it receives another messages.
+ When all nodes are inactive, the process finishes.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Output: the set of values explicitly outputed by the vertices.
+\end_layout
+
+\begin_layout Subsubsection*
+GraphX
+\end_layout
+
+\begin_layout Standard
+GraphX is a subproject of Apache Spark, built as a Spark module and following
+ Pregel's principles, but it only allows to send messahes to adjacent vertices.
+\end_layout
+
+\begin_layout Standard
+It uses Spark GraphFrames to provide Pregel's required views (vertices,
+ edges and triplets) and provides a library with typical distributed algorithms,
+ such as pageRank, connected componentes, triangle count,...
+\end_layout
+
+\begin_layout Subsubsection
+Deepening into TLAV
+\end_layout
+
+\begin_layout Subsubsection*
+Scheduling
+\end_layout
+
+\begin_layout Standard
+Scheduling refers to how user-defined vertex programmes are scheduled for
+ execution.
+ They can be Synchronous, Asynchronous, Both or Hybrid.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Synchronous scheduling
+\series default
+ is based on the Bulk Synchronous Parallel (BSP) processing model.
+ Active vertices are executed conceptually in parallel over one or more
+ iterations, called supersteps and synchronization is achieved through a
+ global synchronization barrier situated between each superstep that block
+ vertices from computing the next superstep until all workers complete the
+ current one.
+ Each worker has to coordinate with the master to progress to the next superstep.
+\end_layout
+
+\begin_layout Standard
+Synchronization is achieved because the barrier ensures that each vertex
+ within a superstep has access to only the data from the previous superstep.
+ Note that inside a superstep, vertices can be scheduled in a fixed or random
+ order, because the execution order does not affect the state of the program
+ (it should not, at least).
+\end_layout
+
+\begin_layout Standard
+
+\color blue
+Pros
+\color inherit
+ os synchronous scheduling:
+\end_layout
+
+\begin_layout Itemize
+Conceptually simple.
+\end_layout
+
+\begin_layout Itemize
+Good for certain algorithms.
+\end_layout
+
+\begin_layout Itemize
+Almost always deterministic, making synchronous applications easy to design,
+ program, test, debug and deploy.
+\end_layout
+
+\begin_layout Itemize
+Scalable: potentially linear in the number of vertices and can benefit from
+ batch messaging between supersteps.
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Cons
+\color inherit
+:
+\end_layout
+
+\begin_layout Itemize
+System throughput must remain high in each sueprstep ot justify the synchronizat
+ion cost.
+ Throughput is affected by the drop of active vertices or by the imbalance
+ workload among workers, resulting in the system becoming underutilized;
+ the iterative nature of graph algorithms, which suffer from 'the curse
+ of the last reducer' (straggler problem), where many computations finish
+ quickly but a small fraction of computations take a desproportionately
+ larger amount of time; and the speed of computation of each node.
+\end_layout
+
+\begin_layout Itemize
+The algorithm may not converge for some graph topologies.
+ In general, algorithms that require some type of neighbor coordination
+ may not always converge with the synchronous scheduling model without the
+ use of some extra logic in the vertex program.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Asynchronous scheduling
+\series default
+ is different.
+ There is no explicit synchronization points, so any active vertex is eligible
+ for computation whenever processor and network resources are available.
+ The vertex execution order can be dynamically generated and reorganized
+ by the scheduler, and the straggler problem is eliminated.
+ As a result, many asynchronous models outperform corresponding synchronous
+ models, but at the expense of added complexity.
+\end_layout
+
+\begin_layout Standard
+Pros:
+\end_layout
+
+\begin_layout Itemize
+Outperform synchronous systems when the workload is imbalanced.
+\end_layout
+
+\begin_layout Standard
+Cons:
+\end_layout
+
+\begin_layout Itemize
+It cannot take advantage of batch messaging optimizations.
+\end_layout
+
+\begin_layout Itemize
+The typical pull model execution may result in unnecessary processing.
+\end_layout
+
+\begin_layout Itemize
+Asynchronous algorithms face more difficult scheduling problems and also
+ consistency issues.
+\end_layout
+
+\begin_layout Standard
+In general, synchronous execution generally accommodates IO bound algorithms,
+ while asynchronous execution well-serves CPU bound algorithms by adapting
+ to large and variable workloads.
+\end_layout
+
+\begin_layout Subsubsection*
+Message Passing
+\end_layout
+
+\begin_layout Standard
+Information is sent from one vertex program kernel to another via messages,
+ which contain local vertex data and is addressed to the ID of the recipient
+ vertex.
+ A message can be addressed anywhere, but since vertices do not have ID
+ information of all the other vertices, destination vertex IDs are typically
+ obtained by iterating over outgoing edges.
+\end_layout
+
+\begin_layout Standard
+After computation is complete and a destination ID for each message is determine
+d, the vertex dispatches messages to the local worker process, which determines
+ whether the recipient resides on the local machine or a remote one.
+\end_layout
+
+\begin_layout Itemize
+If it is in the local machine, the worker process the message directly into
+ the vertex's incoming messages queue.
+\end_layout
+
+\begin_layout Itemize
+Otherwise, the worker process looks up the worker ID of the destination
+ vertex and places the message in an outgoing message buffer, which are
+ flushed when they reach a certain capacity, sending messages over the network
+ in batches.
+ In principle, it tries to wait until the end of a superstep to send all
+ messages in batch-mode.
+\end_layout
+
+\begin_layout Standard
+There three main strategies to optimize message passing:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Sender-side combiner
+\series default
+: messages from several nodes are merged in the sender worker, which sends
+ them to the destination worker.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Receiver-side combiner
+\series default
+: in this case, the sender worker sends all the messages produced by all
+ nodes to the destination worker, which makes the merging.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Receiver-side scatter
+\series default
+: the sender worker send a message, which is received by the destination
+ worker, sending it to several nodes.
+\end_layout
+
+\begin_layout Subsubsection*
+Shared Memory
+\end_layout
+
+\begin_layout Standard
+Shared memory exposes vertex data as shared variables that can be directly
+ read or modigied by other vertex programs, avoiding the additional memory
+ overhead constituted by messages.
+ This is typical of centralized graph processing, but there are also some
+ distributed systems that apply it.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+main problem
+\series default
+ is that for shared-memory TLAV frameworks, race conditions may arise when
+ an adjacent vertex resides on a remote mahcine.
+ Shared-memory TLAV frameworks often ensure memory consistency through mutual
+ exclusion by requiring serializable schedules.
+ 
+\series bold
+Serializability
+\series default
+ means that every parallel execution has a corresponding sequential execution
+ that maintains consistency.
+\end_layout
+
+\begin_layout Standard
+The most prominent solutions up to today are:
+\end_layout
+
+\begin_layout Itemize
+In GraphLab, border vertices are provided locally cached ghost copies of
+ remote neighbors, where consistency between ghosts and the original vertex
+ is maintained using pipelined distributed locking.
+\end_layout
+
+\begin_layout Itemize
+In PowerGraph and GiraphX, graphs are partitioned by edges and cut along
+ vertices, where consistency across cached mirrors of the cut vertex is
+ maintained using parallel Chandy-Misra locking.
+\end_layout
+
+\begin_layout Standard
+The reduced overhead of shared memory compared to message passing may lead
+ to 35% faster converges when computing PageRank on a large web graph.
+\end_layout
+
+\begin_layout Subsubsection*
+Partitioning
+\end_layout
+
+\begin_layout Standard
+Large-scake graphs must be divided into parts to be placed in distributed
+ storage/memory.
+ Good partitions often lead to improved performance, but expensive strategies
+ to partition can end up dominating processing time, leading many implementation
+s to incorporate simple strategies, such as random placement.
+\end_layout
+
+\begin_layout Standard
+Effective partitioning evenly distributes the vertices for balanced workload
+ while minimizing imterpartition edges to avoid costly network traffic.
+ This is formally known as a 
+\emph on
+k-way graph partitioning
+\emph default
+, which is a NP-complete problem, with no fixed-factor approximation.
+\end_layout
+
+\begin_layout Standard
+The leading work in graph partitioning can be broadly characterized as rigorous
+ but impractical mathematical strategies or pragmatic heuristics used in
+ practices, but this is currently an open problem.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Knowledge Graphs
+\end_layout
+
+\begin_layout Section
+Introduction to Knowledge Graphs
+\end_layout
+
+\begin_layout Standard
+In a knowledge graph, every node is represented with a unique identifies
+ and can be universally reffered, i.e., they can be referred potentially from
+ any other database in the world.
+\end_layout
+
+\begin_layout Standard
+Metadata is represented as nodes and edges in the graph.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example knowledge graph from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Romero2023"
+literal "false"
+
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-knowledge-graph"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Knowledge graphs facilitate linking data, because linking via their metadata
+ is much more powerful than by the characteristics of the instances, and
+ it is a unique feature of their own.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Examples-of-data"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can see several relationships between metadata nodes:
+\end_layout
+
+\begin_layout Itemize
+A subClassOf B indicates that concept A is a subset (more specific) of concept
+ B.
+\end_layout
+
+\begin_layout Itemize
+A equivalentClass B indicates that classes A and B represent the same informatio
+n, even if they are stored in different machines.
+\end_layout
+
+\begin_layout Itemize
+A equivalent B also indicate equivalence of representation, but in this
+ case it refers to subgraphs of the metadata.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pegado4.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Examples of data linkage from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Romero2023"
+literal "false"
+
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Examples-of-data"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Assume Knowledge Graph as the canonical data model.
+ First, model as graphs each source (separately):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Model schema and some instances for each source:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Source 1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tweet
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Date
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Location
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Source 2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Product
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Product Features
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Source 3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Product
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Then, relate the metadata from each graph with new edges generating a unique
+ connected graph.
+ For this:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Look for similar or identical concepts.
+\end_layout
+
+\begin_layout Enumerate
+Think of interesting relationships you could exploit later.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Example
+Assume you can use the following pre-defined edges: equivalentClass, type
+ and subClassOf, which embed the semantics already discussed.
+\end_layout
+
+\begin_layout Standard
+A possible solution is the following:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename kg.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that to model the ternary relationship between (User, Product, Time)
+ we needed to add an artificial node.
+ This is called 
+\series bold
+reification
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Schema.org
+\end_layout
+
+\begin_layout Standard
+Schema.org is a global initiative to mark up data.
+ It provides a vocabulary of terms and their relationships.
+ Google and others ahve built their semantic-aware searchers based on schema.org
+ and built huge knowledge graphs based on it.
+\end_layout
+
+\begin_layout Section
+Resource Description Format (RDF)
+\end_layout
+
+\begin_layout Standard
+RDF is a simple language for describing annotations (facts) about resources.
+ It is the most basic ontology language.
+ The triples that it uses as basic construct map to first order logic as
+ grounded atomic formulas, and blank nodes map to existential variables.
+\end_layout
+
+\begin_layout Standard
+The basic RDF block is the 
+\series bold
+RDF statement
+\series default
+ which is a triple representing a binary relationship between two resources
+ or between a resource and a literal.
+ The syntax is:
+\end_layout
+
+\begin_layout Standard
+\align center
+<subject predicate object>
+\end_layout
+
+\begin_layout Standard
+where:
+\end_layout
+
+\begin_layout Itemize
+subject S has value object O for predicate P.
+\end_layout
+
+\begin_layout Itemize
+subject and predicate are resources and must be URIs.
+\end_layout
+
+\begin_layout Itemize
+object can be a resource (URI) or a literal (constant value).
+\end_layout
+
+\begin_layout Standard
+As can be inferred from this, resources are identified by URIs, which are
+ global identifiers.
+ A URI is composed of a URL and a URN:
+\end_layout
+
+\begin_layout Itemize
+URN is the Universal Resource Name: id
+\end_layout
+
+\begin_layout Itemize
+URL is the Universal Resource Location: where it is
+\end_layout
+
+\begin_layout Standard
+Many times, we omit the URL for simplicity, and refer to the URI as :URN.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+blank node
+\series default
+ is a resource without a URL (i.e., _).
+\end_layout
+
+\begin_layout Standard
+Literals are atomic values such as strings, dates or numbers.
+\end_layout
+
+\begin_layout Standard
+We can thus define a 
+\series bold
+RDF graph 
+\series default
+(or semantic graph) as a set of these RDS statements.
+\end_layout
+
+\begin_layout Standard
+To query RDF graph, SPARQL is the de facto language (also for it variants
+ and extensiosn).
+ It is inspired by SQL but oriented to express graph operations.
+\end_layout
+
+\begin_layout Example
+A RDF graph example.
+\end_layout
+
+\begin_layout Example
+The graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado5.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Can be represented as an RDF like this:
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+(:Dupond :Leads :CSDept)
+\end_layout
+
+\begin_layout Plain Layout
+
+(:Dupond :TeachedIn :UE111)
+\end_layout
+
+\begin_layout Plain Layout
+
+(:Dupond :TeachesTo :Pierre)
+\end_layout
+
+\begin_layout Plain Layout
+
+(:Pierre :EnrolledIn :CSDept)
+\end_layout
+
+\begin_layout Plain Layout
+
+(:Pierre :RegisteredTo :UE111)
+\end_layout
+
+\begin_layout Plain Layout
+
+(:UE111 :OfferedBy :CSDept)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Usually, RDF is serialized using the XML format.
+ 
+\end_layout
+
+\begin_layout Standard
+The rdf URL is a namespace for RDF.
+\end_layout
+
+\begin_layout Standard
+Other RDF syntaxes are turtle (which is human-readbale), N-triples or Notation
+ 3.
+\end_layout
+
+\begin_layout Subsection
+RDF Modeling
+\end_layout
+
+\begin_layout Standard
+RDF modeling is based on binary relationships, but n-ary relationships may
+ be needed, so blank nodes were presented as a solution for this.
+ A 
+\series bold
+blank node
+\series default
+ is a node without a URI, which cannot be referenced and can only be subjects
+ or objects.
+ Its semantics are not completely clear yet, but their 
+\series bold
+de facto use
+\series default
+ is as an identifier without a URI.
+ The W3C position is this regard is to use blank nodes for incomplete data:
+ unknown values or anonymized values.
+ The de facto use is pragmatic, but good practices discourage their use:
+ all resources should have a proper URI.
+\end_layout
+
+\begin_layout Example
+Quoting
+\end_layout
+
+\begin_layout Example
+The following use of a blank node:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename pegado6.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Can be expressed as:
+\end_layout
+
+\begin_layout Example
+:oscar :takes [:course :SDM]
+\end_layout
+
+\begin_layout Example
+This is quoting, which is general is [property object], and the subject
+ is the blank node.
+\end_layout
+
+\begin_layout Standard
+Notice that we cannot express neither schema nor additional constraints,
+ such as 'at least one' or 'at most three'.
+\end_layout
+
+\begin_layout Subsection
+RDF-star
+\end_layout
+
+\begin_layout Standard
+RDF-star in as RDF extension, more comapct and with a predice syntax for
+ reification
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
