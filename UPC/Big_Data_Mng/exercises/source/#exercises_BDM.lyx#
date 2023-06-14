@@ -3596,19 +3596,7 @@ N\binom{N+C-2}{C}.
  Therefore, the probability of not using some node is
 \begin_inset Formula 
 \[
-P=\frac{N\binom{N+C-2}{C}}{\binom{N+C-1}{C}}=\frac{N\frac{\left(N+C-2\right)!}{\cancel{C!}\left(N-2\right)!}}{\frac{\left(N+C-1\right)!}{\cancel{C!}\left(N-1\right)!}}=\frac{N\left(N-1\right)}{N+C-1}.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Finally, the probability of using all nodes is
-\begin_inset Formula 
-\[
-Q=1-P.
+P=\frac{N\binom{N+C-2}{C}}{\binom{N+C-1}{C}}=\frac{N\frac{\left(N+C-2\right)!}{\cancel{C!}\left(N-2\right)!}}{\frac{\left(N+C-1\right)!}{C!\left(N-1\right)!}}=\frac{N}{}
 \]
 
 \end_inset
@@ -3729,36 +3717,12 @@ Theoretical questions
 \begin_layout Subsubsection
 Which is the main difference between the hash functions used in the linear
  hash and consistent hash algorithms?
-\color red
-*
-\end_layout
-
-\begin_layout Standard
-Linear hash adapts as the system grows, and there are two functions at once.
-\end_layout
-
-\begin_layout Standard
-Consistent hash consists of a predefined static hash function.
 \end_layout
 
 \begin_layout Subsubsection
 With respect to distributed systems, explain what is a distributed hash
  table (DHT), and provide a brief description of how consistent hashing
  guarantees balancing keys when adding new servers.
- 
-\color red
-*
-\end_layout
-
-\begin_layout Standard
-A DHT is a hash table that is divided into buckets, having these buckets
- distributed.
-\end_layout
-
-\begin_layout Standard
-Consistent hashing guarantees balancing by redistributing the keys at the
- moment of adding new servers, and relies on the big numbers and the assumption
- of well-constructed hash functions.
 \end_layout
 
 \begin_layout Subsection
