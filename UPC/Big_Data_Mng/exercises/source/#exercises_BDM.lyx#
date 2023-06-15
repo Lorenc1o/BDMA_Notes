@@ -117,7 +117,7 @@ algorithm2e
 \headsep 1cm
 \footskip 2cm
 \secnumdepth 3
-\tocdepth 3
+\tocdepth 2
 \paragraph_separation indent
 \paragraph_indentation default
 \is_math_indent 0
@@ -3178,7 +3178,7 @@ S\left(Body_{Hor}\right)=S\left(metaBody\right)+\left|T\right|\cdot\left[S\left(
 
 \begin_inset Formula 
 \[
-N_{chunks}=\left\lceil\frac{262.5}{128}\right\rceil=3\ chunks.
+N_{chunks}=\left\lceil \frac{262.5}{128}\right\rceil =3\ chunks.
 \]
 
 \end_inset
@@ -3290,7 +3290,7 @@ UsedRowGroups=\frac{Cols\left(T\right)\cdot\left|T\right|\cdot S\left(cell\right
 
 \begin_inset Formula 
 \begin{align*}
-S\left(Body_{Hyb}\right)= & \left\lceil UsedRowGroups\right\rceil\cdot\left[S\left(metaRowGroup\right)+Cols\left(T\right)\cdot S\left(metaCol\right)\right]+Cols\left(T\right)\cdot\left|T\right|\cdot S\left(cell\right)\\
+S\left(Body_{Hyb}\right)= & \left\lceil UsedRowGroups\right\rceil \cdot\left[S\left(metaRowGroup\right)+Cols\left(T\right)\cdot S\left(metaCol\right)\right]+Cols\left(T\right)\cdot\left|T\right|\cdot S\left(cell\right)\\
 = & 39\cdot\left[0.5+4\cdot0.2\right]+4\cdot64\cdot1=306.7\ MB.
 \end{align*}
 
@@ -3561,7 +3561,7 @@ Given a file with
 There are
 \begin_inset Formula 
 \[
-\binom{N+C-1}{C}
+N^{C}
 \]
 
 \end_inset
@@ -3571,32 +3571,47 @@ There are
 \end_layout
 
 \begin_layout Standard
-If we exclude a node, then there are
+Among this, the Stirling numbers of the second kind
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Visit https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind
+\begin_inset CommandInset href
+LatexCommand href
+name "Stirling  Numbers of the second kind in Wikipedia"
+target "https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind"
+literal "false"
+
+\end_inset
+
+ for more information.
+\end_layout
+
+\end_inset
+
+ give us the number of possibilities in which all nodes contain at least
+ one chunk, therefore, it is
 \begin_inset Formula 
 \[
-\binom{N+C-2}{C}
+P=\frac{S\left(N,C\right)N!}{N^{C}},
 \]
 
 \end_inset
 
- possibilities.
- Since we can exclude 
-\begin_inset Formula $N$
+ here, the 
+\begin_inset Formula $N!$
 \end_inset
 
- nodes, one at a time, then the total number of possibilities in which at
- least one node is not used is
+ comes because the stirling number does not take into account that the nodes
+ are different, i.e., for the Stirling number, it is the same to store two
+ chunks in node 1 and one in node 2, as to store one chunk in node 1 and
+ two in node 2.
+ Therefore, we need to take all possible arrangements into consideration.
+ More explicitly, this formula ends up being
 \begin_inset Formula 
 \[
-N\binom{N+C-2}{C}.
-\]
-
-\end_inset
-
- Therefore, the probability of not using some node is
-\begin_inset Formula 
-\[
-P=\frac{N\binom{N+C-2}{C}}{\binom{N+C-1}{C}}=\frac{N\frac{\left(N+C-2\right)!}{\cancel{C!}\left(N-2\right)!}}{\frac{\left(N+C-1\right)!}{C!\left(N-1\right)!}}=\frac{N}{}
+P=\frac{N!\sum_{i=1}^{C}\frac{\left(-1\right)^{C-i}i^{n}}{\left(C-i\right)!i!}}{N^{C}}.
 \]
 
 \end_inset
@@ -3616,6 +3631,13 @@ Consider an HDFS cluster with 100 data nodes, without replication.
 Which is the maximum number of machines actually contain data?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Since there is no replication, and the unit of distribution is the chunk,
+ then at most 10 nodes can contain data.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -3623,6 +3645,24 @@ Which is the probability of the maximum number of machines actually contain
  data?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+According to the formula obtained in the previous exercise, with 
+\begin_inset Formula $C=N=10$
+\end_inset
+
+, it is
+\begin_inset Formula 
+\[
+P=\frac{10!\sum_{i=1}^{10}\frac{\left(-1\right)^{10-i}i^{10}}{\left(10-i\right)!i!}}{10^{10}}=\frac{567}{1562500}=0.00036288.
+\]
+
+\end_inset
+
+ It is very unlikely.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Given a file of 3.2 GB stored in an HDFS cluster of 50 machines, and containing
  
@@ -3664,6 +3704,44 @@ Map function (i.e.
 Save action execution time: 0 sec (do not consider this cost)
 \end_layout
 
+\begin_layout Standard
+There are
+\begin_inset Formula 
+\[
+\frac{3.2GB}{128MB}=25\ chunks
+\]
+
+\end_inset
+
+ in the cluster.
+ These chunks are replicated three times each, accounting for a total of
+ 75 chunks in the system.
+ However, replicated chunks are not processed unless some error occurs.
+ Therefore, we consider only 25 chunks for execution.
+\end_layout
+
+\begin_layout Standard
+There are
+\begin_inset Formula 
+\[
+\frac{16\cdot10^{5}}{25}=64000\ kv/chunk
+\]
+
+\end_inset
+
+ and since there are more machines than chunks, we can execute all chunks
+ in parallel.
+ Therefore, since the time to execute one chunk is
+\begin_inset Formula 
+\[
+T=T_{call}\cdot N_{kv}=0.001\cdot64000=64s,
+\]
+
+\end_inset
+
+ this is also the time to execute the whole job.
+\end_layout
+
 \begin_layout Subsubsection
 Given a file with 3.2 GB of raw data stored in an HDFS cluster of 50 machines,
  and containing 
@@ -3671,7 +3749,7 @@ Given a file with 3.2 GB of raw data stored in an HDFS cluster of 50 machines,
 \end_inset
 
  rows in a Parquet file; consider you have a query over an attribute 'A=constant
-' and this attribute contains only 100 different and equiprobable velues.
+' and this attribute contains only 100 different and equiprobable values.
  Assuming any kind of compression has been disabled, explicit any assumption
  you need to make and give the amount of raw data (i.e.
  do not count metadata) it would need to fetch from disk.
@@ -3695,6 +3773,40 @@ Chunk size: 128 MB (default)
 RowGroup size: 32 MB
 \end_layout
 
+\begin_layout Standard
+There are
+\begin_inset Formula 
+\[
+\frac{3.2GB}{32MB}=100\ RowGroups
+\]
+
+\end_inset
+
+ in the cluster.
+ Since the file contains 
+\begin_inset Formula $16\times10^{5}$
+\end_inset
+
+ rows, each rowgroup contains
+\begin_inset Formula 
+\[
+\frac{16\times10^{5}}{100}=1600\ rows.
+\]
+
+\end_inset
+
+ Since attribute 
+\begin_inset Formula $A$
+\end_inset
+
+ contains 100 different and equiprobable values, then we can consider that
+ 16 rows will be fetched from each rowgroup.
+\end_layout
+
+\begin_layout Standard
+In a chunk, there are 4 rowgroups
+\end_layout
+
 \begin_layout Subsubsection
 Consider a cluster of ten worker machines and a single coordinator, which
  contains a sequence file of 128 MB stored in HDFS with an OS block size
@@ -3703,7 +3815,21 @@ Consider a cluster of ten worker machines and a single coordinator, which
  messages (do not consider data messages) that will travel the network in
  the case of (a) a client cache miss and in the case of (b) a client cache
  hit.
- Briefly justigy both numbers.
+ Briefly justify both numbers.
+\end_layout
+
+\begin_layout Itemize
+Client cache miss: In this case, when a client requests a file, the client
+ first contacts the NameNode to get the location of the first block.
+ The NameNode contacts the nodes in which each chunk is located, and then
+ they answer the client.
+ Therefore, there are 3 control messages, one from client to namenode, and
+ two from namenode to datanodes.
+\end_layout
+
+\begin_layout Itemize
+Client cache hit: In this case, the client knows the locations of the servers,
+ so it asks directly them, accounting for just two control messages.
 \end_layout
 
 \begin_layout Section
@@ -3717,12 +3843,36 @@ Theoretical questions
 \begin_layout Subsubsection
 Which is the main difference between the hash functions used in the linear
  hash and consistent hash algorithms?
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+Linear hash adapts as the system grows, and there are two functions at once.
+\end_layout
+
+\begin_layout Standard
+Consistent hash consists of a predefined static hash function.
 \end_layout
 
 \begin_layout Subsubsection
 With respect to distributed systems, explain what is a distributed hash
  table (DHT), and provide a brief description of how consistent hashing
  guarantees balancing keys when adding new servers.
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+A DHT is a hash table that is divided into buckets, having these buckets
+ distributed.
+\end_layout
+
+\begin_layout Standard
+Consistent hashing guarantees balancing by redistributing the keys at the
+ moment of adding new servers, and relies on the big numbers and the assumption
+ of well-constructed hash functions.
 \end_layout
 
 \begin_layout Subsection
@@ -3750,15 +3900,94 @@ Let's assume we have a Consistent hash with D = 16, and the hash function
 
 \series bold
 What happens when we insert objects 30 and 58? Draw the result.
+ 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+We have 
+\begin_inset Formula 
+\[
+30\mod16=14,
+\]
+
+\end_inset
+
+ so 30 goes to server with IP 14.
+ Also,
+\begin_inset Formula 
+\[
+58\mod16=10,
+\]
+
+\end_inset
+
+ so 58 goes to server with IP 12:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
 What happens in the structure when we register a new server with IP address
  37? Draw the result.
+ 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+It is
+\begin_inset Formula 
+\[
+37\mod16=5,
+\]
+
+\end_inset
+
+ so the server is placed between servers 4 and 7.
+ Now, we have to replace some elements from server 7:
+\begin_inset Formula 
+\begin{align*}
+21\mod16=5 & \implies Replaced\\
+38\mod16=6 & \implies NotReplaced\\
+5\mod16=5 & \implies Replaced\\
+23\mod16=7 & \implies NotReplaced
+\end{align*}
+
+\end_inset
+
+ Therefore, the final result is
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_1_b.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Let's suppose we have a Linear Hash and the hash function is simply the
  module of the key, the capacity of a bucket is only four entries, and curent
@@ -3781,6 +4010,125 @@ Let's suppose we have a Linear Hash and the hash function is simply the
 \series bold
 What happens in the structure when we insert keys 14, 27, 37 and 44? Draw
  the result.
+ 
+\series default
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+We have 
+\begin_inset Formula $n=2$
+\end_inset
+
+, so
+\begin_inset Formula 
+\[
+14\mod2^{2}=2,
+\]
+
+\end_inset
+
+ and the first insertion ends up as
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_2_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then, 
+\begin_inset Formula 
+\[
+27\mod2^{2}=3,
+\]
+
+\end_inset
+
+ so
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_2_2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then, 
+\begin_inset Formula 
+\[
+37\mod2^{2}=1,
+\]
+
+\end_inset
+
+ since this is before the pointer, we compute also the next hash
+\begin_inset Formula 
+\[
+37\mod2^{3}=5,
+\]
+
+\end_inset
+
+ therefore
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_2_3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then, 
+\begin_inset Formula 
+\[
+44\mod2^{2}=0,
+\]
+
+\end_inset
+
+ since this is before the pointer, we compute also the next hash
+\begin_inset Formula 
+\[
+44\mod2^{3}=4,
+\]
+
+\end_inset
+
+ therefore it goes to 4.
+ Since 4 is full, there is an overflow.
+ We have to increase the pointer and recompute the values from the affected
+ bucket (2):
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_2_4.png
+	scale 60
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3839,30 +4187,106 @@ Index:
 Assuming that the minimum size of an SSTable is 120 characters and on having
  two SSTables, a minor compactation is automatically triggered.
  Explicit the content of all structures once the compactation is done.
+ 
+\series default
+\color red
+*
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-MemStore:
+MemStore: 
+\begin_inset Formula $\emptyset$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Commit Log:
+Commit Log: 
+\begin_inset Formula $\emptyset$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-SSTable:
+SSTable: 
+\begin_inset Formula $\left[13,v,t23\right],\left[25,v,t17\right],\left[35,v,t40\right],\left[59,v,t38\right]$
+\end_inset
+
+
+\series default
+,
+\begin_inset Formula ${\color{blue}\left[1,v,t50\right],\left[15,v,t49\right],\left[17,v,t47\right],\left[29,v,t48\right]}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Index:
+Index: 
+\begin_inset Formula $\left[13,0\right],\left[25,30\right],\left[35,60\right],\left[59,90\right]$
+\end_inset
+
+
+\series default
+,
+\begin_inset Formula ${\color{blue}\left[1,0\right],\left[15,30\right],\left[17,60\right],\left[29,90\right]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then, they are merged and ordered by key:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+MemStore: 
+\begin_inset Formula $\emptyset$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Commit Log: 
+\begin_inset Formula $\emptyset$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SSTable: 
+\begin_inset Formula $\left[1,v,t50\right],\left[13,v,t23\right],\left[15,v,t49\right],\left[17,v,t47\right],\left[25,v,t17\right],\left[29,v,t48\right],\left[35,v,t40\right],\left[59,v,t38\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Index: 
+\begin_inset Formula $\left[1,0\right],\left[13,30\right],\left[15,60\right],\left[17,90\right],\left[25,120\right],\left[29,150\right],\left[35,180\right],\left[59,210\right]$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3879,6 +4303,29 @@ Briefly explain what is wrong in this linear hash structure, or if you think
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+In this case, 
+\begin_inset Formula $n=2$
+\end_inset
+
+, and it is not possible to have the pointer pointing to a bucket between
+ 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $2^{n+1}$
+\end_inset
+
+, because the design of the algorithm makes this impossible.
+ When 
+\begin_inset Formula $2^{n}+1$
+\end_inset
+
+ is reached, the pointer goes back to the first bucket and the process starts
+ all over.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3900,6 +4347,17 @@ Suppose you have a hash function whose range has size 100 (i.e., D=100), and
 ?
 \end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_5.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Given an empty consistent hash with 
 \begin_inset Formula $h\left(x\right)=x\%32$
@@ -3910,6 +4368,17 @@ Given an empty consistent hash with
  machines with IDs 19,22,75,92 and draw the result of inserting the following
  keys in the given order: 12, 4, 10, 49, 42, 60, 53, 47, 27, 26, 28, 13,
  52.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_6.png
+	scale 60
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3923,62 +4392,80 @@ Suppose you implement a system to store images in hundreds of machines with
  Each person can then retrieve all his/her pictures of one single subject
  taken that were taken after a given time.
  Precisely define the key you would use if you exclusively prioritize (i.e.,
- do not consider any other criteria):
+ do not consider any other criteria): 
+\color red
+*
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Load balancing on ingestion:
+Load balancing on ingestion: 
+\series default
+VT, S, P
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-Assumptions made:
+Assumptions made: 
+\series default
+We want to distribute the data as much as possible.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-Load balancing on querying:
+Load balancing on querying: 
+\series default
+TT, S, VT
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-Assumptions made:
+Assumptions made: 
+\series default
+We want to distribute the queries as much as possible.
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-I/O cost (i.e., minimum blocks retrieved) on ingestion:
+I/O cost (i.e., minimum blocks retrieved) on ingestion: 
+\series default
+P, S, TT, VT
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-Assumptions made:
+Assumptions made: 
+\series default
+We want to centralize data as much as possible
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-I/O cost (i.e., minimum blocks retrieved) on querying:
+I/O cost (i.e., minimum blocks retrieved) on querying: 
+\series default
+P, S, VT
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-Assumptions made:
+Assumptions made: 
+\series default
+We want to centralize the queries as much as possible.
 \end_layout
 
 \end_deeper
@@ -3990,6 +4477,263 @@ Given an empty linear hash with
  (i.e., we directly apply the module to the keys), and a capacity of four
  keys per bucket, draw the result of inserting the following keys in the
  given order: 12, 4, 10, 49, 42, 60, 63, 53, 47, 27, 26, 28, 13, 52.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_1.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_2.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_3.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_4.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_5.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_6.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_7.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_8.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_9.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_10.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_11.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_12.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_13.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename bdm_4_2_7_14.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Notice that in the last step, when moving objects from 0 to 4, 4 becomes
+ full, and it also overflows, so another bucket is created and the pertinent
+ moves are done.
 \end_layout
 
 \begin_layout Section
@@ -4608,6 +5352,7 @@ Theoretical questions
 \begin_layout Subsubsection
 Briefly explain the concept of associativity in the context of memory usage.
  Identify the benefit of high (respectively low) associativity.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -4623,6 +5368,9 @@ A
 ,B,C] (underlined attribute is declared to be the primary key of the table).
  Assume there is no index and give the average cost of each query assuming
  accessing one block is one second.
+ 
+\color red
+*
 \end_layout
 
 \begin_layout Itemize
@@ -4631,6 +5379,24 @@ A
 SELECT A,B,C FROM T WHERE A=x; (being x a constant)
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+The probability of 
+\begin_inset Formula $A=x$
+\end_inset
+
+ in block 
+\begin_inset Formula $k$
+\end_inset
+
+ is 
+\begin_inset Formula $\frac{1}{300}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
