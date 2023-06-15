@@ -5394,6 +5394,15 @@ The probability of
 \end_inset
 
 .
+ Therefore, the average cost is
+\begin_inset Formula 
+\[
+C=\sum_{k=1}^{300}\left(\sum_{j=1}^{k}c\left(j\right)\cdot P\left(A=x|j\right)\right)=\sum_{k=1}^{300}\left(\sum_{j=1}^{k}1\frac{1}{300}\right)=\frac{1}{300}\sum_{k=1}^{300}k=\frac{1}{300}\frac{300\cdot301}{2}=150.5s.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -5403,6 +5412,20 @@ The probability of
 SELECT SUM(B) FROM T;
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+In this case, we have to access all of them:
+\begin_inset Formula 
+\[
+C=300s.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Assume you have a SanssouciuDB table T stored column-wise, which ocupies
  300 blocks and contains tuples with three variable length attributes [
@@ -5415,6 +5438,9 @@ A
  applied for non-key attributes storing ending row position per run.
  Give the average cost of each query assuming accessing one block is one
  second and explicit any other assumption you make.
+ 
+\color red
+*
 \end_layout
 
 \begin_layout Itemize
@@ -5423,12 +5449,62 @@ A
 SELECT A,B,C FROM T WHERE A=x; (being x a constant)
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Find 
+\begin_inset Formula $x$
+\end_inset
+
+ in 
+\begin_inset Formula $A$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+C_{A}=\frac{101}{2}=50.5s.
+\]
+
+\end_inset
+
+ Now, we know the position, and since the encoding is done with ending row
+ position, we can access it directly.
+ Therefore, 
+\begin_inset Formula $C_{B}=C_{C}=1s$
+\end_inset
+
+ and the total cost is
+\begin_inset Formula 
+\[
+C=52.5s.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 SELECT SUM(B) FROM T;
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+We need to traverse all of 
+\begin_inset Formula $B$
+\end_inset
+
+, so 
+\begin_inset Formula $C=100s$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Assume that there is a table T with attributes [
 \bar under
@@ -5447,19 +5523,30 @@ A
 \begin_layout Standard
 
 \series bold
-SELECT A FROM T WHERE B='x' and C='y';
+SELECT A FROM T WHERE B='x' and C='y'; 
+\series default
+\color red
+*
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
 Row storage:
+\series default
+ 1 Block.
+ We can have just one block in memory at a time, an check the conditions
+ inside each block, storing the wanted results accordingly.
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
 Column storage:
+\series default
+ 3 Blocks.
+ In this case, we need to store a block in memory for each column, to be
+ able to make the three comparisons for each row.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5486,6 +5573,8 @@ Represent the given column with dictionary and run-length encoding storing
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 Table
 \end_layout
 
@@ -5497,7 +5586,122 @@ Table
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
 A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+B
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Dictionary
 \end_layout
 
 \end_inset
@@ -5526,11 +5730,110 @@ B
 </cell>
 </row>
 <row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+End Row
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-B
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="1">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Code
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
 \end_layout
 
 \end_inset
@@ -5559,203 +5862,11 @@ C
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-A
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 A
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="1">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Dictionary
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="1">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-End Row
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="1">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Code
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
 \end_layout
 
 \end_inset
@@ -5849,7 +5960,7 @@ Charlie
 \begin_inset Text
 
 \begin_layout Plain Layout
-Values
+#Values
 \end_layout
 
 \end_inset
@@ -6008,7 +6119,7 @@ Beta
 \begin_inset Text
 
 \begin_layout Plain Layout
-Values
+#Values
 \end_layout
 
 \end_inset
@@ -6117,6 +6228,17 @@ Dictionary Positions
 
 \end_layout
 
+\begin_layout Standard
+The first two values in the first column are Charlie, and no more Charlie's
+ are encoutered.
+\end_layout
+
+\begin_layout Standard
+In the second column, then, we have to check these two positions.
+ Since Beta is in the first position, and is encountered only once, then
+ this one is the only solution: row 0.
+\end_layout
+
 \begin_layout Section
 Distributed Processing Frameworks
 \end_layout
@@ -6131,6 +6253,16 @@ Classify a MapReduce system as either query-shipping (i.e., the evaluation
  (i.e., the data is moved from the stored site to the site executing the query)
  or hybrid (i.e., both query and data shipping).
  Clearly justify your answer.
+\end_layout
+
+\begin_layout Standard
+A MapReduce system can be classified as a hybrid system, as it involves
+ both data-shipping and query-shipping.
+ In the Map phase, the query (map function) is shipped to the data nodes
+ (query-shipping), where it is executed on the local data.
+ Then, during the shuffle and sort phase, the intermediate data output by
+ the map function is moved to the reduce nodes (data-shipping), where it
+ is further processed by the reduce function.
 \end_layout
 
 \begin_layout Subsection
@@ -6149,7 +6281,7 @@ Consider the following implementation of the Cartesian Product with MapReduce
 T\times S\implies\begin{cases}
 map\left(key\ k,value\ v\right)\mapsto\\
 \left[\left(h_{T}\left(k\right)\ \mod D,k\oplus v\right)\right] & if\ input\left(k\oplus v\right)=T\\
-\left[\left(0,k\oplus v,...,\left(D-1,k\oplus v\right)\right)\right] & if\ input\left(k\oplus v\right)=S\\
+\left[\left(0,k\oplus v\right),...,\left(D-1,k\oplus v\right)\right] & if\ input\left(k\oplus v\right)=S\\
 reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
 \left[\begin{array}{c}
 crossproduct\left(T_{ik},S\right)|\\
@@ -6174,6 +6306,26 @@ Which is the relationship of
  with parallelism and scalability, if any?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $D$
+\end_inset
+
+ is directly proportional to the level of parallelism in the MapReduce computati
+on.
+ 
+\begin_inset Formula $D$
+\end_inset
+
+ stands for the number of reducers, and increasing 
+\begin_inset Formula $D$
+\end_inset
+
+ allows for more tasks to be executed in parallel, enhancing the computation's
+ scalability.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -6184,6 +6336,33 @@ Which is the optimal value for
 ?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+The optimal value of 
+\begin_inset Formula $D$
+\end_inset
+
+ depends on the specific use case, the size and characteristics of the data,
+ and the resources available in the cluster.
+ In general, it's best to have 
+\begin_inset Formula $D$
+\end_inset
+
+ set so that each reducer has a manageable amount of data to process and
+ the workload is evenly distributed across all reducers.
+ A reasonable value for 
+\begin_inset Formula $D$
+\end_inset
+
+ could be 
+\begin_inset Formula $2\times N_{machines}$
+\end_inset
+
+, so that every machine can be activated, and if some are faster, they can
+ still keep processing.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Provide the MapReduce pseudo-code implementation of the following relational
  operators.
@@ -6266,6 +6445,19 @@ Aggregation (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+\gamma_{A,f\left(B\right)}\left(T\right)\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left(v\left(A\right),v\left(B\right)\right)\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+\left(ik,f\left[ivs\right]\right)
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -6276,8 +6468,28 @@ Selection (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+\sigma_{P}\left(T\right)\implies\begin{cases}
+maps\left(key\ k,value\ v\right)\mapsto\\
+\left(k,v\left(P\right)\right)\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+\left(ik,ivs\right)
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Note that in this case the reduce function does not do anything, so in fact
+ it is not needed.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
@@ -6286,6 +6498,24 @@ Join (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+T\bowtie_{T.A=S.B}S\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left[\left(v\left(A\right),k\oplus v\right)\right] & if\ input\left(k\oplus v\right)=T\\
+\left[\left(v\left(B\right),k\oplus v\right)\right] & if\ input\left(k\oplus v\right)=S\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+\left[\begin{array}{c}
+join\left(T_{i},S\right)|\\
+T_{ik}=\left\{ iv|iv\in ivs\land input\left(iv\right)T\right\} ,\\
+S=\left\{ iv|iv\in ivs\land input\left(iv\right)S\right\} 
+\end{array}\right]
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -6296,6 +6526,19 @@ Union (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+T\cup S\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left(k,v\right)
+\end{cases}
+\]
+
+\end_inset
+
+ 
+\series default
+There is no need for reduce, since the results will be united.
 \end_layout
 
 \begin_layout Itemize
@@ -6306,6 +6549,21 @@ Difference (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+T\setminus S\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left[\left(v,T\right)\right] & if\ input\left(k\oplus v\right)=T\\
+\left[\left(v,S\right)\right] & if\ input\left(k\oplus v\right)=S\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+\emptyset & if\ size\left(ivs\right)>1\\
+ik & if\ ivs=\left[T\right]
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -6316,6 +6574,21 @@ Intersection (
 \end_inset
 
 )
+\begin_inset Formula 
+\[
+T\cap S\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left[\left(v,T\right)\right] & if\ input\left(k\oplus v\right)=T\\
+\left[\left(v,S\right)\right] & if\ input\left(k\oplus v\right)=S\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+ik & if\ \left[T,S\right]\subset ivs\\
+\emptyset & else
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -6382,6 +6655,21 @@ R\triangleright S=R\setminus R\ltimes{}_{A=B}S
 \end_inset
 
 .
+\begin_inset Formula 
+\[
+R\triangleright S\implies\begin{cases}
+map\left(key\ k,value\ v\right)\mapsto\\
+\left[\left(v\left(A\right),k\oplus v\oplus R\right)\right] & if\ input\left(k\oplus v\right)=R\\
+\left[\left(v\left(B\right),k\oplus v\oplus S\right)\right] & if\ input\left(k\oplus v\right)=S\\
+reduce\left(key\ ik,vset\ ivs\right)\mapsto\\
+ivs\left(v\right) & if\ \left[ivs\left(-1\right)\right].unique==R\\
+\emptyset & else
+\end{cases}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -6603,7 +6891,9 @@ The hash functions used to shuffle data to the reducers uses the correspondence:
 \end_deeper
 \begin_layout Subsubsection*
 Fill the gaps in each step (numbers correspond to the phase in the MapReduce
- algorithm):
+ algorithm): 
+\color red
+*
 \end_layout
 
 \begin_layout Enumerate
@@ -6616,36 +6906,53 @@ contains
 \series default
  
 \series bold
-...
+\color blue
+1
+\color inherit
  block(s).
  
 \begin_inset Formula $Machine1$
 \end_inset
 
- contains ...
+ contains 
+\color blue
+1
+\color inherit
  block(s).
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-We keep ...
+We keep 
+\color blue
+1
+\color inherit
  replica(s) (including the master copy) per block.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-We have ...
+We have 
+\color blue
+1
+\color inherit
  split(s) per machine.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Mapper0 reads ...
+Mapper0 reads 
+\color blue
+2
+\color inherit
  records.
- Mapper1 reads ...
+ Mapper1 reads 
+\color blue
+2
+\color inherit
  records.
 \end_layout
 
@@ -6720,7 +7027,31 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+]
 \end_layout
 
 \end_inset
@@ -6729,7 +7060,31 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+]
 \end_layout
 
 \end_inset
@@ -6738,7 +7093,19 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[][][][]
+[
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+][
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+][][]
 \end_layout
 
 \end_inset
@@ -6830,7 +7197,31 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+]
 \end_layout
 
 \end_inset
@@ -6839,7 +7230,31 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+]
 \end_layout
 
 \end_inset
@@ -6848,7 +7263,19 @@ Spill4
 \begin_inset Text
 
 \begin_layout Plain Layout
-[][][][]
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+][
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+][][]
 \end_layout
 
 \end_inset
@@ -7035,7 +7462,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7044,7 +7483,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7053,7 +7504,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7062,7 +7519,25 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] []
 \end_layout
 
 \end_inset
@@ -7080,7 +7555,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7249,7 +7736,25 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] []
 \end_layout
 
 \end_inset
@@ -7258,7 +7763,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7267,7 +7778,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7276,7 +7799,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7285,7 +7820,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7294,7 +7835,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7465,7 +8012,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7474,7 +8027,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7483,7 +8042,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7492,7 +8057,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,3
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7510,7 +8081,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7679,7 +8262,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,2
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7688,7 +8283,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7697,7 +8298,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7706,7 +8313,19 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7715,7 +8334,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7724,7 +8349,13 @@ Partition1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7797,7 +8428,13 @@ File0.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7806,7 +8443,13 @@ File0.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7815,7 +8458,13 @@ File0.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7861,7 +8510,13 @@ File0.5
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,3
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7879,7 +8534,19 @@ File0.5
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7950,7 +8617,19 @@ File1.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,2
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -7959,7 +8638,13 @@ File1.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -7968,7 +8653,13 @@ File1.2
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8014,7 +8705,19 @@ File1.5
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+a,1
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8023,7 +8726,13 @@ File1.5
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8032,7 +8741,13 @@ File1.5
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] []
+[
+\series bold
+\color blue
+c,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8094,7 +8809,19 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8103,7 +8830,25 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8162,7 +8907,25 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8171,7 +8934,19 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8232,7 +9007,19 @@ File0.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,1
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8241,7 +9028,25 @@ File0.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8300,7 +9105,25 @@ File1.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8309,7 +9132,19 @@ File1.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,2
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,2
+\series default
+\color inherit
+] [] [] []
 \end_layout
 
 \end_inset
@@ -8326,23 +9161,35 @@ File1.1
 \begin_layout Enumerate
 
 \series bold
-Reducer0 reads ...
+Reducer0 reads 
+\color blue
+file0.0
+\color inherit
  from 
 \begin_inset Formula $Machine0$
 \end_inset
 
- and ...
+ and 
+\color blue
+file1.0
+\color inherit
  from 
 \begin_inset Formula $Machine1$
 \end_inset
 
 .
- Reducer1 reads ...
+ Reducer1 reads 
+\color blue
+file0.1
+\color inherit
  from 
 \begin_inset Formula $Machine0$
 \end_inset
 
- and ...
+ and 
+\color blue
+file1.1
+\color inherit
  from 
 \begin_inset Formula $Machine1$
 \end_inset
@@ -8397,7 +9244,25 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,{2,3}
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,{1,2}
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+f,{1}
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8465,7 +9330,25 @@ Merge1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,{3,2}
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,{3,2}
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,{1}
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8491,13 +9374,19 @@ Merge1
 \begin_layout Enumerate
 
 \series bold
-Reduce function is executed ...
+Reduce function is executed 
+\color blue
+3
+\color inherit
  times in 
 \begin_inset Formula $Machine0$
 \end_inset
 
 .
- Reduce function is executed ...
+ Reduce function is executed 
+\color blue
+3
+\color inherit
  times in 
 \begin_inset Formula $Machine1$
 \end_inset
@@ -8540,7 +9429,25 @@ Output0
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+b,5
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+d,3
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+f,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8587,7 +9494,25 @@ Output1
 \begin_inset Text
 
 \begin_layout Plain Layout
-[] [] [] [] []
+[
+\series bold
+\color blue
+a,5
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+c,5
+\series default
+\color inherit
+] [
+\series bold
+\color blue
+e,1
+\series default
+\color inherit
+] [] []
 \end_layout
 
 \end_inset
@@ -8609,6 +9534,25 @@ Let's suppose that we have a cluster of 100 machines and a MapReduce job
  per call.
  Assuming the reduce function is commutative and associative, is it worth
  to use the combine function? Briefly justify your answer.
+\end_layout
+
+\begin_layout Standard
+The setup implies that on average each key generated in the map phase, appears
+ 10 times.
+ Therefore, using the combine function locally before combining all the
+ results is probably not worthy, specially if we have a larger number of
+ workers.
+ For example, if we have 50 workers, the probability that several values
+ for the same key are in the same machine is pretty low, so it would just
+ be an overhead on the computations.
+ Maybe, if we are sure that the generated keys will be in the same machine
+ for some reason (for instance if the distribution is based in this key),
+ then it might be good to consider introducing the combining function.
+\end_layout
+
+\begin_layout Standard
+Notice also that the reduce function being associative and commutative ensures
+ that the combine function can be trivially implemented.
 \end_layout
 
 \begin_layout Subsection
@@ -8680,6 +9624,76 @@ Provide the ordered list of Spark operations (no need to follow the exact
 \end_inset
 
 .
+ 
+\series default
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#RDD-based 
+\end_layout
+
+\begin_layout Plain Layout
+
+wines = sc.textFile("/content/drive/My Drive/BDM_Spark/sources/wines.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+pairs = wines.map(lambda t: (t.split(",")[0],t.split(",")[1]))
+\end_layout
+
+\begin_layout Plain Layout
+
+result = pairs.reduceByKey(lambda a,b: min(a,b))
+\end_layout
+
+\begin_layout Plain Layout
+
+result.collect()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#Dataframe-based
+\end_layout
+
+\begin_layout Plain Layout
+
+import pyspark.sql.functions as fn
+\end_layout
+
+\begin_layout Plain Layout
+
+source = sqlContext.read.format("csv").load("/content/drive/My Drive/BDM_Spark/sour
+ces/wines.txt", header="false", inferSchema="true")
+\end_layout
+
+\begin_layout Plain Layout
+
+result = source.groupBy("_c0").agg(fn.min("_c1").alias("min"))
+\end_layout
+
+\begin_layout Plain Layout
+
+result.show()
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -8792,6 +9806,119 @@ Provide the ordered list of Spark operations (no need to follow the exact
 \end_inset
 
 .
+ 
+\series default
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#RDD-based  
+\end_layout
+
+\begin_layout Plain Layout
+
+emp = sc.textFile("/content/drive/My Drive/BDM_Spark/sources/employees.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt = sc.textFile("/content/drive/My Drive/BDM_Spark/sources/departments.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+emp = emp.map(lambda t: (t.split(";")[4],t))
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt = dpt.map(lambda t: (t.split(";")[0],t))
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt_emp = emp.join(dpt)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt_emp.saveAsTextFile("/content/drive/My Drive/BDM_Spark/sources/output.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# DF
+\end_layout
+
+\begin_layout Plain Layout
+
+sc1 = spark.read.format("csv").option("delimiter",";").load("/content/drive/My
+ Drive/BDM_Spark/sources/employees.txt", header = "false", inferSchema =
+ "true")
+\end_layout
+
+\begin_layout Plain Layout
+
+sc2 = spark.read.format("csv").option("delimiter", ";").load("/content/drive/My
+ Drive/BDM_Spark/sources/departments.txt", header = "false", inferSchema
+ = "true")
+\end_layout
+
+\begin_layout Plain Layout
+
+emp = sc1.toDF("eID", "eName", "eSalary", "eCity", "eDpt","eProj")
+\end_layout
+
+\begin_layout Plain Layout
+
+emp.show()
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt = sc2.toDF("dID", "dArea", "dNumber", "dStreet", "dCity")
+\end_layout
+
+\begin_layout Plain Layout
+
+dpt.show()
+\end_layout
+
+\begin_layout Plain Layout
+
+result = emp.join(dpt, emp.eDpt == dpt.dID, "inner")
+\end_layout
+
+\begin_layout Plain Layout
+
+result.show()
+\end_layout
+
+\begin_layout Plain Layout
+
+result.write.save(path="/content/drive/My Drive/BDM_Spark/sources/output",
+ format="csv", header=False)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -8889,10 +10016,108 @@ Provide the ordered list of Spark operations (no need to follow the exact
 \end_inset
 
 .
+ 
+\series default
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#RDD
+\end_layout
+
+\begin_layout Plain Layout
+
+log = sc.textFile("/content/drive/My Drive/BDM_Spark/sources/log.txt").persist()
+\end_layout
+
+\begin_layout Plain Layout
+
+error = log.filter(lambda t: t.split(";")[2] in ("ERROR"))
+\end_layout
+
+\begin_layout Plain Layout
+
+warning = log.filter(lambda t: t.split(";")[2] in ("WARNING"))
+\end_layout
+
+\begin_layout Plain Layout
+
+important = error.map(lambda t: t + ";IMPORTANT")
+\end_layout
+
+\begin_layout Plain Layout
+
+result = warning.union(important)
+\end_layout
+
+\begin_layout Plain Layout
+
+result.saveAsTextFile("/content/drive/My Drive/BDM_Spark/sources/ex313_output.txt"
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#DF
+\end_layout
+
+\begin_layout Plain Layout
+
+source = spark.read.format("csv").option("delimiter",";").load("/content/drive/My
+ Drive/BDM_Spark/sources/log.txt", header = "false", inferSchema = "true")
+\end_layout
+
+\begin_layout Plain Layout
+
+errors = source.where(fn.locate("ERROR", source._c2)!=0)
+\end_layout
+
+\begin_layout Plain Layout
+
+warnings = source.where(fn.locate("WARNING",source._c2)!=0)
+\end_layout
+
+\begin_layout Plain Layout
+
+redef = errors.select(fn.concat(fn.lit("important: "),fn.col("_c0")),"_c1","_c2","_c
+3")
+\end_layout
+
+\begin_layout Plain Layout
+
+result = warnings.unionAll(redef)
+\end_layout
+
+\begin_layout Plain Layout
+
+result.coalesce(1).write.save(path="/content/drive/My Drive/BDM_Spark/sources/ex313
+_output_df", format="csv", header=False)
+\end_layout
+
+\begin_layout Plain Layout
+
+result.coalesce(1).show()
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
-Given two files contianing the following kinds of data:
+Given two files containing the following kinds of data:
 \end_layout
 
 \begin_layout Standard
@@ -9076,8 +10301,19 @@ result = D.subtract(H)
 
 \series bold
 State in natural language the corresponding query it would answer.
+ 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Get all department areas located in a city in which at least one employee
+ works, even in a different department.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -9086,6 +10322,164 @@ Clearly indicate any mistake or improvement you can fix/make in the code.
  the fix, and (3) brief rationale.
 \end_layout
 
+\begin_deeper
+\begin_layout Enumerate
+There is no action, so we could add it at the end of the computations.
+\end_layout
+
+\begin_layout Enumerate
+Line 3 and 4: Instead of reading the CSV file without headers and then renaming
+ the columns, we can directly provide the schema while reading the file.
+ This will make the code cleaner and improve performance as well.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+schema1 = StructType([
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eID", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eName", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eSalary", FloatType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eCity", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eDpt", StringType())
+\end_layout
+
+\begin_layout Plain Layout
+
+])
+\end_layout
+
+\begin_layout Plain Layout
+
+schema2 = StructType([
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dID", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dArea", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dNumber", IntegerType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dStreet", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dCity", StringType())
+\end_layout
+
+\begin_layout Plain Layout
+
+])
+\end_layout
+
+\begin_layout Plain Layout
+
+A = spark.read.format("csv").schema(schema1).load("employees.txt", sep=";")
+\end_layout
+
+\begin_layout Plain Layout
+
+B = spark.read.format("csv").schema(schema2).load("departments.txt", sep=";")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Line 10: The subtract function is an expensive operation as it requires
+ a full shuffle of the data.
+ Instead, we can perform a left anti-join operation to achieve the same
+ result but in a more efficient way.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+H = E.join(F, on=['dArea', 'city'], how='left_anti') 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Finally, the use of crossJoin in Line 9 can lead to very large intermediate
+ data and should be avoided if possible.
+ A more effective method would be to join the data on the common attribute
+ 'city' instead.
+ This would give us the department areas that are located in the cities
+ where at least one employee resides, without generating all possible combinatio
+ns first.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+E = D.join(C, D.dArea == C.city) 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Subsubsection
 Given two files containing the following kinds of data:
 \end_layout
@@ -9219,7 +10613,7 @@ BARCELONA;125000
 \end_layout
 
 \begin_layout Subsubsection
-Conider three files containing the following kinds of data:
+Consider three files containing the following kinds of data:
 \end_layout
 
 \begin_layout Standard
@@ -10009,6 +11403,10 @@ What indicates to Spark query optimizer the end of a stage and the beginning
  of the next one?
 \end_layout
 
+\begin_layout Standard
+The end of a Spark stage is indicated when a wide transformation is encountered.
+\end_layout
+
 \begin_layout Subsection
 Spark internals: Problems
 \end_layout
@@ -10111,6 +11509,7 @@ Expected result
 \series bold
 Code:
 \begin_inset listings
+lstparams "language=Python"
 inline false
 status open
 
@@ -10157,6 +11556,122 @@ RDD6 = RDD5.map(lambda t: (t[0],(t[1][0][1],t[1][0][2],t[1][1])))
 \begin_layout Plain Layout
 
 Result = RDD6.sortByKey()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The given Spark code seems to calculate the average salary per project and
+ filters employees earning less than this average.
+ It also looks like it's supposed to return the project, the name of the
+ employee who has the lowest salary on the project, their salary, and the
+ average project salary.
+ However, it doesn't perform the operations correctly.
+\end_layout
+
+\begin_layout Standard
+Here are the problems and their corrections:
+\end_layout
+
+\begin_layout Itemize
+The calculation of average salary in RDD2 is incorrect.
+ The average should be computed by summing up the salaries and then dividing
+ by the count.
+ The current code performs division in every step of the reduceByKey operation,
+ which doesn't yield the correct average.
+\end_layout
+
+\begin_layout Itemize
+The filtering operation in RDD5 is not required as per the expected output.
+ It filters employees whose salaries are less than the average salary, but
+ the expected output doesn't mention this.
+\end_layout
+
+\begin_layout Itemize
+The result should include the employee with the lowest salary, not just
+ any employee who earns less than the average.
+ This is not correctly implemented in the code.
+\end_layout
+
+\begin_layout Standard
+The corrected code could be as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+rawEmps = sc.textFile(r"Employees.txt")
+\end_layout
+
+\begin_layout Plain Layout
+
+emps = rawEmps.map(lambda l: tuple(l.split(";"))).cache()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Mapping the data to ((project), (employee_name, salary, 1)) format
+\end_layout
+
+\begin_layout Plain Layout
+
+RDD1 = emps.map(lambda t: (t[5], (t[1], int(t[2]), 1)))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Calculating total salary and count for each project
+\end_layout
+
+\begin_layout Plain Layout
+
+RDD2 = RDD1.reduceByKey(lambda t1, t2: (t1[0] if t1[1] < t2[1] else t2[0],
+ t1[1] + t2[1], t1[2] + t2[2]))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Computing average salary for each project and keeping employee with lowest
+ salary
+\end_layout
+
+\begin_layout Plain Layout
+
+RDD3 = RDD2.map(lambda t: (t[0], (t[1][0], t[1][1]/t[1][2])))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Including the minimum salary employee with project and average salary
+\end_layout
+
+\begin_layout Plain Layout
+
+Result = RDD3.sortByKey()
 \end_layout
 
 \end_inset
@@ -10243,15 +11758,43 @@ Rdd8.save(''...file3.txt'')
 
 \series bold
 How many stages will the scheduler generate for this pipeline? (Justify
- your answer)
+ your answer) 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_7_6_2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
 How many tasks will be generated within each stage? (Justify your answer)
+ 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Stage 1 has 8 tasks.
+ Stage 2 has 8 tasks.
+ Stage 3 has 6 tasks.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Consider the legacy code written in MapReduce that specifies a 
 \begin_inset Formula $map\left(\right),combine\left(\right)$
@@ -10297,6 +11840,9 @@ Assume we have a MongoDB collection in a distributed cluster, which contains
  We want to use Spark to compute the standard deviation per neighbourhood.
  Clearly identify the most efficient option and briefly justify the choice
  (it is not necessary to provide the Spark code).
+ 
+\color red
+*
 \end_layout
 
 \begin_layout Enumerate
@@ -10306,6 +11852,13 @@ Use Spark only to push the query to MongoDB aggregation framework and simply
  get the result.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+No, because we would need the mongo router to perform all the work, losing
+ the power of parallelism.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -10313,12 +11866,27 @@ Push only some of the operations to MongoDB aggregation framework and then
  run the rest in Spark.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+Yes, but we need specific drivers for Spark to be able to push operations
+ to the storage engine.
+ For MongoDB these exist.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
 Load the whole collection to an RDD and perform all computations in Spark.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+No, because we would need to transfer everything to Spark, implying a huge
+ data transfer overload.
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Streams
 \end_layout
@@ -10342,7 +11910,9 @@ Let's suppose an arrival rate
 \end_inset
 
  per message, which is the minimum buffer size needed to guarantee that
- no message is lost?
+ no message is lost? 
+\color red
+*
 \end_layout
 
 \begin_layout Standard
@@ -10574,6 +12144,689 @@ Time
 
 \end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="14" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Received
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Processed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Buffer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+50
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+50
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+20
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+75
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+30
+\color inherit
++
+\color blue
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+45
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+150
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+5
+\color inherit
++
+\color teal
+45
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+145
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+95
+\color inherit
++
+\color teal
+100
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+45
+\color inherit
++
+\color teal
+100
+\color inherit
++
+\color red
+40
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color purple
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color blue
+45
+\color inherit
++
+\color teal
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+95
+\color inherit
++
+\color red
+40
+\color inherit
++
+\color purple
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+45
+\color inherit
++
+\color red
+40
+\color inherit
++
+\color purple
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color teal
+45
+\color inherit
++
+\color red
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+35
+\color inherit
++
+\color purple
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+35
+\color inherit
++
+\color purple
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The maximum amount of messages encountered in the buffer is 195, therefore,
+ its size should be
+\begin_inset Formula 
+\[
+195msg\times100B/msg=19500B.
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Let's suppose a stationary situation in the processing of a stream, where
  the whole memory available is occupied by messages.
@@ -10597,6 +12850,8 @@ Let's suppose a stationary situation in the processing of a stream, where
 \end_inset
 
  tuples:
+\color red
+ *
 \end_layout
 
 \begin_layout Enumerate
@@ -10609,6 +12864,23 @@ Going through an index for each message with cost
  for the index and one more disk access to the lookup table per message.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+For each of the 10x10=100 messages, we have to access the index, with cost
+ 3, and fetch the data page, so:
+\series bold
+
+\begin_inset Formula 
+\[
+100msg\cdot\left(3+1\ IO/msg\right)=400IO
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -10618,6 +12890,24 @@ Bringing each block of the lookup table (whose size is
 
 ) into memory one by one and checking all messages in memory against all
  its tuples.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+In this case, for each block, we need to retrieve it, and compare it (comparison
+ is a thousand times cheaper than a IO), so:
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+100Blocks\cdot\left(1\ IO/Block+\frac{100comp}{1000}IO/comp\right)=110\ IO.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -10638,6 +12928,21 @@ Let's suppose that setting the execution environment for the processing
 \end_inset
 
 .
+ 
+\color red
+*
+\end_layout
+
+\begin_layout Standard
+We can use the formula
+\begin_inset Formula 
+\[
+C=\#batches\times S+\#msg\times\left(P_{k}+P_{s}\right).
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -10646,11 +12951,32 @@ Let's suppose that setting the execution environment for the processing
 Which is the cost of truly streaming 10 messages one at a time?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C=10\times100+10\times\left(1+10\right)=1110.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
 Which is the cost of processing one packed micro-batch of 10 messages at
  once?
+\begin_inset Formula 
+\[
+C=1\times100+10\times\left(1+10\right)=210.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -10686,6 +13012,9 @@ Let's suppose we have a log file recording the events coming from different
  randomly sample them, give the attributes (up to three) you would use as
  parameters of the hash function implementing such sampling, so that each
  of the following queries gives a result as accurate as possible.
+ 
+\color red
+*
 \end_layout
 
 \begin_layout Enumerate
@@ -10693,12 +13022,26 @@ Let's suppose we have a log file recording the events coming from different
 \series bold
 Estimate the fraction of transactions where the same kind of action appears
  more than once.
+ 
+\series default
+
+\begin_inset Formula $\left(logID,traceID\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 For each machine, estimate the average number of actions per transaction.
+ 
+\series default
+
+\begin_inset Formula $\left(logID,traceID\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -10706,12 +13049,26 @@ For each machine, estimate the average number of actions per transaction.
 \series bold
 Estimate the number of transactions with more than two actions taking more
  than 100ms.
+ 
+\series default
+
+\begin_inset Formula $\left(logID,traceID\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 Estimate the average sum of the duration per transaction.
+ 
+\series default
+
+\begin_inset Formula $\left(logID,traceID\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -10728,18 +13085,51 @@ Let's suppose we have a black-list of IP addresses (whose packages we do
 \end_inset
 
  bits.
+ 
+\color red
+*
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 How many hash functions would you use?
+\begin_inset Formula 
+\[
+k=\frac{n_{bits}}{n_{elem}}\ln2=\frac{10^{8}}{10^{7}}0.693=6.93,
+\]
+
+\end_inset
+
+ 
+\series default
+so we would use 7 hash functions
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Notice that if the value was more in-between 6 and 7, we would need to substitut
+e 6 and 7 in the false positives function to see which value gives a lower
+ estimate.
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 What's the probability of a false positive in that case?
+\begin_inset Formula 
+\[
+P=\left(1-e^{-\frac{km}{n}}\right)^{k}=\left(1-e^{-\frac{7\cdot10^{7}}{10^{8}}}\right)^{7}=0.83\%.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -10749,10 +13139,17 @@ Briefly explain what is the consequence of a false positive in this concrete
  case.
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+In this case, we would classify a package that comes from a non-black-listed
+ IP as black-listed.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Let's suppose we have a log file recording the events coming from different
  machines.
- Thus, for each event we have the following information:
+ Thus, for each event we have the following information: 
 \begin_inset Formula 
 \[
 \left(logID,traceID,eventID,duration\right).
@@ -11138,8 +13535,330 @@ C
 Give the milliseconds (and details of calculation) used per machine (i.e.
  for Machine 1 and Machine 2) when the last event arrives, provided that
  the current milliseconds are more valuable than the oldest ones.
+ 
+\series default
+\color red
+*
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Machine
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5.125
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+102.5625
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+51.28125
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+35
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+17.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9.75
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Assume we ingest a stream with an event every time a ticket is sold at a
  theater.
@@ -11238,6 +13957,929 @@ Which theaters would be considered heavy hitters by the algorithm, given
  a required frequency of 50%?
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+In reality there are no heavy hitters with 50% threshold.
+ Let's see with the algorithm:
+\end_layout
+
+\begin_layout Standard
+1)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+2)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+3)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+4)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+5)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+6)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+7)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+8)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+9)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+10)
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Struct
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+counter
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+t3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So, t3 would be considered a heavy hitter.
+\end_layout
+
+\end_deeper
 \begin_layout Enumerate
 
 \series bold
@@ -11259,6 +14901,30 @@ Under the exponentially-decaying window model, using an aging constant of
  What would be the most popular movies at 21h, considering an aging tick
  every 15 minutes? Give the value corresponding for each of the movies in
  that moment.
+\begin_inset Formula 
+\[
+pop\left(m1\right)=1\left(1-0.1\right)^{\left(21-12\right)4}+1\left(1-0.1\right)^{\left(21-18\right)4}+1\left(1-0.1\right)^{\left(21-20.5\right)4}=1.115
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+pop\left(m2\right)=0.9^{7\cdot4}+0.9^{6\cdot4}+0.9^{1.25\cdot4}+0.9^{0}=1.664
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+pop\left(m3\right)=0.9^{1.75\cdot4}+0.9^{1\cdot4}.9^{1\cdot4}+0.9^{0.5\cdot4}=2.28
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
