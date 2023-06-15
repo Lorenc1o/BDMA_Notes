@@ -1,0 +1,678 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Exam 2022
+\end_layout
+
+\begin_layout Exercise
+Compare a B-tree and an LSM-tree in the context of the RUM conjecture (i.e.,
+ as an answer to this question, three brief explanations of the form “From
+ the perspective of X, Y-tree is better than Z-tree, because of this and
+ that.” are expected).
+\end_layout
+
+\begin_layout Standard
+R: B-Tree is better than the LSM for Reads, because of the ordered structure
+ that allows to fetch the correct leaves very efficiently, as well as scanning
+ them in order.
+\end_layout
+
+\begin_layout Standard
+U: The structure of the LSM tree makes it very suitable for writes, since
+ the writes are done in-memory until a size threshold is surpassed.
+\end_layout
+
+\begin_layout Standard
+M: in terms of memory, LSM tree usually performs better, too, because it
+ can leverage compression techniques on older data, while focusing on the
+ most recent and probably accessed data.
+\end_layout
+
+\begin_layout Exercise
+Given a file with 3.2GB of raw data stored in an HDFS cluster of 50 machines,
+ and containing 
+\begin_inset Formula $16\cdot10^{5}$
+\end_inset
+
+ rows in a Parquet file; consider you have a query over an attribute “A
+ = constant” and this attribute contains only 100 different and equiprobable
+ values.
+ Assuming any kind of compression has been disabled, explicit any assumption
+ you need to make and give the amount of raw data (i.e., do not count metadata)
+ it would need to fetch from disk.
+\end_layout
+
+\begin_layout Itemize
+Replication factor: 3 (default)
+\end_layout
+
+\begin_layout Itemize
+Chunk size: 128MB (default)
+\end_layout
+
+\begin_layout Itemize
+Rowgroup size: 32MB
+\end_layout
+
+\begin_layout Standard
+There are
+\begin_inset Formula 
+\[
+\frac{3.2GB}{32MB}=100\ RowGroups,
+\]
+
+\end_inset
+
+ each RowGroup has
+\begin_inset Formula 
+\[
+16000\ rows.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+SF=0.01
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+P\left(RGSelected\right)=1-\left(1-SF\right)^{Rows\left(RG\right)}=1-\left(1-0.01\right)^{16000}=1-0.99^{16000}=1,
+\]
+
+\end_inset
+
+ so most probably all rowgroups will be fetched from disk.
+ This means we would fetch the whole file from disk.
+\end_layout
+
+\begin_layout Exercise
+Given an empty Consistent Hash with 
+\begin_inset Formula $h(x)=x\mod32$
+\end_inset
+
+ (i.e., we directly take module 32 to both the keys and the bucket IDs), and
+ unlimited capacity in each bucket, consider you have a cluster of four
+ machines with IDs 19, 22, 75, 92, and draw the result of inserting the
+ following keys in the given order: 12, 4, 10, 49, 42, 60, 63, 53, 47, 27,
+ 26, 28, 13, 52.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename bdm_4_2_6.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Assume you have a MongoDB collection which occupies 6 chunks UNevenly distribute
+d in 3 shards (i.e., 1, 2 and 3 chunks per shard respectively).
+ Being the document Id also the shard key, the chunk of a document is determined
+ by means of a hash function.
+ Assuming that accessing one document takes one time unit (existing indexes
+ are used at no cost) and we have 6,000 documents in the collection, k of
+ which have value “YYY” for attribute “other”, how many time units would
+ take the following operations
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+As typically in RDBMS optimizers, assume uniform distribution of values
+ and statistical independence between pairs of attributes.
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+FindOne({ id : ”XXX”}): in this case, we get the shard by applying the hash
+ to the id.
+ Also, since mongoDB maintians an index for the keys, we would retrieve
+ the document in 1 unit of time.
+\end_layout
+
+\begin_layout Itemize
+Find({ id : {$in : [1, .., 3000]}}), being [1,..,6000] the range of existing
+ IDs: in this case, the best approach is to query the three shards with
+ the 3000 keys, because doing this one key at a time would entail a high
+ overhead.
+ If we assume equally likely keys, then we would find 500 in the first shard,
+ 1000 in the second shard and 1500 in the third shard.
+ The time would then be 1500 units (since this operation is done in parallel).
+\end_layout
+
+\begin_layout Itemize
+Find({other : ”Y Y Y ”}), being the attribute indexed.
+ Since the attribute is indexed, we know exactly the documents that need
+ to be retrieved.
+ Therefore, the time would be 
+\begin_inset Formula $\max\left\{ f\cdot1000,f\cdot2000,f\cdot3000\right\} =f\cdot3000$
+\end_inset
+
+ units where 
+\begin_inset Formula $f=\frac{k}{6000}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Find({other : ”Y Y Y ”}), being the attribute NOT indexed.
+ In this case, all records must be checked, so the time is 3000 units (checking
+ all documents in the bigger shard).
+\end_layout
+
+\begin_layout Exercise
+Given two files containing the following kinds of data:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Employees.txt with fields: 
+\end_layout
+
+\begin_layout Plain Layout
+
+	EmployeeID; EmployeeName; YearlySalary; CityOfResidence; SiteOfWork
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	EMP4;RICARDO;250000;MADRID;DPT4
+\end_layout
+
+\begin_layout Plain Layout
+
+	EMP5;EULALIA;150000;BARCELONA;DPT5
+\end_layout
+
+\begin_layout Plain Layout
+
+	EMP6;MIQUEL;125000;BADALONA;DPT5
+\end_layout
+
+\begin_layout Plain Layout
+
+	EMP7;MARIA;175000;MADRID;DPT6
+\end_layout
+
+\begin_layout Plain Layout
+
+	EMP8;ESTEBAN;150000;MADRID;DPT6
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Departments.txt with fields: 
+\end_layout
+
+\begin_layout Plain Layout
+
+	SiteID; DepartmentName; StreetNumber; StreetName; City
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	DPT1;DIRECCIO;10;PAU CLARIS;BARCELONA
+\end_layout
+
+\begin_layout Plain Layout
+
+	DPT2;DIRECCIO;8;RIOS ROSAS;MADRID
+\end_layout
+
+\begin_layout Plain Layout
+
+	DPT3;MARKETING;1;PAU CLARIS;BARCELONA
+\end_layout
+
+\begin_layout Plain Layout
+
+	DPT4;MARKETING;3;RIOS ROSAS;MADRID
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Consider the following PySpark code and answer the questions below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+source1 = spark.read.format("csv").load("employees.txt", header='false', inferSchema
+='true', sep=";")
+\end_layout
+
+\begin_layout Plain Layout
+
+source2 = spark.read.format("csv").load("departments.txt", header='false', inferSche
+ma='true', sep=";")
+\end_layout
+
+\begin_layout Plain Layout
+
+A = source1.toDF("eID","eName","eSalary","eCity","eDpt","eProj")
+\end_layout
+
+\begin_layout Plain Layout
+
+B = source2.toDF("dID","dArea","dNumber","dStreet","dCity")
+\end_layout
+
+\begin_layout Plain Layout
+
+C = A.select(A.eCity.alias("city"))
+\end_layout
+
+\begin_layout Plain Layout
+
+D = B.select("dArea")
+\end_layout
+
+\begin_layout Plain Layout
+
+E = D.crossJoin(C)
+\end_layout
+
+\begin_layout Plain Layout
+
+F = B.select("dArea",B.dCity.alias("city"))
+\end_layout
+
+\begin_layout Plain Layout
+
+G = E.subtract(F)
+\end_layout
+
+\begin_layout Plain Layout
+
+H = G.select("dArea")
+\end_layout
+
+\begin_layout Plain Layout
+
+result = D.subtract(H)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+State in natural language the corresponding query it would answer.
+ 
+\series default
+\color red
+*
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Get all department areas located in a city in which at least one employee
+ works, even in a different department.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Clearly indicate any mistake or improvement you can fix/make in the code.
+ For each of them give (1) the line number, (2) pseudo-code to implement
+ the fix, and (3) brief rationale.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+There is no action, so we could add it at the end of the computations.
+\end_layout
+
+\begin_layout Enumerate
+Line 3 and 4: Instead of reading the CSV file without headers and then renaming
+ the columns, we can directly provide the schema while reading the file.
+ This will make the code cleaner and improve performance as well.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+schema1 = StructType([
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eID", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eName", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eSalary", FloatType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eCity", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("eDpt", StringType())
+\end_layout
+
+\begin_layout Plain Layout
+
+])
+\end_layout
+
+\begin_layout Plain Layout
+
+schema2 = StructType([
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dID", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dArea", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dNumber", IntegerType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dStreet", StringType()),
+\end_layout
+
+\begin_layout Plain Layout
+
+   StructField("dCity", StringType())
+\end_layout
+
+\begin_layout Plain Layout
+
+])
+\end_layout
+
+\begin_layout Plain Layout
+
+A = spark.read.format("csv").schema(schema1).load("employees.txt", sep=";")
+\end_layout
+
+\begin_layout Plain Layout
+
+B = spark.read.format("csv").schema(schema2).load("departments.txt", sep=";")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Line 10: The subtract function is an expensive operation as it requires
+ a full shuffle of the data.
+ Instead, we can perform a left anti-join operation to achieve the same
+ result but in a more efficient way.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+H = E.join(F, on=['dArea', 'city'], how='left_anti') 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Finally, the use of crossJoin in Line 9 can lead to very large intermediate
+ data and should be avoided if possible.
+ A more effective method would be to join the data on the common attribute
+ 'city' instead.
+ This would give us the department areas that are located in the cities
+ where at least one employee resides, without generating all possible combinatio
+ns first.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+E = D.join(C, D.dArea == C.city) 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_body
+\end_document
