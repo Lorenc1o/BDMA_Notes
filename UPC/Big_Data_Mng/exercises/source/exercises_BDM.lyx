@@ -5180,6 +5180,97 @@ Discuss your choice of technology and data model, without pre-computing
  values, etc.), trade-offs, and assumptions made.
 \end_layout
 
+\begin_layout Standard
+Given the queries and frequency of execution, both MongoDB and HBase can
+ be used effectively, but each has its strengths and trade-offs.
+\end_layout
+
+\begin_layout Standard
+MongoDB is a document-oriented database that supports rich queries and secondary
+ indexes.
+ On the other hand, HBase is a wide-column store that scales horizontally
+ and is designed for large tables with millions of columns, and it shines
+ with range queries and scans.
+\end_layout
+
+\begin_layout Standard
+Let's analyze the workload:
+\end_layout
+
+\begin_layout Itemize
+Q1: average salary in Barcelona (50% frequency): This query needs to combine
+ city and employment data.
+ As MongoDB supports joining data from different collections, it might have
+ an advantage here.
+ In HBase, you may need to denormalize the data or do client-side joining,
+ which can be less efficient.
+\end_layout
+
+\begin_layout Itemize
+Q2: average weight for young people (less than 18 years old) (45% frequency):
+ This query requires a secondary index on age to perform efficiently.
+ MongoDB, with its built-in support for secondary indexes, may have an advantage.
+ However, HBase can also support secondary indexes with some additional
+ setup and design considerations.
+\end_layout
+
+\begin_layout Itemize
+Q3: number of VIPs (5% frequency): This query requires searching personal
+ data based on a specific attribute, which is doable efficiently in both
+ MongoDB and HBase.
+\end_layout
+
+\begin_layout Standard
+Given the workload and the need for complex queries, MongoDB might be a
+ slightly better choice due to its rich querying capabilities and built-in
+ support for secondary indexes.
+ However, if the volume of data is enormous and you need extreme scalability,
+ HBase might be a better choice due to its distributed nature and high write
+ throughput.
+\end_layout
+
+\begin_layout Itemize
+Data model for MongoDB:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Personal data collection: { "_id" : pID, "name": "", "age": , "weight":
+ , "VIP_status": } 
+\end_layout
+
+\begin_layout Itemize
+City data collection: { "_id" : cID, "city_name": "", "citizen_ids": [list
+ of pID] } 
+\end_layout
+
+\begin_layout Itemize
+Employment data collection: { "_id": uniqueID, "pID": , "salary": , "job_title":
+ }
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Data model for HBase:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Personal data table: Row key: pID, Column Family: Personal_Info: {"name",
+ "age", "weight", "VIP_status"} 
+\end_layout
+
+\begin_layout Itemize
+City data table: Row key: cID, Column Family: City_Info: {"city_name", "citizen_
+ids"} 
+\end_layout
+
+\begin_layout Itemize
+Employment data table: Row key: uniqueID, Column Family: Employment_Info:
+ {"pID", "salary", "job_title"}
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Analyze (i.e., briefly give pros and cons) the following JSON design compared
  to other equivalent JSON designs from the three perspectives:
@@ -10704,7 +10795,7 @@ Departments.txt
 \series bold
 Provide the ordered list of Spark operations (no need to follow the exact
  syntax, but just the kind of operation and main parameters) you would need
- to obtain the departments with all employees assigned to the same prooject.
+ to obtain the departments with all employees assigned to the same project.
  The result must include department number.
  Save the results in 
 \begin_inset Formula $output.txt$
