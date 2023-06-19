@@ -5707,6 +5707,47 @@ Without considering compression and assuming a disk block size of 8 KB,
  Numerically justify your answer.
 \end_layout
 
+\begin_layout Standard
+I think from the point of view of number of blocks retrieved, it depends
+ on how the number of rows compares to the number of columns.
+ Say there are N columns, each attribute occupies 8B.
+ Therefore, each row is 8N B.
+ Say there are M rows.
+ So total size of table is 8NM B.
+\end_layout
+
+\begin_layout Standard
+Now, how many blocks this is depends on the storage.
+ If N=100 and M=10, then the full table goes in one block row-wise, occupying
+ the full block.
+ Column-wise it needs 100 blocks, occupying only 80 B in each block.
+ Notice how the query in this case would retrieve just 1 block in row storage,
+ while 50 blocks in column storage.
+\end_layout
+
+\begin_layout Standard
+Now, as the number of rows increases, column storage will make this query
+ better column-wise than row-wise.
+ 
+\end_layout
+
+\begin_layout Standard
+The number of blocks the table occupies in each case is
+\begin_inset Formula 
+\begin{align*}
+Blocks_{row-wise} & =\left\lceil\frac{N\cdot M\cdot S}{8000}\right\rceil,\\
+Blocks_{column-wise} & =\left\lceil \frac{M\cdot S}{8000}\right\rceil \cdot N,
+\end{align*}
+
+\end_inset
+
+ where 
+\begin_inset Formula $S$
+\end_inset
+
+ is the size of each cell.
+\end_layout
+
 \begin_layout Subsubsection
 Represent the given column with dictionary and run-length encoding storing
  and row position.
@@ -5917,7 +5958,18 @@ End Row
 \begin_inset Text
 
 \begin_layout Plain Layout
-2
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
 \end_layout
 
 \end_inset
@@ -5935,22 +5987,11 @@ End Row
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-6
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-8
+7
 \end_layout
 
 \end_inset
@@ -6379,14 +6420,20 @@ Dictionary Positions
 \end_layout
 
 \begin_layout Standard
-The first two values in the first column are Charlie, and no more Charlie's
- are encoutered.
+Assuming that 0 represents NULL values, then we would traverse the #Values
+ and the Dictionary positions in the first column, until we find 2 in the
+ positions.
+ This way, we would have that Charlie starts in position 2+3=5, for three
+ items.
+ Meaning, Charlie is the value in positions 5,6 and 7.
 \end_layout
 
 \begin_layout Standard
-In the second column, then, we have to check these two positions.
- Since Beta is in the first position, and is encountered only once, then
- this one is the only solution: row 0.
+Then, we traverse the second column, until reaching these positions.
+ The first value is Alpha, so we skip it.
+ The next five values (until position 5, because we start in 0), are NULL.
+ Finally, values 6 and 7 are Beta.
+ So the final result is the last two rows.
 \end_layout
 
 \begin_layout Section
@@ -12103,9 +12150,9 @@ How many tasks will be generated within each stage? (Justify your answer)
 
 \begin_deeper
 \begin_layout Standard
-Stage 1 has 8 tasks.
- Stage 2 has 8 tasks.
- Stage 3 has 6 tasks.
+Since each file is file is divided into 6 chunks each, then there will be
+ 6 tasks at the first two stages.
+ Same for stage 3.
 \end_layout
 
 \end_deeper
