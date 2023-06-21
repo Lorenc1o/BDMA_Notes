@@ -1,0 +1,447 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Exam 2020
+\end_layout
+
+\begin_layout Exercise
+Explain the difference between training error, validation error, test error,
+ and generalization error.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Training Error: This is the error that your model makes on the same data
+ it was trained on.
+ It's useful for diagnosing issues such as underfitting, but it's not a
+ good measure of how well your model will perform on unseen data.
+\end_layout
+
+\begin_layout Itemize
+Validation Error: This is the error that your model makes on a validation
+ set, which is a separate set of data that the model wasn't trained on.
+ It's used for tuning model parameters and choosing between different models.
+\end_layout
+
+\begin_layout Itemize
+Test Error: This is the error that your model makes on a test set, which
+ is another set of data that the model hasn't seen before.
+ It's used to estimate how well the model will perform on unseen data.
+\end_layout
+
+\begin_layout Itemize
+Generalization Error: This is a theoretical measure of how well your model
+ will perform on new, unseen data.
+ In practice, we can't calculate the generalization error exactly, so we
+ estimate it using the test error.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Explain what the Bayes error rate is and how it relates to the generalization
+ error of any classifier.
+\end_layout
+
+\begin_layout Exercise
+The Bayes error rate is the lowest possible error rate that can be achieved
+ by any classifier.
+ It is determined by the overlap between the classes' distributions.
+ In the case where the classes are perfectly separable, the Bayes error
+ rate is zero.
+ The difference between the Bayes error rate and the actual error rate of
+ a classifier is the classifier's excess error.
+ The generalization error of a classifier is an estimate of its excess error
+ over the Bayes error rate.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+It is said that generative algorithms for supervised learning learn the
+ joint distribution 
+\begin_inset Formula $p(x,y)$
+\end_inset
+
+ where 
+\begin_inset Formula $y$
+\end_inset
+
+ is the target and 
+\begin_inset Formula $x$
+\end_inset
+
+ corresponds to a vector of explanatory variables, and discriminative algorithms
+ learn 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+.
+ Please explain what this means.
+\end_layout
+
+\begin_layout Exercise
+Generative and discriminative models approach supervised learning differently:
+\end_layout
+
+\begin_layout Itemize
+Generative Models: These models learn the joint probability distribution
+ 
+\begin_inset Formula $p(x,y)$
+\end_inset
+
+, where 
+\begin_inset Formula $y$
+\end_inset
+
+ is the target variable and 
+\begin_inset Formula $x$
+\end_inset
+
+ is a vector of explanatory variables.
+ They model how the data is generated by learning the distribution of different
+ classes.
+ From this joint distribution, you can calculate the conditional distribution
+ 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+ which can be used to make predictions.
+ Examples of generative models include Gaussian Naive Bayes, Linear Discriminant
+ Analysis etc.
+\end_layout
+
+\begin_layout Itemize
+Discriminative Models: These models learn the conditional probability distributi
+on 
+\begin_inset Formula $p(y|x)$
+\end_inset
+
+, which gives the distribution of the target variable given the explanatory
+ variables.
+ They focus on the boundary between classes rather than how the data of
+ each class is distributed.
+ Examples of discriminative models include Logistic Regression, Support
+ Vector Machines etc.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Please explain the difference between a parameter of a model and a hyper-paramet
+er.
+ You may use an example if you want.
+\end_layout
+
+\begin_layout Exercise
+A parameter and a hyperparameter of a model are both types of configurations
+ that the model uses to make predictions, but they serve different roles:
+\end_layout
+
+\begin_layout Itemize
+Parameters: These are the parts of the model that are learned from the training
+ data.
+ For example, in a linear regression model, the coefficients of the variables
+ are parameters.
+ They are found by fitting the model to the training data.
+\end_layout
+
+\begin_layout Itemize
+Hyperparameters: These are settings on the model that are decided before
+ the training process begins, and they are not learned from the data.
+ For example, the learning rate in a gradient descent algorithm, the depth
+ of a decision tree, or the number of hidden layers in a neural network
+ are hyperparameters.
+ They are typically set based on trial and error, prior knowledge, or through
+ a process like cross-validation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Please explain the potential danger of not having any type of regularization
+ in a modelling task and the danger of having too much of it.
+\end_layout
+
+\begin_layout Exercise
+Regularization is a technique used to prevent overfitting by adding a penalty
+ term to the loss function that the model optimizes.
+ This penalty discourages the model from assigning too much importance to
+ any one feature, helping it to generalize better to unseen data.
+\end_layout
+
+\begin_layout Itemize
+If there is no regularization, the model is at risk of overfitting to the
+ training data.
+ This means it will perform well on the training data, but poorly on unseen
+ data because it has effectively memorized the training data rather than
+ learning the underlying patterns.
+\end_layout
+
+\begin_layout Itemize
+On the other hand, if too much regularization is applied, the model is at
+ risk of underfitting.
+ This means that it fails to capture important patterns in the data, leading
+ to poor performance on both the training and unseen data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Please explain the relation between the bias/variance tradeoff and the k
+ of the k-nearest neighbor algorithm.
+\end_layout
+
+\begin_layout Exercise
+The bias-variance tradeoff is a fundamental concept in machine learning
+ which states that models with high complexity (low bias) tend to have high
+ variance, while models with low complexity (high bias) tend to have low
+ variance.
+\end_layout
+
+\begin_layout Exercise
+In the context of the k-nearest neighbor (k-NN) algorithm, 'k' is a hyperparamet
+er that determines the number of neighbors to consider when making a prediction.
+ A small 'k' value leads to a high complexity model (low bias, high variance),
+ as it's more sensitive to noise in the data.
+ On the other hand, a large 'k' results in a model with lower complexity
+ (high bias, low variance), as it's more resilient to noise, but may oversimplif
+y the patterns in the data.
+ Balancing this tradeoff is key to achieving good performance with k-NN.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the main objective of the resampling techniques that we have seen
+ during the course (e.g.
+ cross-validation)?
+\end_layout
+
+\begin_layout Exercise
+The main objective of resampling techniques, like cross-validation, is to
+ estimate the performance of a model on unseen data.
+ This is done by dividing the data into subsets: a training set to fit the
+ model, and a validation set to evaluate it.
+ This approach helps in detecting overfitting, where a model performs well
+ on training data but poorly on unseen data.
+ Additionally, cross-validation can be used to tune hyperparameters, by
+ finding the values that give the best performance on the validation set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Can you think of a situation where the EM algorithm for clustering is preferable
+ to k-means?
+\end_layout
+
+\begin_layout Exercise
+The Expectation-Maximization (EM) algorithm for clustering can be preferable
+ to k-means in situations where the clusters are not spherical, or when
+ the clusters have different variances.
+ K-means assumes that all clusters are spherical and have similar variances,
+ which can lead to poor performance if these assumptions are violated.
+ EM, on the other hand, is a more flexible method that can handle clusters
+ of different shapes and sizes.
+ Furthermore, EM allows for "soft" assignment of data points to clusters,
+ reflecting uncertainty in the assignments, whereas k-means only allows
+ for "hard" assignment of data points to the closest cluster.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the main purpose of the backpropagation algorithm in the context
+ of neural networks?
+\end_layout
+
+\begin_layout Exercise
+The main purpose of the backpropagation algorithm in the context of neural
+ networks is to efficiently compute the gradient of the loss function with
+ respect to the weights of the network.
+ This gradient is then used in optimization algorithms, such as stochastic
+ gradient descent, to update the weights of the network and minimize the
+ loss function.
+ The key idea behind backpropagation is the chain rule of calculus, which
+ allows for the gradient of the loss to be computed layer by layer, from
+ the output layer back to the input layer.
+ This makes training deep neural networks computationally feasible.
+\end_layout
+
+\end_body
+\end_document
