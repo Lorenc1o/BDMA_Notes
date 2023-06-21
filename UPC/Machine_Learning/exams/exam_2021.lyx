@@ -315,7 +315,7 @@ Please mark whether the following statements are true or false;
 \end_layout
 
 \begin_layout Itemize
-Training error is always lower than test error: F
+Training error is always lower than test error: T (in general)
 \end_layout
 
 \begin_layout Itemize
@@ -324,7 +324,7 @@ Lasso and ridge regression both help in reducing overfitting: T
 
 \begin_layout Itemize
 Lasso regression is preferable to ridge regression because it produces sparse
- models: F
+ models: F (it produces sparse model, but this is not necessarily preferable)
 \end_layout
 
 \begin_layout Itemize
