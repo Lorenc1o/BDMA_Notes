@@ -1,0 +1,606 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BDMA - Decision Modeling
+\end_layout
+
+\begin_layout Date
+Fall 2023
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../../Decision-Modeling/LectureNotes/source/CS-logo.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Petra Isenberg
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Visual Analytics
+\emph default
+ taught at the Université Paris Saclay - CentraleSupélec by Professor Petra
+ Isenberg in the academic year 23/24.
+ Most of the content of this document is adapted from the course notes by
+ Isenberg, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Isenberg2023"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+We all know about the increasing amount of data collected and handled by
+ companies and organizations, but it is also important to understand that
+ data is not the same as information: it is needed a process of analysis
+ and understanding to derive information from data.
+ When we have a question that we want to answer with our data, we 
+\series bold
+query
+\series default
+ the data seeking for the pieces of data that might be relevant for our
+ questions.
+ On the other hand, when we aren't sure what we're looking for, we 
+\series bold
+explore
+\series default
+ the data, looking for patterns that can give us insights and ideas we didn't
+ thought about before.
+\end_layout
+
+\begin_layout Standard
+Moreover, purely relying on automated analyses is not always effective due
+ to potential unexpected results, usually because of edge cases and situations
+ that we did not think about at the beginning or which did not even exist
+ by then, and because data can be incomplete, inconsistent or deceptive.
+ Therefore, human judgement and intervention is often needed, to provide
+ background information, flexible analysis, modifiable to unintended directions
+ and creativity.
+
+\series bold
+ Visual analytics
+\series default
+ is then a field that provides different tools to have a human in the loop
+ in analysis tasks.
+\end_layout
+
+\begin_layout Standard
+In this course, we want to build a strong critical thinking with data, relying
+ on visualizations that can help us to better understand data.
+ We will delve into the topics of Data Collection, Data Cleaning, Exploratory
+ Analysis and Visualization.
+\end_layout
+
+\begin_layout Subsection
+What is Visual Analytics?
+\end_layout
+
+\begin_layout Subsubsection
+What is Data Analysis
+\end_layout
+
+\begin_layout Standard
+Traditionally, there is the vision that data analysis consists in applying
+ statistics to analyze data collected from the real world, but a more accurate
+ vision would be to define data analysis as the task of thinking carefully
+ about evidence, represented by data.
+ Nowadays, this view is more spread, and data analysis is now covering a
+ wide range of activities and skills:
+\end_layout
+
+\begin_layout Itemize
+Problem definition
+\end_layout
+
+\begin_layout Itemize
+Disassembling problems and data into analyzable pieces
+\end_layout
+
+\begin_layout Itemize
+Data evaluation & Conclusion making
+\end_layout
+
+\begin_layout Itemize
+Decision recommendation
+\end_layout
+
+\begin_layout Subsubsection
+Visual Analytics
+\end_layout
+
+\begin_layout Standard
+Visual Analytics is the science of analytical reasoning facilitated by interacti
+ve visual interfaces.
+ It combines automated analysis techniques with interactive visualizations
+ for an effective understanding, reasoning and decision making on the basis
+ of very large and complex data sets.
+\end_layout
+
+\begin_layout Standard
+The greatest challenge of visual analytics is to enable deep insights, allowing
+ analysts to examine massive, multi-dimensional, multi-source and time-varying
+ information, to make the right decisions in a time-critical manner.
+ With this in mind, the method is to combine automated analysis with human
+ intervention, and representing data visually to allow for interaction,
+ insight generation, conclusions making and enabling for better decision
+ making.
+\end_layout
+
+\begin_layout Standard
+The field can be understood as a whole, but it can also be divided into:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Information Visualization
+\series default
+: visualizations that enable to transmit information to the general public
+ in a clear way.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Scientific Visualization
+\series default
+: visualizations that show scientific work and discoveries with precision.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Infographics
+\series default
+: this represents a visual summary of a topic that aims at providing an
+ easy-to-understand overview on a topic.
+\end_layout
+
+\begin_layout Standard
+As mentioned before, there are basically two approaches towards data analysis:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Confirmatory Analysis
+\series default
+: starts with a hypothesis about the data and tries to confirm its validity.
+ This kind of analysis focuses more on fully automated analysis methods.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Exploratory Analysis
+\series default
+: when there is no or little a-priori information about the data and we
+ are not sure about which patterns and information can be present in the
+ data, we can explore it to create hypotheses that will need to be confirmed
+ later.
+ It is in this area where visual analytics is most widely used.
+\end_layout
+
+\begin_layout Standard
+We can also understand visual analytics as a process, involving the following
+ steps:
+\end_layout
+
+\begin_layout Enumerate
+Information (data) gathering
+\end_layout
+
+\begin_layout Enumerate
+Data preprocessing
+\end_layout
+
+\begin_layout Enumerate
+Knowledge representation
+\end_layout
+
+\begin_layout Enumerate
+Interaction
+\end_layout
+
+\begin_layout Enumerate
+Decision making
+\end_layout
+
+\begin_layout Standard
+Therefore, the requirements for an interesting and efficient visualization
+ analytics approach are the development and understaing of data transformations
+ and analysis algorithms, analytical reasoning techniques, visual representation
+s and interactions, and techniques for production, presentation and disseminatio
+n.
+\end_layout
+
+\begin_layout Subsubsection
+History of Visual Analytics
+\end_layout
+
+\begin_layout Standard
+In the early 2000s, there was an outgrowth of the Scientific & Information
+ Visualization community, which started with US National Visualization and
+ Analytics Center (NVAC) at PNNL in 2004.
+ This center developed the first research and development agenda “Illuminating
+ the Path” sponsored initially by DHS (US Department of Homeland Security).
+ At first, the goals of this center and of the field were analyzing terrorist
+ threats, safeguarding boarders and ports, and preparing for and responding
+ to emergencies.
+ 
+\end_layout
+
+\begin_layout Standard
+The field has evolved since then to serve for larger research goals, specially
+ since the first edition of the VAST symposium, a conference in visual analytics
+, science and technology, as part of the IEEE Visualizations Conference,
+ in 2006; in addition to fundation of the VisMaster in 2008 by the EU.
+ This represented a coordination action to join European academic and industrial
+ R&D, with a focus in broader aplicability in different scientific fields
+ (physics, astronomy, weather,...) rather than homeland security.
+ From this point on, many centers in Europe have been created to research
+ in this field.
+\end_layout
+
+\begin_layout Subsubsection
+Challenges of Visual Analytics
+\end_layout
+
+\begin_layout Enumerate
+Human reasoning & decision making
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Understanding and supporting how humans reason about data.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "ps-cs"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Support convergent and divergent thinking.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Create interfaces that are meaningful, clear, effective, and efficiente.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Adoption
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Communicate benefits of developed tools to drive frequent use.
+\end_layout
+
+\begin_layout Enumerate
+Make tools accepted by users.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Evaluation
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Develop methods to compare novel tools to existing ones.
+\end_layout
+
+\begin_layout Enumerate
+Asses how good a tool is, which is a very difficult task for measures other
+ than time and error.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Problem interdependence
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Analysis in the real world often does not consist of isolated problems or
+ questions.
+ Problems are usually correlated and how one is solved influences how one
+ should approach another.
+\end_layout
+
+\begin_layout Enumerate
+Synthesis of analyses is needed.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Integration of analysis methods
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+It is simple to do many isolated analyses, but it is hard to integrate them
+ well into one tool or interface for human analysis.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Scalability
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Information scalability
+\series default
+: capability to extract relevant information from massive and possibly dynamical
+ly changing data streams.
+ There are different methods to achieve this kind of scalability, among
+ which we can find abstract data sets, filter & reduce data, or multi-resolution
+ representation of data.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Display scalability
+\series default
+: this referes to the capability of visualizations and tools to adapt to
+ different types of displays (computer monitor, smartphone, smartwatch,...).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Visual scalability
+\series default
+: refers to the capability of visualizations to effectively display massive
+ datasets in terms of number of data items or data dimensions.
+ It depends on the quality of the layout, the interaction techniques and
+ the perceptual capabilities.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Human scalability
+\series default
+: human skills don't scale, but the amount of people involved in the analysis
+ task can, so we must seek to design techniques to scale from a single to
+ multiple users.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Software scalability
+\series default
+: software systems and algorithms must scale to larger and different data.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Others
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Privacy and security in multi-user settings.
+\end_layout
+
+\begin_layout Enumerate
+Collaboration across languages and borders.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_body
+\end_document
