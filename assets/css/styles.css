@@ -5,25 +5,29 @@ body {
     height: 100vh;
     gap: 20px;
     /*background-color: #f4f4f4;*/
-    background-color: blue;  /* Makes the background blue */
+    background-color: #AEDFF7;  /* Makes the background blue */
     font-family: Arial, sans-serif; /* Example font, can be changed */
     color: white;            /* Sets default text color to white for better visibility on blue */
-}
 }
 
 header {
     background-color: black;
-    padding: 20px 0;        /* Add padding to top and bottom */
-    text-align: center;     /* Center the title text */
-    font-size: 1.5em;       /* Increase font size */
+    padding: 40px 0;        /* Increase padding to make it more prominent */
+    text-align: center;     
+    font-size: 2em;         /* Further increase font size */
+    color: white;           /* Making the text white for visibility against black */
+    width: 100%;            /* Ensure it spans the full width */
+    box-sizing: border-box; /* Ensure padding doesn't expand its size */
 }
 
 .card-container {
     display: flex;
-    justify-content: center;  /* Horizontally align items to the center */
-    align-items: center;      /* Vertically align items to the center */
-    gap: 20px;                /* Space between cards */
-    flex-wrap: wrap;          /* Allows cards to wrap to the next row if they run out of space */
+    justify-content: center;  
+    align-items: center;     
+    gap: 20px;                
+    flex-wrap: wrap;          
+    width: 100%; // Ensure it takes the full width.
+    margin: 20px 0; // Space above and below the container.
 }
 
 .card {
