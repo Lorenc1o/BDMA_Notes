@@ -1,7 +1,0 @@
-# example extension
-comment = 'empty example'
-default_version = '1.0'
-module_pathname = '$libdir/example'
-relocatable = true
-
-

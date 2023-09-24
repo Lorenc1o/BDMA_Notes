@@ -1,5 +1,0 @@
-# base36 extension
-comment = 'Base46 input/ouput functions for bigint'
-default_version = '1.0'
-module_pathname = '$libdir/base36'
-relocatable = true
