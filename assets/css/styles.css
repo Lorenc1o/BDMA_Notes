@@ -4,54 +4,101 @@ body {
     align-items: center;
     height: 100vh;
     gap: 20px;
-    /*background-color: #f4f4f4;*/
-    background-color: #AEDFF7;  /* Makes the background blue */
+    background-color: #FFFBE9;  /* Makes the background blue */
     font-family: Arial, sans-serif; /* Example font, can be changed */
     color: white;            /* Sets default text color to white for better visibility on blue */
 }
 
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
     background-color: black;
-    padding: 40px 0;        /* Increase padding to make it more prominent */
+    padding: 20px 0;        /* Decrease padding to make it less prominent */
     text-align: center;     
-    font-size: 2em;         /* Further increase font size */
-    color: white;           /* Making the text white for visibility against black */
+    font-size: 1.5em;      /* Decrease font size */
+    color: #FFFBE9;           /* Making the text white for visibility against black */
     width: 100%;            /* Ensure it spans the full width */
     box-sizing: border-box; /* Ensure padding doesn't expand its size */
 }
 
-.card-container {
+header h1 {
+    margin: 0;
+}
+
+.button {
+    display: inline-block;
+    padding: 2px 4px;      /* Decrease padding to make it smaller */
+    background-color: #40798C;
+    color: #FFFBE9;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 20px;             /* Change right to left to move the button to the left */
+    transform: translateY(-50%);
+    font-size: 0.8em;
+}
+
+.button:hover {
+    background-color: #FFFBE9;
+    color: #40798C;
+}
+
+.content {
     display: flex;
-    justify-content: center;  
-    align-items: center;     
-    gap: 20px;                
-    flex-wrap: wrap;          
-    width: 100%; // Ensure it takes the full width.
-    margin: 20px 0; // Space above and below the container.
+    flex-direction: column; /* Display the elements in a column layout */
+    align-items: center;
+    padding: 0px;
+}
+
+.intro {
+    max-width: 800px;
+    margin-bottom: 100px;
+    color:#000000;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
-    width: 200px;
-    height: 200px;
-    perspective: 1000px;
-    cursor: pointer;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    perspective: 1000px;
+    height: 200px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .card-face {
-    position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    transition: transform 0.5s;
+    transition: transform 0.6s ease;
 }
 
-.front {
-    z-index: 2;
+.card .front img {
+    display: block;
+    width: auto;
+    height: 100%;
 }
 
-.back {
+.card .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     transform: rotateY(180deg);
+    background: rgba(0,0,0,0);
 }
 
 .card:hover .front {
@@ -59,6 +106,39 @@ header {
 }
 
 .card:hover .back {
-    transform: rotateY(0);
+    transform: rotateY(360deg);
 }
 
+.card-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #000000;
+  }
+  
+  .card-text h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .card-text p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .card-text a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #40798C;
+    color: #FFFBE9;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-text a:hover {
+    background-color: #000;
+    color: #fff;
+  }
