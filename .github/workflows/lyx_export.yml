@@ -1,0 +1,43 @@
+name: LyX Export and Publish to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install LyX
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lyx
+
+    - name: Export LyX files to PDF and HTML
+      run: |
+        for file in $(find BDMA_Notes -name summary.lyx); do
+            # Extract the University and Course from the file path
+            university=$(basename $(dirname $(dirname $(dirname $(dirname $file)))))
+            course=$(basename $(dirname $(dirname $(dirname $file))))
+            
+            output_name="$university"_"$course"
+            
+            lyx --export pdf2 $file
+            lyx --export html $file
+            
+            # Move to temporary directory
+            mkdir -p temp_output/$university/$course
+            mv $(dirname $file)/$output_name.pdf temp_output/$university/$course/
+            mv $(dirname $file)/$output_name.html temp_output/$university/$course/
+        done
+        
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./temp_output/
