@@ -1,43 +1,56 @@
-name: LyX Export and Publish to gh-pages
+name: BDMA Notes Generation
 
 on:
   push:
-    branches:
-      - main
+    branches: [ master ]
 
 jobs:
-  build:
+  generate_and_deploy:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout the repository
+      - uses: actions/checkout@v3
 
-    - name: Install LyX
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y lyx
+      # Install LyX
+      - name: Install LyX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lyx
 
-    - name: Export LyX files to PDF and HTML
-      run: |
-        for file in $(find BDMA_Notes -name summary.lyx); do
-            # Extract the University and Course from the file path
-            university=$(basename $(dirname $(dirname $(dirname $(dirname $file)))))
-            course=$(basename $(dirname $(dirname $(dirname $file))))
-            
-            output_name="$university"_"$course"
-            
-            lyx --export pdf2 $file
-            lyx --export html $file
-            
-            # Move to temporary directory
-            mkdir -p temp_output/$university/$course
-            mv $(dirname $file)/$output_name.pdf temp_output/$university/$course/
-            mv $(dirname $file)/$output_name.html temp_output/$university/$course/
-        done
-        
-    - name: Deploy to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./temp_output/
+      # Generate files for each university and course
+      - name: Generate university course files
+        run: |
+          for uni in $(ls -d */); do
+            for course in $(ls -d $uni*/); do
+              if [ -f "${course}LectureNotes/source/summary.lyx" ]; then
+                pushd "${course}LectureNotes/source/"
+                lyx --export html summary.lyx
+                mv summary.html "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html"
+                lyx --export pdf2 summary.lyx
+                mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
+                popd
+              fi
+            done
+          done
+
+      # Checkout the gh-pages branch
+      - uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+
+      # Copy generated files to gh-pages and commit
+      - name: Deploy to gh-pages
+        run: |
+          for uni in $(ls -d */); do
+            mkdir -p "universities/$(basename $uni)"
+            mv $uni* "universities/$(basename $uni)/"
+          done
+          
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: 'Update lecture notes'
+          branch: gh-pages
+          # Add everything to the commit since structure might change over time.
+          add: './*'
