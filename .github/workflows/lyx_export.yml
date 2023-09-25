@@ -2,7 +2,7 @@ name: BDMA Notes Generation
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   generate_and_deploy:
@@ -25,8 +25,10 @@ jobs:
             for course in $(ls -d $uni*/); do
               if [ -f "${course}LectureNotes/source/summary.lyx" ]; then
                 pushd "${course}LectureNotes/source/"
+                # Generate HTML
                 lyx --export html summary.lyx
-                mv summary.html "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html"
+                mv summary.html.LyXconv "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html.LyXconv"
+                # Generate PDF
                 lyx --export pdf2 summary.lyx
                 mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
                 popd
