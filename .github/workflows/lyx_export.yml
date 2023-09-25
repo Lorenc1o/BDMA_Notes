@@ -12,11 +12,12 @@ jobs:
       # Checkout the repository
       - uses: actions/checkout@v3
 
-      # Install LyX
-      - name: Install LyX
+      # Install LyX and epstopdf
+      - name: Install LyX and required utilities
         run: |
           sudo apt-get update
-          sudo apt-get install -y lyx
+          sudo apt-get install -y lyx texlive-font-utils
+
 
       # Generate files for each university and course
       - name: Generate university course files
