@@ -2,7 +2,7 @@ name: BDMA Notes Generation
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   generate_and_deploy:
