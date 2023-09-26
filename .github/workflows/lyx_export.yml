@@ -20,34 +20,21 @@ jobs:
 
       # Generate files for each university and course
       - name: Generate university course files
-        continue-on-error: true
         run: |
-          error_flag=0  # no errors initially
           for uni in $(ls -d */); do
             for course in $(ls -d $uni*/); do
               if [ -f "${course}LectureNotes/source/summary.lyx" ]; then
                 pushd "${course}LectureNotes/source/"
                 # Generate HTML
-                if ! lyx --export html summary.lyx; then
-                  error_flag=1
-                  echo "Failed: ${uni}${course} HTML"
-                fi
-                mv summary.html.LyXconv "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html.LyXconv"
+                lyx --export html summary.lyx || echo "Failed: $uni$(basename $course) HTML"
+                [ -f "summary.html.LyXconv" ] && mv summary.html.LyXconv "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html.LyXconv"
                 # Generate PDF
-                if ! lyx --export pdf2 summary.lyx; then
-                  error_flag=1
-                  echo "Failed: ${uni}${course} PDF"
-                fi
-                mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
+                lyx --export pdf2 summary.lyx || echo "Failed: $uni$(basename $course) PDF"
+                [ -f "summary.pdf" ] && mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
                 popd
               fi
             done
           done
-          exit $error_flag
-
-      - name: Check for failure in university course file generation
-        if: ${{ failure() }}
-        run: echo "One or more course files failed to generate."
 
       # Checkout the gh-pages branch
       - uses: actions/checkout@v3
@@ -57,7 +44,7 @@ jobs:
       # Copy generated files to gh-pages and commit
       - name: Deploy to gh-pages
         run: |
-          for uni in $(ls -d */); do
+          for uni in $(ls -d */ | grep -v 'universities/'); do
             mkdir -p "universities/$(basename $uni)"
             mv $uni* "universities/$(basename $uni)/"
           done
@@ -67,5 +54,4 @@ jobs:
         with:
           message: 'Update lecture notes'
           branch: gh-pages
-          # Add everything to the commit since structure might change over time.
           add: './*'
