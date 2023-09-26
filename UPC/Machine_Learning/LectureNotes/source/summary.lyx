@@ -2008,7 +2008,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/example_2_3_images/figure_0.eps
+	filename scripts/example_2_3_images/figure_0.png
 	scale 50
 
 \end_inset
@@ -2240,7 +2240,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/example_2_3_images/figure_1.eps
+	filename scripts/example_2_3_images/figure_1.png
 	scale 50
 
 \end_inset
@@ -5282,7 +5282,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/kmeans_images/figure_0.eps
+	filename scripts/kmeans_images/figure_0.png
 	scale 60
 
 \end_inset
@@ -5590,7 +5590,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/kmeans_images/figure_1.eps
+	filename scripts/kmeans_images/figure_1.png
 	scale 60
 
 \end_inset
@@ -5864,7 +5864,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/kmeans_images/figure_2.eps
+	filename scripts/kmeans_images/figure_2.png
 	scale 60
 
 \end_inset
@@ -6140,7 +6140,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/kmeans_images/figure_3.eps
+	filename scripts/kmeans_images/figure_3.png
 	scale 60
 
 \end_inset
@@ -7502,7 +7502,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/EM_example_images/figure_0.eps
+	filename scripts/EM_example_images/figure_0.png
 	scale 60
 
 \end_inset
@@ -7834,7 +7834,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/EM_example_images/figure_1.eps
+	filename scripts/EM_example_images/figure_1.png
 	scale 60
 
 \end_inset
@@ -11642,7 +11642,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/perceptron_example_images/figure_0.eps
+	filename scripts/perceptron_example_images/figure_0.png
 	scale 60
 
 \end_inset
@@ -11843,7 +11843,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/perceptron_example_images/figure_1.eps
+	filename scripts/perceptron_example_images/figure_1.png
 	scale 60
 
 \end_inset
@@ -12049,7 +12049,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/perceptron_example_images/figure_2.eps
+	filename scripts/perceptron_example_images/figure_2.png
 	scale 60
 
 \end_inset
@@ -12220,7 +12220,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/perceptron_example_images/figure_3.eps
+	filename scripts/perceptron_example_images/figure_3.png
 	scale 60
 
 \end_inset
@@ -13164,7 +13164,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/logistic_regression_example_images/figure_0.eps
+	filename scripts/logistic_regression_example_images/figure_0.png
 	scale 60
 
 \end_inset
@@ -13438,7 +13438,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/logistic_regression_example_images/figure_1.eps
+	filename scripts/logistic_regression_example_images/figure_1.png
 	scale 60
 
 \end_inset
@@ -13614,7 +13614,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/logistic_regression_example_images/figure_2.eps
+	filename scripts/logistic_regression_example_images/figure_2.png
 	scale 60
 
 \end_inset
@@ -13833,7 +13833,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/logistic_regression_example_images/figure_3.eps
+	filename scripts/logistic_regression_example_images/figure_3.png
 	scale 60
 
 \end_inset
@@ -15677,7 +15677,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/classification_trees_images/figure_0.eps
+	filename scripts/classification_trees_images/figure_0.png
 	scale 60
 
 \end_inset
@@ -16161,7 +16161,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/classification_trees_images/figure_1.eps
+	filename scripts/classification_trees_images/figure_1.png
 	scale 60
 
 \end_inset
@@ -16287,7 +16287,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/classification_trees_images/figure_2.eps
+	filename scripts/classification_trees_images/figure_2.png
 	scale 60
 
 \end_inset
@@ -24345,7 +24345,7 @@ end{matlabcode}
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename scripts/bayesian_learning_images/figure_0.eps
+	filename scripts/bayesian_learning_images/figure_0.png
 	scale 40
 
 \end_inset
