@@ -18,24 +18,36 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lyx texlive-font-utils
 
-
       # Generate files for each university and course
       - name: Generate university course files
+        continue-on-error: true
         run: |
+          error_flag=0  # no errors initially
           for uni in $(ls -d */); do
             for course in $(ls -d $uni*/); do
               if [ -f "${course}LectureNotes/source/summary.lyx" ]; then
                 pushd "${course}LectureNotes/source/"
                 # Generate HTML
-                lyx --export html summary.lyx
+                if ! lyx --export html summary.lyx; then
+                  error_flag=1
+                  echo "Failed: ${uni}${course} HTML"
+                fi
                 mv summary.html.LyXconv "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html.LyXconv"
                 # Generate PDF
-                lyx --export pdf2 summary.lyx
+                if ! lyx --export pdf2 summary.lyx; then
+                  error_flag=1
+                  echo "Failed: ${uni}${course} PDF"
+                fi
                 mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
                 popd
               fi
             done
           done
+          exit $error_flag
+
+      - name: Check for failure in university course file generation
+        if: ${{ failure() }}
+        run: echo "One or more course files failed to generate."
 
       # Checkout the gh-pages branch
       - uses: actions/checkout@v3
