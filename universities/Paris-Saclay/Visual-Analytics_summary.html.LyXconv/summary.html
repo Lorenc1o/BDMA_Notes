@@ -1,67 +1,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
-  "http://www.w3.org/TR/html4/loose.dtd">  
-<html > 
-<head><title>BDMA - Decision Modeling</title> 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
-<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)"> 
-<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)"> 
-<!-- html --> 
-<meta name="src" content="summary.tex"> 
-<link rel="stylesheet" type="text/css" href="summary.css"> 
-</head><body 
->
-<div class="maketitle">
-                                                                                            
-                                                                                            
-                                                                                            
-                                                                                            
+  "http://www.w3.org/TR/html4/loose.dtd">
 
+<html>
+<head><title>BDMA - Decision Modeling</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="TeX4ht (https://tug.org/tex4ht/)" name="generator"/>
+<meta content="TeX4ht (https://tug.org/tex4ht/)" name="originator"/>
+<!-- html -->
+<meta content="summary.tex" name="src"/>
+<link href="summary.css" rel="stylesheet" type="text/css"/>
+</head><body>
+<div class="maketitle">
 <h2 class="titleHead">BDMA - Decision Modeling</h2>
-<div class="author" ><span 
-class="ecrm-1200">Jose Antonio Lorencio Abril</span></div>
-<br />
-<div class="date" ><span 
-class="ecrm-1200">Fall 2023</span></div>
+<div class="author"><span class="ecrm-1200">Jose Antonio Lorencio Abril</span></div>
+<br/>
+<div class="date"><span class="ecrm-1200">Fall 2023</span></div>
 </div>
-<div class="center" 
->
-<!--l. 73--><p class="noindent" >
-<!--l. 74--><p class="noindent" ><img 
-src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png" alt="PIC"  
-width="50" height="50" >
-</div>
-                                                                                            <div class="flushright" 
->
-<!--l. 77--><p class="noindent" >
+<div class="center">
+<!--l. 73--><p class="noindent">
+<!--l. 74--><p class="noindent"><img alt="PIC" src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png"/>
+</p></p></div>
+<div class="flushright">
+<!--l. 77--><p class="noindent">
  Professor: Petra Isenberg
-</div>
-                                                                                            <div class="flushright" 
->
-<!--l. 81--><p class="noindent" >
+</p></div>
+<div class="flushright">
+<!--l. 81--><p class="noindent">
  Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
-</div>
-<!--l. 85--><p class="noindent" >
-                                                                                            
-                                                                                            
-<!--l. 92--><p class="noindent" >This
+</p></div>
+<!--l. 85--><p class="noindent">
+<!--l. 92--><p class="noindent">This
 is
 a
 summary
 of
 the
 course
-<span 
-class="ecti-1000">Visual</span>
-<span 
-class="ecti-1000">Analytics</span>
+<span class="ecti-1000">Visual</span>
+<span class="ecti-1000">Analytics</span>
 taught
 at
 the
-Universit�
+Université
 Paris
 Saclay
 -
-CentraleSup�lec
+CentraleSupélec
 by
 Professor
 Petra
@@ -86,11 +70,10 @@ course
 notes
 by
 Isenberg,
-<span class="cite">[<a 
-href="#XIsenberg2023">1</a>]</span>,
+<span class="cite">[<a href="#XIsenberg2023">1</a>]</span>,
 so
 I
-won&#8217;t
+won’t
 be
 citing
 it
@@ -106,278 +89,212 @@ provided
                                                                                             
 when
 used.
-<h3 class="likesectionHead"><a 
- id="x1-1000"></a>Contents</h3>
+<h3 class="likesectionHead"><a id="x1-1000"></a>Contents</h3>
 <div class="tableofcontents">
-&#x00A0;<span class="sectionToc" >1 <a 
-href="#x1-20001" id="QQ2-1-2">Introduction</a></span>
-<br />&#x00A0;&#x00A0;<span class="subsectionToc" >1.1 <a 
-href="#x1-30001.1" id="QQ2-1-3">What is Visual Analytics?</a></span>
+ <span class="sectionToc">1 <a href="#x1-20001" id="QQ2-1-2">Introduction</a></span>
+<br/>  <span class="subsectionToc">1.1 <a href="#x1-30001.1" id="QQ2-1-3">What is Visual Analytics?</a></span>
 </div>
-<!--l. 96--><p class="noindent" >
-                                                                                            
-                                                                                            
-<h3 class="sectionHead"><span class="titlemark">1   </span> <a 
- id="x1-20001"></a>Introduction</h3>
-<!--l. 100--><p class="noindent" >We all know about the increasing amount of data collected and handled by companies and organizations, but it is also
+<!--l. 96--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-20001"></a>Introduction</h3>
+<!--l. 100--><p class="noindent">We all know about the increasing amount of data collected and handled by companies and organizations, but it is also
 important to understand that data is not the same as information: it is needed a process of analysis and understanding
-to derive information from data. When we have a question that we want to answer with our data, we <span 
-class="ecbx-1000">query </span>the data
-seeking for the pieces of data that might be relevant for our questions. On the other hand, when we aren&#8217;t sure what
-we&#8217;re looking for, we <span 
-class="ecbx-1000">explore </span>the data, looking for patterns that can give us insights and ideas we didn&#8217;t thought about
+to derive information from data. When we have a question that we want to answer with our data, we <span class="ecbx-1000">query </span>the data
+seeking for the pieces of data that might be relevant for our questions. On the other hand, when we aren’t sure what
+we’re looking for, we <span class="ecbx-1000">explore </span>the data, looking for patterns that can give us insights and ideas we didn’t thought about
 before.
-<!--l. 110--><p class="noindent" >Moreover, purely relying on automated analyses is not always effective due to potential unexpected results, usually
+<!--l. 110--><p class="noindent">Moreover, purely relying on automated analyses is not always effective due to potential unexpected results, usually
 because of edge cases and situations that we did not think about at the beginning or which did not even exist by then,
 and because data can be incomplete, inconsistent or deceptive. Therefore, human judgement and intervention is often
 needed, to provide background information, flexible analysis, modifiable to unintended directions and creativity.
-<span 
-class="ecbx-1000">Visual analytics </span>is then a field that provides different tools to have a human in the loop in analysis
+<span class="ecbx-1000">Visual analytics </span>is then a field that provides different tools to have a human in the loop in analysis
 tasks.
-<!--l. 120--><p class="noindent" >In this course, we want to build a strong critical thinking with data, relying on visualizations that can help us to better
+<!--l. 120--><p class="noindent">In this course, we want to build a strong critical thinking with data, relying on visualizations that can help us to better
 understand data. We will delve into the topics of Data Collection, Data Cleaning, Exploratory Analysis and
 Visualization.
-<!--l. 125--><p class="noindent" >
-<h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a 
- id="x1-30001.1"></a>What is Visual Analytics?</h4>
-<!--l. 127--><p class="noindent" >
-<h5 class="subsubsectionHead"><span class="titlemark">1.1.1   </span> <a 
- id="x1-40001.1.1"></a>What is Data Analysis</h5>
-<!--l. 129--><p class="noindent" >Traditionally, there is the vision that data analysis consists in applying statistics to analyze data collected from the real
+<!--l. 125--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a id="x1-30001.1"></a>What is Visual Analytics?</h4>
+<!--l. 127--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">1.1.1   </span> <a id="x1-40001.1.1"></a>What is Data Analysis</h5>
+<!--l. 129--><p class="noindent">Traditionally, there is the vision that data analysis consists in applying statistics to analyze data collected from the real
 world, but a more accurate vision would be to define data analysis as the task of thinking carefully about evidence,
 represented by data. Nowadays, this view is more spread, and data analysis is now covering a wide range of activities
 and skills:
      <ul class="itemize1">
-     <li class="itemize">
-     <!--l. 136--><p class="noindent" >Problem definition
-     </li>
-     <li class="itemize">
-     <!--l. 137--><p class="noindent" >Disassembling problems and data into analyzable pieces
-     </li>
-     <li class="itemize">
-     <!--l. 138--><p class="noindent" >Data evaluation &amp; Conclusion making
-     </li>
-     <li class="itemize">
-     <!--l. 139--><p class="noindent" >Decision recommendation</li></ul>
-                                                                                            
-                                                                                            
-<!--l. 142--><p class="noindent" >
-<h5 class="subsubsectionHead"><span class="titlemark">1.1.2   </span> <a 
- id="x1-50001.1.2"></a>Visual Analytics</h5>
-<!--l. 144--><p class="noindent" >Visual Analytics is the science of analytical reasoning facilitated by interactive visual interfaces. It combines automated
+<li class="itemize">
+<!--l. 136--><p class="noindent">Problem definition
+     </p></li>
+<li class="itemize">
+<!--l. 137--><p class="noindent">Disassembling problems and data into analyzable pieces
+     </p></li>
+<li class="itemize">
+<!--l. 138--><p class="noindent">Data evaluation &amp; Conclusion making
+     </p></li>
+<li class="itemize">
+<!--l. 139--><p class="noindent">Decision recommendation</p></li></ul>
+<!--l. 142--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">1.1.2   </span> <a id="x1-50001.1.2"></a>Visual Analytics</h5>
+<!--l. 144--><p class="noindent">Visual Analytics is the science of analytical reasoning facilitated by interactive visual interfaces. It combines automated
 analysis techniques with interactive visualizations for an effective understanding, reasoning and decision making on the
 basis of very large and complex data sets.
-<!--l. 149--><p class="noindent" >The greatest challenge of visual analytics is to enable deep insights, allowing analysts to examine massive,
+<!--l. 149--><p class="noindent">The greatest challenge of visual analytics is to enable deep insights, allowing analysts to examine massive,
 multi-dimensional, multi-source and time-varying information, to make the right decisions in a time-critical manner.
 With this in mind, the method is to combine automated analysis with human intervention, and representing data
 visually to allow for interaction, insight generation, conclusions making and enabling for better decision
 making.
-<!--l. 157--><p class="noindent" >The field can be understood as a whole, but it can also be divided into:
+<!--l. 157--><p class="noindent">The field can be understood as a whole, but it can also be divided into:
      <ul class="itemize1">
-     <li class="itemize">
-     <!--l. 160--><p class="noindent" ><span 
-class="ecbx-1000">Information Visualization</span>: visualizations that enable to transmit information to the general public in
+<li class="itemize">
+<!--l. 160--><p class="noindent"><span class="ecbx-1000">Information Visualization</span>: visualizations that enable to transmit information to the general public in
      a clear way.
-     </li>
-     <li class="itemize">
-     <!--l. 162--><p class="noindent" ><span 
-class="ecbx-1000">Scientific Visualization</span>: visualizations that show scientific work and discoveries with precision.
-     </li>
-     <li class="itemize">
-     <!--l. 164--><p class="noindent" ><span 
-class="ecbx-1000">Infographics</span>: this represents a visual summary of a topic that aims at providing an easy-to-understand
-     overview on a topic.</li></ul>
-<!--l. 167--><p class="noindent" >As mentioned before, there are basically two approaches towards data analysis:
+     </p></li>
+<li class="itemize">
+<!--l. 162--><p class="noindent"><span class="ecbx-1000">Scientific Visualization</span>: visualizations that show scientific work and discoveries with precision.
+     </p></li>
+<li class="itemize">
+<!--l. 164--><p class="noindent"><span class="ecbx-1000">Infographics</span>: this represents a visual summary of a topic that aims at providing an easy-to-understand
+     overview on a topic.</p></li></ul>
+<!--l. 167--><p class="noindent">As mentioned before, there are basically two approaches towards data analysis:
      <ul class="itemize1">
-     <li class="itemize">
-     <!--l. 170--><p class="noindent" ><span 
-class="ecbx-1000">Confirmatory Analysis</span>: starts with a hypothesis about the data and tries to confirm its validity. This
+<li class="itemize">
+<!--l. 170--><p class="noindent"><span class="ecbx-1000">Confirmatory Analysis</span>: starts with a hypothesis about the data and tries to confirm its validity. This
      kind of analysis focuses more on fully automated analysis methods.
-     </li>
-     <li class="itemize">
-     <!--l. 173--><p class="noindent" ><span 
-class="ecbx-1000">Exploratory Analysis</span>: when there is no or little a-priori information about the data and we are not sure
+     </p></li>
+<li class="itemize">
+<!--l. 173--><p class="noindent"><span class="ecbx-1000">Exploratory Analysis</span>: when there is no or little a-priori information about the data and we are not sure
      about which patterns and information can be present in the data, we can explore it to create hypotheses
-     that will need to be confirmed later. It is in this area where visual analytics is most widely used.</li></ul>
-<!--l. 179--><p class="noindent" >We can also understand visual analytics as a process, involving the following steps:
-     <ol  class="enumerate1" >
-<li 
-  class="enumerate" id="x1-5002x1">
-     <!--l. 182--><p class="noindent" >Information (data) gathering
-     </li>
-<li 
-  class="enumerate" id="x1-5004x2">
-     <!--l. 183--><p class="noindent" >Data preprocessing
+     that will need to be confirmed later. It is in this area where visual analytics is most widely used.</p></li></ul>
+<!--l. 179--><p class="noindent">We can also understand visual analytics as a process, involving the following steps:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-5002x1">
+<!--l. 182--><p class="noindent">Information (data) gathering
+     </p></li>
+<li class="enumerate" id="x1-5004x2">
+<!--l. 183--><p class="noindent">Data preprocessing
                                                                                             
                                                                                             
-     </li>
-<li 
-  class="enumerate" id="x1-5006x3">
-     <!--l. 184--><p class="noindent" >Knowledge representation
-     </li>
-<li 
-  class="enumerate" id="x1-5008x4">
-     <!--l. 185--><p class="noindent" >Interaction
-     </li>
-<li 
-  class="enumerate" id="x1-5010x5">
-     <!--l. 186--><p class="noindent" >Decision making</li></ol>
-<!--l. 188--><p class="noindent" >Therefore, the requirements for an interesting and efficient visualization analytics approach are the development and
+     </p></li>
+<li class="enumerate" id="x1-5006x3">
+<!--l. 184--><p class="noindent">Knowledge representation
+     </p></li>
+<li class="enumerate" id="x1-5008x4">
+<!--l. 185--><p class="noindent">Interaction
+     </p></li>
+<li class="enumerate" id="x1-5010x5">
+<!--l. 186--><p class="noindent">Decision making</p></li></ol>
+<!--l. 188--><p class="noindent">Therefore, the requirements for an interesting and efficient visualization analytics approach are the development and
 understaing of data transformations and analysis algorithms, analytical reasoning techniques, visual representations and
 interactions, and techniques for production, presentation and dissemination.
-<!--l. 194--><p class="noindent" >
-<h5 class="subsubsectionHead"><span class="titlemark">1.1.3   </span> <a 
- id="x1-60001.1.3"></a>History of Visual Analytics</h5>
-<!--l. 196--><p class="noindent" >In the early 2000s, there was an outgrowth of the Scientific &amp; Information Visualization community, which started with
+<!--l. 194--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">1.1.3   </span> <a id="x1-60001.1.3"></a>History of Visual Analytics</h5>
+<!--l. 196--><p class="noindent">In the early 2000s, there was an outgrowth of the Scientific &amp; Information Visualization community, which started with
 US National Visualization and Analytics Center (NVAC) at PNNL in 2004. This center developed the first research and
-development agenda &#8220;Illuminating the Path&#8221; sponsored initially by DHS (US Department of Homeland Security). At
+development agenda “Illuminating the Path” sponsored initially by DHS (US Department of Homeland Security). At
 first, the goals of this center and of the field were analyzing terrorist threats, safeguarding boarders and ports, and
 preparing for and responding to emergencies.
-<!--l. 205--><p class="noindent" >The field has evolved since then to serve for larger research goals, specially since the first edition of the VAST
+<!--l. 205--><p class="noindent">The field has evolved since then to serve for larger research goals, specially since the first edition of the VAST
 symposium, a conference in visual analytics, science and technology, as part of the IEEE Visualizations Conference, in
 2006; in addition to fundation of the VisMaster in 2008 by the EU. This represented a coordination action to join
 European academic and industrial R&amp;D, with a focus in broader aplicability in different scientific fields (physics,
 astronomy, weather,...) rather than homeland security. From this point on, many centers in Europe have been created to
 research in this field.
-<!--l. 215--><p class="noindent" >
-<h5 class="subsubsectionHead"><span class="titlemark">1.1.4   </span> <a 
- id="x1-70001.1.4"></a>Challenges of Visual Analytics</h5>
-<!--l. 216--><p class="noindent" >
-     <ol  class="enumerate1" >
-<li 
-  class="enumerate" id="x1-7002x1">
-     <!--l. 217--><p class="noindent" >Human reasoning &amp; decision making
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-7004x1">
-         <!--l. 219--><p class="noindent" >Understanding and supporting how humans reason about data.</li></ol>
-     </li></ol>
-<!--l. 222--><p class="noindent" >
-                                                                                            
-                                                                                            
-<h3 class="likesectionHead"><a 
- id="x1-80001.1.4"></a>References</h3>
-<!--l. 1--><p class="noindent" >
-   <div class="thebibliography">
-   <p class="bibitem" ><span class="biblabel">
- [1]<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
- id="XIsenberg2023"></a>Petra Isenberg. Visual analytics. Lecture Notes.
+<!--l. 215--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">1.1.4   </span> <a id="x1-70001.1.4"></a>Challenges of Visual Analytics</h5>
+<!--l. 216--><p class="noindent">
+<ol class="enumerate1">
+<li class="enumerate" id="x1-7002x1">
+<!--l. 217--><p class="noindent">Human reasoning &amp; decision making
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-7004x1">
+<!--l. 219--><p class="noindent">Understanding and supporting how humans reason about data.</p></li></ol>
+</p></li></ol>
+<!--l. 222--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-80001.1.4"></a>References</h3>
+<!--l. 1--><p class="noindent">
+<div class="thebibliography">
+<p class="bibitem"><span class="biblabel">
+ [1]<span class="bibsp">   </span></span><a id="XIsenberg2023"></a>Petra Isenberg. Visual analytics. Lecture Notes.
 </p>
-   </div>
-<!--l. 227--><p class="noindent" >
-     <ol  class="enumerate1" >
-<li 
-  class="enumerate" id="x1-8003x1">
-     <!--l. 228--><p class="noindent" >Support convergent and divergent thinking.
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8005x1">
-         <!--l. 230--><p class="noindent" >Create interfaces that are meaningful, clear, effective, and efficiente.</li></ol>
-     </li>
-<li 
-  class="enumerate" id="x1-8007x2">
-     <!--l. 232--><p class="noindent" >Adoption
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8009x1">
-         <!--l. 234--><p class="noindent" >Communicate benefits of developed tools to drive frequent use.
-         </li>
-<li 
-  class="enumerate" id="x1-8011x2">
-         <!--l. 235--><p class="noindent" >Make tools accepted by users.</li></ol>
-     </li>
-<li 
-  class="enumerate" id="x1-8013x3">
-     <!--l. 237--><p class="noindent" >Evaluation
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8015x1">
-         <!--l. 239--><p class="noindent" >Develop methods to compare novel tools to existing ones.
-         </li>
-<li 
-  class="enumerate" id="x1-8017x2">
-         <!--l. 240--><p class="noindent" >Asses how good a tool is, which is a very difficult task for measures other than time and error.</li></ol>
-     </li>
-<li 
-  class="enumerate" id="x1-8019x4">
-     <!--l. 243--><p class="noindent" >Problem interdependence
+</div>
+<!--l. 227--><p class="noindent">
+<ol class="enumerate1">
+<li class="enumerate" id="x1-8003x1">
+<!--l. 228--><p class="noindent">Support convergent and divergent thinking.
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-8005x1">
+<!--l. 230--><p class="noindent">Create interfaces that are meaningful, clear, effective, and efficiente.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-8007x2">
+<!--l. 232--><p class="noindent">Adoption
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-8009x1">
+<!--l. 234--><p class="noindent">Communicate benefits of developed tools to drive frequent use.
+         </p></li>
+<li class="enumerate" id="x1-8011x2">
+<!--l. 235--><p class="noindent">Make tools accepted by users.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-8013x3">
+<!--l. 237--><p class="noindent">Evaluation
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-8015x1">
+<!--l. 239--><p class="noindent">Develop methods to compare novel tools to existing ones.
+         </p></li>
+<li class="enumerate" id="x1-8017x2">
+<!--l. 240--><p class="noindent">Asses how good a tool is, which is a very difficult task for measures other than time and error.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-8019x4">
+<!--l. 243--><p class="noindent">Problem interdependence
                                                                                             
                                                                                             
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8021x1">
-         <!--l. 245--><p class="noindent" >Analysis in the real world often does not consist of isolated problems or questions. Problems are
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-8021x1">
+<!--l. 245--><p class="noindent">Analysis in the real world often does not consist of isolated problems or questions. Problems are
          usually correlated and how one is solved influences how one should approach another.
-         </li>
-<li 
-  class="enumerate" id="x1-8023x2">
-         <!--l. 248--><p class="noindent" >Synthesis of analyses is needed.</li></ol>
-     </li>
-<li 
-  class="enumerate" id="x1-8025x5">
-     <!--l. 250--><p class="noindent" >Integration of analysis methods
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8027x1">
-         <!--l. 252--><p class="noindent" >It is simple to do many isolated analyses, but it is hard to integrate them well into one tool or
-         interface for human analysis.</li></ol>
-     </li>
-<li 
-  class="enumerate" id="x1-8029x6">
-     <!--l. 255--><p class="noindent" ><span 
-class="ecbx-1000">Scalability</span>
-         <ol  class="enumerate2" >
-<li 
-  class="enumerate" id="x1-8031x1">
-         <!--l. 257--><p class="noindent" ><span 
-class="ecbx-1000">Information  scalability</span>:  capability  to  extract  relevant  information  from  massive  and  possibly
+         </p></li>
+<li class="enumerate" id="x1-8023x2">
+<!--l. 248--><p class="noindent">Synthesis of analyses is needed.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-8025x5">
+<!--l. 250--><p class="noindent">Integration of analysis methods
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-8027x1">
+<!--l. 252--><p class="noindent">It is simple to do many isolated analyses, but it is hard to integrate them well into one tool or
+         interface for human analysis.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-8029x6">
+<!--l. 255--><p class="noindent"><span class="ecbx-1000">Scalability</span>
+<ol class="enumerate2">
+<li class="enumerate" id="x1-8031x1">
+<!--l. 257--><p class="noindent"><span class="ecbx-1000">Information  scalability</span>:  capability  to  extract  relevant  information  from  massive  and  possibly
          dynamically changing data streams. There are different methods to achieve this kind of scalability,
          among which we can find abstract data sets, filter &amp; reduce data, or multi-resolution representation
          of data.
-         </li>
-<li 
-  class="enumerate" id="x1-8033x2">
-         <!--l. 262--><p class="noindent" ><span 
-class="ecbx-1000">Display scalability</span>: this referes to the capability of visualizations and tools to adapt to different
+         </p></li>
+<li class="enumerate" id="x1-8033x2">
+<!--l. 262--><p class="noindent"><span class="ecbx-1000">Display scalability</span>: this referes to the capability of visualizations and tools to adapt to different
          types of displays (computer monitor, smartphone, smartwatch,...).
-         </li>
-<li 
-  class="enumerate" id="x1-8035x3">
-         <!--l. 265--><p class="noindent" ><span 
-class="ecbx-1000">Visual scalability</span>: refers to the capability of visualizations to effectively display massive datasets
+         </p></li>
+<li class="enumerate" id="x1-8035x3">
+<!--l. 265--><p class="noindent"><span class="ecbx-1000">Visual scalability</span>: refers to the capability of visualizations to effectively display massive datasets
          in terms of number of data items or data dimensions. It depends on the quality of the layout, the
          interaction techniques and the perceptual capabilities.
-         </li>
-<li 
-  class="enumerate" id="x1-8037x4">
-         <!--l. 269--><p class="noindent" ><span 
-class="ecbx-1000">Human scalability</span>: human skills don&#8217;t scale, but the amount of people involved in the analysis
+         </p></li>
+<li class="enumerate" id="x1-8037x4">
+<!--l. 269--><p class="noindent"><span class="ecbx-1000">Human scalability</span>: human skills don’t scale, but the amount of people involved in the analysis
          task can, so we must seek to design techniques to scale from a single to multiple users.
-         </li>
-<li 
-  class="enumerate" id="x1-8039x5">
-         <!--l. 272--><p class="noindent" ><span 
-class="ecbx-1000">Software scalability</span>: software systems and algorithms must scale to larger and different data.
+         </p></li>
+<li class="enumerate" id="x1-8039x5">
+<!--l. 272--><p class="noindent"><span class="ecbx-1000">Software scalability</span>: software systems and algorithms must scale to larger and different data.
                                                                                             
                                                                                             
-         </li>
-<li 
-  class="enumerate" id="x1-8041x6">
-         <!--l. 274--><p class="noindent" ><span 
-class="ecbx-1000">Others</span>:
-             <ol  class="enumerate3" >
-<li 
-  class="enumerate" id="x1-8043x1">
-             <!--l. 276--><p class="noindent" >Privacy and security in multi-user settings.
-             </li>
-<li 
-  class="enumerate" id="x1-8045x2">
-             <!--l. 277--><p class="noindent" >Collaboration across languages and borders.</li></ol>
-         </li></ol>
-     </li></ol>
- 
-</body></html> 
-
-                                                                                            
-
-
+         </p></li>
+<li class="enumerate" id="x1-8041x6">
+<!--l. 274--><p class="noindent"><span class="ecbx-1000">Others</span>:
+             <ol class="enumerate3">
+<li class="enumerate" id="x1-8043x1">
+<!--l. 276--><p class="noindent">Privacy and security in multi-user settings.
+             </p></li>
+<li class="enumerate" id="x1-8045x2">
+<!--l. 277--><p class="noindent">Collaboration across languages and borders.</p></li></ol>
+</p></li></ol>
+</p></li></ol>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
