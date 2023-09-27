@@ -41,6 +41,12 @@ jobs:
             done
           done
 
+      # Move docs directory to a temporary location
+      - name: Move docs to temporary location
+        run: |
+          mkdir -p /tmp/docs
+          mv $GITHUB_WORKSPACE/docs/* /tmp/docs/
+
       # Commit and push changes to the docs directory in main branch
       - name: Commit changes to docs in main branch
         run: |
@@ -49,10 +55,6 @@ jobs:
           git add ./docs/
           git commit -m "Update docs with latest lecture notes" || echo "No changes to commit"
           git push
-      
-      - name: Store path to docs directory
-        run: |
-          echo "DOCS_PATH=${GITHUB_WORKSPACE}/docs" >> $GITHUB_ENV
 
       # Clean up workspace to allow for a fresh checkout
       - name: Cleanup Workspace
@@ -64,13 +66,11 @@ jobs:
           ref: gh-pages
           fetch-depth: 0
 
-      # Copy generated files from docs to gh-pages and commit
-      # Copy generated files from docs to gh-pages and commit
+      # Copy generated files from temporary location to gh-pages and commit
       - name: Deploy to gh-pages
         run: |
-            mkdir -p universities
-            cp -r $DOCS_PATH/* universities/
-
+          mkdir -p universities
+          cp -r /tmp/docs/* universities/
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
