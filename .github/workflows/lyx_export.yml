@@ -53,4 +53,3 @@ jobs:
           message: 'Update lecture notes'
           branch: gh-pages
           add: './*'
-
