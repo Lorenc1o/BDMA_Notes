@@ -16,6 +16,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install beautifulsoup4
+          pip install chardet
 
       # Install LyX and epstopdf
       - name: Install LyX and required utilities

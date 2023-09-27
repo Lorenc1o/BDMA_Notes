@@ -1,7 +1,13 @@
 from bs4 import BeautifulSoup
+import chardet
 
 def adjust_image_size(html_file_path):
-    with open(html_file_path, 'r', encoding='utf-8') as file:
+    with open(html_file_path, 'rb') as file:
+        rawdata = file.read()
+        result = chardet.detect(rawdata)
+        encoding = result['encoding']
+
+    with open(html_file_path, 'r', encoding=encoding) as file:
         soup = BeautifulSoup(file, 'html.parser')
         
     # Find all image tags
