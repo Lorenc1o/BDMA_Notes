@@ -27,10 +27,10 @@ jobs:
                 pushd "${course}LectureNotes/source/"
                 # Generate HTML
                 lyx --export html summary.lyx || echo "Failed: $uni$(basename $course) HTML"
-                [ -f "summary.html.LyXconv" ] && mv summary.html.LyXconv "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.html.LyXconv"
+                [ -f "summary.html.LyXconv" ] && mv summary.html.LyXconv "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv"
                 # Generate PDF
                 lyx --export pdf2 summary.lyx || echo "Failed: $uni$(basename $course) PDF"
-                [ -f "summary.pdf" ] && mv summary.pdf "${GITHUB_WORKSPACE}/$uni$(basename $course)_summary.pdf"
+                [ -f "summary.pdf" ] && mv summary.pdf "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.pdf"
                 popd
               fi
             done
@@ -41,17 +41,16 @@ jobs:
         with:
           ref: gh-pages
 
-      # Copy generated files to gh-pages and commit
+      # Copy generated files from docs to gh-pages and commit
       - name: Deploy to gh-pages
         run: |
-          for uni in $(ls -d */ | grep -v 'universities/'); do
-            mkdir -p "universities/$(basename $uni)"
-            mv $uni* "universities/$(basename $uni)/"
-          done
-          
+          mkdir -p universities
+          cp -r ${GITHUB_WORKSPACE}/docs/* universities/
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
           message: 'Update lecture notes'
           branch: gh-pages
           add: './*'
+
