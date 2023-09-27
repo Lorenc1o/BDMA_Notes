@@ -25,6 +25,8 @@ jobs:
             for course in $(ls -d $uni*/); do
               if [ -f "${course}LectureNotes/source/summary.lyx" ]; then
                 pushd "${course}LectureNotes/source/"
+                # Ensure the target directory exists
+                mkdir -p "${GITHUB_WORKSPACE}/docs/$uni"
                 # Generate HTML
                 lyx --export html summary.lyx || echo "Failed: $uni$(basename $course) HTML"
                 [ -f "summary.html.LyXconv" ] && mv summary.html.LyXconv "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv"
