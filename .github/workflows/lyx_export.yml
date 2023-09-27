@@ -38,10 +38,24 @@ jobs:
             done
           done
 
-      # Checkout the gh-pages branch
+      # Commit and push changes to the docs directory in main branch
+      - name: Commit changes to docs in main branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./docs/
+          git commit -m "Update docs with latest lecture notes" || echo "No changes to commit"
+          git push
+
+      # Clean up workspace to allow for a fresh checkout
+      - name: Cleanup Workspace
+        run: git clean -xdf
+
+      # Checkout the gh-pages branch with full history
       - uses: actions/checkout@v3
         with:
           ref: gh-pages
+          fetch-depth: 0
 
       # Copy generated files from docs to gh-pages and commit
       - name: Deploy to gh-pages
