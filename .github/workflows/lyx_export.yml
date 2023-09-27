@@ -28,10 +28,13 @@ jobs:
                 # Ensure the target directory exists
                 mkdir -p "${GITHUB_WORKSPACE}/docs/$uni"
                 # Generate HTML
-                lyx --export html summary.lyx || echo "Failed: $uni$(basename $course) HTML"
-                [ -f "summary.html.LyXconv" ] && mv summary.html.LyXconv "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv"
+                lyx --export html summary.lyx > /dev/null || echo "Failed: $uni$(basename $course) HTML"
+                if [ -d "summary.html.LyXconv" ]; then 
+                    mv "summary.html.LyXconv" "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv"
+                fi
+
                 # Generate PDF
-                lyx --export pdf2 summary.lyx || echo "Failed: $uni$(basename $course) PDF"
+                lyx --export pdf2 summary.lyx > /dev/null || echo "Failed: $uni$(basename $course) PDF"
                 [ -f "summary.pdf" ] && mv summary.pdf "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.pdf"
                 popd
               fi
@@ -46,6 +49,10 @@ jobs:
           git add ./docs/
           git commit -m "Update docs with latest lecture notes" || echo "No changes to commit"
           git push
+      
+      - name: Store path to docs directory
+        run: |
+          echo "DOCS_PATH=${GITHUB_WORKSPACE}/docs" >> $GITHUB_ENV
 
       # Clean up workspace to allow for a fresh checkout
       - name: Cleanup Workspace
@@ -58,10 +65,12 @@ jobs:
           fetch-depth: 0
 
       # Copy generated files from docs to gh-pages and commit
+      # Copy generated files from docs to gh-pages and commit
       - name: Deploy to gh-pages
         run: |
-          mkdir -p universities
-          cp -r ${GITHUB_WORKSPACE}/docs/* universities/
+            mkdir -p universities
+            cp -r $DOCS_PATH/* universities/
+
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
