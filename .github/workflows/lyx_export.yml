@@ -44,14 +44,19 @@ jobs:
       # Copy generated files to gh-pages and commit
       - name: Deploy to gh-pages
         run: |
-          for uni in $(ls -d */ | grep -v 'universities/'); do
+          # Avoid moving 'assets' and 'universities' directory to 'universities'
+          for uni in $(ls -d */ | grep -vE 'universities/|assets/'); do
             mkdir -p "universities/$(basename $uni)"
             mv $uni* "universities/$(basename $uni)/"
           done
           
+          # Ensure notes are placed in the desired location
+          # [Add specific commands here if needed]
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
           message: 'Update lecture notes'
           branch: gh-pages
           add: './*'
+
