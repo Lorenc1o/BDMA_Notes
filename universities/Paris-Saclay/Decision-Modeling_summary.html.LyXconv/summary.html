@@ -1,0 +1,1395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title>BDMA - Decision Modeling</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)"> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)"> 
+<!-- html --> 
+<meta name="src" content="summary.tex"> 
+<link rel="stylesheet" type="text/css" href="summary.css"> 
+</head><body 
+>
+<div class="maketitle">
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                            
+
+<h2 class="titleHead">BDMA - Decision Modeling</h2>
+<div class="author" ><span 
+class="ecrm-1200">Jose Antonio Lorencio Abril</span></div>
+<br />
+<div class="date" ><span 
+class="ecrm-1200">Fall 2023</span></div>
+</div>
+<div class="center" 
+>
+<!--l. 94--><p class="noindent" >
+<!--l. 95--><p class="noindent" ><img 
+src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png" alt="PIC"  
+width="50" height="50" >
+</div>
+                                                                                            <div class="flushright" 
+>
+<!--l. 98--><p class="noindent" >
+ Professor: Brice Mayag
+</div>
+                                                                                            <div class="flushright" 
+>
+<!--l. 102--><p class="noindent" >
+ Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
+</div>
+<!--l. 106--><p class="noindent" >
+                                                                                            
+                                                                                            
+<!--l. 113--><p class="noindent" >This
+is
+a
+summary
+of
+the
+course
+<span 
+class="ecti-1000">Decision</span>
+<span 
+class="ecti-1000">Modeling</span>
+taught
+at
+the
+Université
+Paris
+Saclay
+-
+CentraleSupélec
+by
+Professor
+Brice
+Mayag
+in
+the
+academic
+year
+23/24.
+Most
+of
+the
+content
+of
+this
+document
+is
+adapted
+from
+the
+course
+notes
+by
+Mayag,
+<span class="cite">[<a 
+href="#XMayag2023">1</a>]</span>,
+so
+I
+won&#8217;t
+be
+citing
+it
+all
+the
+time.
+Other
+references
+will
+be
+provided
+                                                                                            
+                                                                                            
+when
+used.
+<h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Contents</h3>
+<div class="tableofcontents">
+&#x00A0;<span class="sectionToc" >1 <a 
+href="#x1-20001" id="QQ2-1-2">Introduction</a></span>
+<br />&#x00A0;&#x00A0;<span class="subsectionToc" >1.1 <a 
+href="#x1-30001.1" id="QQ2-1-3">Models</a></span>
+<br />&#x00A0;&#x00A0;<span class="subsectionToc" >1.2 <a 
+href="#x1-40001.2" id="QQ2-1-4">Decision Theory and Decision Analysis</a></span>
+<br />&#x00A0;&#x00A0;<span class="subsectionToc" >1.3 <a 
+href="#x1-50001.3" id="QQ2-1-5">Main Steps of Developing a Decision Model</a></span>
+<br />&#x00A0;&#x00A0;<span class="subsectionToc" >1.4 <a 
+href="#x1-60001.4" id="QQ2-1-6">Decision&#8217;s Algorithm &amp; Transparency</a></span>
+<br />&#x00A0;<span class="sectionToc" >2 <a 
+href="#x1-70002" id="QQ2-1-7">Preferences as binary relations</a></span>
+</div>
+<!--l. 117--><p class="noindent" >
+                                                                                            
+                                                                                            
+<h3 class="sectionHead"><span class="titlemark">1   </span> <a 
+ id="x1-20001"></a>Introduction</h3>
+<!--l. 121--><p class="noindent" >
+<h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x1-30001.1"></a>Models</h4>
+<!--l. 123--><p class="noindent" >There are many definition of what a model is, depending on the perspective used. For example, a model can be
+understood as a &#8217;<span 
+class="ecti-1000">standard or example for imitation or comparison</span>&#8217; or as a &#8217;<span 
+class="ecti-1000">person employed to wear clothing ot pose</span>
+<span 
+class="ecti-1000">with a product for purposes of display and advertising</span>&#8217;. Nonetheless, in the context of decision modeling, which is the
+one in which we are interested, the definition of model is:
+<div class="tcolorbox tcolorbox" id="tcolobox-1">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 131--><p class="noindent" ><span class="head">
+<a 
+ id="x1-3001r1"></a>
+<span 
+class="ecbx-1000">Definition 1.1.</span>  </span>A <span 
+class="ecbx-1000">model </span>is a <span 
+class="ecti-1000">simplified representation of a system or phenomenon, with any hypotheses</span>
+<span 
+class="ecti-1000">required to describe the system or explain the phenomenon, often mathematically</span>.
+</div>
+<!--l. 135--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 138--><p class="noindent" >Models are useful to enhance our understanding of the world to improve our decision making, and they enable us to
+elaborate a scientific methodology to solve a problem in a duplicable way and with the aim of reducing bias in
+mind.
+<!--l. 143--><p class="noindent" >A model is said to be <span 
+class="ecbx-1000">deterministic </span>if the outcomes are precisely determined through known relationships among
+states and events. This kind of models always produce the same output when given the same input. On the other hand,
+a model is <span 
+class="ecbx-1000">probabilistic </span>(or stochastic) when all the data that it tries to explain is not known with
+certainty.
+<!--l. 149--><p class="noindent" >For example, the Newtonian model for gravity is deterministic, while a prediction model for college acceptance is
+probabilistic.
+<!--l. 152--><p class="noindent" >Deterministic models are used in domains such as Multi-Attribute Decision Making or Linear Programming, among
+others; while probabilistic models are used in queuing problems, simulations, etc.
+<!--l. 156--><p class="noindent" >We can also classify the data that is used to define a model into <span 
+class="ecbx-1000">qualitative </span>and <span 
+class="ecbx-1000">quantitative</span>. The former refers to
+data that is expressed in terms of words, while the latter is data easily expressed using numbers. An example of
+qualitative data is the hair color of people in class, and for quantitative data is the height of people in
+class.
+<!--l. 163--><p class="noindent" >We can be more precise in our wording, and call the models that we are talking about <span 
+class="ecbx-1000">formal models</span>, which refer to
+those models that provide a precise statement of the components of the model and their relationships, usually by means
+of mathematical equations. This make them easy to communicate precisely and the ability to give replicable results.
+However, being formal does not mean being true. A model can fail to represent the reality that it tries to
+describe.
+<!--l. 171--><p class="noindent" >
+<h4 class="subsectionHead"><span class="titlemark">1.2   </span> <a 
+ id="x1-40001.2"></a>Decision Theory and Decision Analysis</h4>
+<div class="tcolorbox tcolorbox" id="tcolobox-2">    
+<div class="tcolorbox-title">
+                                                                                            
+                                                                                            
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 174--><p class="noindent" ><span class="head">
+<a 
+ id="x1-4001r2"></a>
+<span 
+class="ecbx-1000">Definition 1.2.</span>  </span>A <span 
+class="ecbx-1000">decision </span>is a choice that is made about something after thinking about several
+possibilities.
+</div>
+<!--l. 177--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 180--><p class="noindent" >Decisions appear in many domains, including Mathematics, Economics, Computer Sciences, Psychology,...
+<div class="tcolorbox tcolorbox" id="tcolobox-3">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 184--><p class="noindent" ><span class="head">
+<a 
+ id="x1-4002r3"></a>
+<span 
+class="ecbx-1000">Definition 1.3.</span>  </span><span 
+class="ecbx-1000">Decision Analysis </span>consists in trying to provide answers to questions raised by actors
+involved in a decision process using a model.
+                                                                                      <div class="flushright" 
+>
+<!--l. 188--><p class="noindent" >
+ B. Roy
+</div>
+</div>
+<!--l. 191--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 194--><p class="noindent" >In the previous definition, a <span 
+class="ecbx-1000">Decision Process </span>refers to a strategy of intervention, such as aid, communication or
+justification, among others. There are many ways to provide decision aid and no single way to compare methods. This,
+together with the fact that different models may lkead to different recommendations, makes it hard to assess when a
+Decision Analysis model is &#8217;good&#8217; or, more appropriately, &#8217;suitable&#8217;.
+<!--l. 201--><p class="noindent" >Therefore, we cannot compare decision making to solving a well-defined problem, as the former is highly dependent on
+opinions, interests and, more generally, different human factors involved. In every decision process, there are several
+possible interventions, among which we can find imagining compromises, communicating, coordinating, controlling,
+motivating or conducting change.
+<!--l. 208--><p class="noindent" >There are many different models used in Decision Analysis nowadays, with the <span id="textcolor1">advantages</span> of:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 211--><p class="noindent" >Providing a clear language that can be leveraged as a communication tool
+     </li>
+     <li class="itemize">
+     <!--l. 213--><p class="noindent" >Capturing the essence of a situation, acting a structuration tool
+     </li>
+     <li class="itemize">
+     <!--l. 214--><p class="noindent" >Answering &#8217;<span 
+class="ecti-1000">what-if </span>&#8217; questions, serving as a exploration tool</li></ul>
+                                                                                            
+                                                                                            
+<!--l. 216--><p class="noindent" >On the other hand, their <span id="textcolor2">drawbacks</span> are their high complexity and opaqueness. In addition, in many situations people
+could argue that such models are not necessary because they already know how to take decisions and they would
+over-complicate the process; or would ask for higher-level explanations or ideas that are not suitable for formalization;
+or would rather rely on their intuition.
+<!--l. 223--><p class="noindent" >
+<h4 class="subsectionHead"><span class="titlemark">1.3   </span> <a 
+ id="x1-50001.3"></a>Main Steps of Developing a Decision Model</h4>
+<!--l. 224--><p class="noindent" >
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x1-5002x1">
+     <!--l. 225--><p class="noindent" ><span 
+class="ecbx-1000">Formulation</span>: translate the problem scenario into a mathematical model.
+     <!--l. 228--><p class="noindent" >This involves the definition of the problem and the development of a decision model, i.e., the definition of
+     the <span 
+class="ecbx-1000">variables </span>or measurable quantities that vary, and the <span 
+class="ecbx-1000">parameters </span>or measurable quantities inherent
+     to the problem.
+     </li>
+<li 
+  class="enumerate" id="x1-5004x2">
+     <!--l. 232--><p class="noindent" ><span 
+class="ecbx-1000">Solution</span>: solve the mathematical expressions from the formulation.
+     <!--l. 234--><p class="noindent" >This process involves the development of the solutions by correctly manipulating the model to arrive
+     at the best solution, and the testing of the solution, to check that it works as expected and meets the
+     expectations.
+     </li>
+<li 
+  class="enumerate" id="x1-5006x3">
+     <!--l. 238--><p class="noindent" ><span 
+class="ecbx-1000">Interpretation</span>: discover the implications of the results.
+     <!--l. 240--><p class="noindent" >This is usually done by conducting <span 
+class="ecbx-1000">sensitivity analysis</span>, i.e., testing the different outcomes obtained
+     under  a  variety  of  states;  and  <span 
+class="ecbx-1000">implementing  results</span>,  enacting  the  solutions  and  monitoring  the
+     performance.</li></ol>
+<!--l. 245--><p class="noindent" >The outlined process is very high level, and there are many possible problems that can arise:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 248--><p class="noindent" >Defining the problem: we can find conflicting viewpoints that impact differently the stakeholders.
+     </li>
+     <li class="itemize">
+     <!--l. 250--><p class="noindent" >Model development: it is not always easy to find the formal model that describes the problem at hand,
+     and it is usual to make adaptations.
+     </li>
+     <li class="itemize">
+     <!--l. 252--><p class="noindent" >Acquering data: can be hard in some scenarios, as well as checking its validity and correctness.
+     </li>
+     <li class="itemize">
+     <!--l. 254--><p class="noindent" >Developing a solution: we can find many limitations, such as only finding one answer, finding approximate
+     answers, prohibitive computing times,...
+                                                                                            
+                                                                                            
+     </li>
+     <li class="itemize">
+     <!--l. 257--><p class="noindent" >Implementation: it is crucial that the solution is feasible to be implemented, both from a managerial point
+     of view and from the user perspective.</li></ul>
+<!--l. 262--><p class="noindent" >
+<h4 class="subsectionHead"><span class="titlemark">1.4   </span> <a 
+ id="x1-60001.4"></a>Decision&#8217;s Algorithm &amp; Transparency</h4>
+<!--l. 264--><p class="noindent" >Decisions made by algorithms can be opaque because of technical and social reasons, in addition to being made
+purposely opaque to protect intellectual property.
+<div class="tcolorbox tcolorbox" id="tcolobox-4">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 269--><p class="noindent" ><span class="head">
+<a 
+ id="x1-6001r4"></a>
+<span 
+class="ecbx-1000">Definition 1.4.</span>  </span>An <span 
+class="ecbx-1000">algorithm </span>is a sequence of instructions, typically used to solve a class of problems
+or perform a computation.
+<!--l. 273--><p class="noindent" >It must be:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 275--><p class="noindent" >Finite: it must eventually solve the problem.
+     </li>
+     <li class="itemize">
+     <!--l. 276--><p class="noindent" >Well-defined: the series of step must be precise and understandable.
+     </li>
+     <li class="itemize">
+     <!--l. 277--><p class="noindent" >Effective: it must solve all cases of the problem for which it was defined.</li></ul>
+</div>
+<!--l. 280--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 283--><p class="noindent" >Usually, we find contradictory objectives when developing an algorithm, because simpler algorithms are usually time
+intensive, while algorithms that are very efficient are very complex are hard to understand.
+<div class="tcolorbox tcolorbox" id="tcolobox-5">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 288--><p class="noindent" ><span class="head">
+<a 
+ id="x1-6002r5"></a>
+<span 
+class="ecbx-1000">Definition 1.5.</span>  </span><span 
+class="ecbx-1000">Algorithmic  Transparency  </span>is  the  principle  that  the  factors  that  influence  the
+decisions made by algorithms should be transparent to the people who use, regulate and are affected by
+systems that employ those algorithms.
+</div>
+<!--l. 293--><p class="noindent" >
+ 
+</div> 
+</div>
+                                                                                            
+                                                                                            
+<!--l. 296--><p class="noindent" >This concept is opennes about the purpose, structure and underlying actions of the algorithms used to search for,
+process and deliver information. Two important properties of transsparency are:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 300--><p class="noindent" ><span 
+class="ecbx-1000">Explanability</span>: systems and institutions that use algorithm decision making are encouraged to produce
+     explanations regarding both the procedures followed by the algorithm and the specific decisions that are
+     made. This is specially relevant in public policy contexts.
+     </li>
+     <li class="itemize">
+     <!--l. 304--><p class="noindent" ><span 
+class="ecbx-1000">Accountability</span>: institutions should be held responsible for decisions made by the algorithms they use,
+     even if it is not feasible to explain in detail how the algorithms produce their results.</li></ul>
+<!--l. 308--><p class="noindent" >
+                                                                                            
+                                                                                            
+<h3 class="sectionHead"><span class="titlemark">2   </span> <a 
+ id="x1-70002"></a>Preferences as binary relations</h3>
+<div class="tcolorbox tcolorbox" id="tcolobox-6">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 313--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7001r1"></a>
+<span 
+class="ecbx-1000">Definition 2.1.</span>  </span>Given a set <span 
+class="cmmi-10">X</span>, a <span 
+class="ecbx-1000">binary relation</span>, <span 
+class="cmmi-10">R</span>, is a subset of ordered pairs of elements in <span 
+class="cmmi-10">X</span>:
+<div class="math-display" >
+<img 
+src="summary0x.png" alt="R &#x2286; X &#x00D7; X.
+" class="math-display" ></div>
+<!--l. 319--><p class="noindent" >We can write <img 
+src="summary1x.png" alt="(x,y)"  class="left" align="middle"> <span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">R </span>or, equivalently, <span 
+class="cmmi-10">xRy</span>.
+</div>
+<!--l. 320--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 323--><p class="noindent" >Relations can be expressed as directed graphs. For instance, a relation <span 
+class="cmmi-10">R </span>of a set <span 
+class="cmmi-10">X </span>can be represented as the graph
+<span 
+class="cmmi-10">G</span><sub><span 
+class="cmmi-7">R</span></sub> <span 
+class="cmr-10">= </span><img 
+src="summary2x.png" alt="(NX,ER )"  class="left" align="middle">, where <span 
+class="cmmi-10">N</span><sub><span 
+class="cmmi-7">X</span></sub> are the nodes, representing each element in <span 
+class="cmmi-10">X </span>and <span 
+class="cmmi-10">E</span><sub><span 
+class="cmmi-7">R</span></sub> are the edges, representing each pair
+in <span 
+class="cmmi-10">R</span>. The edges are constructed in such a way that <span 
+class="cmmi-10">e </span><span 
+class="cmr-10">= </span><img 
+src="summary3x.png" alt="(x,y)"  class="left" align="middle"> <span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">E</span><sub><span 
+class="cmmi-7">R</span></sub> <span 
+class="cmsy-10">&#x21D0;&#x21D2;</span> <span 
+class="cmmi-10">xRy</span>.
+<div class="newtheorem">
+<!--l. 328--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7002r1"></a>
+<span 
+class="ecbx-1000">Example 2.1.</span>  </span>Let <span 
+class="cmmi-10">X </span><span 
+class="cmr-10">= </span><img 
+src="summary4x.png" alt="{a,b,c,d}"  class="left" align="middle"> and <span 
+class="cmmi-10">R </span><span 
+class="cmr-10">= </span><img 
+src="summary5x.png" alt="{(a,b),(a,c),(b,d)}"  class="left" align="middle">, then we can represent this by <span 
+class="cmmi-10">G</span><sub><span 
+class="cmmi-7">R</span></sub>
+as:
+<div class="center" 
+>
+<!--l. 331--><p class="noindent" >
+<!--l. 332--><p class="noindent" ><img 
+src="1_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___-Modeling_LectureNotes_source_graphs_drawio.png" alt="PIC"  
+width="43" height="43" >
+</div>
+</div>
+<!--l. 335--><p class="noindent" >
+Another way to represent relations is using matrices. We can construct a matrix <span 
+class="cmmi-10">M</span><sub><span 
+class="cmmi-7">R</span></sub> by
+<div class="math-display" >
+                                                                                            
+                                                                                            
+<img 
+src="summary6x.png" alt="MR  = (mxy)(x,y)&#x2208;X ,
+" class="math-display" ></div>
+<!--l. 341--><p class="noindent" >where
+<div class="math-display" >
+<img 
+src="summary7x.png" alt="      {
+m   =  1  if xRy     .
+  xy    0  if not(xRy )
+" class="math-display" ></div>
+<div class="newtheorem">
+<!--l. 349--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7003r2"></a>
+<span 
+class="ecbx-1000">Example 2.2.</span>  </span>The previous example can be represented with the following matrix:
+<div class="math-display" >
+<img 
+src="summary8x.png" alt="           (  a  b  c  d)
+       a      0  1  1 0
+MR =   b   ||  0  0  0 1 || .
+       c   (  0  0  0 0 )
+       d      0  0  0 0
+" class="math-display" ></div>
+</div>
+<!--l. 368--><p class="noindent" >
+Depending on how a relation is constructed, it can possess different properties. Some interesting properties are defined
+as follows:
+<div class="tcolorbox tcolorbox" id="tcolobox-7">    
+<div class="tcolorbox-title">
+                                                                                            
+                                                                                            
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 373--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7004r2"></a>
+<span 
+class="ecbx-1000">Definition 2.2.</span>  </span>A binary relation <span 
+class="cmmi-10">R </span>on a set <span 
+class="cmmi-10">X </span>is said to be:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 376--><p class="noindent" ><span 
+class="ecbx-1000">Reflexive </span>if <span 
+class="cmmi-10">xRx,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 377--><p class="noindent" ><span 
+class="ecbx-1000">Irreflexive </span>if <span 
+class="cmmi-10">not</span><img 
+src="summary9x.png" alt="(xRx )"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 378--><p class="noindent" ><span 
+class="ecbx-1000">Complete </span>if for every <span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>, we have <span 
+class="cmmi-10">xRy </span>or <span 
+class="cmmi-10">yRx </span>(or both).
+     </li>
+     <li class="itemize">
+     <!--l. 380--><p class="noindent" ><span 
+class="ecbx-1000">Weakly complete </span>if for every <span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X,x</span><span 
+class="cmmi-10">&#x2260;</span><span 
+class="cmmi-10">y</span>, we have <span 
+class="cmmi-10">xRy </span>or <span 
+class="cmmi-10">yRx </span>(or both).
+     </li>
+     <li class="itemize">
+     <!--l. 382--><p class="noindent" ><span 
+class="ecbx-1000">Symmetric </span>if <img 
+src="summary10x.png" alt="[xRy =&#x21D2;  yRx ]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 383--><p class="noindent" ><span 
+class="ecbx-1000">Asymmetric </span>if <img 
+src="summary11x.png" alt="[xRy  =&#x21D2;  not(yRx )]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 384--><p class="noindent" ><span 
+class="ecbx-1000">Antisymmetric </span>if <img 
+src="summary12x.png" alt="[xRy&#x2227; yRx  =&#x21D2;  x = y]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 385--><p class="noindent" ><span 
+class="ecbx-1000">Transitive </span>if <img 
+src="summary13x.png" alt="[xRy &#x2227;yRz  =&#x21D2;  xRz ]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y,z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 386--><p class="noindent" ><span 
+class="ecbx-1000">Negatively transitive </span>if <img 
+src="summary14x.png" alt="[not(xRy )&#x2227;not (yRz ) =&#x21D2;  not(xRz )]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y,z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 387--><p class="noindent" ><span 
+class="ecbx-1000">Semi-transitive </span>if <img 
+src="summary15x.png" alt="[xRy &#x2227;yRz  =&#x21D2;  xRt &#x2228;tRz]"  class="left" align="middle"><span 
+class="cmmi-10">,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x,y,z,t </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.</li></ul>
+</div>
+<!--l. 389--><p class="noindent" >
+ 
+</div> 
+</div>
+<div class="newtheorem">
+<!--l. 392--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7005r3"></a>
+                                                                                            
+                                                                                            
+<span 
+class="ecbx-1000">Example 2.3.</span>  </span>A semi-transitive relation example.
+<div class="center" 
+>
+<!--l. 394--><p class="noindent" >
+<div class="tabular"> <table id="TBL-2" class="tabular" 
+ 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1"><col 
+id="TBL-2-2"><col 
+id="TBL-2-3"></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-2-1-1"  
+class="td11"><img 
+src="2_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___on-Modeling_LectureNotes_source_semitrans_0.png" alt="PIC"  
+width="28" height="28" ></td><td  style="white-space:nowrap; text-align:center;" id="TBL-2-1-2"  
+class="td11"><img 
+src="3_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___on-Modeling_LectureNotes_source_semitrans_1.png" alt="PIC"  
+width="28" height="28" ></td><td  style="white-space:nowrap; text-align:center;" id="TBL-2-1-3"  
+class="td11"><img 
+src="4_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___on-Modeling_LectureNotes_source_semitrans_2.png" alt="PIC"  
+width="28" height="28" ></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="white-space:nowrap; text-align:center;" id="TBL-2-2-1"  
+class="td11"> <span 
+class="msam-10">&#x2713;</span> </td><td  style="white-space:nowrap; text-align:center;" id="TBL-2-2-2"  
+class="td11"> <span 
+class="msam-10">&#x2713;</span> </td><td  style="white-space:nowrap; text-align:center;" id="TBL-2-2-3"  
+class="td11"> <span 
+class="cmsy-10">&#x00D7;</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="white-space:nowrap; text-align:center;" id="TBL-2-3-1"  
+class="td11">    </td>
+</tr></table></div>
+</div>
+</div>
+<!--l. 405--><p class="noindent" >
+In addition, we can define paths and cycles on relations, analogously as how it is done in graph theory:
+<div class="tcolorbox tcolorbox" id="tcolobox-8">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 410--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7006r3"></a>
+<span 
+class="ecbx-1000">Definition 2.3.</span>  </span>A <span 
+class="ecbx-1000">path </span>from <span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>to <span 
+class="cmmi-10">y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>exists if there are <span 
+class="cmmi-10">x</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">,...,x</span><sub><span 
+class="cmmi-7">n</span></sub> <span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that
+<div class="math-display" >
+<img 
+src="summary16x.png" alt="x = x Rx R...Rx   Rx   = y.
+    1   2      n- 1  n
+" class="math-display" ></div>
+<!--l. 416--><p class="noindent" >A path is called a <span 
+class="ecbx-1000">cycle </span>if the it goes from <span 
+class="cmmi-10">x </span>to <span 
+class="cmmi-10">x</span>.
+</div>
+<!--l. 417--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 420--><p class="noindent" >For every relation, we can extract two subrelations, as its symmetric part and its asymmetric part:
+<div class="tcolorbox tcolorbox" id="tcolobox-9">    
+<div class="tcolorbox-title">
+                                                                                            
+                                                                                            
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 424--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7007r4"></a>
+<span 
+class="ecbx-1000">Definition 2.4.</span>  </span>Given a binary relation <span 
+class="cmmi-10">R </span>on <span 
+class="cmmi-10">X</span>, we can define its <span 
+class="ecbx-1000">symmetric part</span>, <span 
+class="cmmi-10">I</span>, as
+<div class="math-display" >
+<img 
+src="summary17x.png" alt="xIy &#x21D0; &#x21D2;  [xRy &#x2227; yRx],
+" class="math-display" ></div>
+<!--l. 430--><p class="noindent" >and its <span 
+class="ecbx-1000">asymmetric part</span>, <span 
+class="cmmi-10">P</span>, as
+<div class="math-display" >
+<img 
+src="summary18x.png" alt="xP y &#x21D0; &#x21D2;  [xRy &#x2227; not(yRx)].
+" class="math-display" ></div>
+</div>
+<!--l. 434--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 437--><p class="noindent" >The symmetric part is denoted by <span 
+class="cmmi-10">I </span>because we can understand this as the all the indiferent pairs of <span 
+class="cmmi-10">R</span>. In others words,
+if we understand a relation as a preference over the elements in <span 
+class="cmmi-10">X</span>, then <span 
+class="cmmi-10">xRy </span>would mean <span 
+class="cmmi-10">x </span><span 
+class="ecti-1000">is at least as convenient as</span>
+<span 
+class="cmmi-10">y</span>. Therefore, if we have <span 
+class="cmmi-10">xRy </span>and <span 
+class="cmmi-10">yRx</span>, we could think of them as equally convenient, so the decision between them is
+indiferent. On the other hand, the asymmetric part is denoted by <span 
+class="cmmi-10">P</span>, from preference, following a similar
+reasoning.
+<!--l. 446--><p class="noindent" >When we have two different relations, <span 
+class="cmmi-10">R </span>and <span 
+class="cmmi-10">R</span><span 
+class="cmsy-10">&#x2032;</span>, on the same set, <span 
+class="cmmi-10">X</span>. We can define their concatenation:
+<div class="tcolorbox tcolorbox" id="tcolobox-10">    
+<div class="tcolorbox-title">
+                                                                                            
+                                                                                            
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 450--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7008r5"></a>
+<span 
+class="ecbx-1000">Definition 2.5.</span>  </span>Let <span 
+class="cmmi-10">R </span>and <span 
+class="cmmi-10">R</span><span 
+class="cmsy-10">&#x2032; </span>be two relations on <span 
+class="cmmi-10">X</span>. We define their <span 
+class="ecbx-1000">concatenation </span>as
+<div class="math-display" >
+<img 
+src="summary19x.png" alt="xR &#x2219;R &#x2032;y &#x21D0; &#x21D2;  &#x2203;z &#x2208; X : [xRz &#x2227; zR&#x2032;y].
+" class="math-display" ></div>
+</div>
+<!--l. 456--><p class="noindent" >
+ 
+</div> 
+</div>
+<!--l. 459--><p class="noindent" >The following proposition establishes different relationships between the concepts we have seen so far:
+<div class="tcolorbox tcolorbox" id="tcolobox-11">    
+<div class="tcolorbox-title">
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 463--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7009r1"></a>
+<span 
+class="ecbx-1000">Proposition 2.1.</span>  </span><span 
+class="ecti-1000">Let </span><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">be a binary relation on </span><span 
+class="cmmi-10">X</span><span 
+class="ecti-1000">. Then:</span>
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 466--><p class="noindent" ><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">transitive</span>  <img 
+src="summary20x.png" alt="=&#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">R </span><span 
+class="cmsy-10">&#x2219; </span><span 
+class="cmmi-10">R </span><span 
+class="cmsy-10">&#x2282; </span><span 
+class="cmmi-10">R</span><span 
+class="ecti-1000">.</span>
+     </li>
+     <li class="itemize">
+     <!--l. 467--><p class="noindent" ><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">asymmetric</span>  <img 
+src="summary21x.png" alt="= &#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">irreflexive.</span>
+     </li>
+     <li class="itemize">
+     <!--l. 468--><p class="noindent" ><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">complete</span>  <span 
+class="cmsy-10">&#x21D0;&#x21D2;</span> <span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">reflexive and weakly complete.</span>
+     </li>
+     <li class="itemize">
+     <!--l. 469--><p class="noindent" ><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">asymmetric and negative transitive</span>  <img 
+src="summary22x.png" alt="=&#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">transitive.</span>
+     </li>
+     <li class="itemize">
+     <!--l. 470--><p class="noindent" ><span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">complete and transitive</span>  <img 
+src="summary23x.png" alt="=&#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">R </span><span 
+class="ecti-1000">negative transitive.</span></li></ul>
+</div>
+<!--l. 472--><p class="noindent" >
+ 
+</div> 
+</div>
+                                                                                            
+                                                                                            
+<div class="proof">
+<!--l. 476--><p class="noindent" ><span class="head">
+<span 
+class="ecti-1000">Proof.</span> </span>Let&#8217;s go one by one:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 478--><p class="noindent" >By definition, we have <span 
+class="cmmi-10">xR</span><span 
+class="cmsy-10">&#x2219;</span><span 
+class="cmmi-10">Ry</span> <span 
+class="cmsy-10">&#x21D0;&#x21D2;</span><span 
+class="cmsy-10">&#x2203;</span><span 
+class="cmmi-10">z </span><span 
+class="cmr-10">: </span><span 
+class="cmmi-10">xRz </span><span 
+class="cmsy-10">&#x2227;</span><span 
+class="cmmi-10">zRy</span>. Since <span 
+class="cmmi-10">R </span>is transitive, then it must be <span 
+class="cmmi-10">xRy</span>. Therefore
+     <span 
+class="cmmi-10">R </span><span 
+class="cmsy-10">&#x2219; </span><span 
+class="cmmi-10">R </span><span 
+class="cmsy-10">&#x2282; </span><span 
+class="cmmi-10">R</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 480--><p class="noindent" >If <span 
+class="cmmi-10">R </span>is not irreflexive, then there exists <span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that <span 
+class="cmmi-10">xRx</span>, but this is a symmetric relationship, so <span 
+class="cmmi-10">R</span>
+     cannot be assymetric.
+     </li>
+     <li class="itemize">
+     <!--l. 482--><p class="noindent" >Trivial.
+     </li>
+     <li class="itemize">
+     <!--l. 483--><p class="noindent" >By reduction ad absurdum, seeking a contradiction, let&#8217;s assume that <span 
+class="cmmi-10">R </span>is not transitive. This means
+     that there exist <span 
+class="cmmi-10">x,y,z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that <span 
+class="cmmi-10">xRy </span><span 
+class="cmsy-10">&#x2227; </span><span 
+class="cmmi-10">yRz </span>but <span 
+class="cmmi-10">not</span><img 
+src="summary24x.png" alt="(xRz )"  class="left" align="middle">. By hypothesis, <span 
+class="cmmi-10">R </span>is asymmetric, so
+     <span 
+class="cmmi-10">xRy</span> <img 
+src="summary25x.png" alt="=&#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">not</span><img 
+src="summary26x.png" alt="(yRx )"  class="left" align="middle">. If we combine these two facts, and use the hypothesis that <span 
+class="cmmi-10">R </span>is negative transitive,
+     we find that
+<div class="math-display" >
+<img 
+src="summary27x.png" alt="                   neg trans
+not(yRx)&#x2227; not(xRz)   =&#x21D2;   not(yRz)#
+" class="math-display" ></div>
+     <!--l. 492--><p class="noindent" >This is a contradiction, because we assumed that <span 
+class="cmmi-10">yRz</span>. Therefore, <span 
+class="cmmi-10">R </span>must be transitive.
+     </li>
+     <li class="itemize">
+     <!--l. 494--><p class="noindent" >By reduction ad absurdum, seeking a contradiction, let&#8217;s assume that <span 
+class="cmmi-10">R </span>is not negative transitive. This
+     means that there exist <span 
+class="cmmi-10">x,y,z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that <span 
+class="cmmi-10">not</span><img 
+src="summary28x.png" alt="(xRy )"  class="left" align="middle"><span 
+class="cmsy-10">&#x2227;</span><span 
+class="cmmi-10">not</span><img 
+src="summary29x.png" alt="(yRz)"  class="left" align="middle">, but <span 
+class="cmmi-10">xRz</span>. By hypothesis, <span 
+class="cmmi-10">R </span>is complete,
+     so <span 
+class="cmmi-10">not</span><img 
+src="summary30x.png" alt="(yRz )"  class="left" align="middle">  <img 
+src="summary31x.png" alt="=&#x21D2;"  class="Longrightarrow" > <span 
+class="cmmi-10">zRy</span>. If we combine the two facts, <span 
+class="cmmi-10">xRz </span>and <span 
+class="cmmi-10">zRy</span>, then the transitivity of <span 
+class="cmmi-10">R </span>gives us
+     <span 
+class="cmmi-10">xRy</span><span 
+class="cmr-10">#</span>, which is a contradiction with our assumption, <span 
+class="cmmi-10">not</span><img 
+src="summary32x.png" alt="(xRy )"  class="left" align="middle">. Therefore, <span 
+class="cmmi-10">R </span>must be negative transitive.</li></ul>
+                                                                                           __
+</div>
+<!--l. 503--><p class="noindent" >There are some relations that fulfill several of the properties that we have seen, and that hold special characteristics.
+For instance:
+<div class="tcolorbox tcolorbox" id="tcolobox-12">    
+<div class="tcolorbox-title">
+                                                                                            
+                                                                                            
+</div> 
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 507--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7010r6"></a>
+<span 
+class="ecbx-1000">Definition 2.6.</span>  </span>Different types of relations
+<!--l. 510--><p class="noindent" >An <span 
+class="ecbx-1000">equivalence relation </span>is a relation which is reflexive, symmetric and transitive.
+<!--l. 513--><p class="noindent" >A <span 
+class="ecbx-1000">preorder </span>is a relation which is reflexive and transitive.
+<!--l. 515--><p class="noindent" >A <span 
+class="ecbx-1000">weak order </span>or a <span 
+class="ecbx-1000">complete preorder </span>is a relation which is complete and transitive.
+<!--l. 518--><p class="noindent" >A <span 
+class="ecbx-1000">total order </span>or <span 
+class="ecbx-1000">linear order </span>is a relation which is complete, antisymmetric and transitive.
+</div>
+<!--l. 520--><p class="noindent" >
+ 
+</div> 
+</div>
+<div class="newtheorem">
+<!--l. 523--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7011r4"></a>
+<span 
+class="ecbx-1000">Example 2.4.</span>  </span>The relation <span 
+class="cmmi-10">R </span><span 
+class="cmr-10">= </span><img 
+src="summary33x.png" alt="{(a,a),(a,c),(c,a),(c,c),(b,b),(b,d),(d,b),(d,d)}"  class="left" align="middle"> is an equivalence relation. Its
+graph representation is:
+<div class="center" 
+>
+<!--l. 526--><p class="noindent" >
+<!--l. 527--><p class="noindent" ><img 
+src="5_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___odeling_LectureNotes_source_relations_equiv.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 530--><p class="noindent" >The relation <span 
+class="cmmi-10">R </span><span 
+class="cmr-10">= </span><img 
+src="summary34x.png" alt="{(a,a),(a,c),(a,d),(c,c),(c,d),(d,d),(b,b)}"  class="left" align="middle"> is a preorder which is not a complete preorder. Its
+graph representation is:
+<div class="center" 
+>
+<!--l. 533--><p class="noindent" >
+<!--l. 534--><p class="noindent" ><img 
+src="6_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___ling_LectureNotes_source_relations_preorder.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 537--><p class="noindent" >The relation <span 
+class="cmmi-10">R </span><span 
+class="cmr-10">= </span><img 
+src="summary35x.png" alt="{(a,a),(a,c),(a,d),(c,c),(c,d),(d,d),(b,b),(a,b),(b,d) ,(b,c),(c,b)}"  class="left" align="middle"> is a complete preorder. Its
+graph representation is:
+<div class="center" 
+>
+<!--l. 539--><p class="noindent" >
+<!--l. 540--><p class="noindent" ><img 
+src="7_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___ureNotes_source_relations_complete_preorder.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 543--><p class="noindent" >The relation <span 
+class="cmmi-10">R </span><span 
+class="cmr-10">= </span><img 
+src="summary36x.png" alt="{(a,b),(a,c),(a,d),(b,c),(b,d),(c,d)}"  class="left" align="middle"> is a total order. Its graph representation is:
+                                                                                            
+                                                                                            
+<div class="center" 
+>
+<!--l. 545--><p class="noindent" >
+<!--l. 546--><p class="noindent" ><img 
+src="8_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___g_LectureNotes_source_relations_total_order.png" alt="PIC"  
+width="43" height="43" >
+</div>
+</div>
+<!--l. 549--><p class="noindent" >
+<div class="newtheorem">
+<!--l. 550--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7012r1"></a>
+<span 
+class="ecbx-1000">Exercise 2.1.</span>  </span>Let <span 
+class="cmmi-10">B </span>be a binary relaiton on a set <span 
+class="cmmi-10">X </span><span 
+class="cmr-10">= </span><img 
+src="summary37x.png" alt="{a,b,c,d,e,f}"  class="left" align="middle"> defined by
+<table 
+class="align-star">
+                                 <tr><td 
+class="align-odd"><span 
+class="cmmi-10">aBa,aBb,aBc,aBd,aBe,aBf</span></td>                                 <td 
+class="align-even"></td>                                 <td 
+class="align-label">
+                                 </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">bBb,bBc,bBd,bBe,bBf</span></td>                                       <td 
+class="align-even"></td>                                 <td 
+class="align-label">
+                                 </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">cBc,cBd,cBe,cBf</span></td>                                           <td 
+class="align-even"></td>                                 <td 
+class="align-label">
+                                 </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">dBb,dBc,dBd,dBe</span></td>                                          <td 
+class="align-even"></td>                                 <td 
+class="align-label">
+                                 </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">eBd,eBe,eBf</span></td>                                               <td 
+class="align-even"></td>                                 <td 
+class="align-label">
+                                 </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">fBe,fBf</span></td>                                                  <td 
+class="align-even"></td>                                 <td 
+class="align-label"></td></tr></table>
+<!--l. 561--><p class="noindent" >Give a matrix and a graph representation of <span 
+class="cmmi-10">B</span>
+<!--l. 563--><p class="noindent" >The matrix form of <span 
+class="cmmi-10">B </span>is the following:
+<div class="math-display" >
+<img 
+src="summary38x.png" alt="    (  a  b c  d  e  f )
+a      1  1 1  1  1  1
+b   ||  0  1 1  1  1  1 ||
+c   ||  0  0 1  1  1  1 ||
+d   ||  0  1 1  1  1  0 ||
+e   (  0  0 0  1  1  1 )
+f      0  0 0  0  1  1
+" class="math-display" ></div>
+<!--l. 585--><p class="noindent" >And the graph representation:
+<div class="center" 
+>
+<!--l. 586--><p class="noindent" >
+<!--l. 587--><p class="noindent" ><img 
+src="9_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___ing_LectureNotes_source_relations_exercise1.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 590--><p class="noindent" >Is <span 
+class="cmmi-10">B </span>reflexive? Symmetric? Asymmetric? Transitive? Negative transitive? Semi-transitive?
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 593--><p class="noindent" >Reflexive: Yes, since <span 
+class="cmmi-10">xBx,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 594--><p class="noindent" >Symmetric: No, <span 
+class="cmmi-10">aBb </span>but <span 
+class="cmmi-10">not</span><img 
+src="summary39x.png" alt="(bBa)"  class="left" align="middle">.
+     </li>
+     <li class="itemize">
+     <!--l. 595--><p class="noindent" >Asymmetric: No, <span 
+class="cmmi-10">eBf </span>but <span 
+class="cmmi-10">fBe</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 596--><p class="noindent" >Transitive: No, <span 
+class="cmmi-10">dBe </span>and <span 
+class="cmmi-10">eBf</span>, but not <span 
+class="cmmi-10">dBf</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 597--><p class="noindent" >Negative transitive: No, <span 
+class="cmmi-10">not</span><img 
+src="summary40x.png" alt="(fBd )"  class="left" align="middle"> and <span 
+class="cmmi-10">not</span><img 
+src="summary41x.png" alt="(dBf)"  class="left" align="middle"> but <span 
+class="cmmi-10">fBf</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 599--><p class="noindent" >Semi-transitive: Yes. Let&#8217;s do this little by litte.
+     <!--l. 601--><p class="noindent" >If we take <span 
+class="cmmi-10">x </span><span 
+class="cmr-10">= </span><span 
+class="cmmi-10">a</span>, then <span 
+class="cmmi-10">aBt,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">t</span>, so it will hold. If <span 
+class="cmmi-10">y </span><span 
+class="cmr-10">= </span><span 
+class="cmmi-10">a</span>, then <img 
+src="summary42x.png" alt="/&#x2203;"  class="mathpalette" ><span 
+class="cmmi-10">x </span>such that <span 
+class="cmmi-10">xBa</span>, so it will hold. Same
+     happens if <span 
+class="cmmi-10">z </span><span 
+class="cmr-10">= </span><span 
+class="cmmi-10">a</span>. Finally, if <span 
+class="cmmi-10">t </span><span 
+class="cmr-10">= </span><span 
+class="cmmi-10">a</span>, then <span 
+class="cmmi-10">aBz,</span><span 
+class="cmsy-10">&#x2200;</span><span 
+class="cmmi-10">z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>, so it also holds.
+     <!--l. 606--><p class="noindent" >If we eliminate <span 
+class="cmmi-10">a </span>(since we have seen all cases in which <span 
+class="cmmi-10">a </span>is involved), we obtain the relation:
+<div class="math-display" >
+<img 
+src="summary43x.png" alt="    ( b  c  d  e f )
+b     1  1  1  1  1
+c   || 0  1  1  1  1||
+d   || 1  1  1  1  0||
+e   ( 0  0  1  1  1)
+f     0  0  0  1  1
+" class="math-display" ></div>
+     <!--l. 627--><p class="noindent" >Using the same argument, <span 
+class="cmmi-10">b </span>will work now. When we remove it, we get:
+<div class="math-display" >
+<img 
+src="summary44x.png" alt="    (  c d  e  f )
+c      1 1  1  1
+d   ||  1 1  1  0 ||
+e   (  0 1  1  1 )
+f      0 0  1  1
+" class="math-display" ></div>
+     <!--l. 646--><p class="noindent" >And once again we can use <span 
+class="cmmi-10">c</span>. When we remove it, we get:
+<div class="math-display" >
+<img 
+src="summary45x.png" alt="       d  e  f
+d   (  1  1  0 )
+e   (  1  1  1 )
+f      0  1  1
+" class="math-display" ></div>
+     <!--l. 662--><p class="noindent" >Now we can repeat the same with <span 
+class="cmmi-10">e</span>, and when we remove it we obtain a two-element relation, which is
+     always semi-transitive.</li></ul>
+</div>
+<!--l. 665--><p class="noindent" >
+<div class="newtheorem">
+<!--l. 667--><p class="noindent" ><span class="head">
+<a 
+ id="x1-7013r2"></a>
+<span 
+class="ecbx-1000">Exercise 2.2.</span>  </span>Let <span 
+class="cmmi-10">B </span>and <span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>be two equivalence relations on a set <span 
+class="cmmi-10">X</span>:
+<!--l. 670--><p class="noindent" >Prove that <span 
+class="cmmi-10">B </span><span 
+class="cmsy-10">&#x2229; </span><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>is an equivalence relation, where
+                                                                                            
+                                                                                            
+<div class="math-display" >
+<img 
+src="summary46x.png" alt="x(B &#x2229; B&#x2032;)y &#x21D0;&#x21D2;  [xBy &#x2227; xB&#x2032;y],&#x2200;x,y &#x2208; X.
+" class="math-display" ></div>
+<!--l. 675--><p class="noindent" >We need to see that <span 
+class="cmmi-10">B </span><span 
+class="cmsy-10">&#x2229; </span><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>is reflexive, symmetric and transitive:
+     <ul class="itemize1">
+     <li class="itemize">
+     <!--l. 677--><p class="noindent" >Reflexive: take <span 
+class="cmmi-10">x </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X</span>, then <span 
+class="cmmi-10">x</span><img 
+src="summary47x.png" alt="      &#x2032;
+(B &#x2229;B )"  class="left" align="middle"><span 
+class="cmmi-10">x</span> <span 
+class="cmsy-10">&#x21D0;&#x21D2;</span> <span 
+class="cmmi-10">xBx </span><span 
+class="cmsy-10">&#x2227; </span><span 
+class="cmmi-10">xB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">x, </span>which holds since <span 
+class="cmmi-10">B </span>and <span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>are reflexive.
+     </li>
+     <li class="itemize">
+     <!--l. 679--><p class="noindent" >Symmetric: take <span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that <span 
+class="cmmi-10">x</span><img 
+src="summary48x.png" alt="      &#x2032;
+(B &#x2229; B )"  class="left" align="middle"><span 
+class="cmmi-10">y</span>. This means that <span 
+class="cmmi-10">xBy </span><span 
+class="cmsy-10">&#x2227; </span><span 
+class="cmmi-10">xB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">y</span>. Since <span 
+class="cmmi-10">B </span>and <span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>are
+     symmetric, we obtain that <span 
+class="cmmi-10">yBx </span><span 
+class="cmsy-10">&#x2227; </span><span 
+class="cmmi-10">yB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">x</span>, and therefore <span 
+class="cmmi-10">y</span><img 
+src="summary49x.png" alt="      &#x2032;
+(B &#x2229; B )"  class="left" align="middle"><span 
+class="cmmi-10">x</span>.
+     </li>
+     <li class="itemize">
+     <!--l. 682--><p class="noindent" >Transitive: take <span 
+class="cmmi-10">x,y,z </span><span 
+class="cmsy-10">&#x2208; </span><span 
+class="cmmi-10">X </span>such that <span 
+class="cmmi-10">x</span><img 
+src="summary50x.png" alt="      &#x2032;
+(B &#x2229;B )"  class="left" align="middle"><span 
+class="cmmi-10">y </span><span 
+class="cmsy-10">&#x2227; </span><span 
+class="cmmi-10">y</span><img 
+src="summary51x.png" alt="      &#x2032;
+(B &#x2229;B  )"  class="left" align="middle"><span 
+class="cmmi-10">z</span>. This means that <span 
+class="cmmi-10">xBy,xB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">y,yBz </span>and
+     <span 
+class="cmmi-10">yB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">z</span>. Now, since <span 
+class="cmmi-10">B </span>and <span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>are transitive, we obtain <span 
+class="cmmi-10">xBz </span>and <span 
+class="cmmi-10">xB</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">z</span>, so <span 
+class="cmmi-10">x</span><img 
+src="summary52x.png" alt="      &#x2032;
+(B &#x2229; B )"  class="left" align="middle"><span 
+class="cmmi-10">z</span>.</li></ul>
+<!--l. 686--><p class="noindent" >Is <span 
+class="cmmi-10">B </span><span 
+class="cmsy-10">&#x222A; </span><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>an equivalence relation, where
+<div class="math-display" >
+<img 
+src="summary53x.png" alt="x(B &#x222A;B &#x2032;)y  &#x21D0;&#x21D2;  [xBy &#x2228;xB &#x2032;y],&#x2200;x,y &#x2208; X?
+" class="math-display" ></div>
+<!--l. 691--><p class="noindent" >Reflexivity and symmetry are preserved, but what about transitivity? It is not... Take <span 
+class="cmmi-10">X </span><span 
+class="cmr-10">= </span><img 
+src="summary54x.png" alt="{a,b,c,d}"  class="left" align="middle"> and the
+relations
+<div class="math-display" >
+<img 
+src="summary55x.png" alt="B = {(a,a),(a,b),(a,c),(b,b),(b,a),(b,c) ,(c,c),(c,b),(c,a),(d,d)} ,
+" class="math-display" ></div>
+<!--l. 696--><p class="noindent" >
+                                                                                            
+                                                                                            
+<div class="math-display" >
+<img 
+src="summary56x.png" alt="B&#x2032; = {(a,a),(b,b),(c,c),(c,d),(d,d),(d,c)}.
+" class="math-display" ></div>
+<!--l. 699--><p class="noindent" >Then, they are both equivalence relations, but their union is not. This is shown below:
+<div class="center" 
+>
+<!--l. 701--><p class="noindent" >
+<!--l. 702--><p class="noindent" ><img 
+src="10_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ing_LectureNotes_source_relations_exercise2.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 705--><p class="noindent" >As we can see, in the union, we find <img 
+src="summary57x.png" alt="(a,c)"  class="left" align="middle"> and <img 
+src="summary58x.png" alt="(c,d)"  class="left" align="middle">, but not <img 
+src="summary59x.png" alt="(a,d)"  class="left" align="middle">, so it is not transitive.
+<!--l. 708--><p class="noindent" >Could we have the same conclusions if <span 
+class="cmmi-10">B </span>and <span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>are two complete preorders on a set <span 
+class="cmmi-10">X</span>?
+<!--l. 711--><p class="noindent" >We are been asked if <span 
+class="cmmi-10">B </span><span 
+class="cmsy-10">&#x2229; </span><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>and <span 
+class="cmmi-10">B </span><span 
+class="cmsy-10">&#x222A; </span><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span>are also complete preorders. The answers to both questions is
+no.
+<!--l. 714--><p class="noindent" >In the case of the intersection, the transitivity is preserved, following the same argument we did for equivalence
+relations, but completeness is not preserved. To see this, take <span 
+class="cmmi-10">X </span><span 
+class="cmr-10">= </span><img 
+src="summary60x.png" alt="{a,b,c,d}"  class="left" align="middle"> and the relations
+<table 
+class="align-star">
+                                       <tr><td 
+class="align-odd"><span 
+class="cmmi-10">B </span><span 
+class="cmr-10">:</span></td>                                       <td 
+class="align-even"><img 
+src="summary61x.png" alt="(a,b)"  class="left" align="middle"> <span 
+class="cmsy-10">&#x227B;</span><img 
+src="summary62x.png" alt="(c,d)"  class="left" align="middle"></td>                                       <td 
+class="align-label"></td>                                       <td 
+class="align-label">
+                                       </td></tr><tr><td 
+class="align-odd"><span 
+class="cmmi-10">B</span><span 
+class="cmsy-10">&#x2032; </span><span 
+class="cmr-10">:</span></td>                                       <td 
+class="align-even"><img 
+src="summary63x.png" alt="(c,d)"  class="left" align="middle"> <span 
+class="cmsy-10">&#x227B;</span><img 
+src="summary64x.png" alt="(a,b)"  class="left" align="middle"><span 
+class="cmmi-10">.</span></td>                                       <td 
+class="align-label"></td>                                       <td 
+class="align-label"></td></tr></table>
+<!--l. 722--><p class="noindent" >Then, the intersection is
+<div class="math-display" >
+                                                                                            
+                                                                                            
+<img 
+src="summary65x.png" alt="B &#x2229; B&#x2032; : a &#x2261; b,c &#x2261; d,
+" class="math-display" ></div>
+<!--l. 726--><p class="noindent" >which is not complete.
+<!--l. 728--><p class="noindent" >As for the union, the opposite happens. Completeness is preserved, because the relations involved are complete.
+However, transitivity is not preserved. As a counter example, take the following graph visualization:
+<div class="center" 
+>
+<!--l. 731--><p class="noindent" >
+<!--l. 732--><p class="noindent" ><img 
+src="11_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___g_LectureNotes_source_relations_exercise2_2.png" alt="PIC"  
+width="43" height="43" >
+</div>
+<!--l. 735--><p class="noindent" >As we can see, in the union, we find <img 
+src="summary66x.png" alt="(a,b)"  class="left" align="middle"> and <img 
+src="summary67x.png" alt="(b,c)"  class="left" align="middle"> but not <img 
+src="summary68x.png" alt="(a,c)"  class="left" align="middle">.
+</div>
+<!--l. 737--><p class="noindent" >
+                                                                                            
+                                                                                            
+<h3 class="likesectionHead"><a 
+ id="x1-80002"></a>References</h3>
+<!--l. 1--><p class="noindent" >
+   <div class="thebibliography">
+   <p class="bibitem" ><span class="biblabel">
+ [1]<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="XMayag2023"></a>Brice Mayag. Decision modeling. Lecture Notes.
+</p>
+   </div>
+ 
+</body></html> 
+
+                                                                                            
+                                                                                            
+                                                                                            
+
+
