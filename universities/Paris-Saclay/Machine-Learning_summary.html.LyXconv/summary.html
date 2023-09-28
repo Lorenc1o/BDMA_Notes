@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head><title>BDMA - Machine Learning</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="TeX4ht (https://tug.org/tex4ht/)" name="generator"/>
+<meta content="TeX4ht (https://tug.org/tex4ht/)" name="originator"/>
+<!-- html -->
+<meta content="summary.tex" name="src"/>
+<link href="summary.css" rel="stylesheet" type="text/css"/>
+</head><body>
+<div class="maketitle">
+<h2 class="titleHead">BDMA - Machine Learning</h2>
+<div class="author"><span class="ecrm-1200">Jose Antonio Lorencio Abril</span></div>
+<br/>
+<div class="date"><span class="ecrm-1200">Fall 2023</span></div>
+</div>
+<div class="center">
+<!--l. 73--><p class="noindent">
+<!--l. 74--><p class="noindent"><img alt="PIC" src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png"/>
+</p></p></div>
+<div class="flushright">
+<!--l. 77--><p class="noindent">
+ Professor: Tom Dupuis
+</p></div>
+<div class="flushright">
+<!--l. 81--><p class="noindent">
+ Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
+</p></div>
+<!--l. 85--><p class="noindent">
+<!--l. 92--><p class="noindent">This
+is
+a
+summary
+of
+the
+course
+<span class="ecti-1000">Machine</span>
+<span class="ecti-1000">Learning</span>
+taught
+at
+the
+Université
+Paris
+Saclay
+-
+CentraleSupélec
+by
+Professor
+Tom
+Dupuis
+in
+the
+academic
+year
+23/24.
+Most
+of
+the
+content
+of
+this
+document
+is
+adapted
+from
+the
+course
+notes
+by
+Dupuis,
+<span class="cite">[<a href="#XDupuis2023">1</a>]</span>,
+so
+I
+won’t
+be
+citing
+it
+all
+the
+time.
+Other
+references
+will
+be
+provided
+                                                                                            
+                                                                                            
+when
+used.
+<h3 class="likesectionHead"><a id="x1-1000"></a>Contents</h3>
+<div class="tableofcontents">
+<span class="partToc">I  <a href="#x1-2000I" id="QQ2-1-2">Deep Learning</a></span>
+<br/> <span class="sectionToc">1 <a href="#x1-30001" id="QQ2-1-3">Introduction</a></span>
+<br/>  <span class="subsectionToc">1.1 <a href="#x1-40001.1" id="QQ2-1-4">AI History</a></span>
+<br/> <span class="sectionToc">2 <a href="#x1-50002" id="QQ2-1-5">Machine Learning Basics</a></span>
+<br/> <span class="sectionToc">3 <a href="#x1-60003" id="QQ2-1-6">Deep Neural Networks</a></span>
+<br/><span class="partToc">II  <a href="#x1-7000II" id="QQ2-1-7">Reinforcement Learning</a></span>
+</div>
+<!--l. 96--><p class="noindent">
+<h1 class="partHead"><span class="titlemark">Part I<br/></span><a id="x1-2000I"></a>Deep Learning</h1>
+<h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-30001"></a>Introduction</h3>
+<!--l. 102--><p class="noindent"><span class="ecbx-1000">Artificial Intelligence </span>is a wide concept, encompashing different aspects and fields. We can understand the term AI
+as the multidisciplinary field of study that aims at recreating human intelligence using artificial means. This is a bit
+abstract, and, in fact, there is no single definition for what this means. Intelligence is not fully understood, and thus it
+is hard to assess whether an artificial invention has achieved intelligence, further than intuitively thinking
+so.
+<!--l. 110--><p class="noindent">For instance, AI involves a whole variety of fields:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 112--><p class="noindent">Perception
+     </p></li>
+<li class="itemize">
+<!--l. 113--><p class="noindent">Knowledge
+     </p></li>
+<li class="itemize">
+<!--l. 114--><p class="noindent">Cognitive System
+     </p></li>
+<li class="itemize">
+<!--l. 115--><p class="noindent">Planning
+     </p></li>
+<li class="itemize">
+<!--l. 116--><p class="noindent">Robotics
+     </p></li>
+<li class="itemize">
+<!--l. 117--><p class="noindent">Machine Learning (Neural Networks)
+     </p></li>
+<li class="itemize">
+<!--l. 118--><p class="noindent">Natural Language Processing</p></li></ul>
+<!--l. 120--><p class="noindent">Leveraging all of these, people try to recreate or even surpass human performance in different tasks. For example, a
+computer program that can play chess better than any human could ever possibly play, such as Stockfish, or a
+system that is able to understand our messages and reply, based on the knowledge that it has learnt in the
+past, such as ChatGPT and similar tools. Other examples are self-driving cars, auto-controlled robots,
+etc.
+<!--l. 128--><p class="noindent">Therefore, AI is a very wide term, which merges many different scientific fields. <span class="ecbx-1000">Machine Learning</span>, on the
+other side, is a narrower term, which deals with the study of the techniques that we can use to make a
+computer learn to perform some task. It takes concepts from Statistics, Optimization Theory, Computer
+Science, Algorithms, etc. A relevant subclass of Machine Learning, which has come to be one of the most
+prominent fields of research in the recent years, is <span class="ecbx-1000">Neural Networks </span>or <span class="ecbx-1000">Deep Learning</span>, which consists on
+an ML technique based on the human brain. Many amazing use cases that we see everywhere, like Siri
+(Apple assistant), Cortana (Windows assistant), Amazon recommender system, Dall-E (OpenAI image
+generation system), etc. Not only this, but the trend is growing, and the interest in DL is continuously
+increasing.
+                                                                                            
+                                                                                            
+<!--l. 141--><p class="noindent">This is partly also due to the increase in computing resources, and the continuous optimization that different techniques
+are constantly experiencing. For instance, for a model trained on one trillion data points, in 2021 the training process
+required around 16500x less compute than a model trained in 2012.
+<!--l. 147--><p class="noindent">But not everything is sweet and roses when using DL. Since these systems are being involved in decision making
+processes, there are some questions that arise, like whose responsibility is it when a model fails? Moreover, data is
+needed to train the models, so it is relevant to address how datasets should be collected, and to respect the privacy of
+the people thhat produce data. In addition, the recent technologies that are able to generate new content and to modify
+real content, make it a new issue that AI can create false information, mistrust, and even violence or
+paranoia.
+<!--l. 157--><p class="noindent">Nonetheless, let’s not focus on the negative, there are lots of nice applications of DL, and it is a key
+component to deal with data, achieving higher performance than traditional ML techniques for huge amount of
+data.
+<!--l. 162--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a id="x1-40001.1"></a>AI History</h4>
+<!--l. 164--><p class="noindent">In 1950, Alan turing aimed to answer the question ’<span class="ecti-1000">Can machines think?</span>’ through a test, which came to be named the
+<span class="ecbx-1000">Turing Test</span>, and consists in a 3 players game. First, a similar game is the following: 2 talkers, a man and a female,
+and 1 interrogator. The interrogator asks questions to the talkers, with the aim of determining who is
+the man and who is the female. The man tries to trick the interrogator, while the woman tries to help
+him.
+<!--l. 172--><p class="noindent">Then, the Turing Test consists in replacing the man by an artificial machine. Turing thought that a machine that could
+trick a human interrogator, should be considered intelligent.
+<!--l. 176--><p class="noindent">Later, in 1956, in the Dartmouth Workshop organized by IBM, the term <span class="ecbx-1000">Artificial Intelligence </span>was first used to
+describe <span class="ecti-1000">every aspect of learning or any other feature of intelligence can be so precisely described that a machine can be</span>
+<span class="ecti-1000">made to simulate it</span>.
+<!--l. 181--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">2   </span> <a id="x1-50002"></a>Machine Learning Basics</h3>
+<!--l. 183--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">3   </span> <a id="x1-60003"></a>Deep Neural Networks</h3>
+<!--l. 185--><p class="noindent">
+<h1 class="partHead"><span class="titlemark">Part II<br/></span><a id="x1-7000II"></a>Reinforcement Learning</h1>
+<!--l. 189--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-8000II"></a>References</h3>
+<!--l. 1--><p class="noindent">
+<div class="thebibliography">
+<p class="bibitem"><span class="biblabel">
+ [1]<span class="bibsp">   </span></span><a id="XDupuis2023"></a>Tom Dupuis. Machine learning. Lecture Notes.
+</p>
+</div>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
