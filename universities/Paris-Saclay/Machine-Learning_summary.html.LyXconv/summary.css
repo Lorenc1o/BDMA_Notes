@@ -1,5 +1,12 @@
  
 /* start css.sty */
+.cmr-5{font-size:50%;}
+.cmr-7{font-size:70%;}
+.cmmi-5{font-size:50%;font-style: italic;}
+.cmmi-7{font-size:70%;font-style: italic;}
+.cmmi-10{font-style: italic;}
+.cmsy-5{font-size:50%;}
+.cmsy-7{font-size:70%;}
 .ecrm-1728{font-size:170%;}
 .ecrm-1200{font-size:120%;}
 .ecti-1000{ font-style: italic;}
@@ -7,6 +14,14 @@
 .ecti-1000{ font-style: italic;}
 .ecti-1000{ font-style: italic;}
 .ecti-1000{ font-style: italic;}
+.ecti-1000{ font-style: italic;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
@@ -124,6 +139,10 @@ div.author{white-space: nowrap;}
 div.abstract p {margin-left:5%; margin-right:5%;}
 div.abstract {width:100%;}
 .abstracttitle{text-align:center;margin-bottom:1em;}
+.tcolorbox{margin-top:0.5em;margin-bottom: 0.5em;}
+.tcolorbox .lowerbox{margin-top:0pt;}
+.rotatebox{display: inline-block;}
+div.verbatiminput {font-family: monospace,monospace; white-space: nowrap; }
 .equation td{text-align:center; }
 .equation-star td{text-align:center; }
 table.equation-star { width:100%; }
@@ -137,10 +156,24 @@ table.multline, table.multline-star {width:100%;}
 td.gather {text-align:center; }
 table.gather {width:100%;}
 div.gather-star {text-align:center;}
-.rotatebox{display: inline-block;}
 .lstlisting .label{margin-right:0.5em; }
 div.lstlisting{font-family: monospace,monospace; white-space: nowrap; margin-top:0.5em; margin-bottom:0.5em; }
 div.lstinputlisting{ font-family: monospace,monospace; white-space: nowrap; }
 .lstinputlisting .label{margin-right:0.5em;}
+#tcolobox-1 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-1 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#TBL-2-1{border-left: 1px solid black;}
+#TBL-2-1{border-right:1px solid black;}
+#TBL-2-2{border-right:1px solid black;}
+#TBL-2-3{border-right:1px solid black;}
+#TBL-2-4{border-right:1px solid black;}
+#tcolobox-2 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-2 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-3 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-3 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-4 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-4 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-5 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-5 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 /* end css.sty */
 

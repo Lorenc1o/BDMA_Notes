@@ -17,19 +17,19 @@
 <div class="date"><span class="ecrm-1200">Fall 2023</span></div>
 </div>
 <div class="center">
-<!--l. 73--><p class="noindent">
-<!--l. 74--><p class="noindent"><img alt="PIC" src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png"/>
+<!--l. 87--><p class="noindent">
+<!--l. 88--><p class="noindent"><img alt="PIC" src="0_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___cision-Modeling_LectureNotes_source_CS-logo.png"/>
 </p></p></div>
 <div class="flushright">
-<!--l. 77--><p class="noindent">
+<!--l. 91--><p class="noindent">
  Professor: Tom Dupuis
 </p></div>
 <div class="flushright">
-<!--l. 81--><p class="noindent">
+<!--l. 95--><p class="noindent">
  Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
 </p></div>
-<!--l. 85--><p class="noindent">
-<!--l. 92--><p class="noindent">This
+<!--l. 99--><p class="noindent">
+<!--l. 106--><p class="noindent">This
 is
 a
 summary
@@ -95,45 +95,48 @@ used.
 <br/> <span class="sectionToc">1 <a href="#x1-30001" id="QQ2-1-3">Introduction</a></span>
 <br/>  <span class="subsectionToc">1.1 <a href="#x1-40001.1" id="QQ2-1-4">AI History</a></span>
 <br/> <span class="sectionToc">2 <a href="#x1-50002" id="QQ2-1-5">Machine Learning Basics</a></span>
-<br/> <span class="sectionToc">3 <a href="#x1-60003" id="QQ2-1-6">Deep Neural Networks</a></span>
-<br/><span class="partToc">II  <a href="#x1-7000II" id="QQ2-1-7">Reinforcement Learning</a></span>
+<br/>  <span class="subsectionToc">2.1 <a href="#x1-60002.1" id="QQ2-1-6">Linear Algebra Basics</a></span>
+<br/>  <span class="subsectionToc">2.2 <a href="#x1-70002.2" id="QQ2-1-7">Probability Basics</a></span>
+<br/>  <span class="subsectionToc">2.3 <a href="#x1-80002.3" id="QQ2-1-8">Machine Learning Basics</a></span>
+<br/> <span class="sectionToc">3 <a href="#x1-90003" id="QQ2-1-10">Deep Neural Networks</a></span>
+<br/><span class="partToc">II  <a href="#x1-10000II" id="QQ2-1-11">Reinforcement Learning</a></span>
 </div>
-<!--l. 96--><p class="noindent">
+<!--l. 110--><p class="noindent">
 <h1 class="partHead"><span class="titlemark">Part I<br/></span><a id="x1-2000I"></a>Deep Learning</h1>
 <h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-30001"></a>Introduction</h3>
-<!--l. 102--><p class="noindent"><span class="ecbx-1000">Artificial Intelligence </span>is a wide concept, encompassing different aspects and fields. We can understand the term AI as
+<!--l. 116--><p class="noindent"><span class="ecbx-1000">Artificial Intelligence </span>is a wide concept, encompassing different aspects and fields. We can understand the term AI as
 the multidisciplinary field of study that aims at recreating human intelligence using artificial means. This is a bit
 abstract, and, in fact, there is no single definition for what this means. Intelligence is not fully understood, and thus it
 is hard to assess whether an artificial invention has achieved intelligence, further than intuitively thinking
 so.
-<!--l. 110--><p class="noindent">For instance, AI involves a whole variety of fields:
+<!--l. 124--><p class="noindent">For instance, AI involves a whole variety of fields:
      <ul class="itemize1">
 <li class="itemize">
-<!--l. 112--><p class="noindent">Perception
+<!--l. 126--><p class="noindent">Perception
      </p></li>
 <li class="itemize">
-<!--l. 113--><p class="noindent">Knowledge
+<!--l. 127--><p class="noindent">Knowledge
      </p></li>
 <li class="itemize">
-<!--l. 114--><p class="noindent">Cognitive System
+<!--l. 128--><p class="noindent">Cognitive System
      </p></li>
 <li class="itemize">
-<!--l. 115--><p class="noindent">Planning
+<!--l. 129--><p class="noindent">Planning
      </p></li>
 <li class="itemize">
-<!--l. 116--><p class="noindent">Robotics
+<!--l. 130--><p class="noindent">Robotics
      </p></li>
 <li class="itemize">
-<!--l. 117--><p class="noindent">Machine Learning (Neural Networks)
+<!--l. 131--><p class="noindent">Machine Learning (Neural Networks)
      </p></li>
 <li class="itemize">
-<!--l. 118--><p class="noindent">Natural Language Processing</p></li></ul>
-<!--l. 120--><p class="noindent">Leveraging all of these, people try to recreate or even surpass human performance in different tasks. For example, a
+<!--l. 132--><p class="noindent">Natural Language Processing</p></li></ul>
+<!--l. 134--><p class="noindent">Leveraging all of these, people try to recreate or even surpass human performance in different tasks. For example, a
 computer program that can play chess better than any human could ever possibly play, such as Stockfish, or a
 system that is able to understand our messages and reply, based on the knowledge that it has learnt in the
 past, such as ChatGPT and similar tools. Other examples are self-driving cars, auto-controlled robots,
 etc.
-<!--l. 128--><p class="noindent">Therefore, AI is a very wide term, which merges many different scientific fields. <span class="ecbx-1000">Machine Learning</span>, on the
+<!--l. 142--><p class="noindent">Therefore, AI is a very wide term, which merges many different scientific fields. <span class="ecbx-1000">Machine Learning</span>, on the
 other side, is a narrower term, which deals with the study of the techniques that we can use to make a
 computer learn to perform some task. It takes concepts from Statistics, Optimization Theory, Computer
 Science, Algorithms, etc. A relevant subclass of Machine Learning, which has come to be one of the most
@@ -144,98 +147,98 @@ generation system), etc. Not only this, but the trend is growing, and the intere
 increasing.
                                                                                             
                                                                                             
-<!--l. 141--><p class="noindent">This is partly also due to the increase in computing resources, and the continuous optimization that different techniques
+<!--l. 155--><p class="noindent">This is partly also due to the increase in computing resources, and the continuous optimization that different techniques
 are constantly experiencing. For instance, for a model trained on one trillion data points, in 2021 the training process
 required around 16500x less compute than a model trained in 2012.
-<!--l. 147--><p class="noindent">But not everything is sweet and roses when using DL. Since these systems are being involved in decision making
+<!--l. 161--><p class="noindent">But not everything is sweet and roses when using DL. Since these systems are being involved in decision making
 processes, there are some questions that arise, like whose responsibility is it when a model fails? Moreover, data is
 needed to train the models, so it is relevant to address how datasets should be collected, and to respect the privacy of
 the people that produce data. In addition, the recent technologies that are able to generate new content and to modify
 real content, make it a new issue that AI can create false information, mistrust, and even violence or
 paranoia.
-<!--l. 157--><p class="noindent">Nonetheless, let’s not focus on the negative, there are lots of nice applications of DL, and it is a key
+<!--l. 171--><p class="noindent">Nonetheless, let’s not focus on the negative, there are lots of nice applications of DL, and it is a key
 component to deal with data, achieving higher performance than traditional ML techniques for huge amount of
 data.
-<!--l. 162--><p class="noindent">
+<!--l. 176--><p class="noindent">
 <h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a id="x1-40001.1"></a>AI History</h4>
-<!--l. 164--><p class="noindent">In 1950, Alan turing aimed to answer the question ’<span class="ecti-1000">Can machines think?</span>’ through a test, which came to be named the
+<!--l. 178--><p class="noindent">In 1950, Alan turing aimed to answer the question ’<span class="ecti-1000">Can machines think?</span>’ through a test, which came to be named the
 <span class="ecbx-1000">Turing Test</span>, and consists in a 3 players game. First, a similar game is the following: 2 talkers, a man and a female,
 and 1 interrogator. The interrogator asks questions to the talkers, with the aim of determining who is the man and
 who is the female. The man tries to trick the interrogator, while the woman tries to help him to identify
 her.
-<!--l. 172--><p class="noindent">Then, the Turing Test consists in replacing the man by an artificial machine. Turing thought that a machine that could
+<!--l. 186--><p class="noindent">Then, the Turing Test consists in replacing the man by an artificial machine. Turing thought that a machine that could
 trick a human interrogator, should be considered intelligent.
-<!--l. 176--><p class="noindent">Later, in 1956, in the Dartmouth Workshop organized by IBM, the term <span class="ecbx-1000">Artificial Intelligence </span>was first used to
+<!--l. 190--><p class="noindent">Later, in 1956, in the Dartmouth Workshop organized by IBM, the term <span class="ecbx-1000">Artificial Intelligence </span>was first used to
 describe <span class="ecti-1000">every aspect of learning or any other feature of intelligence can be so precisely described that a machine can be</span>
 <span class="ecti-1000">made to simulate it</span>.
-<!--l. 181--><p class="noindent">From this year on, there was a focus on researching about <span class="ecbx-1000">Symbolic AI</span>, specially in three areas of
+<!--l. 195--><p class="noindent">From this year on, there was a focus on researching about <span class="ecbx-1000">Symbolic AI</span>, specially in three areas of
 research:
      <ul class="itemize1">
 <li class="itemize">
-<!--l. 184--><p class="noindent">Reasoning as search: a different set of actions leads to a certain goal, so we can try to find the best choice
+<!--l. 198--><p class="noindent">Reasoning as search: a different set of actions leads to a certain goal, so we can try to find the best choice
      of action to obtain the best possible outcome.
      </p></li>
 <li class="itemize">
-<!--l. 187--><p class="noindent">Natural Language: different tools were developed, following grammar and language rules.
+<!--l. 201--><p class="noindent">Natural Language: different tools were developed, following grammar and language rules.
      </p></li>
 <li class="itemize">
-<!--l. 189--><p class="noindent">Micro world: small block based worlds, that the system can identify and move.</p></li></ul>
-<!--l. 192--><p class="noindent">In 1958, the <span class="ecbx-1000">Perceptron </span>was conceived, giving birth to what is called the connectionism, an approach to AI based on
+<!--l. 203--><p class="noindent">Micro world: small block based worlds, that the system can identify and move.</p></li></ul>
+<!--l. 206--><p class="noindent">In 1958, the <span class="ecbx-1000">Perceptron </span>was conceived, giving birth to what is called the connectionism, an approach to AI based on
 the human brain, and a big hype that encouraged funding to support AI research. At this era, scientists
 experience a bit of lack of perspective, thinking that the power of AI was much higher than it was. For
 instance, H. A. Simon stated in 1965 that ’<span class="ecti-1000">machines will be capable, within twenty years, of doing any work</span>
 <span class="ecti-1000">a man can do.</span>’ We can relate to our time, with the huge hype that AI is experiencing, as well as the
 many apocaliptic theories that some people are making. Maybe we are again overestimating the power of
 AI.
-<!--l. 203--><p class="noindent">The time from 1974 to 1980 is seen as the first winter of AI, in which research was slowed down and funding was
+<!--l. 217--><p class="noindent">The time from 1974 to 1980 is seen as the first winter of AI, in which research was slowed down and funding was
 reduced. This was due to several problems found at the time:
                                                                                             
                                                                                             
      <ul class="itemize1">
 <li class="itemize">
-<!--l. 207--><p class="noindent">There were few computational resources.
+<!--l. 221--><p class="noindent">There were few computational resources.
      </p></li>
 <li class="itemize">
-<!--l. 208--><p class="noindent">The models at the time were not scalable.
+<!--l. 222--><p class="noindent">The models at the time were not scalable.
      </p></li>
 <li class="itemize">
-<!--l. 209--><p class="noindent">The Moravec’s paradox: it is comparatively easy to make computers exhibit adult level performance on
+<!--l. 223--><p class="noindent">The Moravec’s paradox: it is comparatively easy to make computers exhibit adult level performance on
      intelligence test or playing checkers, and difficult or impossible to give them the skills of a one-year-old
      when it comes to perception and mobility.
      </p></li>
 <li class="itemize">
-<!--l. 213--><p class="noindent">Marvin Minsky made some devastating critics to connectionism, compared to symbolic, rule-based
+<!--l. 227--><p class="noindent">Marvin Minsky made some devastating critics to connectionism, compared to symbolic, rule-based
      models:
          <ul class="itemize2">
 <li class="itemize">
-<!--l. 216--><p class="noindent">Limited capacity: Minsky showed that single-layer perceptrons (a simple kind of neural network)
+<!--l. 230--><p class="noindent">Limited capacity: Minsky showed that single-layer perceptrons (a simple kind of neural network)
          could not solve certain classes of problems, like the XOR problem. While it was later shown that
          multi-layer perceptrons could solve these problems, Minsky’s work resulted in a shift away from
          neural networks for a time.
          </p></li>
 <li class="itemize">
-<!--l. 221--><p class="noindent">Lack of clear symbols: Minsky believed that human cognition operates at a higher level with symbols
+<!--l. 235--><p class="noindent">Lack of clear symbols: Minsky believed that human cognition operates at a higher level with symbols
          and structures (like frames and scripts), rather than just distributed patterns of activation. He often
          argued that connectionist models lacked a clear way to represent these symbolic structures.
          </p></li>
 <li class="itemize">
-<!--l. 226--><p class="noindent">Generalization and Abstraction: Minsky was concerned that connectionist models struggled with
+<!--l. 240--><p class="noindent">Generalization and Abstraction: Minsky was concerned that connectionist models struggled with
          generalizing beyond specific training examples or abstracting high-level concepts from raw data.
          </p></li>
 <li class="itemize">
-<!--l. 229--><p class="noindent">Inefficiency: Minsky pointed out that many problems which seemed simple for symbolic models could
+<!--l. 243--><p class="noindent">Inefficiency: Minsky pointed out that many problems which seemed simple for symbolic models could
          be extremely computationally intensive for connectionist models.
          </p></li>
 <li class="itemize">
-<!--l. 232--><p class="noindent">Lack of explanation: Connectionist models, especially when they become complex, can be seen as
+<!--l. 246--><p class="noindent">Lack of explanation: Connectionist models, especially when they become complex, can be seen as
          "black boxes", making it difficult to interpret how they arrive at specific conclusions.
          </p></li>
 <li class="itemize">
-<!--l. 235--><p class="noindent">Over-reliance on learning: Minsky believed that not all knowledge comes from learning from scratch,
+<!--l. 249--><p class="noindent">Over-reliance on learning: Minsky believed that not all knowledge comes from learning from scratch,
          and some of it might be innate or structured in advance. He felt connectionism put too much emphasis
          on learning from raw data.</p></li></ul>
 </p></li></ul>
-<!--l. 241--><p class="noindent">In 1980, there was a boom in expert knowledge systems that made AI recover interest. An <span class="ecbx-1000">expert system </span>solves
+<!--l. 255--><p class="noindent">In 1980, there was a boom in expert knowledge systems that made AI recover interest. An <span class="ecbx-1000">expert system </span>solves
 specific tasks following an ensemble of rules based on knowledge facilitated by experts. A remarkable use case
 was the XCON sorting system, developed for the Digital Equipment Corporation, which helped them
 save 40M$ per year. In addition, connectionism also came again on scene, thanks to the development of
@@ -243,10 +246,10 @@ save 40M$ per year. In addition, connectionism also came again on scene, thanks 
 field.
                                                                                             
                                                                                             
-<!--l. 250--><p class="noindent">Nonetheless, there came a second winter of AI, from 1987 to 1994, mainly because several companies were disappointed
+<!--l. 264--><p class="noindent">Nonetheless, there came a second winter of AI, from 1987 to 1994, mainly because several companies were disappointed
 and AI was seen as a technology that couldn’t solve wide varieties of tasks. The funding was withdrawn from the field
 and a lot AI companies went bankrupt.
-<!--l. 255--><p class="noindent">Luckily, from 1995 there started a new return of AI in the industry. The Moore’s Law states that speed and memory of
+<!--l. 269--><p class="noindent">Luckily, from 1995 there started a new return of AI in the industry. The Moore’s Law states that speed and memory of
 computer doubles every two years, and so computing power and memory was rapidly increasing, making the use of AI
 systems more feasible each year. During this time, many new concepts were introduced, such as <span class="ecbx-1000">intelligent agents </span>as
 systems that perceive their environment and take actions which maximize their chances of success; or different
@@ -254,25 +257,392 @@ systems that perceive their environment and take actions which maximize their ch
 addition, AI researchers started to reframe their work in terms of mathematics, computer science, physics, etc., making
 the field more attractive for funding. A remarkable milestone during this time was the victory of Deep Blue against
 Garry Kasparov.
-<!--l. 268--><p class="noindent">The last era of AI comes from 2011 to today, with the advent and popularization of <span class="ecbx-1000">Deep Learning </span>(DL), which are
+<!--l. 282--><p class="noindent">The last era of AI comes from 2011 to today, with the advent and popularization of <span class="ecbx-1000">Deep Learning </span>(DL), which are
 deep graph processing layers mimicking human neurons interactions. This happened thanks to the advances of hardware
 technologies, that have enabled the enormous computing requirements needed for DL. The huge hype comes from the
 spectacular results shown by this kind of systems in a huge variety of tasks, such as computer vision, natural language
 processing, anomaly detection,...
-<!--l. 277--><p class="noindent">In summary, we can see how the history of AI has been a succession of hype and dissapointment cycles, with many
+<!--l. 291--><p class="noindent">In summary, we can see how the history of AI has been a succession of hype and dissapointment cycles, with many
 actors involved and the industry as a very important part of the process.
-<!--l. 281--><p class="noindent">
+<!--l. 295--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">2   </span> <a id="x1-50002"></a>Machine Learning Basics</h3>
-<!--l. 283--><p class="noindent">
-<h3 class="sectionHead"><span class="titlemark">3   </span> <a id="x1-60003"></a>Deep Neural Networks</h3>
-<!--l. 285--><p class="noindent">
-<h1 class="partHead"><span class="titlemark">Part II<br/></span><a id="x1-7000II"></a>Reinforcement Learning</h1>
-<!--l. 289--><p class="noindent">
-<h3 class="likesectionHead"><a id="x1-8000II"></a>References</h3>
+<!--l. 297--><p class="noindent">In this section, we review some notation, and basic knowledge of Linear Algebra, Probability and Machine
+Learning.
+<!--l. 300--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">2.1   </span> <a id="x1-60002.1"></a>Linear Algebra Basics</h4>
+<!--l. 302--><p class="noindent">A <span class="ecbx-1000">scalar </span>is a number, either real and usually denoted <span class="cmmi-10">x </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span>, or natural and denoted <span class="cmmi-10">n </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℕ</span>. A <span class="ecbx-1000">vector </span>is an array of
+numbers, usually real, <span class="cmmi-10">x </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">n</span></sup><span class="cmmi-10">, </span>or
+<div class="math-display">
+<img alt="    ⌊    ⌋
+      x1
+    || x2 ||
+x = |⌈  ... |⌉ .
+      xn
+" class="math-display" src="summary0x.png"/></div>
+<!--l. 313--><p class="noindent">A <span class="ecbx-1000">matrix </span>is a 2-dimensional array of numbers, <span class="cmmi-10">A </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">n</span><span class="cmsy-7">×</span><span class="cmmi-7">m</span></sup>, or
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="    ⌊                ⌋
+       A11  ...  A1n
+A = |⌈   ...   ...   ...  |⌉ .
+       Am1  ... Amn
+" class="math-display" src="summary1x.png"/></div>
+<!--l. 322--><p class="noindent">A <span class="ecbx-1000">tensor </span>is an <span class="cmmi-10">n</span>-dimensional array of numbers, for example <span class="cmmi-10">A </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">m</span><span class="cmsy-7">×</span><span class="cmmi-7">k</span><span class="cmsy-7">×</span><span class="cmmi-7">p</span></sup> is a 3-dimensional tensor.
+<!--l. 325--><p class="noindent">Usually, we will be working with matrices, which can be operated in different ways:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 328--><p class="noindent">Transposition: <span class="cmmi-10">A</span><sup><span class="cmmi-7">T</span></sup> is the transposed of <span class="cmmi-10">A</span>, defined as <img align="middle" alt="( T)
+A" class="left" src="summary2x.png"/><sub><span class="cmmi-7">ij</span></sub> <span class="cmr-10">= </span><span class="cmmi-10">A</span><sub><span class="cmmi-7">j,i</span></sub>.
+     </p></li>
+<li class="itemize">
+<!--l. 329--><p class="noindent">Multiplication: Let <span class="cmmi-10">A </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">m</span><span class="cmsy-7">×</span><span class="cmmi-7">k</span></sup><span class="cmmi-10">,B </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">k</span><span class="cmsy-7">×</span><span class="cmmi-7">n</span></sup>, their multiplication, <span class="cmmi-10">C </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">m</span><span class="cmsy-7">×</span><span class="cmmi-7">n</span></sup> is defined as
+<div class="math-display">
+<img alt="                              (          )
+                               ∑
+C = A ⋅B = AB  = (Cij)i≤m,j≤n =      AikBkj         .
+                                k         i≤m,j≤n
+" class="math-display" src="summary3x.png"/></div>
+<!--l. 334--><p class="noindent">Note that the following holds for every matrix <span class="cmmi-10">A,B</span>:
+<div class="math-display">
+<img alt="(AB )T = BT AT.
+" class="math-display" src="summary4x.png"/></div>
+</p></p></li>
+<li class="itemize">
+<!--l. 338--><p class="noindent">Point-wise operations: if we have two matrices of the same size, <span class="cmmi-10">A,B </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">m</span><span class="cmsy-7">×</span><span class="cmmi-7">n</span></sup>, we can use apply scalar
+     operator point-wise to each pair of elements in the same position in the two matrices. For example, the
+     sum or the substraction of matrices.</p></li></ul>
+<!--l. 343--><p class="noindent">There are also special matrices:
+                                                                                            
+                                                                                            
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 345--><p class="noindent">Identity matrix: the identity matrix is a square matrix that preserves any vector it is multiplied with. For
+     vectors of size <span class="cmmi-10">n</span>, the identity matrix <span class="cmmi-10">I</span><sub><span class="cmmi-7">n</span></sub> verifies
+<div class="math-display">
+<img alt="              n
+Inx = x,∀x ∈ ℝ .
+" class="math-display" src="summary5x.png"/></div>
+</p></li>
+<li class="itemize">
+<!--l. 351--><p class="noindent">Inverse matrix: the inverse of a square matrix, <span class="cmmi-10">A </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">n</span><span class="cmsy-7">×</span><span class="cmmi-7">n</span></sup>, when it exists, is defined as the only matrix
+     <span class="cmmi-10">A</span><sup><span class="cmsy-7">-</span><span class="cmr-7">1</span></sup> such that
+<div class="math-display">
+<img alt="  -1       -1
+A   A = AA   = In.
+" class="math-display" src="summary6x.png"/></div>
+</p></li></ul>
+<!--l. 357--><p class="noindent">Another important concept is that of the norm, which is basically measuring how far a point is from the origin of the
+space and can be used to measure distances:
+<div class="tcolorbox tcolorbox" id="tcolobox-1">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 362--><p class="noindent"><span class="head">
+<a id="x1-6001r1"></a>
+<span class="ecbx-1000">Definition 2.1.</span> </span>A <span class="ecbx-1000">norm </span>is a function <span class="cmmi-10">f </span>that measures the size of vectors, and must have the following
+properties:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 366--><p class="noindent"><span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary7x.png"/> <span class="cmr-10">= 0</span> <span class="cmsy-10">⇐⇒</span> <span class="cmmi-10">x </span><span class="cmr-10">= 0</span><span class="cmmi-10">,</span>
+</p></li>
+<li class="itemize">
+<!--l. 367--><p class="noindent"><span class="cmmi-10">f</span><img align="middle" alt="(x + y)" class="left" src="summary8x.png"/> <span class="cmsy-10">≤ </span><span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary9x.png"/> <span class="cmr-10">+ </span><span class="cmmi-10">f</span><img align="middle" alt="(y)" class="left" src="summary10x.png"/><span class="cmmi-10">, </span>and
+     </p></li>
+<li class="itemize">
+<!--l. 368--><p class="noindent"><span class="cmsy-10">∀</span><span class="cmmi-10">α </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><span class="cmmi-10">,f</span><img align="middle" alt="(αx)" class="left" src="summary11x.png"/> <span class="cmr-10">= </span><img align="middle" alt="|α |" class="left" src="summary12x.png"/><span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary13x.png"/><span class="cmmi-10">.</span></p></li></ul>
+</p></div>
+<!--l. 370--><p class="noindent">
+</p></div>
+</div>
+<!--l. 373--><p class="noindent">A very important family of norms is the <span class="cmmi-10">L</span><sup><span class="cmmi-7">p</span></sup> norm, defined as
+<div class="math-display">
+<img alt="      ( ∑     ) 1p
+∥x∥ =      |xi|p   .
+   p     i
+" class="math-display" src="summary14x.png"/></div>
+<!--l. 377--><p class="noindent">The <span class="ecbx-1000">Euclidean norm </span>is the <span class="cmmi-10">L</span><sup><span class="cmr-7">2</span></sup> norm, noted <img align="middle" alt="∥x∥" class="left" src="summary15x.png"/> and equivalent to computing <img alt="√xT-x" class="sqrt" src="summary16x.png"/>. In Machine Learning, it is not
+uncommon to find the use of the squared Euclidean norm, since it maintains the ordinals and is easier to operate with.
+The <span class="ecbx-1000">Manhattan norm </span>is the <span class="cmmi-10">L</span><sup><span class="cmr-7">1</span></sup> norm, and it is used when the difference between zero and nonzero elements is
+important. Finally, the <span class="ecbx-1000">Max norm </span>is the <span class="cmmi-10">L</span><sup><span class="cmsy-7">∞</span></sup>, or <img align="middle" alt="∥x ∥" class="left" src="summary17x.png"/><sub><span class="cmsy-7">∞</span></sub> <span class="cmr-10">=</span> <span class="cmr-10">max</span><sub><span class="cmmi-7">i</span></sub><img align="middle" alt="|x |
+ i" class="left" src="summary18x.png"/>.
+<!--l. 385--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">2.2   </span> <a id="x1-70002.2"></a>Probability Basics</h4>
+<!--l. 387--><p class="noindent">A <span class="ecbx-1000">random variable</span>, <span class="cmmi-10">X</span>, is a variable that can take different values, <span class="cmmi-10">x</span>, randomly. They can be <span class="ecbx-1000">discrete</span>, like the
+number drawn from a dice, or <span class="ecbx-1000">continuous</span>, like the humidity in the air.
+<!--l. 392--><p class="noindent">A probability distribution, <span class="cmmi-10">p</span>, is a <span class="ecbx-1000">Probability Mass Function (PMF) </span>for discrete variables, and a <span class="ecbx-1000">Probability</span>
+<span class="ecbx-1000">Density Function (PDF) </span>for continuous random variables. It must satisfy:
+                                                                                            
+                                                                                            
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 396--><p class="noindent">The domain of <span class="cmmi-10">p </span>describe all possible states of <span class="cmmi-10">X</span>.
+     </p></li>
+<li class="itemize">
+<!--l. 397--><p class="noindent"><span class="cmsy-10">∀</span><span class="cmmi-10">x </span><span class="cmsy-10">∈ </span><span class="cmmi-10">X,p</span><img align="middle" alt="(x)" class="left" src="summary19x.png"/> <span class="cmsy-10">≥ </span><span class="cmr-10">0</span>.
+     </p></li>
+<li class="itemize">
+<!--l. 398--><p class="noindent"><span class="cmex-10">∫</span>
+<sub><span class="cmmi-7">x</span><span class="cmsy-7">∈</span><span class="cmmi-7">X</span></sub><span class="cmmi-10">p</span><img align="middle" alt="(x)" class="left" src="summary20x.png"/><span class="cmmi-10">dx </span><span class="cmr-10">= 1</span>.</p></li></ul>
+<!--l. 400--><p class="noindent">It is usual to have two (or more) random variables, <span class="cmmi-10">X </span>and <span class="cmmi-10">Y </span>, and to be interested in the probability distribution
+of their combination, <span class="cmmi-10">p</span><img align="middle" alt="(x,y)" class="left" src="summary21x.png"/>. In this context, we define the <span class="ecbx-1000">marginal probability </span>of the variable <span class="cmmi-10">X</span>
+as
+<div class="math-display">
+<img alt="          ∫
+p(X = x) =     p(x,y)dy,∀x ∈ X.
+           y∈Y
+" class="math-display" src="summary22x.png"/></div>
+<!--l. 407--><p class="noindent">The <span class="ecbx-1000">conditional probability </span>of the variable <span class="cmmi-10">Y </span>conditioned to <span class="cmmi-10">X </span><span class="cmr-10">= </span><span class="cmmi-10">x </span>is
+<div class="math-display">
+<img alt="                 p(Y = y,X = x)
+p(Y = y|X = x) = --P-(X-=-x)---.
+" class="math-display" src="summary23x.png"/></div>
+<!--l. 412--><p class="noindent">Finally, there is the <span class="ecbx-1000">chain rule of conditional probabilities</span>, in which we start with <span class="cmmi-10">n </span>random variables, <span class="cmmi-10">X</span><sub><span class="cmr-7">1</span></sub><span class="cmmi-10">,...,X</span><sub><span class="cmmi-7">n</span></sub>,
+and it follows:
+<div class="math-display">
+<img alt="                                 ∏n
+p (X1 = x1,...,Xn = xn) = p (X1 = x1)  p(Xi = xi|X1 = x1,...,Xi- 1 = xi-1).
+                                 i=2
+" class="math-display" src="summary24x.png"/></div>
+<div class="newtheorem">
+<!--l. 419--><p class="noindent"><span class="head">
+<a id="x1-7001r1"></a>
+<span class="ecbx-1000">Example 2.1.</span> </span>For example, let’s say <span class="cmmi-10">X </span><span class="cmr-10">= </span><img align="middle" alt="{1,2,3}" class="left" src="summary25x.png"/>, <span class="cmmi-10">Y </span><span class="cmr-10">= </span><img align="middle" alt="{1,2}" class="left" src="summary26x.png"/> and <span class="cmmi-10">Z </span><span class="cmr-10">= </span><img align="middle" alt="{1,2}" class="left" src="summary27x.png"/> with the following probabilities:
+<div class="center">
+<!--l. 422--><p class="noindent">
+<div class="tabular"> <table class="tabular" id="TBL-2"><colgroup id="TBL-2-1g"><col id="TBL-2-1"/></colgroup><colgroup id="TBL-2-2g"><col id="TBL-2-2"/></colgroup><colgroup id="TBL-2-3g"><col id="TBL-2-3"/></colgroup><colgroup id="TBL-2-4g"><col id="TBL-2-4"/></colgroup><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-1-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-1-1" style="white-space:nowrap; text-align:center;"><span class="cmmi-10">X</span></td><td class="td11" id="TBL-2-1-2" style="white-space:nowrap; text-align:center;"><span class="cmmi-10">Y </span></td><td class="td11" id="TBL-2-1-3" style="white-space:nowrap; text-align:center;"><span class="cmmi-10">Z</span></td><td class="td11" id="TBL-2-1-4" style="white-space:nowrap; text-align:center;"><span class="cmmi-10">p</span><img align="middle" alt="(x,y,z)" class="left" src="summary28x.png"/></td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-2-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-2-1" style="white-space:nowrap; text-align:center;"> 1 </td><td class="td11" id="TBL-2-2-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-2-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-2-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1
+6" class="frac" src="summary29x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-3-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-3-1" style="white-space:nowrap; text-align:center;"> 1 </td><td class="td11" id="TBL-2-3-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-3-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-3-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1
+6" class="frac" src="summary30x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-4-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-4-1" style="white-space:nowrap; text-align:center;"> 1 </td><td class="td11" id="TBL-2-4-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-4-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-4-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+12" class="frac" src="summary31x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-5-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-5-1" style="white-space:nowrap; text-align:center;"> 1 </td><td class="td11" id="TBL-2-5-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-5-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-5-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+24" class="frac" src="summary32x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-6-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-6-1" style="white-space:nowrap; text-align:center;"> 2 </td><td class="td11" id="TBL-2-6-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-6-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-6-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+24" class="frac" src="summary33x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-7-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-7-1" style="white-space:nowrap; text-align:center;"> 2 </td><td class="td11" id="TBL-2-7-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-7-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-7-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+20" class="frac" src="summary34x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-8-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-8-1" style="white-space:nowrap; text-align:center;"> 2 </td><td class="td11" id="TBL-2-8-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-8-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-8-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+20" class="frac" src="summary35x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-9-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-9-1" style="white-space:nowrap; text-align:center;"> 2 </td><td class="td11" id="TBL-2-9-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-9-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-9-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+20" class="frac" src="summary36x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-10-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-10-1" style="white-space:nowrap; text-align:center;"> 3 </td><td class="td11" id="TBL-2-10-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-10-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-10-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1
+6" class="frac" src="summary37x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-11-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-11-1" style="white-space:nowrap; text-align:center;"> 3 </td><td class="td11" id="TBL-2-11-2" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-11-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-11-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+12" class="frac" src="summary38x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-12-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-12-1" style="white-space:nowrap; text-align:center;"> 3 </td><td class="td11" id="TBL-2-12-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-12-3" style="white-space:nowrap; text-align:center;">1</td><td class="td11" id="TBL-2-12-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+20" class="frac" src="summary39x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-13-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-13-1" style="white-space:nowrap; text-align:center;"> 3 </td><td class="td11" id="TBL-2-13-2" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-13-3" style="white-space:nowrap; text-align:center;">2</td><td class="td11" id="TBL-2-13-4" style="white-space:nowrap; text-align:center;"> <img align="middle" alt="1-
+20" class="frac" src="summary40x.png"/> </td>
+</tr><tr class="hline"><td><hr/></td><td><hr/></td><td><hr/></td><td><hr/></td></tr><tr id="TBL-2-14-" style="vertical-align:baseline;"><td class="td11" id="TBL-2-14-1" style="white-space:nowrap; text-align:center;"> </td>
+</tr></table></div>
+</p></div>
+<!--l. 494--><p class="noindent">Then, the marginal probabilities for the variable <span class="cmmi-10">X </span>are
+<div class="math-display">
+<img alt="P (X = 1) = 1+ 1 + -1 + 1-=  11,
+            6  6   12   24   24
+" class="math-display" src="summary41x.png"/></div>
+<!--l. 498--><p class="noindent">
+<div class="math-display">
+<img alt="           -1   1-   1-  -1   -23
+P (X  = 2) = 24 + 20 + 20 + 20 = 120,
+" class="math-display" src="summary42x.png"/></div>
+<!--l. 501--><p class="noindent">
+<div class="math-display">
+<img alt="P (X = 3) = 1+ -1 + -1 + 1-=  21=  7-.
+            6  12   20   20   60   20
+" class="math-display" src="summary43x.png"/></div>
+<!--l. 505--><p class="noindent">The conditional probability for the event <img align="middle" alt="{Y = 1|X = 3}" class="left" src="summary44x.png"/> is:
+<div class="math-display">
+<img alt="                 P-(Y-=-1,X--=-3)  -16 +-112  14-   5
+P (Y = 1|X  = 3) =    P (X  = 3)   =   -7   = 7- = 7.
+                                    20     20
+" class="math-display" src="summary45x.png"/></div>
+<!--l. 511--><p class="noindent">The conditional probability for the event <img align="middle" alt="{Z = 1|X = 3,Y = 1}" class="left" src="summary46x.png"/> is:
+<div class="math-display">
+<img alt="                       P (X-=-3,Y-=-1,Z-=-1)  16-  2
+P (Z = 1|X = 3,Y = 1) =   P (X = 3,Y = 1)    = 14 = 3.
+" class="math-display" src="summary47x.png"/></div>
+<!--l. 517--><p class="noindent">The probability of the event <img align="middle" alt="{X  = 3,Y = 1,Z = 1}" class="left" src="summary48x.png"/> could be computed from the conditional probabilities as follows, in
+case we only knew these:
+                                                                                            
+                                                                                            
+<table class="align-star">
+<tr><td class="align-odd"><span class="cmmi-10">P</span><img align="middle" alt="(X = 3,Y = 1,Z = 1)" class="left" src="summary49x.png"/> <span class="cmr-10">=</span></td> <td class="align-even"><span class="cmmi-10">P</span><img align="middle" alt="(X = 3)" class="left" src="summary50x.png"/> <span class="cmsy-10">⋅ </span><span class="cmmi-10">P</span><img align="middle" alt="(Y = 1|X = 3)" class="left" src="summary51x.png"/> <span class="cmsy-10">⋅ </span><span class="cmmi-10">P</span><img align="middle" alt="(Z = 1|X = 3,Y = 1)" class="left" src="summary52x.png"/></td> <td class="align-label"></td> <td class="align-label">
+</td></tr><tr><td class="align-odd"> <span class="cmr-10">=</span></td> <td class="align-even"><img align="middle" alt="-7
+20" class="frac" src="summary53x.png"/> <span class="cmsy-10">⋅</span><img align="middle" alt="5
+7" class="frac" src="summary54x.png"/> <span class="cmsy-10">⋅</span><img align="middle" alt="2
+3" class="frac" src="summary55x.png"/> <span class="cmr-10">=</span> <img align="middle" alt="10
+60" class="frac" src="summary56x.png"/> <span class="cmr-10">=</span> <img align="middle" alt="1
+6" class="frac" src="summary57x.png"/><span class="cmmi-10">.</span></td> <td class="align-label"></td> <td class="align-label"></td></tr></table>
+</p></p></p></p></p></p></p></div>
+<!--l. 524--><p class="noindent">
+When there are several variables, it is possible that the value of one of them is dependant, somehow, on the values that
+the other variables take; or that it is not:
+<div class="tcolorbox tcolorbox" id="tcolobox-2">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 530--><p class="noindent"><span class="head">
+<a id="x1-7002r2"></a>
+<span class="ecbx-1000">Definition 2.2.</span> </span>Two random variables <span class="cmmi-10">X </span>and <span class="cmmi-10">Y  </span>are <span class="ecbx-1000">independant</span>, denoted <span class="cmmi-10">X </span><span class="cmsy-10">⊥ </span><span class="cmmi-10">Y </span>, if <span class="cmsy-10">∀</span><span class="cmmi-10">x </span><span class="cmsy-10">∈ </span><span class="cmmi-10">X,y </span><span class="cmsy-10">∈</span>
+<span class="cmmi-10">Y,p</span><img align="middle" alt="(X  = x,Y = y)" class="left" src="summary58x.png"/> <span class="cmr-10">= </span><span class="cmmi-10">p</span><img align="middle" alt="(X = x)" class="left" src="summary59x.png"/> <span class="cmsy-10">⋅ </span><span class="cmmi-10">p</span><img align="middle" alt="(Y = y)" class="left" src="summary60x.png"/><span class="cmmi-10">.</span>
+<!--l. 534--><p class="noindent"><span class="cmmi-10">X  </span>and  <span class="cmmi-10">Y  </span>are  <span class="ecbx-1000">conditionally  independent  </span>given  the  random  variable  <span class="cmmi-10">Z</span>,  written  <span class="cmmi-10">X  </span><span class="cmsy-10">⊥</span> <sub><span class="cmmi-7">Z</span></sub><span class="cmmi-10">Y  </span>if
+<span class="cmsy-10">∀</span><span class="cmmi-10">x </span><span class="cmsy-10">∈ </span><span class="cmmi-10">X,y </span><span class="cmsy-10">∈ </span><span class="cmmi-10">Y,z </span><span class="cmsy-10">∈ </span><span class="cmmi-10">Z</span>,
+<div class="math-display">
+<img alt="p (X  = x,Y = y|Z = z) = p (X = x|Z = z)⋅p (Y = y|Z = z).
+" class="math-display" src="summary61x.png"/></div>
+</p></p></div>
+<!--l. 539--><p class="noindent">
+</p></div>
+</div>
+<!--l. 542--><p class="noindent">In Statistics and Machine Learning, there are some measures that summarize information about random variables, and
+that hold great importance.
+<div class="tcolorbox tcolorbox" id="tcolobox-3">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 546--><p class="noindent"><span class="head">
+<a id="x1-7003r3"></a>
+<span class="ecbx-1000">Definition 2.3.</span> </span>The <span class="ecbx-1000">expectation </span>of a function <span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary62x.png"/> where <span class="cmmi-10">x </span><span class="cmsy-10">~ </span><span class="cmmi-10">p</span><img align="middle" alt="(x )" class="left" src="summary63x.png"/> is the average value of <span class="cmmi-10">f </span>over <span class="cmmi-10">x</span>:
+<div class="math-display">
+<img alt="            ∫
+Ex~p[f (x)] =    p(x)f (x)dx.
+             x∈X
+" class="math-display" src="summary64x.png"/></div>
+<!--l. 552--><p class="noindent">The <span class="ecbx-1000">variance </span>of <span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary65x.png"/> measures how the values of <span class="cmmi-10">f </span>varies from its average:
+<div class="math-display">
+<img alt="             [               2]
+V ar[f (x)] = E (f (x)- E [f (x)]) ,
+" class="math-display" src="summary66x.png"/></div>
+<!--l. 557--><p class="noindent">and the <span class="ecbx-1000">standard deviation </span>is the square root of the variance.
+<!--l. 559--><p class="noindent">The <span class="ecbx-1000">covariance </span>of two random variables provides informaiton about how much two values are linearly
+related. More generally, if we apply two functions <span class="cmmi-10">f</span><img align="middle" alt="(x)" class="left" src="summary67x.png"/><span class="cmmi-10">, </span>where <span class="cmmi-10">x </span><span class="cmsy-10">~ </span><span class="cmmi-10">p</span><img align="middle" alt="(x)" class="left" src="summary68x.png"/>, and <span class="cmmi-10">g</span><img align="middle" alt="(y)" class="left" src="summary69x.png"/>, where <span class="cmmi-10">y </span><span class="cmsy-10">~ </span><span class="cmmi-10">p</span><img align="middle" alt="(y)" class="left" src="summary70x.png"/>, the
+covariance between them is:
+<div class="math-display">
+<img alt="Cov[f (x),g(y)] = E[(f (x)- E [f (x)])(g(y)- E[g(y)])].
+" class="math-display" src="summary71x.png"/></div>
+</p></p></p></p></div>
+<!--l. 567--><p class="noindent">
+</p></div>
+</div>
+<!--l. 571--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">2.3   </span> <a id="x1-80002.3"></a>Machine Learning Basics</h4>
+<!--l. 573--><p class="noindent">To finalize with this review chapter, we are going to remember some basic concepts of Machine Learning.
+                                                                                            
+                                                                                            
+<!--l. 576--><p class="noindent">First, let’s give a definition of the concept:
+<div class="tcolorbox tcolorbox" id="tcolobox-4">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 579--><p class="noindent"><span class="head">
+<a id="x1-8001r4"></a>
+<span class="ecbx-1000">Definition 2.4.</span> </span>A computer program is said to <span class="ecbx-1000">learn </span>from experience <span class="cmmi-10">E </span>with respect to some class of
+tasks <span class="cmmi-10">T </span>and performance measure <span class="cmmi-10">P</span>, if its performance at tasks in <span class="cmmi-10">T</span>, as measured by <span class="cmmi-10">P</span>, improves with
+experience <span class="cmmi-10">E</span>.
+</p></div>
+<!--l. 584--><p class="noindent">
+</p></div>
+</div>
+<ul class="itemize1">
+<li class="itemize">
+<!--l. 588--><p class="noindent">The <span class="ecbx-1000">task </span><span class="cmmi-10">T </span>can be classification, regression, translation, generation, anomaly detection,...
+     </p></li>
+<li class="itemize">
+<!--l. 590--><p class="noindent">The <span class="ecbx-1000">performance measure </span><span class="cmmi-10">P </span>is specific to the tasks involved, and can be accuracy for classification,
+     for example. It is measured on a <span class="ecbx-1000">test set</span>.
+     </p></li>
+<li class="itemize">
+<!--l. 593--><p class="noindent">The <span class="ecbx-1000">experience </span><span class="cmmi-10">E </span>is divided into two main categories:
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 595--><p class="noindent"><span class="ecbx-1000">Supervised learning</span>: a dataset of points associated with a label or a target determines the expected
+         outcome of each event.
+         </p></li>
+<li class="itemize">
+<!--l. 597--><p class="noindent"><span class="ecbx-1000">Unsupervised  learning</span>:  a  dataset  of  points  without  labels  or  targets,  in  which  the  desirable
+         outcome needs to be define in some different way.</p></li></ul>
+</p></li></ul>
+<!--l. 602--><p class="noindent">Mathematically, we can formalize this as having a dataset of <span class="cmmi-10">m </span>points and <span class="cmmi-10">k </span>features, which can be represented as a
+matrix <span class="cmmi-10">X </span><span class="cmsy-10">∈ </span><span class="msbm-10">ℝ</span><sup><span class="cmmi-7">m</span><span class="cmsy-7">×</span><span class="cmmi-7">k</span></sup>. In the case of supervised learning, <span class="cmmi-10">X </span>is associated with a vector of labels, <span class="cmmi-10">y</span>, and we aim to learn a
+joint distribution, <span class="cmmi-10">p</span><img align="middle" alt="(X,y)" class="left" src="summary72x.png"/> to infer
+<div class="math-display">
+<img alt="                   p(x,y)
+p (Y = y|X = x) = ∑--′p-(x,y′).
+                   y
+" class="math-display" src="summary73x.png"/></div>
+<!--l. 610--><p class="noindent">The goal is then to find a function <img alt="ˆf" class="circ" src="summary74x.png"/> that associates each <span class="cmmi-10">x </span>to the best approximation of <span class="cmmi-10">y</span>, and that is capable of
+generalizing to unseen data. Usually, <img alt="ˆf" class="circ" src="summary75x.png"/> is parameterized by a set of parameters, <span class="cmmi-10">θ</span>, which are learnt during
+training.
+<!--l. 615--><p class="noindent">The main challenge of an ML model is <span class="ecbx-1000">generalization </span>to unseen data estimated on test data after the training on
+training data. <span class="ecbx-1000">Overfitting </span>occurs when the gap between training error and test error is too large, while
+<span class="ecbx-1000">underfitting </span>occurs when the training error is too large. The <span class="ecbx-1000">capacity </span>of a model is the range of functions that
+it is able to leanr and control how likely the model can overfit or underfit. This is visualized in Figure
+<a href="#x1-80021">1<!--tex4ht:ref: fig:Appropriate-capacity,-overfittin --></a>.
+<!--l. 623--><p class="noindent"><hr class="figure"/><div class="figure">
+<a id="x1-80021"></a>
+<!--l. 625--><p class="noindent"><img alt="PIC" src="1_home_runner_work_BDMA_Notes_BDMA_Notes_Paris-___achine-Learning_LectureNotes_source_pegado1.png"/>
+<br/> <div class="caption"><span class="id">Figure 1: </span><span class="content">Appropriate capacity, overfitting and underfitting visualization.</span></div><!--tex4ht:label?: x1-80021 -->
+<!--l. 629--><p class="noindent"></p></p></div><hr class="endfigure"/>
+<!--l. 631--><p class="noindent">When we want to train a model, we will define the parameters that characterize it, and then we need to obtain the best
+possible of the parameters, according to the data. For this, we use estimators:
+<div class="tcolorbox tcolorbox" id="tcolobox-5">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 636--><p class="noindent"><span class="head">
+<a id="x1-8003r5"></a>
+<span class="ecbx-1000">Definition 2.5.</span> </span>Given an unknown parameter <span class="cmmi-10">θ</span>, we estimate it through an <span class="ecbx-1000">estimator</span>, <img alt="ˆ
+θ" class="circ" src="summary76x.png"/> . A <span class="ecbx-1000">point</span>
+<span class="ecbx-1000">estimator </span>is a function of the data, <span class="cmmi-10">X</span>,
+<div class="math-display">
+<img alt=" ˆ
+θ = g(X ).
+" class="math-display" src="summary77x.png"/></div>
+<!--l. 643--><p class="noindent">The <span class="ecbx-1000">bias </span>of an estimator is
+<div class="math-display">
+<img alt="    ( )    [ ]
+bias ˆθ  = E ˆθ - θ.
+" class="math-display" src="summary78x.png"/></div>
+<!--l. 647--><p class="noindent">An estimator is <span class="ecbx-1000">unbiased </span>if <span class="cmmi-10">bias</span><img align="middle" alt="( )
+ θˆ" class="left" src="summary79x.png"/> <span class="cmr-10">= 0</span>.
+<!--l. 649--><p class="noindent">The <span class="ecbx-1000">variance </span>of an estimator is <span class="cmmi-10">V ar</span><img align="middle" alt="( )
+ ˆθ" class="left" src="summary80x.png"/>.
+</p></p></p></p></div>
+<!--l. 650--><p class="noindent">
+</p></div>
+</div>
+<!--l. 653--><p class="noindent">There are different ways to construct estimators, but one that is frequently used and that has solid mathematical
+foundations is the <span class="ecbx-1000">maximum likelihood estimator</span>. Consider a dataset <span class="cmmi-10">X </span><span class="cmr-10">= </span><img align="middle" alt="{x1,...,xn}" class="left" src="summary81x.png"/> and <span class="cmmi-10">p</span><img align="middle" alt="(x;θ)" class="left" src="summary82x.png"/> a parametric
+family of probability distribution that maps for each <span class="cmmi-10">x </span>the probability <span class="cmmi-10">p</span><sub><span class="cmmi-7">data</span></sub><img align="middle" alt="(x)" class="left" src="summary83x.png"/>. This is, for each <span class="cmmi-10">θ</span>, <span class="cmmi-10">p</span><img align="middle" alt="(x;θ)" class="left" src="summary84x.png"/> is a
+probability density function. The maximum likelihood estimator is then
+                                                                                            
+                                                                                            
+<table class="align-star">
+<tr><td class="align-odd"><span class="cmmi-10">θ</span><sub><span class="cmmi-7">ML</span></sub> <span class="cmr-10">=</span></td> <td class="align-even"><span class="cmr-10">arg</span> <span class="cmr-10">max</span><sub><span class="cmmi-7">θ</span></sub><span class="cmmi-10">p</span><sub><span class="cmmi-7">model</span></sub><img align="middle" alt="(X; θ)" class="left" src="summary85x.png"/></td> <td class="align-label"></td> <td class="align-label">
+</td></tr><tr><td class="align-odd"> <span class="cmr-10">=</span></td> <td class="align-even"><span class="cmr-10">arg</span> <span class="cmr-10">max</span><sub><span class="cmmi-7">θ</span></sub> <span class="cmex-10">∏</span>
+<sub><span class="cmmi-7">i</span><span class="cmr-7">=1</span></sub><sup><span class="cmmi-7">n</span></sup><span class="cmmi-10">p</span><sub>
+<span class="cmmi-7">model</span></sub><img align="middle" alt="(xi;θ)" class="left" src="summary86x.png"/><span class="cmmi-10">,</span></td> <td class="align-label"></td> <td class="align-label"></td></tr></table>
+<!--l. 664--><p class="noindent">considering that all instances of data are independent and identically distributed (iid). It is also a common practice to
+use the maximum <span class="ecbx-1000">log</span>-likelihood instead, removing the product and avoiding floating point issues, since when the
+dataset is large, the product will rapidly go to 0. In addition, the logarithm does not modify the ordinals of the
+function. Therefore, we can use:
+<div class="math-display">
+<img alt="             ∑n
+θML = argmaxθ    log(pmodel(xi;θ)).
+             i=1
+" class="math-display" src="summary87x.png"/></div>
+<h3 class="sectionHead"><span class="titlemark">3   </span> <a id="x1-90003"></a>Deep Neural Networks</h3>
+<!--l. 677--><p class="noindent">
+<h1 class="partHead"><span class="titlemark">Part II<br/></span><a id="x1-10000II"></a>Reinforcement Learning</h1>
+<!--l. 681--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-11000II"></a>References</h3>
 <!--l. 1--><p class="noindent">
 <div class="thebibliography">
 <p class="bibitem"><span class="biblabel">
  [1]<span class="bibsp">   </span></span><a id="XDupuis2023"></a>Tom Dupuis. Machine learning. Lecture Notes.
 </p>
 </div>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
