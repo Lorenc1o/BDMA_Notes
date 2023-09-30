@@ -101,8 +101,8 @@ used.
 <!--l. 96--><p class="noindent">
 <h1 class="partHead"><span class="titlemark">Part I<br/></span><a id="x1-2000I"></a>Deep Learning</h1>
 <h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-30001"></a>Introduction</h3>
-<!--l. 102--><p class="noindent"><span class="ecbx-1000">Artificial Intelligence </span>is a wide concept, encompashing different aspects and fields. We can understand the term AI
-as the multidisciplinary field of study that aims at recreating human intelligence using artificial means. This is a bit
+<!--l. 102--><p class="noindent"><span class="ecbx-1000">Artificial Intelligence </span>is a wide concept, encompassing different aspects and fields. We can understand the term AI as
+the multidisciplinary field of study that aims at recreating human intelligence using artificial means. This is a bit
 abstract, and, in fact, there is no single definition for what this means. Intelligence is not fully understood, and thus it
 is hard to assess whether an artificial invention has achieved intelligence, further than intuitively thinking
 so.
@@ -150,7 +150,7 @@ required around 16500x less compute than a model trained in 2012.
 <!--l. 147--><p class="noindent">But not everything is sweet and roses when using DL. Since these systems are being involved in decision making
 processes, there are some questions that arise, like whose responsibility is it when a model fails? Moreover, data is
 needed to train the models, so it is relevant to address how datasets should be collected, and to respect the privacy of
-the people thhat produce data. In addition, the recent technologies that are able to generate new content and to modify
+the people that produce data. In addition, the recent technologies that are able to generate new content and to modify
 real content, make it a new issue that AI can create false information, mistrust, and even violence or
 paranoia.
 <!--l. 157--><p class="noindent">Nonetheless, let’s not focus on the negative, there are lots of nice applications of DL, and it is a key
@@ -160,21 +160,114 @@ data.
 <h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a id="x1-40001.1"></a>AI History</h4>
 <!--l. 164--><p class="noindent">In 1950, Alan turing aimed to answer the question ’<span class="ecti-1000">Can machines think?</span>’ through a test, which came to be named the
 <span class="ecbx-1000">Turing Test</span>, and consists in a 3 players game. First, a similar game is the following: 2 talkers, a man and a female,
-and 1 interrogator. The interrogator asks questions to the talkers, with the aim of determining who is
-the man and who is the female. The man tries to trick the interrogator, while the woman tries to help
-him.
+and 1 interrogator. The interrogator asks questions to the talkers, with the aim of determining who is the man and
+who is the female. The man tries to trick the interrogator, while the woman tries to help him to identify
+her.
 <!--l. 172--><p class="noindent">Then, the Turing Test consists in replacing the man by an artificial machine. Turing thought that a machine that could
 trick a human interrogator, should be considered intelligent.
 <!--l. 176--><p class="noindent">Later, in 1956, in the Dartmouth Workshop organized by IBM, the term <span class="ecbx-1000">Artificial Intelligence </span>was first used to
 describe <span class="ecti-1000">every aspect of learning or any other feature of intelligence can be so precisely described that a machine can be</span>
 <span class="ecti-1000">made to simulate it</span>.
-<!--l. 181--><p class="noindent">
+<!--l. 181--><p class="noindent">From this year on, there was a focus on researching about <span class="ecbx-1000">Symbolic AI</span>, specially in three areas of
+research:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 184--><p class="noindent">Reasoning as search: a different set of actions leads to a certain goal, so we can try to find the best choice
+     of action to obtain the best possible outcome.
+     </p></li>
+<li class="itemize">
+<!--l. 187--><p class="noindent">Natural Language: different tools were developed, following grammar and language rules.
+     </p></li>
+<li class="itemize">
+<!--l. 189--><p class="noindent">Micro world: small block based worlds, that the system can identify and move.</p></li></ul>
+<!--l. 192--><p class="noindent">In 1958, the <span class="ecbx-1000">Perceptron </span>was conceived, giving birth to what is called the connectionism, an approach to AI based on
+the human brain, and a big hype that encouraged funding to support AI research. At this era, scientists
+experience a bit of lack of perspective, thinking that the power of AI was much higher than it was. For
+instance, H. A. Simon stated in 1965 that ’<span class="ecti-1000">machines will be capable, within twenty years, of doing any work</span>
+<span class="ecti-1000">a man can do.</span>’ We can relate to our time, with the huge hype that AI is experiencing, as well as the
+many apocaliptic theories that some people are making. Maybe we are again overestimating the power of
+AI.
+<!--l. 203--><p class="noindent">The time from 1974 to 1980 is seen as the first winter of AI, in which research was slowed down and funding was
+reduced. This was due to several problems found at the time:
+                                                                                            
+                                                                                            
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 207--><p class="noindent">There were few computational resources.
+     </p></li>
+<li class="itemize">
+<!--l. 208--><p class="noindent">The models at the time were not scalable.
+     </p></li>
+<li class="itemize">
+<!--l. 209--><p class="noindent">The Moravec’s paradox: it is comparatively easy to make computers exhibit adult level performance on
+     intelligence test or playing checkers, and difficult or impossible to give them the skills of a one-year-old
+     when it comes to perception and mobility.
+     </p></li>
+<li class="itemize">
+<!--l. 213--><p class="noindent">Marvin Minsky made some devastating critics to connectionism, compared to symbolic, rule-based
+     models:
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 216--><p class="noindent">Limited capacity: Minsky showed that single-layer perceptrons (a simple kind of neural network)
+         could not solve certain classes of problems, like the XOR problem. While it was later shown that
+         multi-layer perceptrons could solve these problems, Minsky’s work resulted in a shift away from
+         neural networks for a time.
+         </p></li>
+<li class="itemize">
+<!--l. 221--><p class="noindent">Lack of clear symbols: Minsky believed that human cognition operates at a higher level with symbols
+         and structures (like frames and scripts), rather than just distributed patterns of activation. He often
+         argued that connectionist models lacked a clear way to represent these symbolic structures.
+         </p></li>
+<li class="itemize">
+<!--l. 226--><p class="noindent">Generalization and Abstraction: Minsky was concerned that connectionist models struggled with
+         generalizing beyond specific training examples or abstracting high-level concepts from raw data.
+         </p></li>
+<li class="itemize">
+<!--l. 229--><p class="noindent">Inefficiency: Minsky pointed out that many problems which seemed simple for symbolic models could
+         be extremely computationally intensive for connectionist models.
+         </p></li>
+<li class="itemize">
+<!--l. 232--><p class="noindent">Lack of explanation: Connectionist models, especially when they become complex, can be seen as
+         "black boxes", making it difficult to interpret how they arrive at specific conclusions.
+         </p></li>
+<li class="itemize">
+<!--l. 235--><p class="noindent">Over-reliance on learning: Minsky believed that not all knowledge comes from learning from scratch,
+         and some of it might be innate or structured in advance. He felt connectionism put too much emphasis
+         on learning from raw data.</p></li></ul>
+</p></li></ul>
+<!--l. 241--><p class="noindent">In 1980, there was a boom in expert knowledge systems that made AI recover interest. An <span class="ecbx-1000">expert system </span>solves
+specific tasks following an ensemble of rules based on knowledge facilitated by experts. A remarkable use case
+was the XCON sorting system, developed for the Digital Equipment Corporation, which helped them
+save 40M$ per year. In addition, connectionism also came again on scene, thanks to the development of
+<span class="ecbx-1000">backpropagation </span>applied to neurons, by Geoffrey Hinton. All these achievement made funding to come back to the
+field.
+                                                                                            
+                                                                                            
+<!--l. 250--><p class="noindent">Nonetheless, there came a second winter of AI, from 1987 to 1994, mainly because several companies were disappointed
+and AI was seen as a technology that couldn’t solve wide varieties of tasks. The funding was withdrawn from the field
+and a lot AI companies went bankrupt.
+<!--l. 255--><p class="noindent">Luckily, from 1995 there started a new return of AI in the industry. The Moore’s Law states that speed and memory of
+computer doubles every two years, and so computing power and memory was rapidly increasing, making the use of AI
+systems more feasible each year. During this time, many new concepts were introduced, such as <span class="ecbx-1000">intelligent agents </span>as
+systems that perceive their environment and take actions which maximize their chances of success; or different
+<span class="ecbx-1000">probabilistic reasoning tools </span>such as Bayesian networks, hidden Markov models, information theory, SVM,... In
+addition, AI researchers started to reframe their work in terms of mathematics, computer science, physics, etc., making
+the field more attractive for funding. A remarkable milestone during this time was the victory of Deep Blue against
+Garry Kasparov.
+<!--l. 268--><p class="noindent">The last era of AI comes from 2011 to today, with the advent and popularization of <span class="ecbx-1000">Deep Learning </span>(DL), which are
+deep graph processing layers mimicking human neurons interactions. This happened thanks to the advances of hardware
+technologies, that have enabled the enormous computing requirements needed for DL. The huge hype comes from the
+spectacular results shown by this kind of systems in a huge variety of tasks, such as computer vision, natural language
+processing, anomaly detection,...
+<!--l. 277--><p class="noindent">In summary, we can see how the history of AI has been a succession of hype and dissapointment cycles, with many
+actors involved and the industry as a very important part of the process.
+<!--l. 281--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">2   </span> <a id="x1-50002"></a>Machine Learning Basics</h3>
-<!--l. 183--><p class="noindent">
+<!--l. 283--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">3   </span> <a id="x1-60003"></a>Deep Neural Networks</h3>
-<!--l. 185--><p class="noindent">
+<!--l. 285--><p class="noindent">
 <h1 class="partHead"><span class="titlemark">Part II<br/></span><a id="x1-7000II"></a>Reinforcement Learning</h1>
-<!--l. 189--><p class="noindent">
+<!--l. 289--><p class="noindent">
 <h3 class="likesectionHead"><a id="x1-8000II"></a>References</h3>
 <!--l. 1--><p class="noindent">
 <div class="thebibliography">
@@ -182,4 +275,4 @@ describe <span class="ecti-1000">every aspect of learning or any other feature o
  [1]<span class="bibsp">   </span></span><a id="XDupuis2023"></a>Tom Dupuis. Machine learning. Lecture Notes.
 </p>
 </div>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
