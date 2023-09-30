@@ -222,7 +222,7 @@ Introduction
 \series bold
 Artificial Intelligence
 \series default
- is a wide concept, encompashing different aspects and fields.
+ is a wide concept, encompassing different aspects and fields.
  We can understand the term AI as the multidisciplinary field of study that
  aims at recreating human intelligence using artificial means.
  This is a bit abstract, and, in fact, there is no single definition for
@@ -316,7 +316,7 @@ But not everything is sweet and roses when using DL.
  are some questions that arise, like whose responsibility is it when a model
  fails? Moreover, data is needed to train the models, so it is relevant
  to address how datasets should be collected, and to respect the privacy
- of the people thhat produce data.
+ of the people that produce data.
  In addition, the recent technologies that are able to generate new content
  and to modify real content, make it a new issue that AI can create false
  information, mistrust, and even violence or paranoia.
@@ -347,7 +347,7 @@ Turing Test
  The interrogator asks questions to the talkers, with the aim of determining
  who is the man and who is the female.
  The man tries to trick the interrogator, while the woman tries to help
- him.
+ him to identify her.
 \end_layout
 
 \begin_layout Standard
@@ -398,8 +398,9 @@ In 1958, the
 \series bold
 Perceptron
 \series default
- was conceived, giving birth to what is called the connectionism, and a
- big hype that encouraged funding to support AI research.
+ was conceived, giving birth to what is called the connectionism, an approach
+ to AI based on the human brain, and a big hype that encouraged funding
+ to support AI research.
  At this era, scientists experience a bit of lack of perspective, thinking
  that the power of AI was much higher than it was.
  For instance, H.
@@ -493,7 +494,7 @@ expert system
 \series default
  solves specific tasks following an ensemble of rules based on knowledge
  facilitated by experts.
- A remarkable use case was the XCON sorting system, developed for the Difital
+ A remarkable use case was the XCON sorting system, developed for the Digital
  Equipment Corporation, which helped them save 40M$ per year.
  In addition, connectionism also came again on scene, thanks to the development
  of 
@@ -526,7 +527,7 @@ intelligent agents
 probabilistic reasoning tools
 \series default
  such as Bayesian networks, hidden Markov models, information theory, SVM,...
- In addition, AI researchers started to restate their work in terms of mathemati
+ In addition, AI researchers started to reframe their work in terms of mathemati
 cs, computer science, physics, etc., making the field more attractive for
  funding.
  A remarkable milestone during this time was the victory of Deep Blue against
@@ -534,11 +535,1690 @@ cs, computer science, physics, etc., making the field more attractive for
 \end_layout
 
 \begin_layout Standard
-The last era of 
+The last era of AI comes from 2011 to today, with the advent and popularization
+ of 
+\series bold
+Deep Learning
+\series default
+ (DL), which are deep graph processing layers mimicking human neurons interactio
+ns.
+ This happened thanks to the advances of hardware technologies, that have
+ enabled the enormous computing requirements needed for DL.
+ The huge hype comes from the spectacular results shown by this kind of
+ systems in a huge variety of tasks, such as computer vision, natural language
+ processing, anomaly detection,...
+\end_layout
+
+\begin_layout Standard
+In summary, we can see how the history of AI has been a succession of hype
+ and dissapointment cycles, with many actors involved and the industry as
+ a very important part of the process.
 \end_layout
 
 \begin_layout Section
 Machine Learning Basics
+\end_layout
+
+\begin_layout Standard
+In this section, we review some notation, and basic knowledge of Linear
+ Algebra, Probability and Machine Learning.
+\end_layout
+
+\begin_layout Subsection
+Linear Algebra Basics
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+scalar
+\series default
+ is a number, either real and usually denoted 
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+, or natural and denoted 
+\begin_inset Formula $n\in\mathbb{N}$
+\end_inset
+
+.
+ A 
+\series bold
+vector
+\series default
+ is an array of numbers, usually real, 
+\begin_inset Formula $x\in\mathbb{R}^{n},$
+\end_inset
+
+ or
+\begin_inset Formula 
+\[
+x=\left[\begin{array}{c}
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{n}
+\end{array}\right].
+\]
+
+\end_inset
+
+ A 
+\series bold
+matrix
+\series default
+ is a 2-dimensional array of numbers, 
+\begin_inset Formula $A\in\mathbb{R}^{n\times m}$
+\end_inset
+
+, or
+\begin_inset Formula 
+\[
+A=\left[\begin{array}{ccc}
+A_{11} & \dots & A_{1n}\\
+\vdots & \ddots & \vdots\\
+A_{m1} & \dots & A_{mn}
+\end{array}\right].
+\]
+
+\end_inset
+
+ A 
+\series bold
+tensor
+\series default
+ is an 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional array of numbers, for example 
+\begin_inset Formula $A\in\mathbb{R}^{m\times k\times p}$
+\end_inset
+
+ is a 3-dimensional tensor.
+\end_layout
+
+\begin_layout Standard
+Usually, we will be working with matrices, which can be operated in different
+ ways:
+\end_layout
+
+\begin_layout Itemize
+Transposition: 
+\begin_inset Formula $A^{T}$
+\end_inset
+
+ is the transposed of 
+\begin_inset Formula $A$
+\end_inset
+
+, defined as 
+\begin_inset Formula $\left(A^{T}\right)_{ij}=A_{j,i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Multiplication: Let 
+\begin_inset Formula $A\in\mathbb{R}^{m\times k},B\in\mathbb{R}^{k\times n}$
+\end_inset
+
+, their multiplication, 
+\begin_inset Formula $C\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ is defined as 
+\begin_inset Formula 
+\[
+C=A\cdot B=AB=\left(C_{ij}\right)_{i\leq m,j\leq n}=\left(\sum_{k}A_{ik}B_{kj}\right)_{i\leq m,j\leq n}.
+\]
+
+\end_inset
+
+ Note that the following holds for every matrix 
+\begin_inset Formula $A,B$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left(AB\right)^{T}=B^{T}A^{T}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Point-wise operations: if we have two matrices of the same size, 
+\begin_inset Formula $A,B\in\mathbb{R}^{m\times n}$
+\end_inset
+
+, we can use apply scalar operator point-wise to each pair of elements in
+ the same position in the two matrices.
+ For example, the sum or the substraction of matrices.
+\end_layout
+
+\begin_layout Standard
+There are also special matrices:
+\end_layout
+
+\begin_layout Itemize
+Identity matrix: the identity matrix is a square matrix that preserves any
+ vector it is multiplied with.
+ For vectors of size 
+\begin_inset Formula $n$
+\end_inset
+
+, the identity matrix 
+\begin_inset Formula $I_{n}$
+\end_inset
+
+ verifies
+\begin_inset Formula 
+\[
+I_{n}x=x,\forall x\in\mathbb{R}^{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Inverse matrix: the inverse of a square matrix, 
+\begin_inset Formula $A\in\mathbb{R}^{n\times n}$
+\end_inset
+
+, when it exists, is defined as the only matrix 
+\begin_inset Formula $A^{-1}$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\[
+A^{-1}A=AA^{-1}=I_{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Another important concept is that of the norm, which is basically measuring
+ how far a point is from the origin of the space and can be used to measure
+ distances:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+norm
+\series default
+ is a function 
+\begin_inset Formula $f$
+\end_inset
+
+ that measures the size of vectors, and must have the following properties:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $f\left(x\right)=0\iff x=0,$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f\left(x+y\right)\leq f\left(x\right)+f\left(y\right),$
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall\alpha\in\mathbb{R},f\left(\alpha x\right)=\left|\alpha\right|f\left(x\right).$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A very important family of norms is the 
+\begin_inset Formula $L^{p}$
+\end_inset
+
+ norm, defined as
+\begin_inset Formula 
+\[
+\left\Vert x\right\Vert _{p}=\left(\sum_{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}.
+\]
+
+\end_inset
+
+ The 
+\series bold
+Euclidean norm
+\series default
+ is the 
+\begin_inset Formula $L^{2}$
+\end_inset
+
+ norm, noted 
+\begin_inset Formula $\left\Vert x\right\Vert $
+\end_inset
+
+ and equivalent to computing 
+\begin_inset Formula $\sqrt{x^{T}x}$
+\end_inset
+
+.
+ In Machine Learning, it is not uncommon to find the use of the squared
+ Euclidean norm, since it maintains the ordinals and is easier to operate
+ with.
+ The 
+\series bold
+Manhattan norm
+\series default
+ is the 
+\begin_inset Formula $L^{1}$
+\end_inset
+
+ norm, and it is used when the difference between zero and nonzero elements
+ is important.
+ Finally, the 
+\series bold
+Max norm
+\series default
+ is the 
+\begin_inset Formula $L^{\infty}$
+\end_inset
+
+, or 
+\begin_inset Formula $\left\Vert x\right\Vert _{\infty}=\max_{i}\left|x_{i}\right|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Probability Basics
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+random variable
+\series default
+, 
+\begin_inset Formula $X$
+\end_inset
+
+, is a variable that can take different values, 
+\begin_inset Formula $x$
+\end_inset
+
+, randomly.
+ They can be 
+\series bold
+discrete
+\series default
+, like the number drawn from a dice, or 
+\series bold
+continuous
+\series default
+, like the humidity in the air.
+\end_layout
+
+\begin_layout Standard
+A probability distribution, 
+\begin_inset Formula $p$
+\end_inset
+
+, is a 
+\series bold
+Probability Mass Function (PMF)
+\series default
+ for discrete variables, and a 
+\series bold
+Probability Density Function (PDF)
+\series default
+ for continuous random variables.
+ It must satisfy:
+\end_layout
+
+\begin_layout Itemize
+The domain of 
+\begin_inset Formula $p$
+\end_inset
+
+ describe all possible states of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall x\in X,p\left(x\right)\geq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\int_{x\in X}p\left(x\right)dx=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is usual to have two (or more) random variables, 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+, and to be interested in the probability distribution of their combination,
+ 
+\begin_inset Formula $p\left(x,y\right)$
+\end_inset
+
+.
+ In this context, we define the 
+\series bold
+marginal probability
+\series default
+ of the variable 
+\begin_inset Formula $X$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+p\left(X=x\right)=\int_{y\in Y}p\left(x,y\right)dy,\forall x\in X.
+\]
+
+\end_inset
+
+ The 
+\series bold
+conditional probability
+\series default
+ of the variable 
+\begin_inset Formula $Y$
+\end_inset
+
+ conditioned to 
+\begin_inset Formula $X=x$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+p\left(Y=y|X=x\right)=\frac{p\left(Y=y,X=x\right)}{P\left(X=x\right)}.
+\]
+
+\end_inset
+
+ Finally, there is the 
+\series bold
+chain rule of conditional probabilities
+\series default
+, in which we start with 
+\begin_inset Formula $n$
+\end_inset
+
+ random variables, 
+\begin_inset Formula $X_{1},...,X_{n}$
+\end_inset
+
+, and it follows:
+\begin_inset Formula 
+\[
+p\left(X_{1}=x_{1},...,X_{n}=x_{n}\right)=p\left(X_{1}=x_{1}\right)\prod_{i=2}^{n}p\left(X_{i}=x_{i}|X_{1}=x_{1},...,X_{i-1}=x_{i-1}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+For example, let's say 
+\begin_inset Formula $X=\left\{ 1,2,3\right\} $
+\end_inset
+
+, 
+\begin_inset Formula $Y=\left\{ 1,2\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $Z=\left\{ 1,2\right\} $
+\end_inset
+
+ with the following probabilities:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $X$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Z$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $p\left(x,y,z\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{6}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{6}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{24}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{24}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{20}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{20}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{20}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{6}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{12}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{20}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{20}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Then, the marginal probabilities for the variable 
+\begin_inset Formula $X$
+\end_inset
+
+ are
+\begin_inset Formula 
+\[
+P\left(X=1\right)=\frac{1}{6}+\frac{1}{6}+\frac{1}{12}+\frac{1}{24}=\frac{11}{24},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(X=2\right)=\frac{1}{24}+\frac{1}{20}+\frac{1}{20}+\frac{1}{20}=\frac{23}{120},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P\left(X=3\right)=\frac{1}{6}+\frac{1}{12}+\frac{1}{20}+\frac{1}{20}=\frac{21}{60}=\frac{7}{20}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The conditional probability for the event 
+\begin_inset Formula $\left\{ Y=1|X=3\right\} $
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+P\left(Y=1|X=3\right)=\frac{P\left(Y=1,X=3\right)}{P\left(X=3\right)}=\frac{\frac{1}{6}+\frac{1}{12}}{\frac{7}{20}}=\frac{\frac{1}{4}}{\frac{7}{20}}=\frac{5}{7}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The conditional probability for the event 
+\begin_inset Formula $\left\{ Z=1|X=3,Y=1\right\} $
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+P\left(Z=1|X=3,Y=1\right)=\frac{P\left(X=3,Y=1,Z=1\right)}{P\left(X=3,Y=1\right)}=\frac{\frac{1}{6}}{\frac{1}{4}}=\frac{2}{3}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The probability of the event 
+\begin_inset Formula $\left\{ X=3,Y=1,Z=1\right\} $
+\end_inset
+
+ could be computed from the conditional probabilities as follows, in case
+ we only knew these:
+\begin_inset Formula 
+\begin{align*}
+P\left(X=3,Y=1,Z=1\right)= & P\left(X=3\right)\cdot P\left(Y=1|X=3\right)\cdot P\left(Z=1|X=3,Y=1\right)\\
+= & \frac{7}{20}\cdot\frac{5}{7}\cdot\frac{2}{3}=\frac{10}{60}=\frac{1}{6}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When there are several variables, it is possible that the value of one of
+ them is dependant, somehow, on the values that the other variables take;
+ or that it is not:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Two random variables 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+ are 
+\series bold
+independant
+\series default
+, denoted 
+\begin_inset Formula $X\perp Y$
+\end_inset
+
+, if 
+\begin_inset Formula $\forall x\in X,y\in Y,p\left(X=x,Y=y\right)=p\left(X=x\right)\cdot p\left(Y=y\right).$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+ are 
+\series bold
+conditionally independent
+\series default
+ given the random variable 
+\begin_inset Formula $Z$
+\end_inset
+
+, written 
+\begin_inset Formula $X\perp_{Z}Y$
+\end_inset
+
+ if 
+\begin_inset Formula $\forall x\in X,y\in Y,z\in Z$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+p\left(X=x,Y=y|Z=z\right)=p\left(X=x|Z=z\right)\cdot p\left(Y=y|Z=z\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Statistics and Machine Learning, there are some measures that summarize
+ information about random variables, and that hold great importance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+expectation
+\series default
+ of a function 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $x\sim p\left(x\right)$
+\end_inset
+
+ is the average value of 
+\begin_inset Formula $f$
+\end_inset
+
+ over 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\mathbb{E}_{x\sim p}\left[f\left(x\right)\right]=\int_{x\in X}p\left(x\right)f\left(x\right)dx.
+\]
+
+\end_inset
+
+ The 
+\series bold
+variance
+\series default
+ of 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ measures how the values of 
+\begin_inset Formula $f$
+\end_inset
+
+ varies from its average:
+\begin_inset Formula 
+\[
+Var\left[f\left(x\right)\right]=\mathbb{E}\left[\left(f\left(x\right)-\mathbb{E}\left[f\left(x\right)\right]\right)^{2}\right],
+\]
+
+\end_inset
+
+ and the 
+\series bold
+standard deviation 
+\series default
+is the square root of the variance.
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+covariance
+\series default
+ of two random variables provides informaiton about how much two values
+ are linearly related.
+ More generally, if we apply two functions 
+\begin_inset Formula $f\left(x\right),$
+\end_inset
+
+ where 
+\begin_inset Formula $x\sim p\left(x\right)$
+\end_inset
+
+, and 
+\begin_inset Formula $g\left(y\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $y\sim p\left(y\right)$
+\end_inset
+
+, the covariance between them is:
+\begin_inset Formula 
+\[
+Cov\left[f\left(x\right),g\left(y\right)\right]=\mathbb{E}\left[\left(f\left(x\right)-\mathbb{E}\left[f\left(x\right)\right]\right)\left(g\left(y\right)-\mathbb{E}\left[g\left(y\right)\right]\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Machine Learning Basics
+\end_layout
+
+\begin_layout Standard
+To finalize with this review chapter, we are going to remember some basic
+ concepts of Machine Learning.
+\end_layout
+
+\begin_layout Standard
+First, let's give a definition of the concept:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A computer program is said to 
+\series bold
+learn
+\series default
+ from experience 
+\begin_inset Formula $E$
+\end_inset
+
+ with respect to some class of tasks 
+\begin_inset Formula $T$
+\end_inset
+
+ and performance measure 
+\begin_inset Formula $P$
+\end_inset
+
+, if its performance at tasks in 
+\begin_inset Formula $T$
+\end_inset
+
+, as measured by 
+\begin_inset Formula $P$
+\end_inset
+
+, improves with experience 
+\begin_inset Formula $E$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+task
+\series default
+ 
+\begin_inset Formula $T$
+\end_inset
+
+ can be classification, regression, translation, generation, anomaly detection,...
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+performance measure 
+\begin_inset Formula $P$
+\end_inset
+
+ 
+\series default
+is specific to the tasks involved, and can be accuracy for classification,
+ for example.
+ It is measured on a 
+\series bold
+test set
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+experience
+\series default
+ 
+\begin_inset Formula $E$
+\end_inset
+
+ is divided into two main categories:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Supervised learning
+\series default
+: a dataset of points associated with a label or a target determines the
+ expected outcome of each event.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unsupervised learning
+\series default
+: a dataset of points without labels or targets, in which the desirable
+ outcome needs to be define in some different way.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Mathematically, we can formalize this as having a dataset of 
+\begin_inset Formula $m$
+\end_inset
+
+ points and 
+\begin_inset Formula $k$
+\end_inset
+
+ features, which can be represented as a matrix 
+\begin_inset Formula $X\in\mathbb{R}^{m\times k}$
+\end_inset
+
+.
+ In the case of supervised learning, 
+\begin_inset Formula $X$
+\end_inset
+
+ is associated with a vector of labels, 
+\begin_inset Formula $y$
+\end_inset
+
+, and we aim to learn a joint distribution, 
+\begin_inset Formula $p\left(X,y\right)$
+\end_inset
+
+ to infer
+\begin_inset Formula 
+\[
+p\left(Y=y|X=x\right)=\frac{p\left(x,y\right)}{\sum_{y'}p\left(x,y'\right)}.
+\]
+
+\end_inset
+
+ The goal is then to find a function 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ that associates each 
+\begin_inset Formula $x$
+\end_inset
+
+ to the best approximation of 
+\begin_inset Formula $y$
+\end_inset
+
+, and that is capable of generalizing to unseen data.
+ Usually, 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ is parameterized by a set of parameters, 
+\begin_inset Formula $\theta$
+\end_inset
+
+, which are learnt during training.
+\end_layout
+
+\begin_layout Standard
+The main challenge of an ML model is 
+\series bold
+generalization
+\series default
+ to unseen data estimated on test data after the training on training data.
+ 
+\series bold
+Overfitting
+\series default
+ occurs when the gap between training error and test error is too large,
+ while 
+\series bold
+underfitting
+\series default
+ occurs when the training error is too large.
+ The 
+\series bold
+capacity
+\series default
+ of a model is the range of functions that it is able to leanr and control
+ how likely the model can overfit or underfit.
+ This is visualized in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Appropriate-capacity,-overfittin"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado1.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Appropriate-capacity,-overfittin"
+
+\end_inset
+
+Appropriate capacity, overfitting and underfitting visualization.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When we want to train a model, we will define the parameters that characterize
+ it, and then we need to obtain the best possible of the parameters, according
+ to the data.
+ For this, we use estimators:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given an unknown parameter 
+\begin_inset Formula $\theta$
+\end_inset
+
+, we estimate it through an 
+\series bold
+estimator
+\series default
+, 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+.
+ A 
+\series bold
+point estimator
+\series default
+ is a function of the data, 
+\begin_inset Formula $X$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+\hat{\theta}=g\left(X\right).
+\]
+
+\end_inset
+
+ The 
+\series bold
+bias
+\series default
+ of an estimator is
+\begin_inset Formula 
+\[
+bias\left(\hat{\theta}\right)=\mathbb{E}\left[\hat{\theta}\right]-\theta.
+\]
+
+\end_inset
+
+ An estimator is 
+\series bold
+unbiased 
+\series default
+if 
+\begin_inset Formula $bias\left(\hat{\theta}\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+variance
+\series default
+ of an estimator is 
+\begin_inset Formula $Var\left(\hat{\theta}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are different ways to construct estimators, but one that is frequently
+ used and that has solid mathematical foundations is the 
+\series bold
+maximum likelihood estimator
+\series default
+.
+ Consider a dataset 
+\begin_inset Formula $X=\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $p\left(x;\theta\right)$
+\end_inset
+
+ a parametric family of probability distribution that maps for each 
+\begin_inset Formula $x$
+\end_inset
+
+ the probability 
+\begin_inset Formula $p_{data}\left(x\right)$
+\end_inset
+
+.
+ This is, for each 
+\begin_inset Formula $\theta$
+\end_inset
+
+, 
+\begin_inset Formula $p\left(x;\theta\right)$
+\end_inset
+
+ is a probability density function.
+ The maximum likelihood estimator is then
+\begin_inset Formula 
+\begin{align*}
+\theta_{ML}= & \arg\max_{\theta}p_{model}\left(X;\theta\right)\\
+= & \arg\max_{\theta}\prod_{i=1}^{m}p_{model}\left(x_{i};\theta\right),
+\end{align*}
+
+\end_inset
+
+ considering that all instances of data are independent and identically
+ distributed (iid).
+ It is also a common practice to use the maximum 
+\series bold
+log
+\series default
+-likelihood instead, removing the product and avoiding floating point issues,
+ since when the dataset is large, the product will rapidl
 \end_layout
 
 \begin_layout Section
