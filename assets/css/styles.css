@@ -23,6 +23,19 @@ header {
     box-sizing: border-box; /* Ensure padding doesn't expand its size */
 }
 
+.logo-container {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container img {
+    height: 50px;
+    margin-left: 10px;
+  }
+
 header h1 {
     margin: 0;
 }
