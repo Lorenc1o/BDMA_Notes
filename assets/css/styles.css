@@ -32,7 +32,7 @@ header {
   }
   
   .logo-container img {
-    height: 50px;
+    max-height: 50px;
     margin-left: 10px;
   }
 
