@@ -644,6 +644,10 @@ Accountability
 Preferences as binary relations
 \end_layout
 
+\begin_layout Subsection
+Definitions
+\end_layout
+
 \begin_layout Standard
 \begin_inset Flex Color Box
 status open
@@ -2309,6 +2313,1250 @@ As we can see, in the union, we find
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+reflexive closure
+\series default
+ of a binary relation, 
+\begin_inset Formula $R$
+\end_inset
+
+, is 
+\begin_inset Formula 
+\[
+r\left(R\right)=R\cup Eq,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $Eq$
+\end_inset
+
+ is the reflexive, relation, i.e., 
+\begin_inset Formula $Eq=\left\{ \left(x,x\right):x\in X\right\} $
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore, the reflexive closure of a relation is the relation resulting
+ when adding all needed edges for the initial relation to be reflexive.
+ As a example, see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:closure-visualization."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A similar concept is that of symmetric closure:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+symmetric closure
+\series default
+ of a relation 
+\begin_inset Formula $R$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+s\left(R\right)=R\cup R^{c},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $R^{c}$
+\end_inset
+
+ is the converse relation, i.e.,
+\begin_inset Formula 
+\[
+xR^{c}y\iff yRx.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, we are adding all needed edges for the relation to be symmetric.
+ Again, see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:closure-visualization."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ for an example.
+\end_layout
+
+\begin_layout Standard
+Finally, there is the transitive closure:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+transitive closure
+\series default
+ of a relation 
+\begin_inset Formula $R$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+t\left(R\right)=R\cup R^{2}\cup R^{3}\dots=\bigcup_{i\geq1}R^{i}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, we add all possible transitive relations by relating all elements
+ with a path between them.
+ Note that if the set 
+\begin_inset Formula $X$
+\end_inset
+
+ has size 
+\begin_inset Formula $N$
+\end_inset
+
+, then we only need to use 
+\begin_inset Formula $N-1$
+\end_inset
+
+ step at maximum to reach any reachable node.
+ An example is also shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:closure-visualization."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_orig.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Original relation, 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_refl_clos.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Reflexive closure, 
+\begin_inset Formula $r\left(R\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_symm_clos.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Symmetric closure, 
+\begin_inset Formula $s\left(R\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_trans_clos.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Transitive closure, 
+\begin_inset Formula $s\left(R\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:closure-visualization."
+
+\end_inset
+
+ Closures visualization.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A natural question at this point is if we can get any of our properties
+ by applying some kind of closure, and the answer in the general case is
+ no.
+ However, there are ways to obtain reasonable solutions.
+\end_layout
+
+\begin_layout Standard
+For instance, consider the problem of extending a partial pre-order to a
+ complete pre-order.
+ In such case, we need to define how unrelated elements should be related.
+ One way to solve this is by applying what is called a 
+\series bold
+topological sorting
+\series default
+, which creates a complete pre-order that respects all the partial pre-order
+ preferences, when there are no cycles.
+ More formally:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A 
+\series bold
+Directed Acyclic Graph (DAG)
+\series default
+ is a directed graph with no cycles, i.e., there is no 
+\begin_inset Formula $x\in X$
+\end_inset
+
+ such that there is a path from 
+\begin_inset Formula $x$
+\end_inset
+
+ to itself.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+A 
+\series bold
+topological sorting
+\series default
+ for a DAG is a linear ordering of vertices such that, for every directed
+ edge, 
+\begin_inset Formula $\left(u,v\right)$
+\end_inset
+
+, vertex 
+\begin_inset Formula $u$
+\end_inset
+
+ comes before 
+\begin_inset Formula $v$
+\end_inset
+
+ in the ordering.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are several ways to perform topological sorting, obtaining different
+ results, and all of them respecting the initial preferences.
+ As a general algorithm, see Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Topological-sorting."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Note that we are first taking those nodes with no outgoing edges, but we
+ could do it also by taking the nodes with no ingoing edges, in which case
+ the list would not need to be reversed at the end.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+input:
+\end_layout
+
+\begin_layout Plain Layout
+
+	set X
+\end_layout
+
+\begin_layout Plain Layout
+
+	relation R (must be DAG)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+initialize:
+\end_layout
+
+\begin_layout Plain Layout
+
+	list L
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+execute:
+\end_layout
+
+\begin_layout Plain Layout
+
+	while R is not empty:
+\end_layout
+
+\begin_layout Plain Layout
+
+		free = {x in X : out_degree(x,R)=0 } # Take all nodes without outgoing
+ edges
+\end_layout
+
+\begin_layout Plain Layout
+
+		R = R - edges(free) # Remove edges going into nodes in free from R
+\end_layout
+
+\begin_layout Plain Layout
+
+		list.append(free) # Append each node to the list
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	list.append(rest of nodes)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return list.reverse # The order is reversed	
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Topological-sorting."
+
+\end_inset
+
+Topological sorting.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Create a topological sorting of the following relation:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_topo_example.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Let's follow our pseudocode:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Input: 
+\begin_inset Formula $X=\left\{ a,b,c,d,e,f\right\} $
+\end_inset
+
+, 
+\begin_inset Formula $R=\left\{ aRb,aRd,cRb,cRf,dRe,fRe\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L=\left[\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $free=\left\{ e,b\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $R=R-edges\left(\left\{ e,b\right\} \right)=\left\{ aRd,cRf\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_topo_example_1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $L=\left[e,b\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $free=\left\{ d,f\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $R=\left\{ \right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename relations_topo_example_2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $L=\left[e,b,d,f\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Append the rest of nodes: 
+\begin_inset Formula $L=\left[e,b,d,f,a,c\right]$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Therefore, a linear ordering respecting the preferences in the original
+ partial preorder is 
+\begin_inset Formula $c\succsim a\succsim f\succsim d\succsim b\succsim e$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Numerical representation
+\end_layout
+
+\begin_layout Standard
+The idea of the numerical representation is to try to construct a binary
+ relation 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ on a set 
+\begin_inset Formula $X$
+\end_inset
+
+ such that there exists a numerical function 
+\begin_inset Formula $f:X\rightarrow\mathbb{R}$
+\end_inset
+
+ satisfying the property
+\begin_inset Formula 
+\[
+x\succsim y\iff f\left(x\right)\geq f\left(y\right).
+\]
+
+\end_inset
+
+ Therefore, we are trying to convey the information given by the relation
+ via a mathematical function.
+ When doing this, we usually assume 
+\begin_inset Formula $\succeq$
+\end_inset
+
+ to be a preorder.
+\end_layout
+
+\begin_layout Standard
+We also usually use the following notation:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+ means 
+\emph on
+x is at least as good as y
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\succ$
+\end_inset
+
+ is the asymmetric part of 
+\begin_inset Formula $\succsim$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sim$
+\end_inset
+
+ is the symmetric part of 
+\begin_inset Formula $\succsim$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Cantor proved a theorem that answered this problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+Cantor, 1895
+\end_layout
+
+\begin_layout Theorem
+Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be a countable set and 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ a binary relation on 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Then:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\left[\exists f:X\rightarrow\mathbb{R}|\forall x,y\in X,x\succsim y\iff f\left(x\right)\geq f\left(y\right)\right]\\
+\Updownarrow\\
+\succsim\ \text{is a complete preorder on }X.
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula $\left[\implies\right]$
+\end_inset
+
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Completeness: pick 
+\begin_inset Formula $x,y\in X$
+\end_inset
+
+, then we compute 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $f\left(y\right)$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ is a linearly ordered set, it is either 
+\begin_inset Formula $f\left(x\right)\geq f\left(y\right)$
+\end_inset
+
+ or 
+\begin_inset Formula $f\left(y\right)\geq f\left(x\right)$
+\end_inset
+
+.
+ This, by hypothesis means that 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+ or 
+\begin_inset Formula $y\succsim x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Transitivity: pick 
+\begin_inset Formula $x,y,z\in X$
+\end_inset
+
+ with 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+ and 
+\begin_inset Formula $y\succsim z$
+\end_inset
+
+.
+ Then, 
+\begin_inset Formula $f\left(x\right)\geq f\left(y\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $f\left(y\right)\geq f\left(z\right)$
+\end_inset
+
+.
+ The transitivity in the real line gives us 
+\begin_inset Formula $f\left(x\right)\geq f\left(z\right)$
+\end_inset
+
+, which by hypothesis means 
+\begin_inset Formula $x\succsim z$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Therefore, 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ is a complete preorder on 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula $\left[\impliedby\right]$
+\end_inset
+
+ We assume that 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ is a complete preorder on 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $X$
+\end_inset
+
+ is countable, we can enumerate its elements, i.e., we can express
+\begin_inset Formula 
+\[
+X=\left\{ x_{i}:i\in K\subset\mathbb{N}\right\} =\left\{ x_{1},x_{2},...\right\} .
+\]
+
+\end_inset
+
+ Let 
+\begin_inset Formula $N\left(y\right)=\left\{ i\in K:y\succsim x_{i}\right\} $
+\end_inset
+
+, i.e., the set of indices of elements put after 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Now, we define
+\begin_inset Formula 
+\[
+\begin{array}{cccc}
+f: & X & \rightarrow & \mathbb{R}\\
+ & y & \mapsto & f\left(y\right)=\sum_{i\in N\left(y\right)}\frac{1}{2^{i}}
+\end{array}.
+\]
+
+\end_inset
+
+ This series is convergent, since 
+\begin_inset Formula $\sum_{n\in\mathbb{N}}\frac{1}{2^{n}}=2$
+\end_inset
+
+ and we are taking a subset of it.
+ Let's see that 
+\begin_inset Formula $x\succsim y\iff f\left(x\right)\geq f\left(y\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+, then, the transitivity of the relation ensures that
+\begin_inset Formula 
+\[
+N\left(x\right)\supseteq N\left(y\right),
+\]
+
+\end_inset
+
+ therefore, it follows that
+\begin_inset Formula 
+\[
+f\left(x\right)\geq f\left(y\right),
+\]
+
+\end_inset
+
+ simply because we are summing over more elements.
+\end_layout
+
+\begin_layout Itemize
+Conversely, assume that 
+\begin_inset Formula $f\left(x\right)\geq f\left(y\right)$
+\end_inset
+
+ but not 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ is complete, then it must be 
+\begin_inset Formula $y\succsim x$
+\end_inset
+
+, which combined with 
+\begin_inset Formula $not\left(x\succsim y\right)$
+\end_inset
+
+ gives us that it must be 
+\begin_inset Formula $N\left(y\right)\supsetneq N\left(x\right)$
+\end_inset
+
+.
+ This means that there are elements in 
+\begin_inset Formula $N\left(y\right)$
+\end_inset
+
+ which are not in 
+\begin_inset Formula $N\left(x\right)$
+\end_inset
+
+, so 
+\begin_inset Formula $f\left(y\right)>f\left(x\right)\#$
+\end_inset
+
+ which is a contradiction.
+ Therefore, it must be 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Note that this theorem ensures that such a function can only be found if
+ the relation is a complete preorder, and therefore all partial preorders
+ that are not complete cannot be assigned such a function.
+ Note also that the defined function is not unique (for instance, add 1
+ to this function, and it still works).
+\end_layout
+
+\begin_layout Standard
+In addition, the following proposition proves that even if there are infinite
+ possible such functions, they are all related:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $\succsim$
+\end_inset
+
+ be a complete preorder on 
+\begin_inset Formula $X$
+\end_inset
+
+, representable by a function 
+\begin_inset Formula $f:X\rightarrow\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+Then, the following two properties are equivalent:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $v:X\rightarrow\mathbb{R}$
+\end_inset
+
+ is a function representing 
+\begin_inset Formula $\succsim$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+There exists a strictly increasing function 
+\begin_inset Formula $\varphi:f\left(X\right)\rightarrow\mathbb{R}$
+\end_inset
+
+ such that 
+\begin_inset Formula $v=\varphi\circ f$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula $\left[2\implies1\right]$
+\end_inset
+
+ 
+\begin_inset Formula $x\succsim y\overset{f\ represents\ \succsim}{\iff}f\left(x\right)\geq f\left(y\right)\overset{\varphi\ strictly\ increasing}{\iff}\varphi\left(f\left(x\right)\right)\geq\varphi\left(f\left(y\right)\right)\overset{definition\ of\ g}{\iff}g\left(x\right)\geq g\left(y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula $\left[1\implies2\right]$
+\end_inset
+
+ Define 
+\begin_inset Formula $\varphi:f\left(X\right)\rightarrow\mathbb{R}$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\varphi\left(u\right)=\inf\left\{ v\left(x\right)|f\left(x\right)=u\right\} .
+\]
+
+\end_inset
+
+ We have to see that 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ is well-defined, strictly increasing and that, indeed, 
+\begin_inset Formula $v=\varphi\circ f$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Well-defined: For each 
+\begin_inset Formula $u\in f\left(X\right)$
+\end_inset
+
+, there exist 
+\begin_inset Formula $x\in X$
+\end_inset
+
+ such that 
+\begin_inset Formula $f\left(x\right)=u$
+\end_inset
+
+, so 
+\begin_inset Formula $\left\{ v\left(x\right)|f\left(x\right)=u\right\} $
+\end_inset
+
+ is non-empty and therefore has an infimum.
+ 
+\end_layout
+
+\begin_layout Itemize
+Strictly increasing: Take 
+\begin_inset Formula $u_{1},u_{2}\in f\left(X\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $u_{1}>u_{2}$
+\end_inset
+
+.
+ Then, there exist 
+\begin_inset Formula $x_{1},x_{2}\in X$
+\end_inset
+
+ with 
+\begin_inset Formula $f\left(x_{1}\right)=u_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f\left(x_{2}\right)=u_{2}$
+\end_inset
+
+.
+ This means that 
+\begin_inset Formula $x_{1}\succsim x_{2}$
+\end_inset
+
+ and not 
+\begin_inset Formula $x_{2}\succsim x_{1}$
+\end_inset
+
+, since 
+\begin_inset Formula $f\left(x_{1}\right)>f\left(x_{2}\right)$
+\end_inset
+
+.
+ But then, it is 
+\begin_inset Formula $v\left(x_{1}\right)>v\left(x_{2}\right)$
+\end_inset
+
+, and so 
+\begin_inset Formula $\varphi\left(u_{1}\right)>\varphi\left(u_{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The equality: Take 
+\begin_inset Formula $x\in X$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\varphi\left(f\left(x\right)\right)=\inf\left\{ v\left(x\right)|f\left(x\right)=f\left(x\right)\right\} =v\left(x\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Remark
+This representation functions are 
+\series bold
+ordinal scales
+\series default
+, since the importance does not rely on the absolute values they provide,
+ but in comparating the values for different elements.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
