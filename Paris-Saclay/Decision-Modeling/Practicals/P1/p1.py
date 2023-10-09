@@ -13,7 +13,7 @@ def read_csv(file):
     """
     Read a csv file and return a numpy array
     """
-    return np.array(pd.read_csv(file))
+    return np.array(pd.read_csv(file, header=None))
 
 def VisualizeBinaryRelation(matrix):
     """
@@ -366,9 +366,14 @@ if __name__ == '__main__':
                     # Show the indifference relation
                     VisualizeBinaryRelation(IndifferenceRelation(matrix))
                 elif action == '13':
+                    # Remove the reflexive part of the binary relation
+                    m = matrix.shape[0]
+                    matrix2 = matrix.copy()
+                    for i in range(m):
+                        matrix2[i, i] = 0
 
                     # Print the topological sorting
-                    topo = Topologicalsorting(matrix)
+                    topo = Topologicalsorting(matrix2)
 
                     if topo is None:
                         print("The binary relation has a cycle, so we cannot find the topological sorting")
@@ -380,7 +385,7 @@ if __name__ == '__main__':
                         VisualizeBinaryRelation(TopologicalToMatrix(topo))
 
                         # Show the topological sorting with a linear layout
-                        VisualizeTopologicalSorting_linear(matrix)
+                        VisualizeTopologicalSorting_linear(matrix2)
                 elif action == '14':
                     # Read another file
                     file = input("\033[33mPlease enter the file name (default: data.xlsx): \033[0m")
