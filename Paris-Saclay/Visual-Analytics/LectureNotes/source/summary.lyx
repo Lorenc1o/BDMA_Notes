@@ -602,5 +602,371 @@ Collaboration across languages and borders.
 
 \end_deeper
 \end_deeper
+\begin_layout Section
+Research Questions
+\end_layout
+
+\begin_layout Section
+Data Collection
+\end_layout
+
+\begin_layout Standard
+We tend to think of data as a thing stored in a database, or somewhere,...
+ but in reality data has been collected using some methodology, and with
+ many decisions taken before and during the process.
+\end_layout
+
+\begin_layout Standard
+This is because the data was collected for some reason, and therefore was
+ defined to give light on certain questions, and restricted to the measure
+ devices that were available.
+ However, having collected the data is not the same as already having the
+ answers to our questions: we need to analyze it.
+\end_layout
+
+\begin_layout Standard
+Analysis is a cycle, in which two big tasks are alternated:
+\end_layout
+
+\begin_layout Enumerate
+Gathering data, applying statistical tools, and constructing graphics to
+ address questions, to obtain answers.
+\end_layout
+
+\begin_layout Enumerate
+Inspect the answers and assess new questions.
+\end_layout
+
+\begin_layout Standard
+There are times when we already have the data, and we want to perform 
+\series bold
+exploratory data analysis
+\series default
+ to search for patterns and questions that could be answered.
+ But oftentimes we have a question, and we need to collect the data somehow:
+\end_layout
+
+\begin_layout Itemize
+Collect it ourselves:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Surveys: which can be paper surveys, on-line or in-person interviews.
+ It still represents one of the best ways to get detailed data or data about
+ sensitive subjects.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Recently, it has become popular the concept of crowdsourcing data collection,
+ which consists basically in publishing on-line surveys and people get paid
+ for completing them.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Web logging: concists in tracking visits, click-throughs, and traffic patterns,
+ along with other measures of user activity.
+ There are tools such as Google Analytics or Open Web Analytics that allow
+ this kind of analysis.
+ A special kind of these analyses are the Edits & Accesses logs on wikipedia.
+\end_layout
+
+\begin_layout Itemize
+Sensors: such as weather stations, personal activity trackers, cameras or
+ even mobile phones.
+\end_layout
+
+\begin_layout Itemize
+
+\color lime
+Advantage
+\color inherit
+: you can define the variables of the data.
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+Disadvantage
+\color inherit
+: it is expensive and time consuming.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Generating data:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Simulations: consist on conveying the rules of our process using a model,
+ and simulate the real scenario using this model.
+\end_layout
+
+\begin_layout Itemize
+
+\color lime
+Advantage
+\color inherit
+: you can define the simulations.
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+Disadvantage
+\color inherit
+: it is hard to accurately represent reality.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Find it or extract it: there are many repositories of data, like DBPedia,
+ FreeBase, WikiData, Project Gutenberg, Google N-Grams,...
+ In addition, there are several published data initiatives led by governments
+ and international institution, like 
+\emph on
+data.worldbank.org
+\emph default
+, 
+\emph on
+www.data.gov
+\emph default
+ (USA), 
+\emph on
+data.gov.uk
+\emph default
+ (UK), 
+\emph on
+data.gov.be 
+\emph default
+(Belgium),...
+ There are even data initiatives meant to track other data initiatives,
+ such as 
+\emph on
+re3data.org
+\emph default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+There are many more repositories of public data sets, like Google public
+ data or Kaggle, among others.
+\end_layout
+
+\begin_layout Standard
+In addition, there are what is called data retailers, which are basically
+ companies that sells data that they have collected.
+\end_layout
+
+\begin_layout Standard
+Moreover, there are many companies that provides an API to access their
+ data, it can be free, or they may ask for a fee or a license.
+\end_layout
+
+\begin_layout Standard
+Another way to extract data from the Internet, when there is not an available
+ API, is by scraping the data.
+ It consists on accessing the pages where the information is using a program
+ that collects this information.
+ This is usually a complex approach, and there are tools we can use to avoid
+ scraping:
+\end_layout
+
+\begin_layout Itemize
+Pulling data tables from the web using 
+\emph on
+importhtml
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Parsing pdfs using 
+\emph on
+tabula
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Collecting data also has pros and cons:
+\end_layout
+
+\begin_layout Itemize
+
+\color lime
+Advantages
+\color inherit
+: cheap and fast.
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+Disadvantages
+\color inherit
+: needs data cleaning and understanding of the sources.
+ Also, it is hard to assess the reliability of the data.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Building a Web Scraper
+\end_layout
+
+\begin_layout Standard
+If we need to build a Web Scraper, we should separate it into two different
+ processes:
+\end_layout
+
+\begin_layout Itemize
+Data fetching: it is advisable to download the complete pages and save them
+ locally before processing them, specially if the data is spread across
+ multiple pages, needing pagination.
+\end_layout
+
+\begin_layout Itemize
+Parsing data: once we have our web pages stored locally, we can process
+ them calmly.
+ Another tip is to use the browsers' built-in tools for page inspection.
+\end_layout
+
+\begin_layout Standard
+One need also to take into account that some sites are protected against
+ data scraping, and we could get blocked.
+ To get around this, we could introduce delays in the scraper, or use VPNs,...
+\end_layout
+
+\begin_layout Subsection
+Data Formats
+\end_layout
+
+\begin_layout Itemize
+Structured data: the kind of data that we can find in a spreadsheet or a
+ database.
+ It has a fixed schema and data types definition.
+\end_layout
+
+\begin_layout Itemize
+Unstructured data: includes raw text, streaming data, images, videos,...
+ Basically there is no control over the structure of the different data
+ points.
+\end_layout
+
+\begin_layout Itemize
+Semi-structured data: is more organized than the unstructured data, but
+ does not follow a fixed schema.
+ It could have a flexible schema, a multilayer schema, etc.
+ For example JSON files.
+\end_layout
+
+\begin_layout Subsubsection
+CSV
+\end_layout
+
+\begin_layout Standard
+Comma-separated value files: we all know them!
+\end_layout
+
+\begin_layout Standard
+Best practices:
+\end_layout
+
+\begin_layout Itemize
+Remove unnecessary rows or cells (empty cells, comments)
+\end_layout
+
+\begin_layout Itemize
+Write NA for missing values
+\end_layout
+
+\begin_layout Itemize
+Split cells when possible
+\end_layout
+
+\begin_layout Itemize
+Give meaningful unique column names
+\end_layout
+
+\begin_layout Subsubsection
+XML, JSON, YAML
+\end_layout
+
+\begin_layout Standard
+Different data formats to represent semi-structured data.
+ They are all equivalent, but have different definitions and syntax.
+\end_layout
+
+\begin_layout Subsection
+Handling Data
+\end_layout
+
+\begin_layout Standard
+It is important to always keep backups of our data, and to password protect
+ or encrypt any data with sensitive information.
+\end_layout
+
+\begin_layout Standard
+In addition, it is important to take 
+\series bold
+provenance
+\series default
+ into account.
+ We need to keep track of where and when data was collected, as well as
+ to record any data processing steps we took, so they can be reproduced.
+\end_layout
+
+\begin_layout Standard
+Regarding intellectual property, copyright and sharing data, it is crucial
+ to be sure to know who owns the data, and to think early whether it will
+ be possible to publish the data or not, as well as not to violate copyright
+ (specially when scraping data).
+\end_layout
+
+\begin_layout Standard
+Not only this, but any information that could be used to identify individuals
+ is sensitive, and there might be legal repercussions for releasing it.
+ It is important to be aware when to anonymize data before sharing.
+ Also, regarding 
+\series bold
+anonymization
+\series default
+, it is important to note that just removing names is not enough, as there
+ have been several studies showing how combining different publicly available
+ anynomized datasets, individuals can be identified.
+\end_layout
+
+\begin_layout Standard
+We need to comply with the 
+\series bold
+regulations
+\series default
+, and usually Institutional Review and Ethics Boards will need to approve
+ the experiments or the data collection process before it happens, specially
+ for studies involving people, which may even need informed consent.
+ Moreover, in some cases there are limits on how long user data can be kept,
+ or how the user should be notified when their data is tracked (through
+ cookies for example).
+\end_layout
+
+\begin_layout Standard
+In Europe, there is the 
+\series bold
+General Data Protection Regulation (GDPR)
+\series default
+, which is the world's strongest data protection law and defines how organizatio
+ns can handle information about people.
+ It defines what is personal data, as data from which people can be identified,
+ and requires strict treatment for this kind of data.
+ This processing should be lawful, fair and transparent, and get ethics
+ approval.
+ It is advisable to process the minimal amount of necessary personal data,
+ and to anonymize it where possible.
+\end_layout
+
 \end_body
 \end_document
