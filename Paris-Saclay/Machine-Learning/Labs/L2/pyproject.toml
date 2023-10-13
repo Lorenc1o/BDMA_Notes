@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "rl_practicalsession_1"
+version = "0.1.0"
+description = ""
+authors = ["Tom Dupuis"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+matplotlib = "^3.7.1"
+minigrid = "^2.2.1"
+moviepy = "^1.0.3"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^6.0.0"
+mypy = "^1.3.0"
+rope = "^1.8.0"
+isort = "^5.12.0"
+ipython = "^8.13.2"
+notebook = "^6.5.4"
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

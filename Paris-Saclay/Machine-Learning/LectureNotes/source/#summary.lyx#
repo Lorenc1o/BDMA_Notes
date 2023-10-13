@@ -4022,33 +4022,10 @@ solution
 \color inherit
  is to compute the gradient with 1 sample only at each step, which is very
  noisy and inefficient, but works.
- This is the 
-\series bold
-stochastic gradient descent
-\series default
-.
 \end_layout
 
 \begin_layout Standard
 In the middle ground, we find the 
-\series bold
-mini-batch gradient descent
-\series default
-, which divides the dataset into subsets, and updates the parameters after
- processing each of these subsets.
- A batch is a collection is a collection of samples used at each iteration
- for performing SDG in DL.
- A bigger batch provides a better gradient estimation, and therefore a faster
- learning, but also implies more device memory and slower descent.
-\end_layout
-
-\begin_layout Standard
-Therefore, there is a tradeoff between money and performance at companies.
- In practice, a batch is set between 1 to 256 on one GPU.
-\end_layout
-
-\begin_layout Standard
-CONTINUE FROM 107
 \end_layout
 
 \begin_layout Standard
