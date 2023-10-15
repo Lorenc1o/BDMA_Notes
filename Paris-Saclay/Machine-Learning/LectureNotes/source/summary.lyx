@@ -4048,7 +4048,161 @@ Therefore, there is a tradeoff between money and performance at companies.
 \end_layout
 
 \begin_layout Standard
-CONTINUE FROM 107
+But there is an even 
+\series bold
+\color red
+greater problem
+\series default
+\color inherit
+, the computation of the gradient is computationally very costly.
+ To go around this problem, 
+\series bold
+back-propagation
+\series default
+ was invented, as an efficient technique for gradient computation.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Back-propagation
+\end_layout
+
+\begin_layout Standard
+The back-propagation algorithm is based on the chain rule for the derivative
+ of composite functions: if we have 
+\begin_inset Formula $y=g\left(x\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)=\left(f\circ g\right)\left(x\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{df}{dx}\left(x\right)=f'\left(g\left(x\right)\right)g'\left(x\right),
+\]
+
+\end_inset
+
+ or, abusing notation, 
+\begin_inset Formula 
+\[
+\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}.
+\]
+
+\end_inset
+
+ This is generalized to multivariate funtions as follows: let 
+\begin_inset Formula $x\in\mathbb{R}^{m},y\in\mathbb{R}^{n},g:\mathbb{R}^{m}\rightarrow\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{\partial z}{\partial x_{i}}\left(x\right)=\sum_{j}\frac{\partial z}{\partial y_{j}}\frac{\partial y_{j}}{\partial x_{i}},
+\]
+
+\end_inset
+
+ or, 
+\begin_inset Formula 
+\[
+\nabla_{x}z=\left(\frac{\partial y}{\partial x}\right)^{T}\nabla_{y}z,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left(\frac{\partial y}{\partial x}\right)$
+\end_inset
+
+ is the Jacobian of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, back-propagation is a recursive application of the chain rule, starting
+ from the cost function.
+ The algorithm works as follows:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Forward pass
+\series default
+: a feedforward network takes as input 
+\begin_inset Formula $x$
+\end_inset
+
+ and produces the output 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+.
+ The information flows from layer to layer.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cost function
+\series default
+: compute the error between expected output and actual output.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Back-propagate
+\series default
+: evaluate the individual gradient of each parameter and propagates them
+ backwards to update them.
+ For this, we use the concept of 
+\series bold
+local derivative
+\series default
+: the derivative of connected nodes are computed locally on the edges of
+ the graph.
+ For non-connected nodes, we multiply the edges connected between the nodes,
+ and we sum over all incoming edges.
+\end_layout
+
+\begin_layout Standard
+If we do this in a forward way, summing over all paths becomes intractable
+ pretty quickly, while when doing it in a backwards way, it allows to obtain
+ the derivative of the output with respect to every node directly in one
+ pass.
+ This leads to massive parallelization.
+\end_layout
+
+\begin_layout Standard
+I did a more detailed explanation, with visualizations in my previous notes,
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://lorenc1o.github.io/BDMA_Notes/universities/UPC/Machine_Learning_summary.pdf
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
