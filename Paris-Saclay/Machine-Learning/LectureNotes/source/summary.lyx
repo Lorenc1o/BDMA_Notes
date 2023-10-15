@@ -4216,6 +4216,347 @@ https://lorenc1o.github.io/BDMA_Notes/universities/UPC/Machine_Learning_summary.
 Reinforcement Learning
 \end_layout
 
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+People and animals learn by interacting with the environment that sorround
+ them, differing from certain other types of learning.
+ This process is active, rather than passive: the subject needs to perform
+ interactions with the environment, to obtain knowledge.
+ Also, the interactions are usually sequential, with future interactions
+ possibly depending on earlier ones.
+\end_layout
+
+\begin_layout Standard
+Not only this, but we are goal oriented: we act towards an objective.
+ And, more importantly, we can learn without examples of optimal behavior!
+ Instead, we optimise some reward signal obtained from the outcome of our
+ actions.
+\end_layout
+
+\begin_layout Standard
+It is in these observation that 
+\series bold
+Reinforcement Learning (RL)
+\series default
+ arises as a learning paradigm, based on the 
+\series bold
+interaction loop
+\series default
+: there is an agent in an environment; the agent can make actions in the
+ environment, and get observations from it.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename interaction_loop.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+RL relies on the reward hypothesis:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Conjecture
+Reward Hypothesis
+\end_layout
+
+\begin_layout Conjecture
+Any goal can be formalized as the outcome of maximizing a cumulative reward.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This hypothesis basically says that every objective that an agent can have,
+ can be stated in terms of maximizing a reward associated to the actions
+ of the agent with respect to this objective.
+\end_layout
+
+\begin_layout Standard
+For example, if the objective of the agent is to fly a helicopter from point
+ A to point B, then the reward could be negatively affected by the distance
+ to point B, by the time taken to reach B,...
+\end_layout
+
+\begin_layout Standard
+Now, it is important to realize that there exist different reasons to learn:
+\end_layout
+
+\begin_layout Itemize
+Find solutions to problems.
+\end_layout
+
+\begin_layout Itemize
+Adapt online to unforseen circumstances.
+\end_layout
+
+\begin_layout Standard
+Well, RL can provide algorithm for both cases! Note that the second point
+ is not just about generalization, but also to cope with the so-called data
+ shift, efficiently, during operation.
+\end_layout
+
+\begin_layout Standard
+With all this, now we can define RL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Reinforcement Learning is the science and framework of learning to make
+ decisions from interaction.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This requires us to think about time, consequences of actions, experience
+ gathering, future prediction, uncertainty,...
+\end_layout
+
+\begin_layout Standard
+It has a huge potential scope and is a formalisation of the AI problem.
+\end_layout
+
+\begin_layout Section
+Definition and components
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+environment
+\series default
+ is the world of the problem at hand, with 
+\series bold
+agents
+\series default
+ in it that can perform actions, over time.
+\end_layout
+
+\begin_layout Definition
+At each time step 
+\begin_inset Formula $t$
+\end_inset
+
+, the agent:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Receives observation 
+\begin_inset Formula $O_{t}$
+\end_inset
+
+ and reward 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ from the environment.
+\end_layout
+
+\begin_layout Itemize
+Executes action 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Definition
+And the environment:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Receives action 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Emits observation 
+\begin_inset Formula $O_{t+1}$
+\end_inset
+
+ and reward 
+\begin_inset Formula $R_{t+1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But, what is a reward?
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+reward
+\series default
+, 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+, is a scalar feedback signal which indicates how well the agent is doing
+ at step 
+\begin_inset Formula $t$
+\end_inset
+
+: it defines how well the goal is being accomplished!
+\end_layout
+
+\begin_layout Standard
+Therefore, the agent's job is to maximize the cummulative reward of the
+ future steps, i.e., 
+\begin_inset Formula 
+\[
+G_{t}=R_{t+1}+R_{t+2}+R_{t+3}+...
+\]
+
+\end_inset
+
+ This is called the 
+\series bold
+return
+\series default
+.
+ But, when one thinks about it carefully, one realizes that it is hard to
+ know the future rewards with such precision.
+ Therefore, it is also usual to use the 
+\series bold
+value
+\series default
+, which is the expected return, taking into account the current state, 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+v\left(s\right)=\mathbb{E}\left[G_{t}|S_{t}=s\right].
+\]
+
+\end_inset
+
+ This depends on the actions the agents takes, and the goal is to 
+\color blue
+maximize it
+\color inherit
+! To achieve this, the agent must pick suitable actions.
+\end_layout
+
+\begin_layout Standard
+Therefore, rewards and values define the utility of states and actions,
+ and in this setup there is no supervised feedback.
+\end_layout
+
+\begin_layout Standard
+Note, also, that this values can be defined recursively as
+\begin_inset Formula 
+\[
+G_{t}=R_{t+1}+G_{t+1},
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+v\left(s\right)=\mathbb{E}\left[R_{t+1}+v\left(S_{t+1}\right)|S_{t}=s\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Maximising the value by taking actions
+\end_layout
+
+\begin_layout Standard
+As we have outlined, the goal is to select the actions that maximise the
+ value.
+ For this, we may need to take into account that actions may have long term
+ consequences, delaying rewards.
+ Thus, it may be better to sacrifice immediate reward to gain long-term
+ reward.
+\end_layout
+
+\begin_layout Standard
+The decision making process that for a given state chooses which action
+ to take is called a 
+\series bold
+policy
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+To decide which action to take, we can also condition the value on actions:
+\begin_inset Formula 
+\[
+q\left(s,a\right)=\mathbb{E}\left[G_{t}|S_{t}=s,A_{t}=a\right],
+\]
+
+\end_inset
+
+ so, for a given state 
+\begin_inset Formula $s$
+\end_inset
+
+, a possible set of actions 
+\begin_inset Formula $A_{t}^{s}$
+\end_inset
+
+, we could decide which action to take as
+\begin_inset Formula 
+\[
+a_{t}=\max_{a\in A_{t}^{s}}q\left(s,a\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
