@@ -4022,10 +4022,161 @@ solution
 \color inherit
  is to compute the gradient with 1 sample only at each step, which is very
  noisy and inefficient, but works.
+ This is the 
+\series bold
+stochastic gradient descent
+\series default
+.
 \end_layout
 
 \begin_layout Standard
 In the middle ground, we find the 
+\series bold
+mini-batch gradient descent
+\series default
+, which divides the dataset into subsets, and updates the parameters after
+ processing each of these subsets.
+ A batch is a collection is a collection of samples used at each iteration
+ for performing SDG in DL.
+ A bigger batch provides a better gradient estimation, and therefore a faster
+ learning, but also implies more device memory and slower descent.
+\end_layout
+
+\begin_layout Standard
+Therefore, there is a tradeoff between money and performance at companies.
+ In practice, a batch is set between 1 to 256 on one GPU.
+\end_layout
+
+\begin_layout Standard
+But there is an even 
+\series bold
+\color red
+greater problem
+\series default
+\color inherit
+, the computation of the gradient is computationally very costly.
+ To go around this problem, 
+\series bold
+back-propagation
+\series default
+ was invented, as an efficient technique for gradient computation.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Back-propagation
+\end_layout
+
+\begin_layout Standard
+The back-propagation algorithm is based on the chain rule for the derivative
+ of composite functions: if we have 
+\begin_inset Formula $y=g\left(x\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)=\left(f\circ g\right)\left(x\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{df}{dx}\left(x\right)=f'\left(g\left(x\right)\right)g'\left(x\right),
+\]
+
+\end_inset
+
+ or, abusing notation, 
+\begin_inset Formula 
+\[
+\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}.
+\]
+
+\end_inset
+
+ This is generalized to multivariate funtions as follows: let 
+\begin_inset Formula $x\in\mathbb{R}^{m},y\in\mathbb{R}^{n},g:\mathbb{R}^{m}\rightarrow\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{\partial z}{\partial x_{i}}\left(x\right)=\sum_{j}\frac{\partial z}{\partial y_{j}}\frac{\partial y_{j}}{\partial x_{i}},
+\]
+
+\end_inset
+
+ or, 
+\begin_inset Formula 
+\[
+\nabla_{x}z=\left(\frac{\partial y}{\partial x}\right)^{T}\nabla_{y}z,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left(\frac{\partial y}{\partial x}\right)$
+\end_inset
+
+ is the Jacobian of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, back-propagation is a recursive application of the chain rule, starting
+ from the cost function.
+ The algorithm works as follows:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Forward pass
+\series default
+: a feedforward network takes as input 
+\begin_inset Formula $x$
+\end_inset
+
+ and produces the output 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+.
+ The information flows from layer to layer.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cost function
+\series default
+: compute the error between expected output and actual output.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Back-propagate
+\series default
+: evaluate the individual gradient of each parameter and propagates them
+ backwards to update them.
+ For this, we use the concept of 
+\series bold
+local derivative
+\series default
+: the derivative of connected dnodes are computed locally on the edges of
+ the grap
 \end_layout
 
 \begin_layout Standard
