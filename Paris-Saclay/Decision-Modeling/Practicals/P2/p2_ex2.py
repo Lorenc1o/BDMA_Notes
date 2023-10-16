@@ -119,6 +119,150 @@ def compare_solutions(sol1, sol2):
         print("To:")
         print(set(sol2) - set(sol1))
 
+# Map the preference functions to dictionary keys for easy reference
+preference_functions = {
+    'pref1': add_pref1,
+    'pref2': add_pref2,
+    'pref3': add_pref3,
+    'pref4': add_pref4,
+    'pref5': add_pref5
+}
+
+def solve_with_preferences(preferences):
+    '''
+    Solve the problem with a list of specific preferences.
+
+    preferences: list of strings, each one a key in preference_functions
+    '''
+    # Set up the base problem
+    x, prob = baseprob()
+
+    # Add the preferences
+    for pref in preferences:
+        if pref in preference_functions:
+            preference_functions[pref](x, prob)  # call the relevant function
+        else:
+            print(f"Unknown preference: {pref}")
+
+    # Solve the problem
+    print(f"Solving the problem with preferences: {preferences}...")
+    prob.solve()
+    print("Solved!")
+    print("Status:", LpStatus[prob.status])
+
+    # We print the visited sites
+    print("Sites to visit:")
+    visited_sites = get_list(prob.variables())
+    print(visited_sites)
+
+    return visited_sites  # or any other information you want from the solution
+
+
+def kendall_coef(r1, r2):
+    '''
+    Compute the Kendall coefficient between two rankings. We use kendall tau-b.
+    
+    r1, r2: lists of lists, where each sublist contains items of the same rank,
+    ordered from highest to lowest rank.
+    
+    Returns the Kendall coefficient between r1 and r2.
+    '''
+    # Map each item to its rank in r1 and r2
+    r1_map = {item: i for i, sublist in enumerate(r1) for item in sublist}
+    r2_map = {item: i for i, sublist in enumerate(r2) for item in sublist}
+
+    # Compute the Kendall distance
+    n = sum(len(sublist) for sublist in r1)
+
+    nc, nd = 0,0 # Number of concordant and discordant pairs
+
+    # Avoid re-comparing the same pairs
+    compared_pairs = set()
+
+    for sublist1 in r1:
+        for sublist2 in r1:
+            for item1 in sublist1:
+                for item2 in sublist2:
+                    # Create a consistent identifier for a pair of items
+                    pair = tuple(sorted((item1, item2)))
+
+                    # Skip if we've already compared this pair
+                    if item1 == item2 or pair in compared_pairs:
+                        continue
+
+                    compared_pairs.add(pair)
+
+                    # Compare ranks
+                    different_orders = (r1_map[item1] < r1_map[item2] and r2_map[item1] > r2_map[item2]) or \
+                                       (r1_map[item1] > r1_map[item2] and r2_map[item1] < r2_map[item2])
+
+                    same_rank_in_r1 = r1_map[item1] == r1_map[item2]
+
+                    if different_orders or (same_rank_in_r1 and r2_map[item1] != r2_map[item2]):
+                        nd += 1
+                    else:
+                        nc += 1
+
+    # Compute tie corrections
+    n0 = n*(n-1)/2
+    n1 = sum(ti*(ti-1)/2 for sublist in r1 for ti in [len(sublist)])
+    n2 = sum(tj*(tj-1)/2 for sublist in r2 for tj in [len(sublist)])
+
+    return (nc-nd) / ((n0-n1)*(n0-n2))**0.5
+
+def spearman_coef(r1, r2):
+    '''
+    Compute the Spearman coefficient between two rankings.
+    
+    r1, r2: lists of lists, where each sublist contains items of the same rank,
+    ordered from highest to lowest rank.
+    
+    Returns the Spearman coefficient between r1 and r2.
+    '''
+    # Order the items in r1 and r2 alphabetically
+    r1 = [sorted(sublist) for sublist in r1]
+    r2 = [sorted(sublist) for sublist in r2]
+    # Assign ranks in r1, handling ties appropriately by assigning the average rank
+    r1_map = {}
+    current_rank = 1  # Ranking starts at 1
+    for sublist in r1:
+        # Calculate the average rank for the items in the sublist
+        avg_rank = sum(range(current_rank, current_rank + len(sublist))) / len(sublist)
+        for item in sublist:
+            r1_map[item] = avg_rank
+        current_rank += len(sublist)  # Update the rank for the next position
+
+    # Assign ranks in r2, handling ties appropriately by assigning the average rank
+    r2_map = {}
+    current_rank = 1  # Ranking starts at 1
+    for sublist in r2:
+        # Calculate the average rank for the items in the sublist
+        avg_rank = sum(range(current_rank, current_rank + len(sublist))) / len(sublist)
+        for item in sublist:
+            r2_map[item] = avg_rank
+        current_rank += len(sublist)
+    
+    # Compute the Spearman coefficient: spearman = cov(r1,r2)/[std(r1)*std(r2)]
+    r1_vec = [r1_map[item] for sublist in r1 for item in sublist]
+    r2_vec = [r2_map[item] for sublist in r1 for item in sublist]
+
+    avg_1 = sum(r1_vec)/len(r1_vec)
+    avg_2 = sum(r2_vec)/len(r2_vec)
+
+    cov = sum((a - avg_1) * (b - avg_2) for (a,b) in zip(r1_vec, r2_vec)) / len(r1_vec)
+
+    var_1 = sum([((x - avg_1)**2) for x in r1_vec]) / len(r1_vec)
+    std_1 = var_1 ** 0.5
+
+    var_2 = sum([((x - avg_2)**2) for x in r2_vec]) / len(r2_vec)
+    std_2 = var_2 ** 0.5
+
+    spearman = cov / (std_1 * std_2)
+
+    return spearman
+
+            
+
 if __name__ == "__main__":
     print("Solving the problem without preferences...")
     x, prob = baseprob()
@@ -153,21 +297,7 @@ if __name__ == "__main__":
     # Add restriction:
     # d(i,j)<=1 -> x_i=x_j
 
-    print("Solving the problem with preference 1...")
-
-    x, prob1 = baseprob()
-    add_pref1(x, prob1)
-
-    prob1.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob1.status])
-
-    # We print the visited sites
-    print("Sites to visit:")
-    ListVisit1 = get_list(prob1.variables())
-    print(ListVisit1)
+    ListVisit1 = solve_with_preferences(['pref1'])
 
     compare_solutions(ListVisit, ListVisit1)
     print("----------------------------------------------")
@@ -176,21 +306,7 @@ if __name__ == "__main__":
     # Add restriction:
     # x_TE = 1 and x_CA = 1
 
-    print("Solving the problem with preference 2...")
-
-    x, prob2 = baseprob()
-    add_pref2(x, prob2)
-
-    prob2.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob2.status])
-
-    # We print the visited sites
-    print("Sites to visit:")
-    ListVisit2 = get_list(prob2.variables())
-    print(ListVisit2)
+    ListVisit2 = solve_with_preferences(['pref2'])
 
     compare_solutions(ListVisit, ListVisit2)
     print("----------------------------------------------")
@@ -199,21 +315,7 @@ if __name__ == "__main__":
     # Add restriction:
     # x_CN = 1 -> x_SC = 0, linearized as x_CN + x_SC <= 1
     
-    print("Solving the problem with preference 3...")
-
-    x, prob3 = baseprob()
-    add_pref3(x, prob3)
-
-    prob3.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob3.status])
-
-    # We print the visited sites
-    print("Sites to visit:")
-    ListVisit3 = get_list(prob3.variables())
-    print(ListVisit3)
+    ListVisit3 = solve_with_preferences(['pref3'])
 
     compare_solutions(ListVisit, ListVisit3)
     print("----------------------------------------------")
@@ -222,21 +324,7 @@ if __name__ == "__main__":
     # Add restriction:
     # x_TM = 1
 
-    print("Solving the problem with preference 4...")
-
-    x, prob4 = baseprob()
-    add_pref4(x, prob4)
-
-    prob4.solve()
-    
-    print("Solved!")
-
-    print("Status:", LpStatus[prob4.status])
-
-    # We print the visited sites
-    print("Sites to visit:")
-    ListVisit4 = get_list(prob4.variables())
-    print(ListVisit4)
+    ListVisit4 = solve_with_preferences(['pref4'])
 
     compare_solutions(ListVisit, ListVisit4)
     print("----------------------------------------------")
@@ -245,257 +333,77 @@ if __name__ == "__main__":
     # Add restriction:
     # ML -> CP, linearized as x_ML - x_CP <= 0
 
-    print("Solving the problem with preference 5...")
-
-    x, prob5 = baseprob()
-    add_pref5(x, prob5)
-
-    prob5.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob5.status])
-
-    # We print the visited sites
-    print("Sites to visit:")
-    ListVisit5 = get_list(prob5.variables())
-    print(ListVisit5)
+    ListVisit5 = solve_with_preferences(['pref5'])
 
     compare_solutions(ListVisit, ListVisit5)
     print("----------------------------------------------")
 
     # B) Solve the poblem for Preference 1 and 2 together
 
-    print("Solving the problem with preference 1 and 2...")
-
-    x, prob12 = baseprob()
-    add_pref1(x, prob12)
-    add_pref2(x, prob12)
-
-    prob12.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob12.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit12 = get_list(prob12.variables())
-    print(ListVisit12)
+    ListVisit12 = solve_with_preferences(['pref1', 'pref2'])
 
     compare_solutions(ListVisit, ListVisit12)
     print("----------------------------------------------")
 
     # C) Solve the poblem for Preference 1 and 3 together
 
-    print("Solving the problem with preference 1 and 3...")
-
-    x, prob13 = baseprob()
-    add_pref1(x, prob13)
-    add_pref3(x, prob13)
-
-    prob13.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob13.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit13 = get_list(prob13.variables())
-    print(ListVisit13)
+    ListVisit13 = solve_with_preferences(['pref1', 'pref3'])
 
     compare_solutions(ListVisit, ListVisit13)
     print("----------------------------------------------")
 
     # D) Solve the poblem for Preference 1 and 4 together
 
-    print("Solving the problem with preference 1 and 4...")
-
-    x, prob14 = baseprob()
-    add_pref1(x, prob14)
-    add_pref4(x, prob14)
-
-    prob14.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob14.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit14 = get_list(prob14.variables())
-    print(ListVisit14)
+    ListVisit14 = solve_with_preferences(['pref1', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit14)
     print("----------------------------------------------")
 
     # E) Solve the poblem for Preference 2 and 5 together
 
-    print("Solving the problem with preference 2 and 5...")
-
-    x, prob25 = baseprob()
-    add_pref2(x, prob25)
-    add_pref5(x, prob25)
-
-    prob25.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob25.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit25 = get_list(prob25.variables())
-    print(ListVisit25)
+    ListVisit25 = solve_with_preferences(['pref2', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit25)
     print("----------------------------------------------")
 
     # F) Solve the poblem for Preference 3 and 4 together
 
-    print("Solving the problem with preference 3 and 4...")
-
-    x, prob34 = baseprob()
-    add_pref3(x, prob34)
-    add_pref4(x, prob34)
-
-    prob34.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob34.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit34 = get_list(prob34.variables())
-    print(ListVisit34)
+    ListVisit34 = solve_with_preferences(['pref3', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit34)
     print("----------------------------------------------")
 
     # G) Solve the poblem for Preference 4 and 5 together
 
-    print("Solving the problem with preference 4 and 5...")
-
-    x, prob45 = baseprob()
-    add_pref4(x, prob45)
-    add_pref5(x, prob45)
-
-    prob45.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob45.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit45 = get_list(prob45.variables())
-    print(ListVisit45)
+    ListVisit45 = solve_with_preferences(['pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit45)
     print("----------------------------------------------")
 
     # H) Solve the poblem for Preference 1, 2 and 4 together
 
-    print("Solving the problem with preference 1, 2 and 4...")
-
-    x, prob124 = baseprob()
-    add_pref1(x, prob124)
-    add_pref2(x, prob124)
-    add_pref4(x, prob124)
-
-    prob124.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob124.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit124 = get_list(prob124.variables())
-    print(ListVisit124)
+    ListVisit124 = solve_with_preferences(['pref1', 'pref2', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit124)
     print("----------------------------------------------")
 
     # I) Solve the poblem for Preference 2, 3 and 5 together
 
-    print("Solving the problem with preference 2, 3 and 5...")
-
-    x, prob235 = baseprob()
-    add_pref2(x, prob235)
-    add_pref3(x, prob235)
-    add_pref5(x, prob235)
-
-    prob235.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob235.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit235 = get_list(prob235.variables())
-    print(ListVisit235)
+    ListVisit235 = solve_with_preferences(['pref2', 'pref3', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit235)
     print("----------------------------------------------")
 
     # J) Solve the poblem for Preference 2, 3, 4 and 5 together
 
-    print("Solving the problem with preference 2, 3, 4 and 5...")
-
-    x, prob2345 = baseprob()
-    add_pref2(x, prob2345)
-    add_pref3(x, prob2345)
-    add_pref4(x, prob2345)
-    add_pref5(x, prob2345)
-
-    prob2345.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob2345.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit2345 = get_list(prob2345.variables())
-    print(ListVisit2345)
+    ListVisit2345 = solve_with_preferences(['pref2', 'pref3', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit2345)
     print("----------------------------------------------")
 
     # K) Solve the poblem for Preference 1, 2, 4 and 5 together
 
-    print("Solving the problem with preference 1, 2, 4 and 5...")
-
-    x, prob1245 = baseprob()
-    add_pref1(x, prob1245)
-    add_pref2(x, prob1245)
-    add_pref4(x, prob1245)
-    add_pref5(x, prob1245)
-
-    prob1245.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob1245.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit1245 = get_list(prob1245.variables())
-    print(ListVisit1245)
+    ListVisit1245 = solve_with_preferences(['pref1', 'pref2', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit1245)
     print("----------------------------------------------")
@@ -504,26 +412,80 @@ if __name__ == "__main__":
 
     print("Solving the problem with preference 1, 2, 3, 4 and 5...")
 
-    x, prob12345 = baseprob()
-    add_pref1(x, prob12345)
-    add_pref2(x, prob12345)
-    add_pref3(x, prob12345)
-    add_pref4(x, prob12345)
-    add_pref5(x, prob12345)
-
-    prob12345.solve()
-
-    print("Solved!")
-
-    print("Status:", LpStatus[prob12345.status])
-
-    # We print the visited sites
-
-    print("Sites to visit:")
-    ListVisit12345 = get_list(prob12345.variables())
-    print(ListVisit12345)
+    ListVisit12345 = solve_with_preferences(['pref1', 'pref2', 'pref3', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit12345)
     print("----------------------------------------------")
 
+    # Problem:
+    # We can define different preference relations between the sites:
+    # - DUR: the ranking of the sites according to their duration
+    # - APP: the ranking of the sites according to their appretiations
+    # - PRI: the ranking of the sites according to their price
+    # We want to compare this rankings using the Kendall and Spearman distances
 
+    # A) Compute each preference relation:
+
+    # DUR: list of lists, [[l1],[l2],...], all sites with the same duration are in the same list and the lists are ordered by duration (from the longest to the shortest)
+
+    print("Computing the preference relation DUR...")
+    DUR = []
+    for i in range(9):
+        DUR.append([])
+    for i in range(len(sites_info)):
+        DUR[8-int(sites_info[i][1]*2-1)].append(sites_info[i][0])
+    # Remove empty lists
+    DUR = [x for x in DUR if x != []]
+    print(DUR)
+
+    # APP: list of lists, [[l1],[l2],...], all sites with the same appretiations are in the same list and the lists are ordered by appretiations (from the highest to the lowest)
+    print("----------------------------------------------")
+    print("Computing the preference relation APP...")
+    APP = []
+    for i in range(5):
+        APP.append([])
+    for i in range(len(sites_info)):
+        APP[4-int(sites_info[i][2].count('*'))-1].append(sites_info[i][0])
+    # Remove empty lists
+    APP = [x for x in APP if x != []]
+    print(APP)
+
+    # PRI: list of lists, [[l1],[l2],...], all sites with the same price are in the same list and the lists are ordered by price (from the lowest to the highest)
+    print("----------------------------------------------")
+    print("Computing the preference relation PRI...")
+    PRI = []
+    for i in range(31):
+        PRI.append([])
+    for i in range(len(sites_info)):
+        PRI[int(sites_info[i][3])].append(sites_info[i][0])
+    # Remove empty lists
+    PRI = [x for x in PRI if x != []]
+    print(PRI)
+
+    # B) Compute the Kendall and Spearman coefficients between each pair of preference relations
+    # Kendall coefficient: 
+    print("----------------------------------------------")
+    print("The Kendall coefficient between DUR and APP is:")
+    print(kendall_coef(DUR, APP))
+    print("----------------------------------------------")
+    print("The Kendall coefficient between DUR and PRI is:")
+    print(kendall_coef(DUR, PRI))
+    print("----------------------------------------------")
+    print("The Kendall coefficient between APP and PRI is:")
+    print(kendall_coef(APP, PRI))
+
+    # Spearman coefficient:
+    print("----------------------------------------------")
+    print("The Spearman coefficient between DUR and APP is:")
+    print(spearman_coef(DUR, APP))
+    print("----------------------------------------------")
+    print("The Spearman coefficient between DUR and PRI is:")
+    print(spearman_coef(DUR, PRI))
+    print("----------------------------------------------")
+    print("The Spearman coefficient between APP and PRI is:")
+    print(spearman_coef(APP, PRI))
+    print("----------------------------------------------")
+    print("Conclusion:")
+    print("- High disagreement between DUR and the others:\n\tIn both metrics, DUR is quite strongly negatively related to the other rankings.\n\tThis is an indication that prices and appreciations are not taking the duration too much into account.")
+    print("- Slight agreement between APP and PRI:\n\t both metrics, these two rankings present a slight possitive correlation.\n\tThis indicates that the visitors take the price into account for their appreciations.")
+    print("- Agreement between the two metrics:\n\tThe two metrics present very similar results, increasing our confidence in the conclusions.")
