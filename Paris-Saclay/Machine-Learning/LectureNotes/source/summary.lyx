@@ -8,6 +8,7 @@
 \begin_preamble
 \usepackage{footmisc}
 \usepackage{listings}
+\usepackage{colortbl}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -2235,6 +2236,1976 @@ log
 Deep Neural Networks
 \end_layout
 
+\begin_layout Subsection
+Perceptron
+\end_layout
+
+\begin_layout Standard
+A deeper explanation of the perceptron can be read in my notes from another
+ course, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://lorenc1o.github.io/BDMA_Notes/universities/UPC/Machine_Learning_summary.pdf
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A perceptron is an algorithm for supervised learning of binary classifiers.
+ That is, we have a dataset 
+\begin_inset Formula $X\in\mathbb{R}^{n\times m}$
+\end_inset
+
+ associated with a vector of labels 
+\begin_inset Formula $y\in\left\{ 0,1\right\} ^{n}$
+\end_inset
+
+.
+ Then, the perceptron learns a function 
+\begin_inset Formula $\hat{f}$
+\end_inset
+
+ parametrized by a vector of weights 
+\begin_inset Formula $w\in\mathbb{R}^{m}$
+\end_inset
+
+ and a bias 
+\begin_inset Formula $b$
+\end_inset
+
+, such that:
+\begin_inset Formula 
+\[
+\hat{f}\left(x\right)=\begin{cases}
+1 & if\ w\cdot x+b>0\\
+0 & \sim
+\end{cases}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore, it is a linear classifier, which divides the input space into
+ two regions separated by a hyperplane.
+ This means that a perceptron cannot separate non-linear data.
+\end_layout
+
+\begin_layout Subsection
+Multi-layer perceptron
+\end_layout
+
+\begin_layout Standard
+A deeper explanation of the MLP can be read in my notes from another course,
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://lorenc1o.github.io/BDMA_Notes/universities/UPC/Machine_Learning_summary.pdf
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When we say 'Deep' neural network, we refer to a series of stacked perceptrons.
+ However, just like this, the model is still linear.
+ This is why activation functions are introduced.
+ An 
+\series bold
+activation function
+\series default
+ is a function that is applied to the output of a perceptron, to make it
+ non linear.
+\end_layout
+
+\begin_layout Standard
+For example, ReLU is a piecewise-linear function defined as
+\begin_inset Formula 
+\[
+ReLU\left(z\right)=\begin{cases}
+z & if\ z\geq0\\
+0 & \sim
+\end{cases}=\max\left\{ z,0\right\} .
+\]
+
+\end_inset
+
+ This function preserves much of the good oprimization properties of a linear
+ function, i.e., it is differentiable (apart from one point), and its derivative
+ is constant.
+\end_layout
+
+\begin_layout Example
+Learn the XOR function with a 2-layer MLP.
+\end_layout
+
+\begin_layout Example
+The XOR function is represented with the table:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+We want to use a 2-layer MLP to learn this function:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename xor.drawio.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+In 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+, it will be
+\begin_inset Formula 
+\[
+w_{11}x_{1}+w_{12}x_{2}+b_{1},
+\]
+
+\end_inset
+
+ and in 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+w_{11}x_{1}+w_{12}x_{2}+b_{1}.
+\]
+
+\end_inset
+
+ This can be represented as
+\begin_inset Formula 
+\[
+h=W_{h}^{T}X+b_{h}.
+\]
+
+\end_inset
+
+ Then, we apply ReLU
+\begin_inset Formula 
+\[
+\max\left(0,W_{h}^{T}X+b_{h}\right),
+\]
+
+\end_inset
+
+ and finally the output layer
+\begin_inset Formula 
+\[
+y=W_{y}^{T}\max\left(0,W_{h}^{T}X+b_{h}\right)+b_{y}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Let's see the different inputs:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+w_{11} & w_{12}\\
+w_{21} & w_{22}
+\end{array}\right)\left(\begin{array}{c}
+0\\
+0
+\end{array}\right)+\left(\begin{array}{c}
+b_{1}\\
+b_{2}
+\end{array}\right)=\left(\begin{array}{c}
+b_{1}\\
+b_{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+w_{1}^{y} & w_{2}^{y}\end{array}\right)\left(\begin{array}{c}
+\max\left(0,b_{1}\right)\\
+\max\left(0,b_{2}\right)
+\end{array}\right)+b_{y}\leq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+w_{12}+b_{1}\\
+w_{22}+b_{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+w_{1}^{y} & w_{2}^{y}\end{array}\right)\left(\begin{array}{c}
+\max\left(0,w_{12}+b_{1}\right)\\
+\max\left(0,w_{22}+b_{2}\right)
+\end{array}\right)+b_{y}>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+w_{11}+b_{1}\\
+w_{21}+b_{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+w_{1}^{y} & w_{2}^{y}\end{array}\right)\left(\begin{array}{c}
+\max\left(0,w_{11}+b_{1}\right)\\
+\max\left(0,w_{21}+b_{2}\right)
+\end{array}\right)+b_{y}>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+w_{11}+w_{12}+b_{1}\\
+w_{21}+w_{22}+b_{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+w_{1}^{y} & w_{2}^{y}\end{array}\right)\left(\begin{array}{c}
+\max\left(0,w_{11}+w_{12}+b_{1}\right)\\
+\max\left(0,w_{21}+w_{22}+b_{2}\right)
+\end{array}\right)+b_{y}\leq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+A solution is:
+\begin_inset Formula 
+\[
+W_{h}=\left(\begin{array}{cc}
+1 & 1\\
+1 & 1
+\end{array}\right),b_{h}=\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right),W_{y}=\left(\begin{array}{c}
+1\\
+-2
+\end{array}\right),b=0.
+\]
+
+\end_inset
+
+ Let's check:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+0\\
+-1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+1 & -2\end{array}\right)\left(\begin{array}{c}
+0\\
+0
+\end{array}\right)=0\leq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+1\\
+1-1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+1 & -2\end{array}\right)\left(\begin{array}{c}
+1\\
+0
+\end{array}\right)=1>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+1\\
+1-1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+1 & -2\end{array}\right)\left(\begin{array}{c}
+1\\
+0
+\end{array}\right)=1>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{c}
+1+1\\
+1+1-1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(\begin{array}{cc}
+1 & -2\end{array}\right)\left(\begin{array}{c}
+2\\
+1
+\end{array}\right)=0\leq0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+So, it works! Note that this solution is not unique!
+\end_layout
+
+\begin_layout Example
+What happens is actually that the solution for the XOR problem is not linearly
+ separable:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename xor_space.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+But, the hidden layer transforms this space, making the problem linearly
+ separable, and therefore solvable in the last layer:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename xor_space_trans.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Cost Functions
+\end_layout
+
+\begin_layout Standard
+The cost function is important when working with neural networks, because
+ our goal is to ultimately train the model to solve some problem, and the
+ cost functions will be the function that our model will aim at minimizing,
+ thus guiding the training process.
+\end_layout
+
+\begin_layout Standard
+Usually, we will need to choose a cost function 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+ that is suitable for our problem.
+ Then, we will minimize 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+ with stochastic gradient descent, by:
+\end_layout
+
+\begin_layout Itemize
+Training on a training dataset.
+\end_layout
+
+\begin_layout Itemize
+Estimating error on an evaluation dataset.
+\end_layout
+
+\begin_layout Itemize
+Computing the gradients using backpropagation.
+\end_layout
+
+\begin_layout Standard
+In this process, we will aim to find good local minima, instead of global
+ minimum.
+ This is related to overfitting (learning only the training data, losing
+ generalization capabilities), and to the empirical fact that deep neural
+ network have surprisingly good local and non-global optima.
+\end_layout
+
+\begin_layout Subsubsection
+Choice of cost function
+\end_layout
+
+\begin_layout Standard
+In the general case, we use the maximum likelihood principle, taking the
+ output types of the network into account.
+ This means that we assume our dataset 
+\begin_inset Formula $\left\{ x_{1},...,x_{n}\right\} $
+\end_inset
+
+ to be independently and identically distributed (i.i.d.) from an unknown distribut
+ion, 
+\begin_inset Formula $p_{data}\left(x\right)$
+\end_inset
+
+.
+ We choose a parametric model family 
+\begin_inset Formula $p_{model}\left(x;\theta\right)$
+\end_inset
+
+ represented as a neural network, which we use to estimate an approximation
+ of the true distribution.
+ For this, we utilize the 
+\series bold
+maximum likelihood estimator
+\series default
+, defined as
+\begin_inset Formula 
+\[
+\theta_{ML}=\arg\max_{\theta}\prod_{i=1}^{n}p_{model}\left(x_{i};\theta\right).
+\]
+
+\end_inset
+
+ Usually, to avoid floating point errors, the log-likelihood is used instead:
+\begin_inset Formula 
+\[
+\theta_{ML}=\arg\max_{\theta}\sum_{i=1}^{n}\log p_{model}\left(x_{i};\theta\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the maximum likelihood estimation framework, we might apply activation
+ functions to the output layer to get a desired structure for our distribution.
+ This choice will also influence the mathematical form of the cost function.
+ For example, we can use linear units for regression or for Gaussian distributio
+ns, sigmoid units for binary classification or softmax units for multi-class
+ classification.
+\end_layout
+
+\begin_layout Paragraph
+Linear units for regression
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+linear output layer
+\series default
+ is such that, given the features 
+\begin_inset Formula $h$
+\end_inset
+
+, the output is
+\begin_inset Formula 
+\[
+\hat{y}=W^{T}h+b,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $W$
+\end_inset
+
+ is the weights vector and 
+\begin_inset Formula $b$
+\end_inset
+
+ the bias.
+\end_layout
+
+\begin_layout Standard
+We can use this to predict real or vector valued variables, such as prices,
+ biometrics,...
+\end_layout
+
+\begin_layout Paragraph
+Linear unit for Gaussian distribution
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+Gaussian output unit
+\series default
+ is such that, given features 
+\begin_inset Formula $h$
+\end_inset
+
+, a linear layer produces a vector 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ representing the mean and the covariance matrix of a conditional Gaussian
+ distribution:
+\begin_inset Formula 
+\[
+p\left(y|x\right)=\mathcal{N}\left(y;\hat{y},I\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Covariance is usually not modelled or simplified to be diagonal (in which
+ case we need to ensure that the output is non-negative).
+\end_layout
+
+\begin_layout Paragraph
+Binary classification
+\end_layout
+
+\begin_layout Standard
+In this case, the objective is to predict a binary variable, 
+\begin_inset Formula $y$
+\end_inset
+
+: the neural network must predict 
+\begin_inset Formula $P\left(y=1|x\right)$
+\end_inset
+
+.
+ Thus, we must ensure that the output is a probability, in the interval
+ 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+.
+ For this, we can take
+\begin_inset Formula 
+\[
+P\left(y=1|x\right)=\max\left\{ 0,\min\left\{ 1,W^{T}h+b\right\} \right\} .
+\]
+
+\end_inset
+
+ The problem with this approach is that if 
+\begin_inset Formula $W^{T}h+b\notin\left[0,1\right]$
+\end_inset
+
+ then the gradient is 0 and the training will stop.
+ To solve this issue, we can use a 
+\series bold
+sigmoid unit
+\series default
+, which is 
+\begin_inset Formula 
+\[
+\hat{y}=\sigma\left(W^{T}h+b\right)=\frac{1}{1+e^{-W^{T}h+b}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Softmax unit for multi-class classification
+\end_layout
+
+\begin_layout Standard
+Now our objective is to classify the input data into one among 
+\begin_inset Formula $N>2$
+\end_inset
+
+ classes.
+ We want to predict 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+ with 
+\begin_inset Formula $\hat{y_{i}}P\left(y=i|x\right)$
+\end_inset
+
+, subject to 
+\begin_inset Formula $\hat{y_{i}}\in\left[0,1\right],\forall i$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{i}y_{i}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the output layer we can have 
+\begin_inset Formula $N$
+\end_inset
+
+ perceptrons, each of them computing 
+\begin_inset Formula $z_{i}=\log P\left(y=i|x\right)$
+\end_inset
+
+, i.e., the 
+\series bold
+logits
+\series default
+.
+ With this, we can apply the 
+\series bold
+softmax output unit
+\series default
+ to all of them, obtaining our vector of probabilities, as
+\begin_inset Formula 
+\[
+softmax\left(z\right)_{i}=\frac{e^{z_{i}}}{\sum_{j}e^{z_{j}}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Cross-entropy
+\end_layout
+
+\begin_layout Standard
+In classification problems we want to estimate the probability of different
+ outcomes.
+ Let the estimated probability of outcome 
+\begin_inset Formula $i$
+\end_inset
+
+ be 
+\begin_inset Formula $p_{model}\left(x=i\right)$
+\end_inset
+
+ with to-be-optimized parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and let the frequency of outcome 
+\begin_inset Formula $i$
+\end_inset
+
+ in the training set be 
+\begin_inset Formula $p\left(x=i\right)$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $N$
+\end_inset
+
+ conditionally independent samples in the training set, then the likelihood
+ of the parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ of the model 
+\begin_inset Formula $p_{model}\left(x=i\right)$
+\end_inset
+
+ on the training set is:
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\theta\right)=\prod_{i\in X}p_{model}\left(x=i\right)^{N\cdot p\left(x=i\right)}.
+\]
+
+\end_inset
+
+ Therefore, the log-likelihood, divided by 
+\begin_inset Formula $N$
+\end_inset
+
+, is
+\begin_inset Formula 
+\[
+\frac{1}{N}\log\left(\mathcal{L}\left(\theta\right)\right)=\frac{1}{N}N\cdot\sum_{i\in X}p\left(x=i\right)\log p_{model}\left(x=i\right)=\sum_{i\in X}p\left(x=i\right)\log p_{model}\left(x=i\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Cross-entropy minimization is frequently used in optimization and rare-event
+ probability estimation.
+ When comparing a distribution 
+\begin_inset Formula $q$
+\end_inset
+
+ against a fixed reference distribution 
+\begin_inset Formula $p$
+\end_inset
+
+, cross-entropy and KL divergence are identical up to an additive constant
+ (since 
+\begin_inset Formula $p$
+\end_inset
+
+ is fixed): According to the Gibbs' inequality, both take on their minimal
+ values when 
+\begin_inset Formula $p=q$
+\end_inset
+
+, which is 
+\begin_inset Formula $0$
+\end_inset
+
+ for KL divergence, and 
+\begin_inset Formula $H\left(p\right)$
+\end_inset
+
+ for cross-entropy.
+ In the engineering literature, the principle of minimizing KL divergence
+ (Kullback's "Principle of Minimum Discrimination Information") is often
+ called the Principle of Minimum Cross-Entropy (MCE), or Minxent.
+\end_layout
+
+\begin_layout Subsection
+Why deep NN?
+\end_layout
+
+\begin_layout Standard
+Depth is the longest data path data can take from input to output.
+ For a deep feed forward NN, depth is the number of hidden layers plus the
+ output layer.
+ State-of-the-art architectures used in practice have dozens to hundreds
+ of layers.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+Universal Approximation Theorem
+\end_layout
+
+\begin_layout Theorem
+Let 
+\begin_inset Formula $\varphi\left(\right)$
+\end_inset
+
+ be a nonconstant, bounded, and monotonically increasing continuous function.
+ Let 
+\begin_inset Formula $I_{m_{0}}$
+\end_inset
+
+ denote the 
+\begin_inset Formula $m_{0}-$
+\end_inset
+
+dimensional unit hypercube, 
+\begin_inset Formula $\left[0,1\right]^{m_{0}}$
+\end_inset
+
+.
+ The space of continuous functions on 
+\begin_inset Formula $I_{m_{0}}$
+\end_inset
+
+ is denoted by 
+\begin_inset Formula $C\left(I_{m_{0}}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem
+Then, given any function 
+\begin_inset Formula $f\in C\left(I_{m_{0}}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+, there exists an integer 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ and sets of real constants 
+\begin_inset Formula $\alpha_{i},b_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{ij}\in\mathbb{R}$
+\end_inset
+
+ where 
+\begin_inset Formula $i=1,...,m_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $j=1,...,m_{0}$
+\end_inset
+
+ such that we may define
+\begin_inset Formula 
+\[
+F\left(x\right)=\sum_{i=1}^{m_{1}}\alpha_{i}\cdot\varphi\left(\sum_{j=1}^{m_{0}}w_{ij}\cdot x_{j}+b_{i}\right)
+\]
+
+\end_inset
+
+ as an approximate realization of the function 
+\begin_inset Formula $f$
+\end_inset
+
+, that is
+\begin_inset Formula 
+\[
+\left|F\left(x\right)-f\left(x\right)\right|<\varepsilon,\forall x\in I_{m}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This theorem is very relevant, because it says that for any mapping function
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ in supervised learning, there exists a MLP with 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ neurons in the hidden layer which is able to approximate it with a desired
+ precision.
+\end_layout
+
+\begin_layout Standard
+However, it only proves the existence of a shallow (just one hidden layer)
+ MLP with 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ neurons in the hidden layer that can approximate the function, but it does
+ not tell how to find this number.
+\end_layout
+
+\begin_layout Standard
+As a rule of thumb for the generalization error, it is
+\begin_inset Formula 
+\[
+\varepsilon=\frac{VC_{dim}\left(MLP\right)}{N},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $VC_{dim}$
+\end_inset
+
+ is the Vapnik-Chervonenkis dimension, a measure of the capacity of a model.
+ It refers to the largest set of points that the model can shatter.
+ It is not easy to compute, but a rough upper bound for a FFNN is 
+\begin_inset Formula $O\left(W\log W\right)$
+\end_inset
+
+, with 
+\begin_inset Formula $W$
+\end_inset
+
+ being the total number of weight in the network.
+\end_layout
+
+\begin_layout Standard
+Also, this theorem hints us that having more neurons in the hidden layers
+ will give us better training error, but worse generalization error: overfitting.
+\end_layout
+
+\begin_layout Standard
+However, for most functions 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ is very high, and becomes quickly computationally intractable: so we need
+ to go deeper.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+No Free Lunch Theorem
+\end_layout
+
+\begin_layout Theorem
+Multiple informal formulations:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For every learning algorithm A and B, there are as many problems where A
+ has a better generalization error than problems where B has a better one.
+\end_layout
+
+\begin_layout Itemize
+All learning algorithms ahve the same generalization error if we average
+ over all learning problems.
+\end_layout
+
+\begin_layout Itemize
+There is no universally better learning algorithm.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Depth Property
+\end_layout
+
+\begin_layout Plain Layout
+The number of polygonal regions generated by a MLP with a ReLU function,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ inputs, 
+\begin_inset Formula $n$
+\end_inset
+
+ neurons per hidden layer and 
+\begin_inset Formula $l$
+\end_inset
+
+ layers is
+\begin_inset Formula 
+\[
+O\left(\binom{n}{d}^{d\left(l-1\right)}n^{d}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This number grows exponentially with depth.
+ This means that adding depth basically allows for more transformations
+ of the input space.
+\end_layout
+
+\begin_layout Subsection
+Gradient-based Learning
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+gradient
+\series default
+ of a function 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+, is 
+\begin_inset Formula $\nabla f:\mathbb{R}^{n}\rightarrow\mathbb{R}^{n}$
+\end_inset
+
+, defined at the point 
+\begin_inset Formula $p=\left(x_{1},...,x_{n}\right)$
+\end_inset
+
+ as
+\begin_inset Formula 
+\[
+\nabla f\left(p\right)=\left(\begin{array}{c}
+\frac{\partial f}{\partial x_{1}}\left(p\right)\\
+\vdots\\
+\frac{\partial f}{\partial x_{n}}\left(p\right)
+\end{array}\right).
+\]
+
+\end_inset
+
+ This is, it's the local derivative or slope of each dimension at a certain
+ point.
+\end_layout
+
+\begin_layout Standard
+Going in the opposite direction of the gradient is a naïve but practical
+ guess of the direction of the local minimum.
+ This is the base for the gradient descent method.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Gradient-descent method 
+\series default
+(Cauchy, 1847)
+\end_layout
+
+\begin_layout Plain Layout
+A parametric function 
+\begin_inset Formula $f\left(\theta\right)$
+\end_inset
+
+ can be iteratively minimized by following the opposite direction of the
+ gradient:
+\begin_inset Formula 
+\[
+\theta_{t+1}=\theta_{t}-\varepsilon\nabla_{\theta}f\left(\theta\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+ is the 
+\series bold
+learning rate
+\series default
+.
+\end_layout
+
+\begin_layout Plain Layout
+We stop iterating when the gradient is near to 0.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Notice that this is useless if we have a close form for the gradient! In
+ that case it is easier to just minimize it.
+ This is useful when this is not the case, which always happens for neural
+ networks.
+\end_layout
+
+\begin_layout Standard
+In addition, there are variations to the method, for example, we can vary
+ 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ during training.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Stochastic gradient descent
+\end_layout
+
+\begin_layout Plain Layout
+Given a cost function 
+\begin_inset Formula $f\left(\theta\right)$
+\end_inset
+
+, parameters of the network are updated with
+\begin_inset Formula 
+\[
+\theta\leftarrow\theta-\varepsilon\nabla_{\theta}f\left(\theta\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+For the negative log-likelihood (MLE), the function is:
+\begin_inset Formula 
+\[
+f\left(\theta\right)=\frac{1}{m}\sum_{i=1}^{m}L\left(x^{\left(i\right)},y^{\left(i\right)},\theta\right),
+\]
+
+\end_inset
+
+ so the estimated gradient is
+\begin_inset Formula 
+\[
+\nabla_{\theta}f\left(\theta\right)=\frac{1}{m}\sum_{i=1}^{m}\nabla_{\theta}L\left(x^{\left(i\right)},y^{\left(i\right)},\theta\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\color red
+problem
+\color inherit
+ with this approach is that to take a single step of gradient descent, we
+ must compute the loss over the whole dataset everytime, making the method
+ not scalable at all.
+ This is called 
+\series bold
+batch gradient descent
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+One 
+\color lime
+solution
+\color inherit
+ is to compute the gradient with 1 sample only at each step, which is very
+ noisy and inefficient, but works.
+ This is the 
+\series bold
+stochastic gradient descent
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+In the middle ground, we find the 
+\series bold
+mini-batch gradient descent
+\series default
+, which divides the dataset into subsets, and updates the parameters after
+ processing each of these subsets.
+ A batch is a collection is a collection of samples used at each iteration
+ for performing SDG in DL.
+ A bigger batch provides a better gradient estimation, and therefore a faster
+ learning, but also implies more device memory and slower descent.
+\end_layout
+
+\begin_layout Standard
+Therefore, there is a tradeoff between money and performance at companies.
+ In practice, a batch is set between 1 to 256 on one GPU.
+\end_layout
+
+\begin_layout Standard
+But there is an even 
+\series bold
+\color red
+greater problem
+\series default
+\color inherit
+, the computation of the gradient is computationally very costly.
+ To go around this problem, 
+\series bold
+back-propagation
+\series default
+ was invented, as an efficient technique for gradient computation.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Back-propagation
+\end_layout
+
+\begin_layout Standard
+The back-propagation algorithm is based on the chain rule for the derivative
+ of composite functions: if we have 
+\begin_inset Formula $y=g\left(x\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)=\left(f\circ g\right)\left(x\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{df}{dx}\left(x\right)=f'\left(g\left(x\right)\right)g'\left(x\right),
+\]
+
+\end_inset
+
+ or, abusing notation, 
+\begin_inset Formula 
+\[
+\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}.
+\]
+
+\end_inset
+
+ This is generalized to multivariate funtions as follows: let 
+\begin_inset Formula $x\in\mathbb{R}^{m},y\in\mathbb{R}^{n},g:\mathbb{R}^{m}\rightarrow\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $z=f\left(y\right)=f\left(g\left(x\right)\right)$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\frac{\partial z}{\partial x_{i}}\left(x\right)=\sum_{j}\frac{\partial z}{\partial y_{j}}\frac{\partial y_{j}}{\partial x_{i}},
+\]
+
+\end_inset
+
+ or, 
+\begin_inset Formula 
+\[
+\nabla_{x}z=\left(\frac{\partial y}{\partial x}\right)^{T}\nabla_{y}z,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left(\frac{\partial y}{\partial x}\right)$
+\end_inset
+
+ is the Jacobian of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, back-propagation is a recursive application of the chain rule, starting
+ from the cost function.
+ The algorithm works as follows:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Forward pass
+\series default
+: a feedforward network takes as input 
+\begin_inset Formula $x$
+\end_inset
+
+ and produces the output 
+\begin_inset Formula $\hat{y}$
+\end_inset
+
+.
+ The information flows from layer to layer.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cost function
+\series default
+: compute the error between expected output and actual output.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Back-propagate
+\series default
+: evaluate the individual gradient of each parameter and propagates them
+ backwards to update them.
+ For this, we use the concept of 
+\series bold
+local derivative
+\series default
+: the derivative of connected nodes are computed locally on the edges of
+ the graph.
+ For non-connected nodes, we multiply the edges connected between the nodes,
+ and we sum over all incoming edges.
+\end_layout
+
+\begin_layout Standard
+If we do this in a forward way, summing over all paths becomes intractable
+ pretty quickly, while when doing it in a backwards way, it allows to obtain
+ the derivative of the output with respect to every node directly in one
+ pass.
+ This leads to massive parallelization.
+\end_layout
+
+\begin_layout Standard
+I did a more detailed explanation, with visualizations in my previous notes,
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://lorenc1o.github.io/BDMA_Notes/universities/UPC/Machine_Learning_summary.pdf
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -2244,6 +4215,5256 @@ Deep Neural Networks
 
 \begin_layout Part
 Reinforcement Learning
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+People and animals learn by interacting with the environment that sorround
+ them, differing from certain other types of learning.
+ This process is active, rather than passive: the subject needs to perform
+ interactions with the environment, to obtain knowledge.
+ Also, the interactions are usually sequential, with future interactions
+ possibly depending on earlier ones.
+\end_layout
+
+\begin_layout Standard
+Not only this, but we are goal oriented: we act towards an objective.
+ And, more importantly, we can learn without examples of optimal behavior!
+ Instead, we optimise some reward signal obtained from the outcome of our
+ actions.
+\end_layout
+
+\begin_layout Standard
+It is in these observation that 
+\series bold
+Reinforcement Learning (RL)
+\series default
+ arises as a learning paradigm, based on the 
+\series bold
+interaction loop
+\series default
+: there is an agent in an environment; the agent can make actions in the
+ environment, and get observations from it.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename interaction_loop.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+RL relies on the reward hypothesis:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Conjecture
+Reward Hypothesis
+\end_layout
+
+\begin_layout Conjecture
+Any goal can be formalized as the outcome of maximizing a cumulative reward.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This hypothesis basically says that every objective that an agent can have,
+ can be stated in terms of maximizing a reward associated to the actions
+ of the agent with respect to this objective.
+\end_layout
+
+\begin_layout Standard
+For example, if the objective of the agent is to fly a helicopter from point
+ A to point B, then the reward could be negatively affected by the distance
+ to point B, by the time taken to reach B,...
+\end_layout
+
+\begin_layout Standard
+Now, it is important to realize that there exist different reasons to learn:
+\end_layout
+
+\begin_layout Itemize
+Find solutions to problems.
+\end_layout
+
+\begin_layout Itemize
+Adapt online to unforseen circumstances.
+\end_layout
+
+\begin_layout Standard
+Well, RL can provide algorithm for both cases! Note that the second point
+ is not just about generalization, but also to cope with the so-called data
+ shift, efficiently, during operation.
+\end_layout
+
+\begin_layout Standard
+With all this, now we can define RL:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Reinforcement Learning is the science and framework of learning to make
+ decisions from interaction.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This requires us to think about time, consequences of actions, experience
+ gathering, future prediction, uncertainty,...
+\end_layout
+
+\begin_layout Standard
+It has a huge potential scope and is a formalisation of the AI problem.
+\end_layout
+
+\begin_layout Section
+Definition and components
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+environment
+\series default
+ is the world of the problem at hand, with 
+\series bold
+agents
+\series default
+ in it that can perform actions, over time.
+\end_layout
+
+\begin_layout Definition
+At each time step 
+\begin_inset Formula $t$
+\end_inset
+
+, the agent:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Receives observation 
+\begin_inset Formula $O_{t}$
+\end_inset
+
+ and reward 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ from the environment.
+\end_layout
+
+\begin_layout Itemize
+Executes action 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Definition
+And the environment:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Receives action 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Emits observation 
+\begin_inset Formula $O_{t+1}$
+\end_inset
+
+ and reward 
+\begin_inset Formula $R_{t+1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+But, what is a reward?
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+reward
+\series default
+, 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+, is a scalar feedback signal which indicates how well the agent is doing
+ at step 
+\begin_inset Formula $t$
+\end_inset
+
+: it defines how well the goal is being accomplished!
+\end_layout
+
+\begin_layout Standard
+Therefore, the agent's job is to maximize the cummulative reward of the
+ future steps, i.e., 
+\begin_inset Formula 
+\[
+G_{t}=R_{t+1}+R_{t+2}+R_{t+3}+...
+\]
+
+\end_inset
+
+ This is called the 
+\series bold
+return
+\series default
+.
+ But, when one thinks about it carefully, one realizes that it is hard to
+ know the future rewards with such precision.
+ Therefore, it is also usual to use the 
+\series bold
+value
+\series default
+, which is the expected return, taking into account the current state, 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+v\left(s\right)=\mathbb{E}\left[G_{t}|S_{t}=s\right].
+\]
+
+\end_inset
+
+ This depends on the actions the agents takes, and the goal is to 
+\color blue
+maximize it
+\color inherit
+! To achieve this, the agent must pick suitable actions.
+\end_layout
+
+\begin_layout Standard
+Therefore, rewards and values define the utility of states and actions,
+ and in this setup there is no supervised feedback.
+\end_layout
+
+\begin_layout Standard
+Note, also, that this values can be defined recursively as
+\begin_inset Formula 
+\[
+G_{t}=R_{t+1}+G_{t+1},
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+v\left(s\right)=\mathbb{E}\left[R_{t+1}+v\left(S_{t+1}\right)|S_{t}=s\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+environment state
+\series default
+ is the environment's internal state, which is usually invisible or partially
+ visible to the agent.
+ It is very important, but it can also contain lots of irrelevant information.
+\end_layout
+
+\begin_layout Standard
+An environment is 
+\series bold
+fully observable
+\series default
+ when the agent can see the full environment state, so every observation
+ reveals the whole environment state.
+ That is, the agent state could just be the observation:
+\begin_inset Formula 
+\[
+S_{t}=O_{t}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ is the agent state, not the environment state!
+\end_layout
+
+\begin_layout Subsection
+Maximising the value by taking actions
+\end_layout
+
+\begin_layout Standard
+As we have outlined, the goal is to select the actions that maximise the
+ value.
+ For this, we may need to take into account that actions may have long term
+ consequences, delaying rewards.
+ Thus, it may be better to sacrifice immediate reward to gain long-term
+ reward.
+\end_layout
+
+\begin_layout Standard
+The decision making process that for a given state chooses which action
+ to take is called a 
+\series bold
+policy
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+To decide which action to take, we can also condition the value on actions:
+\begin_inset Formula 
+\[
+q\left(s,a\right)=\mathbb{E}\left[G_{t}|S_{t}=s,A_{t}=a\right],
+\]
+
+\end_inset
+
+ so, for a given state 
+\begin_inset Formula $s$
+\end_inset
+
+, a possible set of actions 
+\begin_inset Formula $A_{t}^{s}$
+\end_inset
+
+, we could decide which action to take as
+\begin_inset Formula 
+\[
+a_{t}=\max_{a\in A_{t}^{s}}q\left(s,a\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then, the 
+\series bold
+history
+\series default
+ is the full sequence of observation, actions and rewards:
+\begin_inset Formula 
+\[
+\mathcal{H}_{t}=O_{0},A_{0},R_{1},O_{1},...,O_{t-1},A_{t-1},R_{t},O_{t}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Markov Decision Processes
+\end_layout
+
+\begin_layout Standard
+Markov Decision Processes (MDPs) are a useful mathematical framework, defined
+ as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A decision process is Markov if
+\begin_inset Formula 
+\[
+p\left(r,s|S_{t},A_{t}\right)=p\left(r,s|\mathcal{H}_{t},A_{t}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means that the current state is the only information needed to make
+ a decision, we don't need the full story.
+ For example, think in a chess game: there are many ways to arrive to a
+ certain position, but it really does not matter how to got to the position,
+ the past does not affect your choice now.
+\end_layout
+
+\begin_layout Standard
+In order for a process to be Markov, full observability is required.
+ When the situation is of 
+\series bold
+partial observability
+\series default
+, the observations are not Markovian, so using the observation as state
+ is not enough to make the decision.
+ This is called a 
+\series bold
+partially observable Markov decision process (POMDP)
+\series default
+.
+ Note that the environment state can still be Markov, but the agent does
+ not know it.
+ In this case, we might be able to construct a Markov agent state.
+\end_layout
+
+\begin_layout Standard
+In the general case, the agent state is a function of the history:
+\begin_inset Formula 
+\[
+S_{t+1}=u\left(S_{t},A_{t},R_{t+1},O_{t+1}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $u$
+\end_inset
+
+ is a 
+\series bold
+state update function
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Usually, the agent state is much smaller than the environment state.
+\end_layout
+
+\begin_layout Example
+A not Markov process:
+\end_layout
+
+\begin_layout Example
+Consider the following maze to be the full environment:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado2.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+And consider the following observations:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado3.png
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado4.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+They are indistinguishable! This process is not Markov, because only taking
+ into account the current state, we cannot identify where we are.
+\end_layout
+
+\begin_layout Standard
+To deal with partial observability, agent can construct suitable state represent
+ations.
+ Some examples of agent states are:
+\end_layout
+
+\begin_layout Itemize
+Last observation: 
+\begin_inset Formula $S_{t}=O_{t}$
+\end_inset
+
+ (might not be enough).
+\end_layout
+
+\begin_layout Itemize
+Complete history: 
+\begin_inset Formula $S_{t}=\mathcal{H}_{t}$
+\end_inset
+
+ (might be too large).
+\end_layout
+
+\begin_layout Itemize
+A generic update: 
+\begin_inset Formula $S_{t}=u\left(S_{t-1},A_{t-1},R_{t},O_{t}\right)$
+\end_inset
+
+ (but how to design 
+\begin_inset Formula $u$
+\end_inset
+
+?)
+\end_layout
+
+\begin_layout Standard
+Constructing a fully Markovian agent state is often not feasible and, more
+ importantly, the state should allow for good policies and value predictions.
+\end_layout
+
+\begin_layout Subsection
+Policies
+\end_layout
+
+\begin_layout Standard
+As we saw, a 
+\series bold
+policy
+\series default
+ defines the agent's behavior: it is a map from the agent state to an action.
+ Policies can be deterministic,
+\begin_inset Formula 
+\[
+A=\pi\left(S\right),
+\]
+
+\end_inset
+
+ or stochastic,
+\begin_inset Formula 
+\[
+\pi\left(A|S\right)=p\left(A|S\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Value Functions
+\end_layout
+
+\begin_layout Standard
+We saw the value before, which is the expected return.
+ However, it is usual to introduce a 
+\series bold
+discount factor
+\series default
+, 
+\begin_inset Formula $\gamma\in\left[0,1\right]$
+\end_inset
+
+, which trades off importance of immediate and long-term rewards.
+ This way, the value becomes
+\begin_inset Formula 
+\[
+v_{\pi}\left(s\right)=\mathbb{E}\left[G_{t}|S_{t}=s,\pi\right]=\mathbb{E}\left[R_{t+1}+\gamma R_{t+2}+\gamma^{2}R_{t+3}+...|S_{t}=s,\pi\right].
+\]
+
+\end_inset
+
+ The value depends on the policy, 
+\begin_inset Formula $\pi$
+\end_inset
+
+, and can be used to evaluate the desirability of states, as well as to
+ select between actions.
+\end_layout
+
+\begin_layout Standard
+Note the role of the discount factor: the higher it is, the higher the focus
+ on long term outcomes.
+\end_layout
+
+\begin_layout Standard
+Now, using the recursive expression of the return, 
+\begin_inset Formula $G_{t}=R_{t+1}+\gamma G_{t+1}$
+\end_inset
+
+, we can rewrite the value as
+\begin_inset Formula 
+\[
+v_{\pi}\left(s\right)=\mathbb{E}\left[R_{t+1}+\gamma v_{\pi}\left(S_{t+1}\right)|S_{t}=a,A_{t}\sim\pi\left(s\right)\right],
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $A\sim\pi\left(s\right)$
+\end_inset
+
+ means 
+\begin_inset Formula $A$
+\end_inset
+
+ is chosen by policy 
+\begin_inset Formula $\pi$
+\end_inset
+
+ in state 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ This is known as a 
+\series bold
+Bellman equation
+\series default
+.
+ A similar equation holds for the optimal value, i.e., the highest possible
+ value:
+\begin_inset Formula 
+\[
+v_{*}\left(s\right)=\max_{a}\mathbb{E}\left[R_{t+1}+\gamma v_{*}\left(S_{t+1}\right)|S_{t}=s,A_{t}=a\right].
+\]
+
+\end_inset
+
+ Note how this does not depend on a policy, it is just the maximum achievable
+ value from the current state.
+\end_layout
+
+\begin_layout Subsubsection
+Value Function Approximations
+\end_layout
+
+\begin_layout Standard
+Agents often approximate value functions, and with an accurate value function
+ approximation, the agent can behave optimally, or very well, even in intractabl
+y big domains.
+\end_layout
+
+\begin_layout Subsection
+Model
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+model
+\series default
+ predicts what the environment will do next.
+ For example, 
+\begin_inset Formula $\mathcal{P}$
+\end_inset
+
+ predicts the next state, given the current state and an action:
+\begin_inset Formula 
+\[
+\mathcal{P}\left(s,a,s'\right)\approx p\left(S_{t+1}=s'|S_{t}=s,A_{t}=a\right).
+\]
+
+\end_inset
+
+ Or 
+\begin_inset Formula $\mathcal{R}$
+\end_inset
+
+ predicts the next immediate reward:
+\begin_inset Formula 
+\[
+\mathcal{R}\left(s,a\right)\approx\mathbb{E}\left[R_{t+1}|S_{t}=s,A_{t}=a\right].
+\]
+
+\end_inset
+
+ Note that a model does not immediately give us a good policy! We still
+ need to plan and see how actions and states are related.
+ 
+\end_layout
+
+\begin_layout Example
+Consider the following maze, where the rewards are -1 per time-step, the
+ actions are to go N, E, S and W, and the states are the agent's location:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+Start
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+End
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+The following arrows represent the policy, 
+\begin_inset Formula $\pi\left(s\right)$
+\end_inset
+
+, for each state 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+Start
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado8.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado8.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado8.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado9.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado6.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado8.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado5.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+End
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+In the following one, the numbers represent the value 
+\begin_inset Formula $v_{\pi}\left(s\right)$
+\end_inset
+
+ of each state 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+Start
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-19
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-24
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-23
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+End
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+rowcolor{black}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cellcolor{white}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The grid layout represents the partial transition model 
+\begin_inset Formula $\mathcal{P}_{ss'}^{a}$
+\end_inset
+
+, and numbers represent the immediate reward, 
+\begin_inset Formula $\mathcal{R}_{ss'}^{a}$
+\end_inset
+
+ from each state 
+\begin_inset Formula $s$
+\end_inset
+
+, which is -1 for all 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $s'$
+\end_inset
+
+ in this case.
+\end_layout
+
+\begin_layout Subsection
+Agent categories
+\end_layout
+
+\begin_layout Standard
+An agent is 
+\series bold
+model free
+\series default
+ when the behavior of the environment is not known.
+ The agent needs a policy or a value function to operate and there is no
+ model.
+ On the other hand, it is 
+\series bold
+model based
+\series default
+ when the environment is known by means of a model.
+ In this case, a policy and a value function might be optional, since it
+ is possible that the agent can operate just knowing the model.
+\end_layout
+
+\begin_layout Standard
+Model free agents are simpler, while model based agents are more sample
+ efficient.
+\end_layout
+
+\begin_layout Standard
+Another categorization is the following:
+\end_layout
+
+\begin_layout Itemize
+Value based: there is no policy, it is implicit in the value function.
+\end_layout
+
+\begin_layout Itemize
+Policy based: there is no value function, the model operates only by means
+ of the policy.
+\end_layout
+
+\begin_layout Itemize
+Actor critic: they have both a policy and a value function.
+\end_layout
+
+\begin_layout Subsection
+Subproblems of RL
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Prediction 
+\series default
+consists in evaluating the future, for a given policy, i.e., what are the
+ values in each state?
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Control
+\series default
+ refers to the problem of optimising the future to find the best policy,
+ i.e., which actions to take?
+\end_layout
+
+\begin_layout Standard
+These two problems are strongly related, because the best actions to take
+ will be decided using our predictions about the future:
+\begin_inset Formula 
+\[
+\pi_{*}\left(s\right)=\arg\max_{\pi}v_{\pi}\left(s\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two fundamental problems in RL are:
+\end_layout
+
+\begin_layout Itemize
+Learning: the environment is initially unknown and the agent interacts with
+ it to learn.
+\end_layout
+
+\begin_layout Itemize
+Planning/search: a model of the environment is given or learnt, and the
+ agent plans in this model.
+\end_layout
+
+\begin_layout Standard
+In order to learn, we need to define all components of the problem as functions:
+\end_layout
+
+\begin_layout Itemize
+Policy: 
+\begin_inset Formula $\pi:S\rightarrow A$
+\end_inset
+
+ (or probabilities over 
+\begin_inset Formula $A$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+Value functions: 
+\begin_inset Formula $v:S\rightarrow\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Models: 
+\begin_inset Formula $p:S\rightarrow S$
+\end_inset
+
+ or 
+\begin_inset Formula $r:S\rightarrow\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+State update: 
+\begin_inset Formula $u:S\times O\rightarrow S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Then, we can use, for example, neural networks and deep learning techniques
+ to learn.
+ But we do need to be careful, because in RL it is usual to violate assumptios
+ made in supervised learning, such as having i.i.d.
+ samples, or stationarity.
 \end_layout
 
 \begin_layout Standard
