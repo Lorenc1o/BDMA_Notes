@@ -3480,11 +3480,7 @@ Well-defined: For each
 \begin_inset Formula $\left\{ v\left(x\right):f\left(x\right)=u\right\} $
 \end_inset
 
- is non-empty and therefore 
-\begin_inset Formula $\varphi\left(u\right)$
-\end_inset
-
- is defined.
+ is non-empty and therefore .
  
 \end_layout
 
@@ -3543,7 +3539,7 @@ The equality: Take
 , then
 \begin_inset Formula 
 \[
-\varphi\left(f\left(x\right)\right)=v\left(x\right)|f\left(x\right)=f\left(x\right)=v\left(x\right).
+\varphi\left(f\left(x\right)\right)=\inf\left\{ v\left(x\right)|f\left(x\right)=f\left(x\right)\right\} =v\left(x\right).
 \]
 
 \end_inset
