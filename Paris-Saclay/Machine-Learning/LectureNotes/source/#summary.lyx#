@@ -10004,65 +10004,7 @@ There is always a deterministic optimal policy for any MDP, and we know
 \begin_inset Formula $q^{*}\left(s,a\right)$
 \end_inset
 
-, we know the optimal policy immediately.
-\end_layout
-
-\begin_layout Remark
-Also, there can be multiple optimal policies, and if multiple actions maximize
- 
-\begin_inset Formula $q_{*}\left(s,\cdot\right)$
-\end_inset
-
-, we can pick any of them.
-\end_layout
-
-\begin_layout Standard
-Now, recall the Bellman Equations we saw previously.
- The following theorem explains how to express the value functions by means
- of these equations:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex Color Box
-status open
-
-\begin_layout Theorem
-
-\series bold
-Bellman Expectation Equations
-\end_layout
-
-\begin_layout Theorem
-Given an MDP, 
-\begin_inset Formula $M=\left(S,A,p,r,\gamma\right)$
-\end_inset
-
-, for any policy 
-\begin_inset Formula $\pi$
-\end_inset
-
-, the value functions obey the followin expectation equations:
-\begin_inset Formula 
-\[
-v_{\pi}\left(s\right)=\sum_{a}\pi\left(s,a\right)\left[r\left(s,a\right)+\gamma\sum_{s'}p\left(s'|a,s\right)v_{\pi}\left(s'\right)\right],
-\]
-
-\end_inset
-
- and
-\begin_inset Formula 
-\[
-q_{\pi}\left(s,a\right)=r\left(s,a\right)+\gamma\sum_{s'}p\left(s'|a,s\right)\sum_{a'\in A}\pi\left(a'|s'\right)q_{\pi}\left(s',a'\right).
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+, we know it imm
 \end_layout
 
 \begin_layout Standard
