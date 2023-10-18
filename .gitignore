@@ -1,3 +1,6 @@
 *.bak
 *.lyx~
 *.bib,bak
+*.tar.gz
+Paris-Saclay/Machine-Learning/Labs/L3/data/*
+Paris-Saclay/Machine-Learning/Labs/L3/cifar-10-batches-py/*
