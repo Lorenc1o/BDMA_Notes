@@ -93,6 +93,11 @@ used.
 <div class="tableofcontents">
  <span class="sectionToc">1 <a href="#x1-20001" id="QQ2-1-2">Introduction</a></span>
 <br/>  <span class="subsectionToc">1.1 <a href="#x1-30001.1" id="QQ2-1-3">What is Visual Analytics?</a></span>
+<br/> <span class="sectionToc">2 <a href="#x1-90002" id="QQ2-1-9">Research Questions</a></span>
+<br/> <span class="sectionToc">3 <a href="#x1-100003" id="QQ2-1-10">Data Collection</a></span>
+<br/>  <span class="subsectionToc">3.1 <a href="#x1-110003.1" id="QQ2-1-11">Building a Web Scraper</a></span>
+<br/>  <span class="subsectionToc">3.2 <a href="#x1-120003.2" id="QQ2-1-12">Data Formats</a></span>
+<br/>  <span class="subsectionToc">3.3 <a href="#x1-150003.3" id="QQ2-1-15">Handling Data</a></span>
 </div>
 <!--l. 96--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-20001"></a>Introduction</h3>
@@ -297,4 +302,170 @@ research in this field.
 <!--l. 277--><p class="noindent">Collaboration across languages and borders.</p></li></ol>
 </p></li></ol>
 </p></li></ol>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+<!--l. 282--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">2   </span> <a id="x1-90002"></a>Research Questions</h3>
+<!--l. 284--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">3   </span> <a id="x1-100003"></a>Data Collection</h3>
+<!--l. 286--><p class="noindent">We tend to think of data as a thing stored in a database, or somewhere,... but in reality data has been collected using
+some methodology, and with many decisions taken before and during the process.
+<!--l. 290--><p class="noindent">This is because the data was collected for some reason, and therefore was defined to give light on certain questions, and
+restricted to the measure devices that were available. However, having collected the data is not the same as already
+having the answers to our questions: we need to analyze it.
+<!--l. 296--><p class="noindent">Analysis is a cycle, in which two big tasks are alternated:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-10002x1">
+<!--l. 298--><p class="noindent">Gathering  data,  applying  statistical  tools,  and  constructing  graphics  to  address  questions,  to  obtain
+     answers.
+     </p></li>
+<li class="enumerate" id="x1-10004x2">
+<!--l. 300--><p class="noindent">Inspect the answers and assess new questions.</p></li></ol>
+<!--l. 302--><p class="noindent">There are times when we already have the data, and we want to perform <span class="ecbx-1000">exploratory data analysis </span>to search for
+patterns and questions that could be answered. But oftentimes we have a question, and we need to collect the data
+somehow:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 307--><p class="noindent">Collect it ourselves:
+                                                                                            
+                                                                                            
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 309--><p class="noindent">Surveys: which can be paper surveys, on-line or in-person interviews. It still represents one of the
+         best ways to get detailed data or data about sensitive subjects.
+         <!--l. 313--><p class="noindent">Recently, it has become popular the concept of crowdsourcing data collection, which consists basically
+         in publishing on-line surveys and people get paid for completing them.
+         </p></p></li>
+<li class="itemize">
+<!--l. 316--><p class="noindent">Web logging: concists in tracking visits, click-throughs, and traffic patterns, along with other measures
+         of user activity. There are tools such as Google Analytics or Open Web Analytics that allow this
+         kind of analysis. A special kind of these analyses are the Edits &amp; Accesses logs on wikipedia.
+         </p></li>
+<li class="itemize">
+<!--l. 321--><p class="noindent">Sensors: such as weather stations, personal activity trackers, cameras or even mobile phones.
+         </p></li>
+<li class="itemize">
+<!--l. 323--><p class="noindent"><span id="textcolor1">Advantage</span>: you can define the variables of the data.
+         </p></li>
+<li class="itemize">
+<!--l. 324--><p class="noindent"><span id="textcolor2">Disadvantage</span>: it is expensive and time consuming.</p></li></ul>
+</p></li>
+<li class="itemize">
+<!--l. 326--><p class="noindent">Generating data:
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 328--><p class="noindent">Simulations: consist on conveying the rules of our process using a model, and simulate the real
+         scenario using this model.
+         </p></li>
+<li class="itemize">
+<!--l. 330--><p class="noindent"><span id="textcolor3">Advantage</span>: you can define the simulations.
+         </p></li>
+<li class="itemize">
+<!--l. 331--><p class="noindent"><span id="textcolor4">Disadvantage</span>: it is hard to accurately represent reality.</p></li></ul>
+</p></li>
+<li class="itemize">
+<!--l. 334--><p class="noindent">Find it or extract it: there are many repositories of data, like DBPedia, FreeBase, WikiData, Project Gutenberg,
+     Google N-Grams,... In addition, there are several published data initiatives led by governments and international
+     institution, like <span class="ecti-1000">data.worldbank.org</span>, <span class="ecti-1000">www.data.gov </span>(USA), <span class="ecti-1000">data.gov.uk </span>(UK), <span class="ecti-1000">data.gov.be </span>(Belgium),... There are
+     even data initiatives meant to track other data initiatives, such as <span class="ecti-1000">re3data.org</span>.
+     <!--l. 342--><p class="noindent">There are many more repositories of public data sets, like Google public data or Kaggle, among
+     others.
+     <!--l. 345--><p class="noindent">In addition, there are what is called data retailers, which are basically companies that sells data that they have
+     collected.
+     <!--l. 348--><p class="noindent">Moreover, there are many companies that provides an API to access their data, it can be free, or they may ask for
+     a fee or a license.
+     <!--l. 351--><p class="noindent">Another way to extract data from the Internet, when there is not an available API, is by scraping the data. It
+     consists on accessing the pages where the information is using a program that collects this information. This is
+     usually a complex approach, and there are tools we can use to avoid scraping:
+                                                                                            
+                                                                                            
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 357--><p class="noindent">Pulling data tables from the web using <span class="ecti-1000">importhtml</span>.
+         </p></li>
+<li class="itemize">
+<!--l. 358--><p class="noindent">Parsing pdfs using <span class="ecti-1000">tabula</span>.</p></li></ul>
+<!--l. 360--><p class="noindent">Collecting data also has pros and cons:
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 362--><p class="noindent"><span id="textcolor5">Advantages</span>: cheap and fast.
+         </p></li>
+<li class="itemize">
+<!--l. 363--><p class="noindent"><span id="textcolor6">Disadvantages</span>: needs data cleaning and understanding of the sources. Also, it is hard to assess the
+         reliability of the data.</p></li></ul>
+</p></p></p></p></p></p></li></ul>
+<!--l. 369--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">3.1   </span> <a id="x1-110003.1"></a>Building a Web Scraper</h4>
+<!--l. 371--><p class="noindent">If we need to build a Web Scraper, we should separate it into two different processes:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 374--><p class="noindent">Data fetching: it is advisable to download the complete pages and save them locally before processing
+     them, specially if the data is spread across multiple pages, needing pagination.
+     </p></li>
+<li class="itemize">
+<!--l. 377--><p class="noindent">Parsing data: once we have our web pages stored locally, we can process them calmly. Another tip is to
+     use the browsers’ built-in tools for page inspection.</p></li></ul>
+<!--l. 381--><p class="noindent">One need also to take into account that some sites are protected against data scraping, and we could get blocked. To
+get around this, we could introduce delays in the scraper, or use VPNs,...
+<!--l. 385--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">3.2   </span> <a id="x1-120003.2"></a>Data Formats</h4>
+<ul class="itemize1">
+<li class="itemize">
+<!--l. 387--><p class="noindent">Structured data: the kind of data that we can find in a spreadsheet or a database. It has a fixed schema
+     and data types definition.
+     </p></li>
+<li class="itemize">
+<!--l. 389--><p class="noindent">Unstructured data: includes raw text, streaming data, images, videos,... Basically there is no control over
+     the structure of the different data points.
+                                                                                            
+                                                                                            
+     </p></li>
+<li class="itemize">
+<!--l. 392--><p class="noindent">Semi-structured data: is more organized than the unstructured data, but does not follow a fixed schema.
+     It could have a flexible schema, a multilayer schema, etc. For example JSON files.</p></li></ul>
+<!--l. 397--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">3.2.1   </span> <a id="x1-130003.2.1"></a>CSV</h5>
+<!--l. 399--><p class="noindent">Comma-separated value files: we all know them!
+<!--l. 401--><p class="noindent">Best practices:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 403--><p class="noindent">Remove unnecessary rows or cells (empty cells, comments)
+     </p></li>
+<li class="itemize">
+<!--l. 404--><p class="noindent">Write NA for missing values
+     </p></li>
+<li class="itemize">
+<!--l. 405--><p class="noindent">Split cells when possible
+     </p></li>
+<li class="itemize">
+<!--l. 406--><p class="noindent">Give meaningful unique column names</p></li></ul>
+<!--l. 409--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">3.2.2   </span> <a id="x1-140003.2.2"></a>XML, JSON, YAML</h5>
+<!--l. 411--><p class="noindent">Different data formats to represent semi-structured data. They are all equivalent, but have different definitions and
+syntax.
+<!--l. 414--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">3.3   </span> <a id="x1-150003.3"></a>Handling Data</h4>
+<!--l. 416--><p class="noindent">It is important to always keep backups of our data, and to password protect or encrypt any data with sensitive
+information.
+<!--l. 419--><p class="noindent">In addition, it is important to take <span class="ecbx-1000">provenance </span>into account. We need to keep track of where and when data was
+collected, as well as to record any data processing steps we took, so they can be reproduced.
+<!--l. 423--><p class="noindent">Regarding intellectual property, copyright and sharing data, it is crucial to be sure to know who owns the data, and to
+think early whether it will be possible to publish the data or not, as well as not to violate copyright (specially when
+scraping data).
+<!--l. 428--><p class="noindent">Not only this, but any information that could be used to identify individuals is sensitive, and there might be legal
+repercussions for releasing it. It is important to be aware when to anonymize data before sharing. Also, regarding
+<span class="ecbx-1000">anonymization</span>, it is important to note that just removing names is not enough, as there have been
+several studies showing how combining different publicly available anynomized datasets, individuals can be
+identified.
+                                                                                            
+                                                                                            
+<!--l. 436--><p class="noindent">We need to comply with the <span class="ecbx-1000">regulations</span>, and usually Institutional Review and Ethics Boards will need to
+approve the experiments or the data collection process before it happens, specially for studies involving
+people, which may even need informed consent. Moreover, in some cases there are limits on how long user
+data can be kept, or how the user should be notified when their data is tracked (through cookies for
+example).
+<!--l. 444--><p class="noindent">In Europe, there is the <span class="ecbx-1000">General Data Protection Regulation (GDPR)</span>, which is the world’s strongest data
+protection law and defines how organizations can handle information about people. It defines what is personal data, as
+data from which people can be identified, and requires strict treatment for this kind of data. This processing should be
+lawful, fair and transparent, and get ethics approval. It is advisable to process the minimal amount of necessary
+personal data, and to anonymize it where possible.
+ 
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
