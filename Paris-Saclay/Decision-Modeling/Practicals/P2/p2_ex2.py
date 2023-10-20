@@ -18,21 +18,22 @@ sites_info = [ # (site, duration, appretiations, cost)
                 ['AC', 3/2, '*****', 0]
             ]
 
-distances = [
-            [0.0, 3.8, 2.1, 2.4, 3.5, 4.2, 5.0, 4.4, 5.5, 4.2, 2.5, 3.1, 1.9],
-            [3.8, 0.0, 3.8, 1.1, 1.3, 3.3, 1.3, 1.1, 3.4, 0.8, 1.7, 2.5, 2.8],
-            [2.1, 3.8, 0.0, 3.1, 3.0, 5.8, 4.8, 4.9, 4.3, 4.6, 2.2, 4.4, 1.0],
-            [2.4, 1.1, 3.1, 0.0, 0.9, 3.1, 2.5, 2.0, 3.9, 1.8, 1.0, 2.3, 2.1],
-            [3.5, 1.3, 3.0, 0.9, 0.0, 4.2, 2.0, 2.4, 2.7, 2.0, 1.0, 3.4, 2.1],
-            [4.2, 3.3, 5.8, 3.1, 4.2, 0.0, 3.5, 2.7, 6.5, 2.6, 3.8, 1.3, 4.9],
-            [5.0, 1.3, 4.8, 2.5, 2.0, 3.5, 0.0, .85, 3.7, 0.9, 2.7, 3.4, 3.8],
-            [4.4, 1.1, 4.9, 2.0, 2.4, 2.7, .85, 0.0, 4.5, 0.4, 2.8, 2.7, 3.9],
-            [5.5, 3.4, 4.3, 3.9, 2.7, 6.5, 3.7, 4.5, 0.0, 4.2, 3.3, 5.7, 3.8],
-            [4.2, 0.8, 4.6, 1.8, 2.0, 2.6, 0.9, 0.4, 4.2, 0.0, 2.5, 2.6, 3.6],
-            [2.5, 1.7, 2.2, 1.0, 1.0, 3.8, 2.7, 2.8, 3.3, 2.5, 0.0, 3.0, 1.2],
-            [3.1, 2.5, 4.4, 2.3, 3.4, 1.3, 3.4, 2.7, 5.7, 2.6, 3.0, 0.0, 2.1],
-            [1.9, 2.8, 1.0, 2.1, 2.1, 4.9, 3.8, 3.9, 3.8, 3.6, 1.2, 2.1, 0.0]                  
+distances = [# TE, ML, AT,   MO, JT,   CA,  CP,  CN,  BS, SC,  PC,  TM,  AC
+            [0.0, 3.8, 2.1, 2.4, 3.5, 4.2, 5.0, 4.4, 5.5, 4.2, 2.5, 3.1, 1.9], # TE
+            [3.8, 0.0, 3.8, 1.1, 1.3, 3.3, 1.3, 1.1, 3.4, 0.8, 1.7, 2.5, 2.8], # ML
+            [2.1, 3.8, 0.0, 3.1, 3.0, 5.8, 4.8, 4.9, 4.3, 4.6, 2.2, 4.4, 1.0], # AT
+            [2.4, 1.1, 3.1, 0.0, 0.9, 3.1, 2.5, 2.0, 3.9, 1.8, 1.0, 2.3, 2.1], # MO
+            [3.5, 1.3, 3.0, 0.9, 0.0, 4.2, 2.0, 2.4, 2.7, 2.0, 1.0, 3.4, 2.1], # JT
+            [4.2, 3.3, 5.8, 3.1, 4.2, 0.0, 3.5, 2.7, 6.5, 2.6, 3.8, 1.3, 4.9], # CA
+            [5.0, 1.3, 4.8, 2.5, 2.0, 3.5, 0.0, .85, 3.7, 0.9, 2.7, 3.4, 3.8], # CP
+            [4.4, 1.1, 4.9, 2.0, 2.4, 2.7, .85, 0.0, 4.5, 0.4, 2.8, 2.7, 3.9], # CN
+            [5.5, 3.4, 4.3, 3.9, 2.7, 6.5, 3.7, 4.5, 0.0, 4.2, 3.3, 5.7, 3.8], # BS
+            [4.2, 0.8, 4.6, 1.8, 2.0, 2.6, 0.9, 0.4, 4.2, 0.0, 2.5, 2.6, 3.6], # SC
+            [2.5, 1.7, 2.2, 1.0, 1.0, 3.8, 2.7, 2.8, 3.3, 2.5, 0.0, 3.0, 1.2], # PC
+            [3.1, 2.5, 4.4, 2.3, 3.4, 1.3, 3.4, 2.7, 5.7, 2.6, 3.0, 0.0, 2.1], # TM
+            [1.9, 2.8, 1.0, 2.1, 2.1, 4.9, 3.8, 3.9, 3.8, 3.6, 1.2, 2.1, 0.0]  # AC            
             ]
+# Entries with <= 1 km distance: ML-SC, MO-PC, MO-JT, JT-PC, CP-CN, CP-SC, CN-SC
 
 def baseprob():
     '''
@@ -61,7 +62,7 @@ def add_pref1(x, prob):
     Pref 1: if two sites are within 1 km, he prefer to visit both of them
     '''
     for i in range(len(sites_info)):
-        for j in range(len(sites_info)):
+        for j in range(i, len(sites_info)):
             if distances[i][j] <= 1:
                 prob += x[i] - x[j] <= 0, "Pref 1: if two sites are within 1 km, he prefer to visit both of them, sites "+str(i)+" and "+str(j)
 
@@ -112,12 +113,14 @@ def compare_solutions(sol1, sol2):
     '''
     if set(sol1) == set(sol2):
         print("This solution is same as the base problem")
+        return True
     else:
         print("This solution is different from the base problem")
         print("In this case, we change sites:")
         print(set(sol1) - set(sol2))
         print("To:")
         print(set(sol2) - set(sol1))
+        return False
 
 # Map the preference functions to dictionary keys for easy reference
 preference_functions = {
@@ -264,6 +267,9 @@ def spearman_coef(r1, r2):
             
 
 if __name__ == "__main__":
+
+    summary = []
+
     print("Solving the problem without preferences...")
     x, prob = baseprob()
 
@@ -278,6 +284,8 @@ if __name__ == "__main__":
     v = prob.variables()
     ListVisit = get_list(prob.variables())
     print(ListVisit)
+
+    summary.append(["Base problem", ListVisit, len(ListVisit), True])
 
     print("----------------------------------------------")
 
@@ -300,6 +308,7 @@ if __name__ == "__main__":
     ListVisit1 = solve_with_preferences(['pref1'])
 
     compare_solutions(ListVisit, ListVisit1)
+    summary.append(["Pref 1", ListVisit1, len(ListVisit1), compare_solutions(ListVisit, ListVisit1)])
     print("----------------------------------------------")
 
     # 2:
@@ -309,6 +318,7 @@ if __name__ == "__main__":
     ListVisit2 = solve_with_preferences(['pref2'])
 
     compare_solutions(ListVisit, ListVisit2)
+    summary.append(["Pref 2", ListVisit2, len(ListVisit2), compare_solutions(ListVisit, ListVisit2)])
     print("----------------------------------------------")
 
     # 3:
@@ -318,6 +328,7 @@ if __name__ == "__main__":
     ListVisit3 = solve_with_preferences(['pref3'])
 
     compare_solutions(ListVisit, ListVisit3)
+    summary.append(["Pref 3", ListVisit3, len(ListVisit3), compare_solutions(ListVisit, ListVisit3)])
     print("----------------------------------------------")
 
     # 4:
@@ -327,6 +338,7 @@ if __name__ == "__main__":
     ListVisit4 = solve_with_preferences(['pref4'])
 
     compare_solutions(ListVisit, ListVisit4)
+    summary.append(["Pref 4", ListVisit4, len(ListVisit4), compare_solutions(ListVisit, ListVisit4)])
     print("----------------------------------------------")
 
     # 5:
@@ -336,6 +348,7 @@ if __name__ == "__main__":
     ListVisit5 = solve_with_preferences(['pref5'])
 
     compare_solutions(ListVisit, ListVisit5)
+    summary.append(["Pref 5", ListVisit5, len(ListVisit5), compare_solutions(ListVisit, ListVisit5)])
     print("----------------------------------------------")
 
     # B) Solve the poblem for Preference 1 and 2 together
@@ -343,6 +356,7 @@ if __name__ == "__main__":
     ListVisit12 = solve_with_preferences(['pref1', 'pref2'])
 
     compare_solutions(ListVisit, ListVisit12)
+    summary.append(["Pref 1 and 2", ListVisit12, len(ListVisit12), compare_solutions(ListVisit, ListVisit12)])
     print("----------------------------------------------")
 
     # C) Solve the poblem for Preference 1 and 3 together
@@ -350,6 +364,7 @@ if __name__ == "__main__":
     ListVisit13 = solve_with_preferences(['pref1', 'pref3'])
 
     compare_solutions(ListVisit, ListVisit13)
+    summary.append(["Pref 1 and 3", ListVisit13, len(ListVisit13), compare_solutions(ListVisit, ListVisit13)])
     print("----------------------------------------------")
 
     # D) Solve the poblem for Preference 1 and 4 together
@@ -357,6 +372,7 @@ if __name__ == "__main__":
     ListVisit14 = solve_with_preferences(['pref1', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit14)
+    summary.append(["Pref 1 and 4", ListVisit14, len(ListVisit14), compare_solutions(ListVisit, ListVisit14)])
     print("----------------------------------------------")
 
     # E) Solve the poblem for Preference 2 and 5 together
@@ -364,6 +380,7 @@ if __name__ == "__main__":
     ListVisit25 = solve_with_preferences(['pref2', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit25)
+    summary.append(["Pref 2 and 5", ListVisit25, len(ListVisit25), compare_solutions(ListVisit, ListVisit25)])
     print("----------------------------------------------")
 
     # F) Solve the poblem for Preference 3 and 4 together
@@ -371,6 +388,7 @@ if __name__ == "__main__":
     ListVisit34 = solve_with_preferences(['pref3', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit34)
+    summary.append(["Pref 3 and 4", ListVisit34, len(ListVisit34), compare_solutions(ListVisit, ListVisit34)])
     print("----------------------------------------------")
 
     # G) Solve the poblem for Preference 4 and 5 together
@@ -378,6 +396,7 @@ if __name__ == "__main__":
     ListVisit45 = solve_with_preferences(['pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit45)
+    summary.append(["Pref 4 and 5", ListVisit45, len(ListVisit45), compare_solutions(ListVisit, ListVisit45)])
     print("----------------------------------------------")
 
     # H) Solve the poblem for Preference 1, 2 and 4 together
@@ -385,6 +404,7 @@ if __name__ == "__main__":
     ListVisit124 = solve_with_preferences(['pref1', 'pref2', 'pref4'])
 
     compare_solutions(ListVisit, ListVisit124)
+    summary.append(["Pref 1, 2 and 4", ListVisit124, len(ListVisit124), compare_solutions(ListVisit, ListVisit124)])
     print("----------------------------------------------")
 
     # I) Solve the poblem for Preference 2, 3 and 5 together
@@ -392,6 +412,7 @@ if __name__ == "__main__":
     ListVisit235 = solve_with_preferences(['pref2', 'pref3', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit235)
+    summary.append(["Pref 2, 3 and 5", ListVisit235, len(ListVisit235), compare_solutions(ListVisit, ListVisit235)])
     print("----------------------------------------------")
 
     # J) Solve the poblem for Preference 2, 3, 4 and 5 together
@@ -399,6 +420,7 @@ if __name__ == "__main__":
     ListVisit2345 = solve_with_preferences(['pref2', 'pref3', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit2345)
+    summary.append(["Pref 2, 3, 4 and 5", ListVisit2345, len(ListVisit2345), compare_solutions(ListVisit, ListVisit2345)])
     print("----------------------------------------------")
 
     # K) Solve the poblem for Preference 1, 2, 4 and 5 together
@@ -406,6 +428,7 @@ if __name__ == "__main__":
     ListVisit1245 = solve_with_preferences(['pref1', 'pref2', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit1245)
+    summary.append(["Pref 1, 2, 4 and 5", ListVisit1245, len(ListVisit1245), compare_solutions(ListVisit, ListVisit1245)])
     print("----------------------------------------------")
 
     # L) Solve the poblem for Preference 1, 2, 3, 4 and 5 together
@@ -415,8 +438,19 @@ if __name__ == "__main__":
     ListVisit12345 = solve_with_preferences(['pref1', 'pref2', 'pref3', 'pref4', 'pref5'])
 
     compare_solutions(ListVisit, ListVisit12345)
+    summary.append(["Pref 1, 2, 3, 4 and 5", ListVisit12345, len(ListVisit12345), compare_solutions(ListVisit, ListVisit12345)])
     print("----------------------------------------------")
 
+    # Finally, we print a summary of the results
+    print("Summary:")
+    column_titles = ["Preference", "Sites to visit", "Number of sites", "Same as base problem?"]
+    max_lengths = [max(len(title), max(len(str(row[i])) for row in summary)) for i, title in enumerate(column_titles)]
+    for i, title in enumerate(column_titles):
+        print(title.ljust(max_lengths[i]), end="\t")
+    print()
+    for row in summary:
+        print("\t".join(str(row[i]).ljust(max_lengths[i]) for i in range(len(row))))
+    print("----------------------------------------------")
     # Problem:
     # We can define different preference relations between the sites:
     # - DUR: the ranking of the sites according to their duration
