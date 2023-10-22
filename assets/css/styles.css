@@ -4,9 +4,9 @@ body {
     align-items: center;
     height: 100vh;
     gap: 20px;
-    background-color: #FFFBE9;  /* Makes the background blue */
-    font-family: Arial, sans-serif; /* Example font, can be changed */
-    color: white;            /* Sets default text color to white for better visibility on blue */
+    background-color: #FFFBE9;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
 header {
@@ -15,12 +15,12 @@ header {
     left: 0;
     z-index: 9999;
     background-color: black;
-    padding: 20px 0;        /* Decrease padding to make it less prominent */
-    text-align: center;     
-    font-size: 1.5em;      /* Decrease font size */
-    color: #FFFBE9;           /* Making the text white for visibility against black */
-    width: 100%;            /* Ensure it spans the full width */
-    box-sizing: border-box; /* Ensure padding doesn't expand its size */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.5em;
+    color: #FFFBE9;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .logo-container {
@@ -29,12 +29,12 @@ header {
     right: 10px;
     display: flex;
     align-items: center;
-  }
+}
   
-  .logo-container img {
+.logo-container img {
     max-height: 50px;
     margin-left: 10px;
-  }
+}
 
 header h1 {
     margin: 0;
@@ -42,7 +42,7 @@ header h1 {
 
 .button {
     display: inline-block;
-    padding: 2px 4px;      /* Decrease padding to make it smaller */
+    padding: 10px 20px;
     background-color: #40798C;
     color: #FFFBE9;
     text-decoration: none;
@@ -50,7 +50,7 @@ header h1 {
     transition: background-color 0.3s ease;
     position: absolute;
     top: 50%;
-    left: 20px;             /* Change right to left to move the button to the left */
+    left: 20px;
     transform: translateY(-50%);
     font-size: 0.8em;
 }
@@ -62,7 +62,7 @@ header h1 {
 
 .content {
     display: flex;
-    flex-direction: column; /* Display the elements in a column layout */
+    flex-direction: column;
     align-items: center;
     padding: 0px;
 }
@@ -70,7 +70,7 @@ header h1 {
 .intro {
     max-width: 800px;
     margin-bottom: 100px;
-    color:#000000;
+    color: #000000;
 }
 
 .cards {
@@ -129,19 +129,19 @@ header h1 {
     transform: translate(-50%, -50%);
     text-align: center;
     color: #000000;
-  }
-  
-  .card-text h2 {
+}
+
+.card-text h2 {
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .card-text p {
+}
+
+.card-text p {
     font-size: 16px;
     margin-bottom: 20px;
-  }
-  
-  .card-text a {
+}
+
+.card-text a {
     display: inline-block;
     padding: 10px 20px;
     background-color: #40798C;
@@ -149,9 +149,45 @@ header h1 {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-  }
-  
-  .card-text a:hover {
+}
+
+.card-text a:hover {
     background-color: #000;
     color: #fff;
-  }
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 480px) {
+    header {
+        padding: 15px 0; /* Reduced padding */
+        font-size: 1.2em; /* Smaller font size */
+    }
+
+    .logo-container img {
+        max-height: 30px; /* Smaller logo */
+    }
+
+    .button {
+        padding: 8px 16px; /* Smaller button */
+        font-size: 0.7em; /* Smaller font size for button */
+    }
+
+    .content {
+        padding: 20px; /* Edge padding */
+    }
+
+    .intro, .card-text {
+        font-size: 0.9em; /* Smaller text */
+    }
+
+    .cards {
+        flex-direction: column; /* Vertical card layout */
+    }
+
+    .card {
+        width: 100%; /* Full-width cards */
+        margin-right: 0; /* No right margin */
+    }
+    
+    /* Additional adjustments for elements in cards or other sections can be placed here */
+}
