@@ -189,5 +189,31 @@ header h1 {
         margin-right: 0; /* No right margin */
     }
     
-    /* Additional adjustments for elements in cards or other sections can be placed here */
+    /* Hide logo container on mobile to prevent overlap */
+    .logo-container {
+        display: none;
+    }
+
+    /* Add padding to the top of the content so it doesn't start behind the fixed header */
+    .content {
+        padding-top: 60px; /* Adjust this value as necessary */
+        padding: 20px; /* Existing padding */
+    }
+
+    /* Adjust card styles for mobile layout */
+    .cards {
+        flex-direction: column; /* Cards in a vertical column */
+    }
+
+    .card {
+        width: 100%; /* Cards take full width */
+        height: auto; /* Height auto lets each card be as tall as its content */
+        margin-right: 0; /* No right margin since we're stacking vertically */
+        margin-bottom: 20px; /* Add some space between vertically stacked cards */
+    }
+
+    .card .front img {
+        width: 100%; /* Make images fill the card */
+        height: auto; /* Maintain aspect ratio */
+    }
 }
