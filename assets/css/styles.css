@@ -7,6 +7,7 @@ body {
     background-color: #FFFBE9;
     font-family: Arial, sans-serif;
     color: white;
+    padding-top: 70px;
 }
 
 header {
@@ -21,6 +22,7 @@ header {
     color: #FFFBE9;
     width: 100%;
     box-sizing: border-box;
+    height: 70px;
 }
 
 .logo-container {
@@ -49,9 +51,9 @@ header h1 {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     position: absolute;
-    top: 50%;
+    top: 15px;
     left: 20px;
-    transform: translateY(-50%);
+    transform: None;
     font-size: 0.8em;
 }
 
@@ -65,6 +67,7 @@ header h1 {
     flex-direction: column;
     align-items: center;
     padding: 0px;
+    padding-top: 100px;
 }
 
 .intro {
@@ -77,6 +80,7 @@ header h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .card {
@@ -183,13 +187,15 @@ header h1 {
 
     .cards {
         flex-direction: column; /* Cards in a vertical column */
+        width: 100%; /* Cards take full width */
     }
 
     .card {
-        width: 100%; /* Cards take full width */
+        width: 90%; /* Cards take full width */
         height: auto; /* Height auto lets each card be as tall as its content */
         margin-right: 0; /* No right margin since we're stacking vertically */
         margin-bottom: 20px; /* Add some space between vertically stacked cards */
+        margin: 0 auto 20px; /* Center cards */
     }
 
     .card .front img {
