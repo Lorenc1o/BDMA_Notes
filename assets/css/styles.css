@@ -7,7 +7,7 @@ body {
     background-color: #FFFBE9;
     font-family: Arial, sans-serif;
     color: white;
-    padding-top: 70px;
+    padding-top: 80px;
 }
 
 header {
@@ -51,7 +51,7 @@ header h1 {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     position: absolute;
-    top: 15px;
+    top: 90px;
     left: 20px;
     transform: None;
     font-size: 0.8em;
@@ -68,6 +68,7 @@ header h1 {
     align-items: center;
     padding: 0px;
     padding-top: 100px;
+    margin-top: 20px;
 }
 
 .intro {
@@ -177,7 +178,7 @@ header h1 {
     }
 
     .content {
-        padding-top: 180px; /* Adjust this value as necessary */
+        padding-top: 200px; /* Adjust this value as necessary */
         padding: 20px; /* Existing padding */
     }
 
