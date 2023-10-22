@@ -163,8 +163,8 @@ header h1 {
         font-size: 1.2em; /* Smaller font size */
     }
 
-    .logo-container img {
-        max-height: 30px; /* Smaller logo */
+    .logo-container {
+        display: none;
     }
 
     .button {
@@ -173,34 +173,14 @@ header h1 {
     }
 
     .content {
-        padding: 20px; /* Edge padding */
+        padding-top: 60px; /* Adjust this value as necessary */
+        padding: 20px; /* Existing padding */
     }
 
     .intro, .card-text {
         font-size: 0.9em; /* Smaller text */
     }
 
-    .cards {
-        flex-direction: column; /* Vertical card layout */
-    }
-
-    .card {
-        width: 100%; /* Full-width cards */
-        margin-right: 0; /* No right margin */
-    }
-    
-    /* Hide logo container on mobile to prevent overlap */
-    .logo-container {
-        display: none;
-    }
-
-    /* Add padding to the top of the content so it doesn't start behind the fixed header */
-    .content {
-        padding-top: 60px; /* Adjust this value as necessary */
-        padding: 20px; /* Existing padding */
-    }
-
-    /* Adjust card styles for mobile layout */
     .cards {
         flex-direction: column; /* Cards in a vertical column */
     }
