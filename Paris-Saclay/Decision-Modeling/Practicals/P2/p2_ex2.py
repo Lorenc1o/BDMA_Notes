@@ -33,7 +33,7 @@ distances = [# TE, ML, AT,   MO, JT,   CA,  CP,  CN,  BS, SC,  PC,  TM,  AC
             [3.1, 2.5, 4.4, 2.3, 3.4, 1.3, 3.4, 2.7, 5.7, 2.6, 3.0, 0.0, 2.1], # TM
             [1.9, 2.8, 1.0, 2.1, 2.1, 4.9, 3.8, 3.9, 3.8, 3.6, 1.2, 2.1, 0.0]  # AC            
             ]
-# Entries with <= 1 km distance: ML-SC, MO-PC, MO-JT, JT-PC, CP-CN, CP-SC, CN-SC
+# Entries with <= 1 km distance: ML-SC, MO-PC, MO-JT, JT-PC, CP-CN, CP-SC, CN-SC, AT-AC
 
 def baseprob():
     '''
@@ -62,38 +62,69 @@ def add_pref1(x, prob):
     Pref 1: if two sites are within 1 km, he prefer to visit both of them
     '''
     for i in range(len(sites_info)):
-        for j in range(i, len(sites_info)):
+        for j in range(i+1, len(sites_info)):
             if distances[i][j] <= 1:
-                prob += x[i] - x[j] <= 0, "Pref 1: if two sites are within 1 km, he prefer to visit both of them, sites "+str(i)+" and "+str(j)
+                # Search for the variables corresponding to the sites i and j
+                a, b = 0, 0
+                for k in range(len(x)):
+                    if x[k].name[0:2] == sites_info[i][0]:
+                        a = k
+                    if x[k].name[0:2] == sites_info[j][0]:
+                        b = k
+                prob += x[a] == x[b], "Pref 1: if two sites are within 1 km, he prefer to visit both of them, sites "+sites_info[i][0]+" and "+sites_info[j][0]
 
 def add_pref2(x, prob):
     '''
     Add the preference 2 to the problem, i.e.:
     Pref 2: he wants to visit TE and CA
     '''
-    prob += x[0] == 1, "Pref 2: he wants to visit TE"
-    prob += x[5] == 1, "Pref 2: he wants to visit CA"
+    # Search for the variables corresponding to the sites TE and CA
+    a, b = 0, 0
+    for k in range(len(x)):
+        if x[k].name[0:2] == "TE":
+            a = k
+        if x[k].name[0:2] == "CA":
+            b = k
+    prob += x[a] == 1, "Pref 2: he wants to visit TE"
+    prob += x[b] == 1, "Pref 2: he wants to visit CA"
 
 def add_pref3(x, prob):
     '''
     Add the preference 3 to the problem, i.e.:
     Pref 3: if he visits CN, then he will not visit SC
     '''
-    prob += x[7] + x[9] <= 1, "Pref 3: if he visits CN, then he will not visit SC"
+    # Search for the variables corresponding to the sites CN and SC
+    a, b = 0, 0
+    for k in range(len(x)):
+        if x[k].name[0:2] == "CN":
+            a = k
+        if x[k].name[0:2] == "SC":
+            b = k
+    prob += x[a] + x[b] <= 1, "Pref 3: if he visits CN, then he will not visit SC"
 
 def add_pref4(x, prob):
     '''
     Add the preference 4 to the problem, i.e.:
     Pref 4: he wants to visit TM
     '''
-    prob += x[11] == 1, "Pref 4: he wants to visit TM"
+    # Search for the variables corresponding to the site TM
+    for k in range(len(x)):
+        if x[k].name[0:2] == "TM":
+            prob += x[k] == 1, "Pref 4: he wants to visit TM"
 
 def add_pref5(x, prob):
     '''
     Add the preference 5 to the problem, i.e.:
     Pref 5: if he visits ML, then he also visits CP
     '''
-    prob += x[1] - x[6] <= 0, "Pref 5: if he visits ML, then he also visits CP"
+    # Search for the variables corresponding to the sites ML and CP
+    a, b = 0, 0
+    for k in range(len(x)):
+        if x[k].name[0:2] == "ML":
+            a = k
+        if x[k].name[0:2] == "CP":
+            b = k
+    prob += x[a] - x[b] <= 0, "Pref 5: if he visits ML, then he also visits CP"
 
 def get_list(v):
     '''
@@ -170,11 +201,27 @@ def kendall_coef(r1, r2):
     
     Returns the Kendall coefficient between r1 and r2.
     '''
-    # Map each item to its rank in r1 and r2
-    r1_map = {item: i for i, sublist in enumerate(r1) for item in sublist}
-    r2_map = {item: i for i, sublist in enumerate(r2) for item in sublist}
+    # Assign ranks in r1, handling ties appropriately by assigning the average rank
+    r1_map = {}
+    current_rank = 1  # Ranking starts at 1
+    for sublist in r1:
+        # Calculate the average rank for the items in the sublist
+        avg_rank = sum(range(current_rank, current_rank + len(sublist))) / len(sublist)
+        for item in sublist:
+            r1_map[item] = avg_rank
+        current_rank += len(sublist)  # Update the rank for the next position
 
-    # Compute the Kendall distance
+    # Assign ranks in r2, handling ties appropriately by assigning the average rank
+    r2_map = {}
+    current_rank = 1  # Ranking starts at 1
+    for sublist in r2:
+        # Calculate the average rank for the items in the sublist
+        avg_rank = sum(range(current_rank, current_rank + len(sublist))) / len(sublist)
+        for item in sublist:
+            r2_map[item] = avg_rank
+        current_rank += len(sublist)
+
+    # Compute the Kendall coefficient: kendall = (nc-nd)/sqrt((n0-n1)*(n0-n2))
     n = sum(len(sublist) for sublist in r1)
 
     nc, nd = 0,0 # Number of concordant and discordant pairs
@@ -212,6 +259,7 @@ def kendall_coef(r1, r2):
     n2 = sum(tj*(tj-1)/2 for sublist in r2 for tj in [len(sublist)])
 
     return (nc-nd) / ((n0-n1)*(n0-n2))**0.5
+
 
 def spearman_coef(r1, r2):
     '''
@@ -262,9 +310,7 @@ def spearman_coef(r1, r2):
 
     spearman = cov / (std_1 * std_2)
 
-    return spearman
-
-            
+    return spearman            
 
 if __name__ == "__main__":
 
@@ -521,5 +567,5 @@ if __name__ == "__main__":
     print("----------------------------------------------")
     print("Conclusion:")
     print("- High disagreement between DUR and the others:\n\tIn both metrics, DUR is quite strongly negatively related to the other rankings.\n\tThis is an indication that prices and appreciations are not taking the duration too much into account.")
-    print("- Slight agreement between APP and PRI:\n\t both metrics, these two rankings present a slight possitive correlation.\n\tThis indicates that the visitors take the price into account for their appreciations.")
+    print("- Slight agreement between APP and PRI:\n\tIn both metrics, these two rankings present a slight possitive correlation.\n\tThis indicates that the visitors take the price into account for their appreciations.")
     print("- Agreement between the two metrics:\n\tThe two metrics present very similar results, increasing our confidence in the conclusions.")

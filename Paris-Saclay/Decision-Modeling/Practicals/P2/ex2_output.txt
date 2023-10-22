@@ -8,17 +8,17 @@ Solving the problem with preferences: ['pref1']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 ----------------------------------------------
 Solving the problem with preferences: ['pref2']...
 Solved!
@@ -80,49 +80,49 @@ Solving the problem with preferences: ['pref1', 'pref2']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'JT', 'PC', 'TE']
+['AC', 'AT', 'CA', 'TE', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
-{'TE', 'JT'}
+{'TM', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
-{'TE', 'JT'}
+{'TM', 'TE'}
 ----------------------------------------------
 Solving the problem with preferences: ['pref1', 'pref3']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 ----------------------------------------------
 Solving the problem with preferences: ['pref1', 'pref4']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TM', 'JT'}
+{'JT', 'MO', 'TM'}
 ----------------------------------------------
 Solving the problem with preferences: ['pref2', 'pref5']...
 Solved!
@@ -176,15 +176,15 @@ Solving the problem with preferences: ['pref1', 'pref2', 'pref4']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'PC', 'TE', 'TM']
+['AC', 'AT', 'CA', 'TE', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 ----------------------------------------------
@@ -195,14 +195,14 @@ Sites to visit:
 ['AC', 'AT', 'CA', 'JT', 'PC', 'TE']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TE', 'JT'}
+{'JT', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
-{'TE', 'JT'}
+{'JT', 'TE'}
 ----------------------------------------------
 Solving the problem with preferences: ['pref2', 'pref3', 'pref4', 'pref5']...
 Solved!
@@ -211,12 +211,12 @@ Sites to visit:
 ['AC', 'AT', 'CA', 'PC', 'TE', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 ----------------------------------------------
@@ -224,15 +224,15 @@ Solving the problem with preferences: ['pref1', 'pref2', 'pref4', 'pref5']...
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'PC', 'TE', 'TM']
+['AC', 'AT', 'CA', 'TE', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 ----------------------------------------------
@@ -241,37 +241,37 @@ Solving the problem with preferences: ['pref1', 'pref2', 'pref3', 'pref4', 'pref
 Solved!
 Status: Optimal
 Sites to visit:
-['AC', 'AT', 'CA', 'PC', 'TE', 'TM']
+['AC', 'AT', 'CA', 'TE', 'TM']
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 This solution is different from the base problem
 In this case, we change sites:
-{'CN', 'SC', 'BS'}
+{'PC', 'CN', 'BS', 'SC'}
 To:
 {'TM', 'TE'}
 ----------------------------------------------
 Summary:
 Preference           	Sites to visit                            	Number of sites	Same as base problem?	
 Base problem         	['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']	7              	True                 
-Pref 1               	['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']	7              	False                
+Pref 1               	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
 Pref 2               	['AC', 'AT', 'CA', 'PC', 'SC', 'TE']      	6              	False                
 Pref 3               	['AC', 'AT', 'BS', 'CA', 'MO', 'PC', 'SC']	7              	False                
 Pref 4               	['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']	7              	False                
 Pref 5               	['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']	7              	True                 
-Pref 1 and 2         	['AC', 'AT', 'CA', 'JT', 'PC', 'TE']      	6              	False                
-Pref 1 and 3         	['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']	7              	False                
-Pref 1 and 4         	['AC', 'AT', 'CA', 'JT', 'PC', 'SC', 'TM']	7              	False                
+Pref 1 and 2         	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+Pref 1 and 3         	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
+Pref 1 and 4         	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
 Pref 2 and 5         	['AC', 'AT', 'CA', 'PC', 'SC', 'TE']      	6              	False                
 Pref 3 and 4         	['AC', 'AT', 'BS', 'CA', 'PC', 'SC', 'TM']	7              	False                
 Pref 4 and 5         	['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']	7              	False                
-Pref 1, 2 and 4      	['AC', 'AT', 'CA', 'PC', 'TE', 'TM']      	6              	False                
+Pref 1, 2 and 4      	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
 Pref 2, 3 and 5      	['AC', 'AT', 'CA', 'JT', 'PC', 'TE']      	6              	False                
 Pref 2, 3, 4 and 5   	['AC', 'AT', 'CA', 'PC', 'TE', 'TM']      	6              	False                
-Pref 1, 2, 4 and 5   	['AC', 'AT', 'CA', 'PC', 'TE', 'TM']      	6              	False                
-Pref 1, 2, 3, 4 and 5	['AC', 'AT', 'CA', 'PC', 'TE', 'TM']      	6              	False                
+Pref 1, 2, 4 and 5   	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+Pref 1, 2, 3, 4 and 5	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
 ----------------------------------------------
 Computing the preference relation DUR...
 [['TE'], ['ML'], ['CP'], ['MO', 'CA', 'CN', 'BS', 'TM'], ['JT', 'SC', 'AC'], ['AT'], ['PC']]
