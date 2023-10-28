@@ -1,0 +1,311 @@
+Solving the problem without preferences...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']
+----------------------------------------------
+Solving the problem with preferences: ['pref1']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref2']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'PC', 'SC', 'TE']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS'}
+To:
+{'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS'}
+To:
+{'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref3']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CA', 'MO', 'PC', 'SC']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN'}
+To:
+{'MO'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN'}
+To:
+{'MO'}
+----------------------------------------------
+Solving the problem with preferences: ['pref4']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CA'}
+To:
+{'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CA'}
+To:
+{'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']
+This solution is same as the base problem
+This solution is same as the base problem
+----------------------------------------------
+Solving the problem with preferences: ['pref1', 'pref2']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'TE', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref1', 'pref3']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref1', 'pref4']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'MO', 'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref2', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'PC', 'SC', 'TE']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS'}
+To:
+{'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS'}
+To:
+{'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref3', 'pref4']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CA', 'PC', 'SC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN'}
+To:
+{'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN'}
+To:
+{'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref4', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CA'}
+To:
+{'TM'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CA'}
+To:
+{'TM'}
+----------------------------------------------
+Solving the problem with preferences: ['pref1', 'pref2', 'pref4']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'TE', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref2', 'pref3', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'JT', 'PC', 'TE']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'JT', 'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref2', 'pref3', 'pref4', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'PC', 'TE', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+----------------------------------------------
+Solving the problem with preferences: ['pref1', 'pref2', 'pref4', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'TE', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+----------------------------------------------
+Solving the problem with preference 1, 2, 3, 4 and 5...
+Solving the problem with preferences: ['pref1', 'pref2', 'pref3', 'pref4', 'pref5']...
+Solved!
+Status: Optimal
+Sites to visit:
+['AC', 'AT', 'CA', 'TE', 'TM']
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+This solution is different from the base problem
+In this case, we change sites:
+{'PC', 'CN', 'BS', 'SC'}
+To:
+{'TM', 'TE'}
+----------------------------------------------
+Summary:
+Preference           	Sites to visit                            	Number of sites	Same as base problem?	
+Base problem         	['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']	7              	True                 
+Pref 1               	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
+Pref 2               	['AC', 'AT', 'CA', 'PC', 'SC', 'TE']      	6              	False                
+Pref 3               	['AC', 'AT', 'BS', 'CA', 'MO', 'PC', 'SC']	7              	False                
+Pref 4               	['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']	7              	False                
+Pref 5               	['AC', 'AT', 'BS', 'CA', 'CN', 'PC', 'SC']	7              	True                 
+Pref 1 and 2         	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+Pref 1 and 3         	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
+Pref 1 and 4         	['AC', 'AT', 'CA', 'JT', 'MO', 'PC', 'TM']	7              	False                
+Pref 2 and 5         	['AC', 'AT', 'CA', 'PC', 'SC', 'TE']      	6              	False                
+Pref 3 and 4         	['AC', 'AT', 'BS', 'CA', 'PC', 'SC', 'TM']	7              	False                
+Pref 4 and 5         	['AC', 'AT', 'BS', 'CN', 'PC', 'SC', 'TM']	7              	False                
+Pref 1, 2 and 4      	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+Pref 2, 3 and 5      	['AC', 'AT', 'CA', 'JT', 'PC', 'TE']      	6              	False                
+Pref 2, 3, 4 and 5   	['AC', 'AT', 'CA', 'PC', 'TE', 'TM']      	6              	False                
+Pref 1, 2, 4 and 5   	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+Pref 1, 2, 3, 4 and 5	['AC', 'AT', 'CA', 'TE', 'TM']            	5              	False                
+----------------------------------------------
+Computing the preference relation DUR...
+[['TE'], ['ML'], ['CP'], ['MO', 'CA', 'CN', 'BS', 'TM'], ['JT', 'SC', 'AC'], ['AT'], ['PC']]
+----------------------------------------------
+Computing the preference relation APP...
+[['AT', 'JT', 'PC'], ['MO', 'TM'], ['CP', 'SC'], ['TE', 'CN', 'AC'], ['ML', 'CA', 'BS']]
+----------------------------------------------
+Computing the preference relation PRI...
+[['JT', 'PC', 'AC'], ['CN'], ['BS', 'SC'], ['AT'], ['CA', 'CP'], ['MO'], ['ML'], ['TE', 'TM']]
+----------------------------------------------
+The Kendall coefficient between DUR and APP is:
+-0.5152106565919433
+----------------------------------------------
+The Kendall coefficient between DUR and PRI is:
+-0.7016464154456233
+----------------------------------------------
+The Kendall coefficient between APP and PRI is:
+0.11518245674418136
+----------------------------------------------
+The Spearman coefficient between DUR and APP is:
+-0.6232538633263821
+----------------------------------------------
+The Spearman coefficient between DUR and PRI is:
+-0.7405359377080045
+----------------------------------------------
+The Spearman coefficient between APP and PRI is:
+0.24753688574416854
+----------------------------------------------
+Conclusion:
+- High disagreement between DUR and the others:
+	In both metrics, DUR is quite strongly negatively related to the other rankings.
+	This is an indication that prices and appreciations are not taking the duration too much into account.
+- Slight agreement between APP and PRI:
+	 both metrics, these two rankings present a slight possitive correlation.
+	This indicates that the visitors take the price into account for their appreciations.
+- Agreement between the two metrics:
+	The two metrics present very similar results, increasing our confidence in the conclusions.
