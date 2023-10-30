@@ -6530,32 +6530,13 @@ If
 \end_inset
 
  is orthogonal, then 
-\begin_inset Formula $UU^{T}=I$
+\begin_inset Formula $UU^{T}$
 \end_inset
 
-.
- Then,
-\begin_inset Formula 
-\[
-1=\left|I\right|=\left|UU^{T}\right|=\left|U\right|\left|U^{T}\right|=\left|U\right|^{2}.
-\]
 
-\end_inset
-
- Therefore, 
-\begin_inset Formula $\left|U\right|=\pm1$
-\end_inset
-
-.
 \end_layout
 
 \end_deeper
-\begin_layout Enumerate
-For an undirected graph, both the adjacency matrix and the Laplacian matrix
- are symmetric.
- Show that the Laplacian matrix is positive semi-definite.
-\end_layout
-
 \begin_layout Section
 Random Walks on Graphs
 \end_layout
