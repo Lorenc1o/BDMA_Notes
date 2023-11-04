@@ -14285,69 +14285,13 @@ The idea in this case is to only update states that are relevant to the
 , we update that state value, or the states that it expects to be in soon.
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Full-Width backups
 \end_layout
 
 \begin_layout Standard
 Standard DP uses full-width backups.
- This means that, for each backup, it being synchronous or asynchronous:
-\end_layout
-
-\begin_layout Itemize
-Every successor state and action is considered.
-\end_layout
-
-\begin_layout Itemize
-Using the true model of transitions and reward function.
-\end_layout
-
-\begin_layout Standard
-DP is effective for medium-sized problems (with millions of states).
- For large problems DP suffers from the curse of dimensionality, since the
- number of states grows exponentially with the number of state variables,
- and even one full backup can be too expensive.
-\end_layout
-
-\begin_layout Paragraph
-Sample Backups
-\end_layout
-
-\begin_layout Standard
-This approach consists in using sample rewards and sample transitions 
-\begin_inset Formula $\left(s,a,r,s'\right)$
-\end_inset
-
- instead of the reward function 
-\begin_inset Formula $R$
-\end_inset
-
-, and the transition dynamics, 
-\begin_inset Formula $P$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-It presents some advantages:
-\end_layout
-
-\begin_layout Itemize
-It's model free: knowledge about the MDP is not required.
-\end_layout
-
-\begin_layout Itemize
-Breaks the curse of dimensionality through sampling.
-\end_layout
-
-\begin_layout Itemize
-Cost of backup is constant, independent of 
-\begin_inset Formula $n=\left|S\right|$
-\end_inset
-
-.
+ This means tha
 \end_layout
 
 \begin_layout Standard
