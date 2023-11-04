@@ -16,6 +16,8 @@
 .ecti-1000{ font-style: italic;}
 .ecti-1000{ font-style: italic;}
 .ecti-1000{ font-style: italic;}
+.ecti-1000{ font-style: italic;}
+.ecti-1000{ font-style: italic;}
 .ectt-1000{ font-family: monospace,monospace;}
 .ectt-1000{ font-family: monospace,monospace;}
 .ectt-1000{ font-family: monospace,monospace;}
@@ -23,6 +25,10 @@
 .ectt-1000{ font-family: monospace,monospace;}
 .ectt-1000{ font-family: monospace,monospace;}
 .ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ectt-1000{ font-family: monospace,monospace;}
+.ecbx-1000{ font-weight: bold;}
+.ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
 .ecbx-1000{ font-weight: bold;}
@@ -38,6 +44,18 @@
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
+.ecbi-1000{ font-weight: bold;   font-style: italic;}
+.ecbi-1000{ font-weight: bold;   font-style: italic;}
+.ecrm-0500{font-size:50%;}
+.ectt-0800{font-size:80%; font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
+.ectt-0800{ font-family: monospace,monospace;}
 p{margin-top:0;margin-bottom:0}
 p.indent{text-indent:0;}
 p + p{margin-top:1em;}
@@ -435,5 +453,95 @@ span#textcolor4{color:#0000FF}
 #tcolobox-19 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 #tcolobox-20 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
 #tcolobox-20 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-21 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-21 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-22 .tcolorbox-title{color: #FFFFFF; background-color: #00BFBF;}
+#tcolobox-22 .tcolorbox-content{color: #000000; background-color: #F2FFF2; border: 1px solid #00BFBF;}
+#TBL-9-1{border-left: 1px solid black;}
+#TBL-9-1{border-right:1px solid black;}
+#TBL-9-2{border-right:1px solid black;}
+#TBL-9-3{border-right:1px solid black;}
+#TBL-9-4{border-right:1px solid black;}
+ #TBL-9-1-1{ background-color:#FF0000}
+ #TBL-9-4-4{ background-color:#FF0000}
+#TBL-10-1{border-left: 1px solid black;}
+#TBL-10-1{border-right:1px solid black;}
+#TBL-10-2{border-right:1px solid black;}
+#TBL-10-3{border-right:1px solid black;}
+#TBL-10-4{border-right:1px solid black;}
+#TBL-11-1{border-left: 1px solid black;}
+#TBL-11-1{border-right:1px solid black;}
+#TBL-11-2{border-right:1px solid black;}
+#TBL-11-3{border-right:1px solid black;}
+#TBL-11-4{border-right:1px solid black;}
+#TBL-12-1{border-left: 1px solid black;}
+#TBL-12-1{border-right:1px solid black;}
+#TBL-12-2{border-right:1px solid black;}
+#TBL-12-3{border-right:1px solid black;}
+#TBL-12-4{border-right:1px solid black;}
+#TBL-13-1{border-left: 1px solid black;}
+#TBL-13-1{border-right:1px solid black;}
+#TBL-13-2{border-right:1px solid black;}
+#TBL-13-3{border-right:1px solid black;}
+#TBL-13-4{border-right:1px solid black;}
+#TBL-14-1{border-left: 1px solid black;}
+#TBL-14-1{border-right:1px solid black;}
+#TBL-14-2{border-right:1px solid black;}
+#TBL-14-3{border-right:1px solid black;}
+#TBL-14-4{border-right:1px solid black;}
+#TBL-15-1{border-left: 1px solid black;}
+#TBL-15-1{border-right:1px solid black;}
+#TBL-15-2{border-right:1px solid black;}
+#TBL-15-3{border-right:1px solid black;}
+#TBL-15-4{border-right:1px solid black;}
+#TBL-16-1{border-left: 1px solid black;}
+#TBL-16-1{border-right:1px solid black;}
+#TBL-16-2{border-right:1px solid black;}
+#TBL-16-3{border-right:1px solid black;}
+#TBL-16-4{border-right:1px solid black;}
+#TBL-17-1{border-left: 1px solid black;}
+#TBL-17-1{border-right:1px solid black;}
+#TBL-17-2{border-right:1px solid black;}
+#TBL-17-3{border-right:1px solid black;}
+#TBL-17-4{border-right:1px solid black;}
+#TBL-18-1{border-left: 1px solid black;}
+#TBL-18-1{border-right:1px solid black;}
+#TBL-18-2{border-right:1px solid black;}
+#TBL-18-3{border-right:1px solid black;}
+#TBL-18-4{border-right:1px solid black;}
+#TBL-19-1{border-left: 1px solid black;}
+#TBL-19-1{border-right:1px solid black;}
+#TBL-19-2{border-right:1px solid black;}
+#TBL-19-3{border-right:1px solid black;}
+#TBL-19-4{border-right:1px solid black;}
+#TBL-20-1{border-left: 1px solid black;}
+#TBL-20-1{border-right:1px solid black;}
+#TBL-20-2{border-right:1px solid black;}
+#TBL-20-3{border-right:1px solid black;}
+#TBL-20-4{border-right:1px solid black;}
+#TBL-21-1{border-left: 1px solid black;}
+#TBL-21-1{border-right:1px solid black;}
+#TBL-21-2{border-right:1px solid black;}
+#TBL-21-3{border-right:1px solid black;}
+#TBL-21-4{border-right:1px solid black;}
+#TBL-22-1{border-left: 1px solid black;}
+#TBL-22-1{border-right:1px solid black;}
+#TBL-22-2{border-right:1px solid black;}
+#TBL-22-3{border-right:1px solid black;}
+#TBL-22-4{border-right:1px solid black;}
+#TBL-23-1{border-left: 1px solid black;}
+#TBL-23-1{border-right:1px solid black;}
+#TBL-23-2{border-right:1px solid black;}
+#TBL-23-3{border-right:1px solid black;}
+#TBL-23-4{border-right:1px solid black;}
+#TBL-24-1{border-left: 1px solid black;}
+#TBL-24-1{border-right:1px solid black;}
+#TBL-24-2{border-right:1px solid black;}
+#TBL-24-3{border-right:1px solid black;}
+#TBL-24-4{border-right:1px solid black;}
+#TBL-25-1{border-left: 1px solid black;}
+#TBL-25-1{border-right:1px solid black;}
+#TBL-25-2{border-right:1px solid black;}
+#TBL-25-3{border-right:1px solid black;}
 /* end css.sty */
 
