@@ -58,7 +58,7 @@ We can observe that the GA is slower than the random approach for all population
 
 The reason is that usually takes very few tries to find an election example fulfilling all requirements. However, we see how for small population size 10, the GA performs almost as fast as the random approach.
 
-In the following graph, we can get similar conclusions, by plotting the time as a function of the number of candidates. However, we observe a different behavior for small population sizes, that perform very bad for high number of candidates.
+In the following graph, we can get similar conclusions, by plotting the time as a function of the number of candidates.
 
 ![m VS time](m_all.png)
 
@@ -109,11 +109,11 @@ For this, we can execute the program `p3.py` and select option 8. We enter $n$ a
 Enter the number of voters(default: 40): 
 Enter the number of candidates(default: 6): 
 Generating the profile...
-        There are 12 with profile c>a>f>b>e>d
-        There are 5 with profile d>b>a>f>c>e
-        There are 23 with profile f>a>e>d>b>c
-The winner is f .
-It took 8 tries to generate the profile.
+        There are 4 with profile d>c>b>e>f>a
+        There are 22 with profile b>d>c>f>e>a
+        There are 14 with profile c>b>e>a>f>d
+The winner is b .
+It took 1 tries to generate the profile.
 ```
 
 Or we can select option 10, to generate it using the genetic algorithm. In this case, we obtain the following:
@@ -122,9 +122,8 @@ Or we can select option 10, to generate it using the genetic algorithm. In this 
 Enter the number of voters(default: 40): 
 Enter the number of candidates(default: 6): 
 Generating the profile...
-        There are 17 with profile c>e>a>d>f>b
-        There are 18 with profile e>f>b>c>a>d
-        There are 5 with profile e>b>a>d>f>c
+        There are 18 with profile c>d>f>b>e>a
+        There are 22 with profile e>a>f>b>c>d
 The winner is e .
 It took 100 tries to generate the profile.
 ```
@@ -139,14 +138,15 @@ For this, we can execute the program `p3.py` and select option 9. We enter $n$ a
 Enter the number of voters(default: 40): 
 Enter the number of candidates(default: 6): 
 Generating the profile...
-        There are 3 with profile f>d>b>e>c>a
-        There are 21 with profile a>b>e>d>c>f
-        There are 16 with profile c>e>f>b>a>d
-The winner is f according to the plurality rule.
-The winner is c according to the plurality runoff rule.
+        There are 16 with profile d>a>e>f>b>c
+        There are 6 with profile f>b>a>e>c>d
+        There are 10 with profile f>c>e>a>d>b
+        There are 8 with profile e>c>b>a>f>d
+The winner is d according to the plurality rule.
+The winner is f according to the plurality runoff rule.
 The winner is a according to the Condorcet voting rule.
 The winner is e according to the Borda voting rule.
-It took 191 tries to generate the profile.
+It took 1174 tries to generate the profile.
 ```
 
 Or we can select option 11, to generate it using the genetic algorithm. In this case, we obtain the following:
@@ -155,12 +155,12 @@ Or we can select option 11, to generate it using the genetic algorithm. In this 
 Enter the number of voters(default: 40): 
 Enter the number of candidates(default: 6): 
 Generating the profile...
-        There are 7 with profile e>b>d>f>a>c
-        There are 21 with profile c>d>e>f>a>b
-        There are 12 with profile f>a>d>b>e>c
+        There are 19 with profile f>e>c>a>b>d
+        There are 12 with profile b>a>e>d>f>c
+        There are 9 with profile d>a>e>b>f>c
 The winner is f according to the plurality rule.
-The winner is e according to the plurality runoff rule.
-The winner is c according to the Condorcet voting rule.
-The winner is d according to the Borda voting rule.
+The winner is b according to the plurality runoff rule.
+The winner is a according to the Condorcet voting rule.
+The winner is e according to the Borda voting rule.
 It took 100 tries to generate the profile.
 ```

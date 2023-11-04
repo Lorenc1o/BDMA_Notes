@@ -77,9 +77,9 @@ def Plurality(profiles):
     # Count the votes
     for profile in profiles:
         if profile[0] not in votes.keys():
-            votes[profile[0]] = 1
+            votes[profile[0]] = profiles[profile]
         else:
-            votes[profile[0]] += 1
+            votes[profile[0]] += profiles[profile]
     # Return the winner, in case of a tie, resolve it by lexicographic order
     max_votes = max(votes.values())
     winners = []
@@ -98,9 +98,9 @@ def PluralityRunoff(profiles):
     # Count the votes for the first round
     for profile in profiles:
         if profile[0] not in votes.keys():
-            votes[profile[0]] = 1
+            votes[profile[0]] = profiles[profile]
         else:
-            votes[profile[0]] += 1
+            votes[profile[0]] += profiles[profile]
     # Second round: Find the two candidates with the most votes
     first_round = [max(votes, key=lambda x: (votes[x], x))]
 
@@ -109,6 +109,8 @@ def PluralityRunoff(profiles):
         return first_round[0]
     
     votes.pop(first_round[0])
+    if len(votes) == 0:
+        return first_round[0]
     first_round.append(max(votes, key=lambda x: (votes[x], x)))
     # Return the winner of the second round
     return SimpleMajorityRulefor2(profiles, first_round[0], first_round[1])
