@@ -6427,8 +6427,1365 @@ Therefore, there is no value for
 
 \end_deeper
 \end_deeper
+\begin_layout Enumerate
+Show that if 
+\begin_inset Formula $\lambda_{1},\lambda_{2},...,\lambda_{n}$
+\end_inset
+
+ are the eigenvalues of a matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, then 
+\begin_inset Formula $A^{m}$
+\end_inset
+
+ has as eigenvalues 
+\begin_inset Formula $\lambda_{1}^{m},\lambda_{2}^{m},...,\lambda_{n}^{m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Induction on 
+\begin_inset Formula $m$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $m=1$
+\end_inset
+
+: Obvious.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $m=2$
+\end_inset
+
+: Let 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+ be the eigenvector associated to 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+A^{2}v_{i}=A\left(Av_{i}\right)=A\left(\lambda_{i}v_{i}\right)=\lambda_{i}Av_{i}=\lambda_{i}^{2}v_{i},
+\]
+
+\end_inset
+
+ so 
+\begin_inset Formula $\lambda_{i}^{2}$
+\end_inset
+
+ is an eigenvalue of 
+\begin_inset Formula $A^{2}$
+\end_inset
+
+, with associated eigenvector 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Suppose it is true for 
+\begin_inset Formula $m-1$
+\end_inset
+
+, then, for 
+\begin_inset Formula $m$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+A^{m}v_{i}=A\left(A^{m-1}v_{i}\right)=A\left(\lambda_{i}^{m-1}v_{i}\right)=\lambda_{i}^{m-1}Av_{i}=\lambda_{i}^{m}v_{i},
+\]
+
+\end_inset
+
+ and we have the result.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+What is the determinant of any orthogonal matrix?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+If 
+\begin_inset Formula $U$
+\end_inset
+
+ is orthogonal, then 
+\begin_inset Formula $UU^{T}=I$
+\end_inset
+
+.
+ Then,
+\begin_inset Formula 
+\[
+1=\left|I\right|=\left|UU^{T}\right|=\left|U\right|\left|U^{T}\right|=\left|U\right|^{2}.
+\]
+
+\end_inset
+
+ Therefore, 
+\begin_inset Formula $\left|U\right|=\pm1$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+For an undirected graph, both the adjacency matrix and the Laplacian matrix
+ are symmetric.
+ Show that the Laplacian matrix is positive semi-definite.
+\end_layout
+
 \begin_layout Section
 Random Walks on Graphs
+\end_layout
+
+\begin_layout Subsection
+First Perron-Frobenius Theorem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A matrix, 
+\begin_inset Formula $A$
+\end_inset
+
+, is 
+\series bold
+positive
+\series default
+ if 
+\begin_inset Formula $A_{ij}>0,\forall i,j$
+\end_inset
+
+.
+ Similarly, it is 
+\series bold
+non-negative
+\series default
+ if 
+\begin_inset Formula $A_{ij}\ge0,\forall i,j$
+\end_inset
+
+.
+ Similar definitions apply for negative and non-positive matrices.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Observe that it is not the same for a matrix to be positive as to be positive
+ semi-definite.
+\end_layout
+
+\begin_layout Standard
+The Perron-Frobenius theorem for non-negative matrices leads to the characteriza
+tion of non-negative primary eigenvectors.
+ This is useful in stationary distributions, such as those of Markov chains
+ and the famous Google's page rank algorithm.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+
+\series bold
+Perron-Frobenius Theorem for positive matrices
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a positive matrix, then:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\exists\lambda^{*}>0,v^{*}>0,\left\Vert v^{*}\right\Vert _{2}=1$
+\end_inset
+
+ such that 
+\begin_inset Formula $A\cdot v=\lambda^{*}v^{*}$
+\end_inset
+
+ (
+\begin_inset Formula $v^{*}$
+\end_inset
+
+ is a right column eigenvector).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\exists\lambda^{*}>0,w>0,\left\Vert w\right\Vert _{2}=1$
+\end_inset
+
+ such that 
+\begin_inset Formula $w\cdot A=\lambda^{*}w$
+\end_inset
+
+ (
+\begin_inset Formula $w$
+\end_inset
+
+ is a left row eigenvector).
+\end_layout
+
+\begin_layout Itemize
+For any other eigenvalue, 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, it holds, 
+\begin_inset Formula $\left|\lambda\right|<\lambda^{*}$
+\end_inset
+
+ (
+\begin_inset Formula $\lambda^{*}$
+\end_inset
+
+ is a dominant eigenvalue, called the 
+\series bold
+\shape italic
+Perron eigenvalue
+\series default
+\shape default
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda^{*}$
+\end_inset
+
+ is unique and 
+\begin_inset Formula $v^{*}$
+\end_inset
+
+ is unique (the only vector of unit length associated to 
+\begin_inset Formula $\lambda^{*}$
+\end_inset
+
+).
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A non-negative matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ is:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Irreducible
+\series default
+ if, 
+\begin_inset Formula $\forall i,j,\exists k\in\mathbb{N^{*}}$
+\end_inset
+
+ such that 
+\begin_inset Formula $A_{i,j}^{k}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Primitive
+\series default
+ if, 
+\begin_inset Formula $\exists k\in\mathbb{N}^{*}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\forall i,j$
+\end_inset
+
+, 
+\begin_inset Formula $A_{i,j}^{k}>0$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+
+\series bold
+Perron-Frobenius Theorem for non-negative matrices
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a non-negative matrix, then:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\exists\lambda^{*}>0,v^{*}\ge0,\left\Vert v^{*}\right\Vert _{2}=1$
+\end_inset
+
+ such that 
+\begin_inset Formula $A\cdot v=\lambda^{*}v^{*}$
+\end_inset
+
+ (
+\begin_inset Formula $v^{*}$
+\end_inset
+
+ is a right column eigenvector).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\exists\lambda^{*}>0,w\ge0,\left\Vert w\right\Vert _{2}=1$
+\end_inset
+
+ such that 
+\begin_inset Formula $w\cdot A=\lambda^{*}w$
+\end_inset
+
+ (
+\begin_inset Formula $w$
+\end_inset
+
+ is a left row eigenvector).
+\end_layout
+
+\begin_layout Itemize
+For any other eigenvalue, 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, it holds, 
+\begin_inset Formula $\left|\lambda\right|\le\lambda^{*}$
+\end_inset
+
+ (
+\begin_inset Formula $\lambda^{*}$
+\end_inset
+
+ is a dominant eigenvalue, called the 
+\series bold
+\shape italic
+Perron eigenvalue
+\series default
+\shape default
+).
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is irreducible, then the vector 
+\begin_inset Formula $v^{*}$
+\end_inset
+
+ is unique and it holds 
+\begin_inset Formula $v^{*}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is primitive, then the eigenvalue 
+\begin_inset Formula $\lambda^{*}$
+\end_inset
+
+ is unique.
+ 
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note now that a graph, 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, with adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, then: 
+\begin_inset Formula $G$
+\end_inset
+
+ is connected 
+\begin_inset Formula $\iff$
+\end_inset
+
+
+\begin_inset Formula $\forall1\le i,j\le\left|V\right|,\exists k\in\mathbb{N}^{*}$
+\end_inset
+
+ such that 
+\begin_inset Formula $A_{i,j}^{k}>0$
+\end_inset
+
+.
+ This means that the adjacency matrix of connected graphs is irreducible.
+\end_layout
+
+\begin_layout Standard
+Now, if a graph is 
+\begin_inset Formula $k$
+\end_inset
+
+-connected, i.e., there is a 
+\begin_inset Formula $k$
+\end_inset
+
+-path between all nodes, then its adjacency matrix is primitive.
+ One sufficient condition for a graph to be 
+\begin_inset Formula $k$
+\end_inset
+
+-connected is being connected and having 
+\begin_inset Formula $A_{ii}>0$
+\end_inset
+
+ for some 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Random Walks on Graphs
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+random walk
+\series default
+ on a graph, 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, is a random process that starts from some vertex 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+, and repeatedly moves to a neighbour 
+\begin_inset Formula $v_{j}$
+\end_inset
+
+ chosen at random (for example with uniform distribution).
+ The random walk, 
+\begin_inset Formula $\xi_{t}$
+\end_inset
+
+, is therefore a random variable describing the position of a random walk
+ after 
+\begin_inset Formula $t$
+\end_inset
+
+ steps.
+ The probability of going from node 
+\begin_inset Formula $i$
+\end_inset
+
+ to node 
+\begin_inset Formula $j$
+\end_inset
+
+ is the 
+\series bold
+transition probability
+\series default
+,
+\begin_inset Formula 
+\[
+P_{ij}=P\left(\xi_{t+1}=j|\xi_{t}=i\right).
+\]
+
+\end_inset
+
+ The sequence of nodes can be regarded as a Markov chain, i.e.
+ a discrete time stochastic process, where the position 
+\begin_inset Formula $\xi_{0}$
+\end_inset
+
+ is the initial state, according to the 
+\series bold
+init distribution
+\series default
+, 
+\begin_inset Formula $P^{0}$
+\end_inset
+
+, and from this point the next state only depends on the current state.
+ The 
+\begin_inset Formula $t$
+\end_inset
+
+
+\series bold
+-step transition probability
+\series default
+ is
+\begin_inset Formula 
+\[
+P_{ij}^{t}=P\left(\xi_{t}=j|\xi_{0}=i\right).
+\]
+
+\end_inset
+
+ Some examples are the path traced by a molecule in a liquid or a gas (Brownian
+ motion), the price of a fluctuating stock, the financial status of a gambler,
+ etc.
+ The term random walk was first introduced by Karl Pearson in 1905.
+\end_layout
+
+\begin_layout Standard
+The following is a basic visual example of a random walk on a graph:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado8.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that we can express the transition probability 
+\begin_inset Formula $P_{ij}$
+\end_inset
+
+ in a matrix 
+\begin_inset Formula $P$
+\end_inset
+
+.
+ This matrix is the 
+\series bold
+transition probabilities matrix
+\series default
+, and it is 
+\series bold
+row-stochastic
+\series default
+ or 
+\series bold
+row-Markov
+\series default
+, meaning, 
+\begin_inset Formula 
+\[
+P_{ij}\ge0,\forall i,j,\text{ and }\sum_{j}P_{i,j}=1,\forall i.
+\]
+
+\end_inset
+
+ This implies that
+\begin_inset Formula 
+\[
+P\cdot1=P\cdot\left(\begin{array}{c}
+1\\
+\vdots\\
+1
+\end{array}\right)=\left(\begin{array}{c}
+1\\
+\vdots\\
+1
+\end{array}\right).
+\]
+
+\end_inset
+
+ This means that 
+\begin_inset Formula $\left(\begin{array}{c}
+1\\
+\vdots\\
+1
+\end{array}\right)$
+\end_inset
+
+ is an eigenvector and 
+\begin_inset Formula $1$
+\end_inset
+
+ is an eigenvalue.
+ 1 is the largest eigenvalue because
+\begin_inset Formula 
+\[
+\left\Vert Pv\right\Vert _{1}\leq\left\Vert v\right\Vert _{1},
+\]
+
+\end_inset
+
+ so, for an eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+\left|\lambda\right|\left\Vert v\right\Vert _{1}=\left\Vert \lambda v\right\Vert _{1}=\left\Vert Pv\right\Vert _{1}\leq\left\Vert v\right\Vert _{1},
+\]
+
+\end_inset
+
+ so 
+\begin_inset Formula $\left|\lambda\right|\leq1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+From the Perron-Frobenius theorem for non-negative matrices, we know that:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $v^{*}=\left(\begin{array}{c}
+1\\
+\vdots\\
+1
+\end{array}\right)$
+\end_inset
+
+ is a right Perron eigenvector for 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left|\lambda\right|\leq\lambda^{*}=1$
+\end_inset
+
+ is a Perron eigenvalue.
+\end_layout
+
+\begin_layout Itemize
+There exists a left Perron eigenvector 
+\begin_inset Formula $\pi P=\pi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $P$
+\end_inset
+
+ is irreducible, the vector 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is unique.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $P$
+\end_inset
+
+ is primitive, the eigenvalue 1 is unique (there are no complex eigenvalues
+ with norm 1).
+\end_layout
+
+\begin_layout Subsubsection
+The Stationary Distribution
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\pi^{t}$
+\end_inset
+
+ be the row vector giving the probability distribution of 
+\begin_inset Formula $\xi_{t}$
+\end_inset
+
+, that is, 
+\begin_inset Formula $\pi_{i}^{t}$
+\end_inset
+
+ is the probability that the random walk is at node 
+\begin_inset Formula $i$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ Therefore, we can write
+\begin_inset Formula 
+\[
+\pi^{t+1}=\pi^{t}P,
+\]
+
+\end_inset
+
+ which, applied recursively, leads to
+\begin_inset Formula 
+\[
+\pi^{t+1}=\pi^{0}P^{t+1}.
+\]
+
+\end_inset
+
+ Or, we can take limits
+\begin_inset Formula 
+\[
+\lim_{t}\pi^{t+1}=\lim_{t}\pi^{t}P.
+\]
+
+\end_inset
+
+ If this limit exists, 
+\begin_inset Formula $\lim_{t}\pi^{t}=\pi$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\pi=\pi P.
+\]
+
+\end_inset
+
+ Convergence is ensured if 
+\begin_inset Formula $P$
+\end_inset
+
+ is irreducible.
+\end_layout
+
+\begin_layout Example
+The following example does not converge:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula 
+\[
+P=\left(\begin{array}{cc}
+0 & 1\\
+1 & 0
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A common way to perform random walks on graphs is with the uniform probability.
+ That is,
+\begin_inset Formula 
+\[
+P_{ij}=P\left(\xi_{t+1}=j|\xi_{t}=i\right)=\begin{cases}
+\frac{1}{d_{i}} & if\ \left(i,j\right)\in E,\\
+0 & otherwise,
+\end{cases}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $d_{i}$
+\end_inset
+
+ is the degree of node 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Equivalently,
+\begin_inset Formula 
+\[
+P_{ij}=\frac{A_{ij}}{\sum_{j\in V}A_{ij}}=\frac{A_{ij}}{d_{i}}=D_{ii}^{-1}A_{ij}.
+\]
+
+\end_inset
+
+ The random sequence of vertices 
+\begin_inset Formula $\xi_{0},\xi_{1},...,\xi_{t},\xi_{t+1},...$
+\end_inset
+
+ visited on 
+\begin_inset Formula $G$
+\end_inset
+
+ is a Markov Chain with state space 
+\begin_inset Formula $V$
+\end_inset
+
+ and matrix transition probabilite 
+\begin_inset Formula $P=D^{-1}A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Given the graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado9.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+The transition matrix for the uniform distribution is:
+\begin_inset Formula 
+\[
+P=\left(\begin{array}{cccccc}
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & \frac{1}{3} & \frac{1}{3} & \frac{1}{3} & 0\\
+\frac{1}{4} & \frac{1}{4} & 0 & \frac{1}{4} & \frac{1}{4} & 0\\
+0 & \frac{1}{4} & \frac{1}{4} & 0 & \frac{1}{4} & \frac{1}{4}\\
+0 & \frac{1}{4} & \frac{1}{4} & \frac{1}{4} & 0 & \frac{1}{4}\\
+0 & 0 & 0 & \frac{1}{2} & \frac{1}{2} & 0
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Balance Condition
+\end_layout
+
+\begin_layout Standard
+A probability distribution 
+\begin_inset Formula $\pi$
+\end_inset
+
+ satisfies the 
+\series bold
+balance condition
+\series default
+ if 
+\begin_inset Formula 
+\[
+\pi_{i}P_{ij}=\pi_{j}P_{ji},\forall i,j\in V.
+\]
+
+\end_inset
+
+ If 
+\begin_inset Formula $\pi$
+\end_inset
+
+ satisfies the balance condition, then it is the stationary distribution
+ for the undirected graph.
+ To see this, notice that the balance condition can be rewritten as
+\begin_inset Formula 
+\[
+\pi_{i}\frac{A_{ij}}{d_{i}}=\pi_{j}\frac{A_{ji}}{d_{j}}.
+\]
+
+\end_inset
+
+ Since the graph is considered without direction, 
+\begin_inset Formula $A_{ij}=A_{ji}$
+\end_inset
+
+, and then
+\begin_inset Formula 
+\[
+\frac{\pi_{i}}{d_{i}}=\frac{\pi_{j}}{d_{j}}=c,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $c$
+\end_inset
+
+ is a constant, for all 
+\begin_inset Formula $i,j$
+\end_inset
+
+.
+ Now, we know that 
+\begin_inset Formula $\sum_{i}\pi_{i}=1$
+\end_inset
+
+, so
+\begin_inset Formula 
+\[
+1=\sum_{i}\pi_{i}=\sum_{i}\frac{\pi_{j}}{d_{i}}d_{i}=\sum_{i}cd_{i}=c\sum_{i}d_{i}.
+\]
+
+\end_inset
+
+ Therefore
+\begin_inset Formula 
+\[
+\sum_{i}d_{i}=\frac{1}{c}.
+\]
+
+\end_inset
+
+ Finally, it must be
+\begin_inset Formula 
+\[
+\pi_{i}=d_{i}c=\frac{d_{i}}{\sum_{j}d_{j}}=\frac{d_{i}}{2\left|E\right|}.
+\]
+
+\end_inset
+
+ In this case:
+\begin_inset Formula 
+\[
+\left(\pi P\right)_{i}=\sum_{j}\pi_{j}P_{ji}=\sum_{j}\pi_{j}\frac{1}{d_{j}}A_{ji}=\sum_{j}cA_{ji}=c\sum_{j}A_{ji}=c\sum_{j}A_{ij}=cd_{i}=\frac{d_{i}}{\sum_{j}d_{j}}=\pi_{i}.
+\]
+
+\end_inset
+
+ Therefore, we have seen that the stationary probabilities are proportional
+ to the degrees of the vertices.
+\end_layout
+
+\begin_layout Standard
+In particular, if 
+\begin_inset Formula $G$
+\end_inset
+
+ is 
+\begin_inset Formula $d$
+\end_inset
+
+-regular, i.e., all nodes have degree 
+\begin_inset Formula $d$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+\pi=\frac{d}{2\left|E\right|}=\frac{d}{d\cdot n}=\frac{1}{n}
+\]
+
+\end_inset
+
+ is the uniform distribution.
+ With this setup, a random walk moves along every edge with the same frequence.
+\end_layout
+
+\begin_layout Standard
+The balance condition implies time-reversibility: the reversed walk is also
+ a Markov chain.
+\end_layout
+
+\begin_layout Subsubsection
+Hitting Time
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+expected hitting time
+\series default
+, 
+\begin_inset Formula $H_{ij}$
+\end_inset
+
+, is the expected number of steps before node 
+\begin_inset Formula $j$
+\end_inset
+
+ is reached in a random walk starting at node 
+\begin_inset Formula $i$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+H_{ij}=\begin{cases}
+1+\sum_{k}P_{ik}H_{kj} & if\ i\neq j,\\
+0 & otherwise.
+\end{cases}
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark*
+In general, 
+\begin_inset Formula $H_{ij}\neq H_{ji},$
+\end_inset
+
+ so 
+\begin_inset Formula $H$
+\end_inset
+
+ is not symmetric.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+\begin_inset Formula $H$
+\end_inset
+
+ follows the triangle inequality
+\begin_inset Formula 
+\[
+H_{ij}\leq H_{ik}+H_{kj}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+commute time
+\series default
+, 
+\begin_inset Formula $C_{ij}$
+\end_inset
+
+, is the expected number of steps in a random walk starting at node 
+\begin_inset Formula $i$
+\end_inset
+
+, reaching node 
+\begin_inset Formula $j$
+\end_inset
+
+ and coming back to 
+\begin_inset Formula $i$
+\end_inset
+
+ again:
+\begin_inset Formula 
+\[
+C_{ij}=H_{ij}+H_{ji}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Lazy Random Walk
+\end_layout
+
+\begin_layout Standard
+The lazy random walk is a variation of the random walk, in which the walk
+ stays at the current node with probability 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+, and continue with the walk with the rest of the probability.
+\end_layout
+
+\begin_layout Standard
+In this case, the transition matrix is
+\begin_inset Formula 
+\[
+P_{ij}=\begin{cases}
+\frac{1}{2} & if\ i=j,\\
+\frac{1}{2d_{i}} & if\ \left(i,j\right)\in E,\\
+0 & otherwise.
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $Q$
+\end_inset
+
+ is the transition matrix for the uniform random walk, then
+\begin_inset Formula 
+\[
+\pi^{t+1}=\pi^{t}P=\frac{1}{2}\pi^{t}+\frac{1}{2}\pi^{t}Q.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+If the lazy random walk converges and the uniform random walk is irreducible,
+ then it converges to the same stationary distribution as the uniform random
+ walk.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $Q$
+\end_inset
+
+ be the transition matrix for the uniform random walk, then, the stationary
+ distribution is
+\begin_inset Formula 
+\[
+\pi=\pi Q.
+\]
+
+\end_inset
+
+ For lazy random walk, say the stationary distribution is 
+\begin_inset Formula $\pi'$
+\end_inset
+
+.
+ Then:
+\begin_inset Formula 
+\[
+\pi'=\frac{1}{2}\pi'+\frac{1}{2}\pi'Q\iff\frac{1}{2}\pi'=\frac{1}{2}\pi'Q\iff\pi'=\pi'Q.
+\]
+
+\end_inset
+
+ Therefore, since 
+\begin_inset Formula $Q$
+\end_inset
+
+ is irreducible, the uniqueness of 
+\begin_inset Formula $\pi$
+\end_inset
+
+ implies 
+\begin_inset Formula $\pi'=\pi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+PageRank
+\end_layout
+
+\begin_layout Standard
+The web is very heterogeneous bu nature, and certainly huge.
+ We cannot expect the web graph to be connected.
+ Page and Brin proposed a way to overcome this problem, by ensuring the
+ convergence of random walks on the web graph.
+\end_layout
+
+\begin_layout Standard
+The idea is to fix a positive constant, 
+\begin_inset Formula $p$
+\end_inset
+
+, between 0 and 1, called the 
+\series bold
+damping factor
+\series default
+, and which represents the probability that a user leaves the current page
+ and goes to a random web.
+\end_layout
+
+\begin_layout Standard
+Therefore, the 
+\series bold
+page rank transition matrix
+\series default
+ is
+\begin_inset Formula 
+\[
+P_{g}=\left(1-p\right)P+PB,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $B=\frac{1}{n}\left(\begin{array}{cccc}
+1 & 1 & \dots & 1\\
+1 & 1 & \dots & 1\\
+\vdots & \vdots & \ddots & \vdots\\
+1 & 1 & \dots & 1
+\end{array}\right).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p$
+\end_inset
+
+ is usually chosen small, like 0.15, modelling a situation in which a surfer
+ will, most of the time, follow the outgoing links and move on to one of
+ the neighbours.
+ A smaller percentage of time, the surfer will dump the current page and
+ choose arbritrarily a different page from the web.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Proposition
+\begin_inset Formula $P_{g}$
+\end_inset
+
+ is stochastic.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We need to proof that, for all 
+\begin_inset Formula $i$
+\end_inset
+
+, it holds 
+\begin_inset Formula $\sum_{j}P_{g_{i,j}}=1$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\sum_{j}P_{g_{i,j}}= & \sum_{j}\left(1-p\right)P_{ij}+pB_{ij}\\
+= & \left(1-p\right)\sum_{j}P_{ij}+p\sum_{j}B_{ij}\\
+= & \left(1-p\right)\cdot1+p\sum_{j}\frac{1}{n}\\
+= & 1-p+p\cdot n\frac{1}{n}\\
+= & 1-p+p\\
+= & 1.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+`
 \end_layout
 
 \begin_layout Standard
