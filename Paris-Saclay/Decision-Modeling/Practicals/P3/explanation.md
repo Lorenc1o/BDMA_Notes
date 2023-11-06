@@ -138,15 +138,15 @@ For this, we can execute the program `p3.py` and select option 9. We enter $n$ a
 Enter the number of voters(default: 40): 
 Enter the number of candidates(default: 6): 
 Generating the profile...
-        There are 16 with profile d>a>e>f>b>c
-        There are 6 with profile f>b>a>e>c>d
-        There are 10 with profile f>c>e>a>d>b
-        There are 8 with profile e>c>b>a>f>d
+        There are 3 with profile a>e>f>c>b>d
+        There are 12 with profile c>b>f>a>d>e
+        There are 18 with profile d>a>b>e>f>c
+        There are 7 with profile b>c>f>e>a>d
 The winner is d according to the plurality rule.
-The winner is f according to the plurality runoff rule.
+The winner is c according to the plurality runoff rule.
 The winner is a according to the Condorcet voting rule.
-The winner is e according to the Borda voting rule.
-It took 1174 tries to generate the profile.
+The winner is b according to the Borda voting rule.
+It took 333 tries to generate the profile.
 ```
 
 Or we can select option 11, to generate it using the genetic algorithm. In this case, we obtain the following:
