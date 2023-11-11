@@ -56,6 +56,7 @@
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
 .ecbi-1000{ font-weight: bold;   font-style: italic;}
+.cmbx-10{ font-weight: bold;}
 p{margin-top:0;margin-bottom:0}
 p.indent{text-indent:0;}
 p + p{margin-top:1em;}
@@ -266,5 +267,19 @@ div.lstinputlisting{ font-family: monospace,monospace; white-space: nowrap; }
 #tcolobox-12 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 #tcolobox-13 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
 #tcolobox-13 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-14 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-14 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-15 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-15 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-16 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-16 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-17 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-17 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-18 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-18 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-19 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-19 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-20 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-20 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 /* end css.sty */
 
