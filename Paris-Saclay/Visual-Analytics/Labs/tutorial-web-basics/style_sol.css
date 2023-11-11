@@ -1,0 +1,78 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    line-height: 2;
+}
+
+.hero {
+    background-color: #f7b42c;
+    background-image: linear-gradient(315deg, #f7b42c 0%, #d01f25 74%);
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.navbar {
+    text-align: center;
+}
+
+.navbar li {
+    display: inline;
+    padding: 1em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.skill-container {
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.flex-container {
+    padding: 2rem 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+    gap: 20%;
+    background-color: #efefef;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.footer {
+    width: 100%;
+    min-height: 40px;
+    line-height: 40px;
+    background-color: #d01f25;
+    color: white;
+    text-align: center;
+}
+
+.footer a {
+    color: wheat;
+}

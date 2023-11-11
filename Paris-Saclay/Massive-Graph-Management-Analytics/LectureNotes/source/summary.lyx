@@ -7715,7 +7715,7 @@ page rank transition matrix
  is
 \begin_inset Formula 
 \[
-P_{g}=\left(1-p\right)P+PB,
+P_{g}=\left(1-p\right)P+pB,
 \]
 
 \end_inset
@@ -7784,10 +7784,1042 @@ We need to proof that, for all
 
 \end_layout
 
-\begin_layout Standard
-`
+\begin_layout Section
+Centrality Measures
 \end_layout
 
+\begin_layout Standard
+Centrality Measures try to answer the question 
+\emph on
+'What characterizes an important vertex?'
+\emph default
+.
+ They define a real-valued function on the vertices of the graph, 
+\begin_inset Formula $m:V\rightarrow\mathbb{R}$
+\end_inset
+
+, that serves to rank the vertices.
+ However, there are many different ways to define such function, leading
+ to different definitions of centrality, such as cohesiveness, ability to
+ transfer information across the network, to influence other nodes, to control
+ information flow, etc.
+\end_layout
+
+\begin_layout Standard
+There are many centrality measures that count the number of paths through
+ a given vertex.
+ These differ in how relevant walks are defined and counted.
+ For example, if we only consider paths of length one, we would be computing
+ degree centrality, while if we allow paths of arbitrary length, we would
+ be computing eigenvalue centrality.
+\end_layout
+
+\begin_layout Subsection
+Degree Centrality
+\end_layout
+
+\begin_layout Standard
+The more neighbours a vertex has, the higher its communication ability is,
+ increasing its importance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given the graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, with adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, the 
+\series bold
+degree centrality
+\series default
+ is computed as
+\begin_inset Formula 
+\[
+D=Au,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $u=\boldsymbol{1}\in\mathbb{R}^{n}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consider the following graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename centrality0.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+The degree centrality is
+\begin_inset Formula 
+\[
+D=Au=\left(\begin{array}{cccccc}
+0 & 1 & 0 & 0 & 1 & 0\\
+1 & 0 & 1 & 0 & 1 & 0\\
+0 & 1 & 0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0 & 1 & 1\\
+1 & 1 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0
+\end{array}\right)\left(\begin{array}{c}
+1\\
+1\\
+1\\
+1\\
+1\\
+1
+\end{array}\right)=\left(\begin{array}{c}
+2\\
+3\\
+2\\
+3\\
+3\\
+1
+\end{array}\right),
+\]
+
+\end_inset
+
+ so the nodes with highest value are nodes 
+\begin_inset Formula $\left(2,4,5\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+One drawback of this measure, is that it is very likely that several nodes
+ present the same exact value, difficulting an unique ranking of vertices.
+\end_layout
+
+\begin_layout Subsection
+Neighbourhood centrality
+\end_layout
+
+\begin_layout Standard
+This measure correspond to the average degree of each vertex neighbours.
+ We could understand this measure as measuring how much a vertex is related
+ to influencial vertices.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given the graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, with adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, the 
+\series bold
+neighbourhood centrality
+\series default
+ is computed as
+\begin_inset Formula 
+\[
+N=\mathcal{D}^{-1}AD,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+ is the diagonal matrix where 
+\begin_inset Formula $\mathcal{D}_{ii}=d_{i}$
+\end_inset
+
+ is the degree of vertex 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+ is the degree centrality.
+ Each vertex' measure is
+\begin_inset Formula 
+\[
+N_{v}=\frac{\sum_{u\in\mathcal{N}_{v}}d_{u}}{d_{v}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The neighbourhood centrality of the previous example graph is
+\begin_inset Formula 
+\[
+N=\mathcal{D}^{-1}Au=\left(\begin{array}{cccccc}
+\frac{1}{2}\\
+ & \frac{1}{3}\\
+ &  & \frac{1}{2}\\
+ &  &  & \frac{1}{3}\\
+ &  &  &  & \frac{1}{3}\\
+ &  &  &  &  & 1
+\end{array}\right)\left(\begin{array}{cccccc}
+0 & 1 & 0 & 0 & 1 & 0\\
+1 & 0 & 1 & 0 & 1 & 0\\
+0 & 1 & 0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0 & 1 & 1\\
+1 & 1 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0
+\end{array}\right)\left(\begin{array}{c}
+2\\
+3\\
+2\\
+3\\
+3\\
+1
+\end{array}\right)=\left(\begin{array}{c}
+\frac{3+3}{2}\\
+\frac{2+2+3}{3}\\
+\frac{3+3}{2}\\
+\frac{2+3+1}{3}\\
+\frac{2+3+3}{3}\\
+\frac{3}{1}
+\end{array}\right)=\left(\begin{array}{c}
+3\\
+2.33\\
+3\\
+2\\
+2.66\\
+3
+\end{array}\right),
+\]
+
+\end_inset
+
+ so the nodes with highest value are nodes 
+\begin_inset Formula $\left(1,3,6\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Eigenvector Centrality
+\end_layout
+
+\begin_layout Standard
+A natural extension of degree centrality is to consider all reachable nodes,
+ not just neighbours.
+ Eigenvector centrality measures a node's importance while considering the
+ importance of its neighbours.
+ A high eigenvector centrality means that a node is connected to many nodes
+ that have high scores themselves.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given the graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, with adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, the 
+\series bold
+eigenvector centrality
+\series default
+ of node 
+\begin_inset Formula $v$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+E_{v}=\frac{1}{\lambda}\sum_{u\in\mathcal{N}_{v}}A_{vu}E_{u},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is a parameter.
+ Note that this can be written as
+\begin_inset Formula 
+\[
+E=\frac{1}{\lambda}AE,
+\]
+
+\end_inset
+
+ or
+\begin_inset Formula 
+\[
+AE=\lambda E.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means that 
+\begin_inset Formula $E$
+\end_inset
+
+ is an eigenvector of 
+\begin_inset Formula $A$
+\end_inset
+
+, for the eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Bonacich suggested that the eigenvector of the largest eigenvalue of 
+\begin_inset Formula $A$
+\end_inset
+
+ could make a good network centrality measure.
+\end_layout
+
+\begin_layout Standard
+The eigenvector 
+\begin_inset Formula $E$
+\end_inset
+
+ must be non-negative and according to the Perron-Frobenius theorem, the
+ largest 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ enforces this property, making it a suitable value.
+\end_layout
+
+\begin_layout Example
+Let's compute 
+\begin_inset Formula $E$
+\end_inset
+
+ for the previous example graph.
+ The matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ has as largest eigenvalue 
+\begin_inset Formula $\lambda=2.54$
+\end_inset
+
+, and the corresponding eigenvector is
+\begin_inset Formula 
+\[
+E=\left(\begin{array}{c}
+2.5\\
+3.1\\
+2.2\\
+2.5\\
+3.2\\
+1
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that it is usually unfeasible to compute the eigenvalues and eigenvectors.
+ It is more usual to get the vector iteratively as
+\begin_inset Formula 
+\[
+E_{k}=A\frac{E_{k-1}}{\left\Vert E_{k-1}\right\Vert }.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+PageRank Centrality
+\end_layout
+
+\begin_layout Standard
+Google's PageRank is a variant of the eigenvector centrality, which uses
+ in-degree to award one centrality point for every link a node receives.
+ As we saw, the algorithm is based on a web surfer who is randomly clicking
+ on links, with a certain probability to go to a different place of the
+ web (the damping factor).
+\end_layout
+
+\begin_layout Standard
+Therefore, we define the matrix 
+\begin_inset Formula 
+\[
+P_{g}=\left(1-p\right)P+pB,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $P_{ij}=\begin{cases}
+\frac{1}{d_{i}} & if\ j\in\mathcal{N}_{i}\\
+0 & otherwise
+\end{cases},$
+\end_inset
+
+ and 
+\begin_inset Formula $B_{ij}=\frac{1}{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now, we apply the eigenvector centrality to this modified matrix, as
+\begin_inset Formula 
+\[
+P_{g}E_{g}=\lambda E_{g}=E_{g},
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\lambda=1$
+\end_inset
+
+ because 
+\begin_inset Formula $P_{g}$
+\end_inset
+
+ is stochastic.
+\end_layout
+
+\begin_layout Standard
+Or, iteratively as
+\begin_inset Formula 
+\[
+E_{g_{k}}=P_{g}E_{g_{k-1}}.
+\]
+
+\end_inset
+
+ Note that in this case it is not necessary to normalize the vector at each
+ step, because 
+\begin_inset Formula $P_{g}$
+\end_inset
+
+ is stochastic.
+ A good 
+\begin_inset Formula $E_{g_{0}}$
+\end_inset
+
+ is 
+\begin_inset Formula $E_{g_{0}}=\left(\begin{array}{c}
+\frac{1}{n}\\
+\vdots\\
+\frac{1}{n}
+\end{array}\right).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Katz (or alpha) centrality
+\end_layout
+
+\begin_layout Standard
+The main problem with eigenvector centrality is that it only works well
+ when the graph is strongly connected (so Perron-Frobenius is applicable
+ in its stronger form).
+ Real networks do not usually have this property, specially if they are
+ directed.
+ The vertices that are not in strongly connected components will have value
+ 0.
+\end_layout
+
+\begin_layout Standard
+A way to work around this problem was proposed by Leo Katz.
+ The idea is to give each node a minimum, positive amount of centrality,
+ that it can transfer to other nodes, so:
+\begin_inset Formula 
+\[
+K_{v}=\alpha\sum_{u}A_{vu}K_{u}+\beta,
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $K_{v}$
+\end_inset
+
+ is the Katz centrality of node 
+\begin_inset Formula $v$
+\end_inset
+
+, 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is a vector whose elements are all equal to a given positive constant and
+ 
+\begin_inset Formula $\alpha\in\left(0,1\right)$
+\end_inset
+
+ is a parameter.
+ Equivalently, this is
+\begin_inset Formula 
+\[
+K=\alpha AK+\beta,
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+\left(I-\alpha A\right)K=\beta,
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+K=\left(I-\alpha A\right)^{-1}\beta.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For this to work, 
+\begin_inset Formula $I-\alpha A$
+\end_inset
+
+ must be invertible, which happens if and only if 
+\begin_inset Formula $\left|I-\alpha A\right|\neq0\iff\left|\frac{1}{\alpha}I-A\right|\neq0$
+\end_inset
+
+, so 
+\begin_inset Formula $\frac{1}{\alpha}$
+\end_inset
+
+ must not be an eigenvalue of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ This is ensured if we take 
+\begin_inset Formula $\frac{1}{\alpha}>\lambda_{max}$
+\end_inset
+
+, or 
+\begin_inset Formula $0<\alpha<\frac{1}{\lambda_{max}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An iterative way to compute 
+\begin_inset Formula $K$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+K=\left(\sum_{k=1}^{\infty}\alpha^{k}A^{k}\right)u.
+\]
+
+\end_inset
+
+ The strength of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ decreases at each iteration, acting as attenuation factor.
+\end_layout
+
+\begin_layout Subsection
+Clustering Coefficient Centrality
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Triadic closure
+\series default
+ is the property among three nodes A, B, and C (representing people, for
+ instance), that if the connections A-B and A-C exist, there is a tendency
+ for the new connection B-C to be formed.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The clustering coefficient measures the proportion of neighbours of each
+ node, that connected to each other.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given a graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, with adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+, the 
+\series bold
+clustering coefficient
+\series default
+ of node 
+\begin_inset Formula $v$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+CC_{v}=\frac{\left|\left\{ \left\{ u,v,w\right\} :\left(u,v\right),\left(v,w\right),\left(u,w\right)\in E\right\} \right|}{\binom{d_{v}}{2}},
+\]
+
+\end_inset
+
+ where the numerator is the number of triangles involving 
+\begin_inset Formula $v$
+\end_inset
+
+ and its neighbours, and the denominator is the total number of possible
+ links between 
+\begin_inset Formula $v$
+\end_inset
+
+'s neighbours.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The more densely connected the neighbourhood of 
+\begin_inset Formula $v$
+\end_inset
+
+ is, the higher is its clustering coefficient.
+\end_layout
+
+\begin_layout Example
+The clustering coefficient of the graph example that we've been working
+ with is
+\begin_inset Formula 
+\[
+CC=\left(\begin{array}{c}
+\frac{1}{1}\\
+\frac{1}{3}\\
+\frac{0}{1}\\
+\frac{0}{3}\\
+\frac{1}{3}\\
+0
+\end{array}\right)=\left(\begin{array}{c}
+1\\
+\frac{1}{3}\\
+0\\
+0\\
+\frac{1}{3}\\
+0
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Closeness Centrality
+\end_layout
+
+\begin_layout Standard
+Closeness centrality is a measure of how close a node is, on average, to
+ the rest of the nodes, in terms of shortest paths.
+ It measures the average distance between a node 
+\begin_inset Formula $v$
+\end_inset
+
+ and all other nodes in the network.
+ Thus, the more central a node is, the closer it is to all other nodes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given a graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, the 
+\series bold
+closeness centrality
+\series default
+ of node 
+\begin_inset Formula $v$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+CL_{v}=\frac{1}{\sum_{r\neq v}dist\left(v,r\right)}.
+\]
+
+\end_inset
+
+ It can be normalized by the factor 
+\begin_inset Formula 
+\[
+CL_{v}=\frac{N-1}{\sum_{r\neq v}dist\left(v,r\right)}.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An alternative is the 
+\series bold
+harmonic centrality
+\series default
+, obtained as
+\begin_inset Formula 
+\[
+H_{v}=\sum_{r\neq v}\frac{1}{dist\left(v,r\right)},
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $dist\left(v,r\right)=0$
+\end_inset
+
+ if there is no path from 
+\begin_inset Formula $v$
+\end_inset
+
+ to 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Betweenness Centrality
+\end_layout
+
+\begin_layout Standard
+A family of betweenness measures are defined to capture a node's importance
+ as a conduct of information flow in the network.
+ This has wide applications in network theory, because in a telecommunications
+ network, a node with higher betweenness centrality would have more control
+ over the network, since more information will pass through that node.
+\end_layout
+
+\begin_layout Standard
+The most well-known betweenness metric measures the number of times a node
+ is on a shortest path between two nodes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given a graph 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, the 
+\series bold
+betweenness centrality
+\series default
+ of node 
+\begin_inset Formula $v$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+B_{v}=\sum_{s\neq v\neq t}\frac{\sigma_{s,t}\left(v\right)}{\sigma_{s,t}},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\sigma_{s,t}$
+\end_inset
+
+ is the number of shortest path from source node 
+\begin_inset Formula $s$
+\end_inset
+
+ to target node 
+\begin_inset Formula $t$
+\end_inset
+
+, and 
+\begin_inset Formula $\sigma_{s,t}\left(v\right)$
+\end_inset
+
+ is the number of shortest path between these two nodes going through 
+\begin_inset Formula $v$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+This measure can be normalized by the number of ordered pairs not including
+ 
+\begin_inset Formula $v$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For directed graphs
+\begin_inset Formula 
+\[
+B_{v}=\frac{1}{\left(n-1\right)\left(n-2\right)}\sum_{s\neq v\neq t}\frac{\sigma_{s,t}\left(v\right)}{\sigma_{s,t}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For undirected graphs
+\begin_inset Formula 
+\[
+B_{v}=\frac{2}{\left(n-1\right)\left(n-2\right)}\sum_{s\neq v\neq t}\frac{\sigma_{s,t}\left(v\right)}{\sigma_{s,t}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+For the undirected star graph:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename centrality1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+The center vertex has a betweenness of 
+\begin_inset Formula $\frac{\left(n-1\right)\left(n-2\right)}{2}$
+\end_inset
+
+ (or 1, if we normalize it), while the leaves have a betweenness of 0.
+\end_layout
+
+\begin_layout Exercise
+What about the following graphs?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Graphics
+	filename centrality2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B=\left(\begin{array}{c}
+\frac{0}{6}\\
+\frac{3}{6}\\
+\frac{4}{6}\\
+\frac{3}{4}\\
+\frac{0}{6}
+\end{array}\right)=\left(\begin{array}{c}
+0\\
+0.5\\
+0.67\\
+0.5\\
+0
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Graphics
+	filename centrality3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B=\left(\begin{array}{c}
+\frac{1}{6}\\
+\frac{1}{6}\\
+\frac{1}{6}\\
+\frac{1}{6}\\
+\frac{1}{6}
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Graphics
+	filename centrality4.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B=\left(\begin{array}{c}
+\frac{0}{6}\\
+\frac{3}{6}\\
+\frac{5}{6}\\
+\frac{0}{6}\\
+\frac{0}{6}
+\end{array}\right)=\left(\begin{array}{c}
+0\\
+0.5\\
+0.83\\
+0\\
+0
+\end{array}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
