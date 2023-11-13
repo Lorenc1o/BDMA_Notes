@@ -3561,6 +3561,753 @@ ordinal scales
  but in comparating the values for different elements.
 \end_layout
 
+\begin_layout Section
+Voting Rules as Group Decision Making Models
+\end_layout
+
+\begin_layout Standard
+The objectives of this section are to study a set of decision problems in
+ which a group has to take a decision among several alternatives and analyzing
+ a number of properties of electoral systems.
+ For this, we will present a few elements of the classical 
+\series bold
+social choice theory
+\series default
+, for which we will see that several parameters need to be taken into account.
+ These are the nature of the decision, the size of the group and its nature.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Problem
+\end_layout
+
+\begin_layout Plain Layout
+Study election problems in which a society has to take a decision among
+ several candidates.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When electing a candidate, we assume that the choice of the candidate will
+ affect the member of society, and should therefore take the opinion of
+ all members into account.
+\end_layout
+
+\begin_layout Standard
+The intuition then is that a democratic approach is preferred, through an
+ election system in which a candidate should be elected through some kind
+ of majority rule.
+\end_layout
+
+\begin_layout Standard
+Of course, this approach has many political considerations, like if the
+ democracy is direct or indirect, how parties play a role, who can vote,
+ etc.
+\end_layout
+
+\begin_layout Standard
+But there are also technical considerations involved in this problem.
+ For instance, the definition of majority is obvious when there are two
+ candidates: the candidate receiving more than half the votes is preferred
+ to the other one.
+ However, when there are more than two candidates, there are many ways to
+ extend this simple idea, which are not equivalent and can lead to different
+ and even unwanted results.
+\end_layout
+
+\begin_layout Standard
+In addition, elections can by of different types:
+\end_layout
+
+\begin_layout Itemize
+Type of ballots admitted: only one candidate; or a ranking of all candidates;
+ or all acceptable candidates; or grading candidates; etc.
+\end_layout
+
+\begin_layout Itemize
+Method for organizing the election and tallying ballots.
+\end_layout
+
+\begin_layout Standard
+The consequences of all this is that there are many possible types of elections,
+ many of which have been proposed and even used in practice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Hypotheses
+\end_layout
+
+\begin_layout Enumerate
+All voters are able to rank the set of all candidates, admitting for ties.
+\end_layout
+
+\begin_layout Enumerate
+Voters are sincere: this means that they don't change their preferences
+ strategically.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Methods of Voting
+\end_layout
+
+\begin_layout Subsubsection
+Plurality Voting
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Plurality: rules
+\end_layout
+
+\begin_layout Enumerate
+One round of voting.
+\end_layout
+
+\begin_layout Enumerate
+Ballots with one name.
+\end_layout
+
+\begin_layout Enumerate
+The most voted candidate wins.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Ties are neglected because they are unlikely for large populations.
+ They can be solved in several ways, for example if one voter has special
+ power (the king or queen); or one candidate receives special treatment
+ (the older one is elected in case of tie); or even choosing randomly.
+\end_layout
+
+\begin_layout Example
+Consider 3 candidates 
+\begin_inset Formula $\left\{ a,b,c\right\} $
+\end_inset
+
+ and 21 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & a\succ b\succ c\\
+6\ voters: & b\succ c\succ a\\
+5\ voters: & c\succ b\succ a
+\end{align*}
+
+\end_inset
+
+ In this case, candidate 
+\begin_inset Formula $a$
+\end_inset
+
+ is elected, according to plurality voting, since it's the most voted one.
+\end_layout
+
+\begin_layout Example
+Note, however, how a majority of voters (11/21) prefer any of the losing
+ candidates to the elected one.
+\end_layout
+
+\begin_layout Remark
+Problems are expected as soon as there are more than 2 candidates.
+ A system based on an idea of majority, like this, may violate the will
+ of a majority of voters.
+ Also, the sincere hypothesis becomes hard to believe.
+ For example, 
+\begin_inset Formula $c$
+\end_inset
+
+'s voters could change their vote for 
+\begin_inset Formula $b$
+\end_inset
+
+, making it win the election and improving the outcome according to their
+ preference.
+\end_layout
+
+\begin_layout Subsubsection
+Plurality with Runoff
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Plurality with Runoff: rules
+\end_layout
+
+\begin_layout Enumerate
+Ballots with one name.
+\end_layout
+
+\begin_layout Enumerate
+Two rounds of voting:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+First round:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The candidate with most votes if elected if he receives more than 50% of
+ votes.
+\end_layout
+
+\begin_layout Enumerate
+Otherwise, go to the second round.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Second round:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Keep the two most voted candidates.
+\end_layout
+
+\begin_layout Enumerate
+Apply plurality votes to these two.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consider 3 candidates 
+\begin_inset Formula $\left\{ a,b,c\right\} $
+\end_inset
+
+ and 21 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & a\succ b\succ c\\
+6\ voters: & b\succ c\succ a\\
+5\ voters: & c\succ b\succ a
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+First round: the most voted candidate is 
+\begin_inset Formula $a$
+\end_inset
+
+ with 10 votes, less than 50%.
+ Therefore, we go to the second round.
+\end_layout
+
+\begin_layout Example
+Second round: we only consider the two most voted candidates, 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & a\succ b\\
+6\ voters: & b\succ a\\
+5\ voters: & b\succ a
+\end{align*}
+
+\end_inset
+
+ Therefore, in this case 
+\begin_inset Formula $b$
+\end_inset
+
+ wins with 11 votes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consider 4 candidates 
+\begin_inset Formula $\left\{ a,b,c,d\right\} $
+\end_inset
+
+ and 21 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & b\succ a\succ c\succ d\\
+6\ voters: & c\succ a\succ d\succ b\\
+5\ voters: & a\succ d\succ b\succ c
+\end{align*}
+
+\end_inset
+
+ In this case, with plurality with runoff.
+ the first round is won by 
+\begin_inset Formula $b$
+\end_inset
+
+, with 10 votes, which is not enough, and then the second round is between
+ 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ 
+\begin_inset Formula $b$
+\end_inset
+
+ wins with 15 votes in the second round.
+ 
+\end_layout
+
+\begin_layout Example
+However, note that there is a majority of voters (11/21) preferring 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $d$
+\end_inset
+
+ to 
+\begin_inset Formula $b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Some takeaways:
+\end_layout
+
+\begin_layout Itemize
+The French system does only a little better than the UK one.
+\end_layout
+
+\begin_layout Itemize
+Preferences used in the previous example are not extremely rare.
+\end_layout
+
+\begin_layout Paragraph
+Manipulation
+\end_layout
+
+\begin_layout Standard
+Manipulation occurs when some voters are not sincere, to improve the result
+ of the election according to their preferences.
+ Let's see this through an example.
+\end_layout
+
+\begin_layout Example
+In the previous example, 
+\begin_inset Formula $b$
+\end_inset
+
+ was elected.
+ Howeber, suppose that the 6 voters with preferences 
+\begin_inset Formula $c\succ a\succ d\succ b$
+\end_inset
+
+ vote as if their preferences were 
+\begin_inset Formula $a\succ c\succ d\succ b$
+\end_inset
+
+.
+ Then, 
+\begin_inset Formula $a$
+\end_inset
+
+ would be elected in the first round with 11 votes.
+ Therefore, it is profitable to the six manipulating voters, for which 
+\begin_inset Formula $a\succ b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A voting rule is 
+\series bold
+manipulable
+\series default
+ if it may happen that some voters may have an interest to vote in a non-sincere
+ way.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have just seen with the previous example that plurality with runoff is
+ manipulable.
+\end_layout
+
+\begin_layout Paragraph
+Monotonicity
+\end_layout
+
+\begin_layout Standard
+Monotonicity refers to a property of a voting method.
+ It means that if a candidate increments its valoration for some population,
+ the outcome of the election should not worsen for this candidate.
+\end_layout
+
+\begin_layout Example
+Consider 3 candidates 
+\begin_inset Formula $\left\{ a,b,c\right\} $
+\end_inset
+
+ and 17 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+6\ voters: & a\succ b\succ c\\
+5\ voters: & c\succ a\succ b\\
+4\ voters: & b\succ c\succ a\\
+2\ voters: & b\succ a\succ c
+\end{align*}
+
+\end_inset
+
+ In this case, 
+\begin_inset Formula $a$
+\end_inset
+
+ would be elected in the second round.
+ However, imagine that 
+\begin_inset Formula $a$
+\end_inset
+
+ now gets more money and can increase their campaign power.
+ Through this campaign, they manage to change the preferences of the two
+ last voters, effectively changing the distribution to:
+\begin_inset Formula 
+\begin{align*}
+8\ voters: & a\succ b\succ c\\
+5\ voters: & c\succ a\succ b\\
+4\ voters: & b\succ c\succ a
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now, 
+\begin_inset Formula $c$
+\end_inset
+
+ is elected! The good campaign done by 
+\begin_inset Formula $a$
+\end_inset
+
+, made him lose.
+\end_layout
+
+\begin_layout Standard
+With this example, we observe that when the voting method is non-monotonic,
+ the possibilities of manipulation increase.
+\end_layout
+
+\begin_layout Subsubsection
+Condorcet Voting Rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Condorcet: rules
+\end_layout
+
+\begin_layout Enumerate
+Compare all candidates by pair.
+\end_layout
+
+\begin_layout Enumerate
+Declare that 
+\begin_inset Formula $a$
+\end_inset
+
+ is socially preferred to 
+\begin_inset Formula $b$
+\end_inset
+
+ if strictly more voters prefer 
+\begin_inset Formula $a$
+\end_inset
+
+ to 
+\begin_inset Formula $b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Condorcet principle
+\series default
+: if one candidate is preferred to all other candidates, this one should
+ be elected.
+ This is the 
+\series bold
+Condorcet winner
+\series default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The condorcet winner, if there is one, must be unique.
+\end_layout
+
+\begin_layout Remark
+Plurality rule and plurality with runoff violate Condorcet's principle.
+\end_layout
+
+\begin_layout Remark
+Condorcet's principle does not solve the 'dictature of the majority' difficulty.
+ This is, a majority of the population only take their objectives into account.
+ Since they are more, they can decide the elections.
+\end_layout
+
+\begin_layout Remark
+A Condorcet winner is not necessarily ranked high by voters.
+\end_layout
+
+\begin_layout Example
+Consider 3 candidates 
+\begin_inset Formula $\left\{ a,b,c\right\} $
+\end_inset
+
+ and 21 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & a\succ b\succ c\\
+6\ voters: & b\succ c\succ a\\
+5\ voters: & c\succ b\succ a
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+The results according to Condorcet are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $a$
+\end_inset
+
+ is not preferred to 
+\begin_inset Formula $b$
+\end_inset
+
+ nor 
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $b$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $c$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $a$
+\end_inset
+
+ but not to 
+\begin_inset Formula $b$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore, 
+\begin_inset Formula $b$
+\end_inset
+
+ is the Condorcet winner.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consider 4 candidates 
+\begin_inset Formula $\left\{ a,b,c,d\right\} $
+\end_inset
+
+ and 21 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+10\ voters: & b\succ a\succ c\succ d\\
+6\ voters: & c\succ a\succ d\succ b\\
+5\ voters: & a\succ d\succ b\succ c
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+In this case, 
+\begin_inset Formula $a$
+\end_inset
+
+ is the Condorcet winner.
+\end_layout
+
+\begin_layout Paragraph
+Condorcet's Paradox
+\end_layout
+
+\begin_layout Standard
+The social strict preference relation may have circuits:
+\end_layout
+
+\begin_layout Example
+Consider 3 candidates 
+\begin_inset Formula $\left\{ a,b,c\right\} $
+\end_inset
+
+ and 3 voters, with the following distribution:
+\begin_inset Formula 
+\begin{align*}
+1\ voter: & a\succ b\succ c\\
+1\ voter: & b\succ c\succ a\\
+1\ voter: & c\succ a\succ b
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+In this case, 
+\begin_inset Formula $a$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Therefore, electing the Condorcet winner is an attractive idea, but not
+ always possible or effective.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
