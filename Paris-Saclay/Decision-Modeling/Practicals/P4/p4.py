@@ -362,6 +362,55 @@ def bestRecommendWithCosine(person, critiques):
     recommendations.sort(key=lambda x: x[1], reverse=True)
     return recommendations
 
+def Jaccard(person1, person2):
+    """Computes the Jaccard similarity between two persons.
+
+    Args:
+        person1 (dict): the first person.
+        person2 (dict): the second person.
+
+    Returns:
+        float: the Jaccard similarity between the two persons.
+    """
+    intersection = 0
+    union = 0
+    for key in person1:
+        if key in person2:
+            intersection += 1
+    union = len(person1) + len(person2) - intersection
+    return intersection / union
+
+def bestRecommendWithJaccard(person, critiques):
+    """Computes the best recommendations for a person.
+    
+    Args:
+        person (dict): the person.
+        critiques (dict): the dictionary of critiques.
+
+    Returns:
+        list: the list of best recommendations for the person.
+    """
+    # For each movie not seen by the person, compute the weighted average of the ratings of the nearest neighbors.
+    # The weight of a neighbor is the Jaccard similarity. In this case we don't need to compute the exponential, because the Jaccard similarity is already positive.
+    # The rating of a neighbor is the rating of the movie by the neighbor.
+    recommendations = []
+    inverted = invertDict(critiques)
+    for movie in inverted:
+        if movie not in critiques[person]:
+            total = 0
+            s = 0
+            for critic in inverted[movie]:
+                total += inverted[movie][critic] * Jaccard(critiques[person], critiques[critic])
+                s += Jaccard(critiques[person], critiques[critic])
+
+            if s == 0:
+                recommendations.append((movie, 0))
+            else:
+                recommendations.append((movie, total / s))
+
+    recommendations.sort(key=lambda x: x[1], reverse=True)
+    return recommendations
+
 def getTableOfRecommendations(users, critiques):
     """For each user, computes the top 1 recommendations using the different methods.
     
@@ -372,9 +421,9 @@ def getTableOfRecommendations(users, critiques):
     Returns:
         pd.DataFrame: the table of recommendations.
     """
-    table = pd.DataFrame(columns=["Nearest neighbor", "Best", "Best with exponential function", "Pearson", "Best with Pearson", "Cosine", "Best with cosine"])
+    table = pd.DataFrame(columns=["Nearest neighbor", "Best", "Best with exp", "Pearson", "Best with Pearson", "Cosine", "Best with cosine", "Best with Jaccard"])
     for user in users:
-        table.loc[user] = [recommendNearestNeighbor(user, critiques, 'Manh')[0][0], bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], pearsonRecommend(user, critiques)[0][0][0], bestRecommendWithPearson(user, critiques)[0][0], cosineRecommend(user, critiques)[0][0][0], bestRecommendWithCosine(user, critiques)[0][0]]
+        table.loc[user] = [recommendNearestNeighbor(user, critiques, 'Manh')[0][0], bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], pearsonRecommend(user, critiques)[0][0][0], bestRecommendWithPearson(user, critiques)[0][0], cosineRecommend(user, critiques)[0][0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithJaccard(user, critiques)[0][0]]
     return table
 
 def getTableOfRecommendations_v2(users, critiques):
@@ -387,9 +436,9 @@ def getTableOfRecommendations_v2(users, critiques):
     Returns:
         pd.DataFrame: the table of recommendations.
     """
-    table = pd.DataFrame(columns=["Nearest neighbor", "Best", "Best with exponential function", "Best with Pearson", "Best with cosine"])
+    table = pd.DataFrame(columns=["Best", "Best with exp", "Best with Pearson", "Best with cosine", "Best with Jaccard"])
     for user in users:
-        table.loc[user] = [recommendNearestNeighbor(user, critiques, 'Manh')[0][0], bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], bestRecommendWithPearson(user, critiques)[0][0], bestRecommendWithCosine(user, critiques)[0][0]]
+        table.loc[user] = [bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], bestRecommendWithPearson(user, critiques)[0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithJaccard(user, critiques)[0][0]]
     return table
 
 def checkMinBlanks(critiques):
