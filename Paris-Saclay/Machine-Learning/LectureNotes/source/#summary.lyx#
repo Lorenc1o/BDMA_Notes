@@ -4834,28 +4834,7 @@ v^{t}\left(\theta\right) & =\beta_{2}v^{t-1}\left(\theta\right)+\left(1-\beta_{2
 
  In practice, Adam is the most used optimizer.
  However, there are more efficient algorithm, like LARS (Layerwise Adaptive
- Rate Scaling) or LAMB (LARS+Adam).
-\end_layout
-
-\begin_layout Paragraph
-Comparison
-\end_layout
-
-\begin_layout Itemize
-SGD momentum should allow for better solution, but hyperparameters are harder
- to find.
-\end_layout
-
-\begin_layout Itemize
-Adam is easier to tune.
-\end_layout
-
-\begin_layout Subsection
-Initialization and Normalization
-\end_layout
-
-\begin_layout Standard
-
+ Rate Scaling) or LAMB (LARS+Adam)
 \end_layout
 
 \begin_layout Standard
