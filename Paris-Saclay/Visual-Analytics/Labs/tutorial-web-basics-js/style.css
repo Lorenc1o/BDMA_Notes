@@ -1,0 +1,91 @@
+/* Applies the 'Roboto' font or a sans-serif font if 'Roboto' is not available, sets the default font size to 16 pixels, and removes the default margin */
+body {
+    font-family: 'Roboto', sans-serif; /* Sets the font to 'Roboto' or a generic sans-serif font */
+    font-size: 16px; /* Sets the base font size to 16 pixels */
+    margin: 0px; /* Removes the default margin */
+    line-height: 2; /* Sets the line height to twice the font size */
+}
+
+/* Styles for the hero section */
+.hero {
+    background-color: #f7b42c; /* Sets the background color to a light shade of orange */
+    /* Linear gradient: https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
+    background-image: linear-gradient(315deg, #f7b42c 0%, #d01f25 74%); /* Applies a linear gradient background */
+    padding-top: 3rem; /* Adds padding to the top of the hero section */
+    padding-bottom: 3rem; /* Adds padding to the bottom of the hero section */
+}
+
+/* Styles for the navigation bar */
+.navbar {
+    text-align: center; /* Aligns the text in the center of the navbar */
+}
+
+/* Styles for each list item in the navbar */
+.navbar li {
+    display: inline-block; /* Displays each list item inline */
+    padding: 1em; /* Adds padding around each list item */
+}
+
+/* Styles for center-aligned text */
+.text-center {
+    text-align: center; /* Aligns the text in the center */
+}
+
+/* Styles for the main container */
+.container {
+    display: block; /* Displays the container as a block-level element */
+    margin: 0 auto; /* Centers the container horizontally within its parent element */
+    width: 80%; /* Sets the width of the container to 80% of its parent element */
+    margin-top: 3rem; /* Adds margin to the top of the container */
+    margin-bottom: 3rem; /* Adds margin to the bottom of the container */
+}
+
+/* Styles for the skill container */
+.skill-container {
+    display: block; /* Displays the skill container as a block-level element */
+    margin: 0 auto; /* Centers the skill container horizontally within its parent element */
+    width: 60%; /* Sets the width of the skill container to 60% of its parent element */
+    margin-top: 3rem; /* Adds margin to the top of the skill container */
+    margin-bottom: 3rem; /* Adds margin to the bottom of the skill container */
+}
+
+/* Styles for a flex container */
+.flex-container {
+    padding: 2rem 10%; /* Adds padding to the top and bottom and 10% to the left and right of the flex container */
+    display: flex; /* Displays the flex container */
+    flex-direction: row; /* Sets the main axis of the flex container to be horizontal */
+    /*flex-wrap: wrap;*/ /* Allows flex items to wrap onto multiple lines */
+    /*justify-content: space-between;*/ /* Evenly distribute items along the main axis */
+    /*gap: 10%;*/ /* Sets the gap between flex items to 10% of the container width */
+    background-color: #efefef; /* Sets the background color of the flex container to a light gray */
+}
+
+/* Styles for the profile section */
+.profile {
+    display: flex; /* Displays the profile section as a flex container */
+    align-items: center; /* Aligns items along the cross axis */
+    justify-content: space-between; /* Evenly distributes items along the main axis */
+}
+
+/* Styles for a flex container with images */
+.flex-images {
+    display: flex; /* Displays the container as a flex container */
+    flex-direction: row; /* Sets the main axis of the flex container to be horizontal */
+    flex-wrap: wrap; /* Allows flex items to wrap onto multiple lines */
+    /*justify-content: space-around;*/ /* Distributes items with equal space around them along the main axis */
+}
+
+/* Styles for the footer section */
+.footer {
+    width: 100%; /* Sets the width of the footer section to 100% of its parent element */
+    min-height: 40px; /* Sets the minimum height of the footer section to 40 pixels */
+    line-height: 40px; /* Sets the line height of the text within the footer section to 40 pixels */
+    background-color: #d01f25; /* Sets the background color of the footer section to a shade of red */
+    color: white; /* Sets the text color within the footer section to white */
+    text-align: center; /* Aligns the text in the center of the footer section */
+}
+
+/* Styles for links within the footer */
+.footer a {
+    color: wheat; /* Sets the color of links within the footer section to a shade of wheat */
+}

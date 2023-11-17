@@ -4855,6 +4855,734 @@ Initialization and Normalization
 \end_layout
 
 \begin_layout Standard
+The parameters of a deep learning model need initial values.
+ The assignation of initial values is called 
+\series bold
+initialization
+\series default
+, and can impact the optimization process in several ways:
+\end_layout
+
+\begin_layout Itemize
+A bad initialization can make the training process not to converge.
+\end_layout
+
+\begin_layout Itemize
+It can impact the convergence quality, in terms of speed and the value reached.
+\end_layout
+
+\begin_layout Itemize
+Also, it can impact the generalization error.
+\end_layout
+
+\begin_layout Standard
+Therefore, a difficult question arises: initial parameters can help optimization
+, but can detriment the generalization error.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Principle: Break Symmetries
+\end_layout
+
+\begin_layout Plain Layout
+Two identical parameters, connected to the same input, should be initialized
+ differently, to incentivize different learning.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+One option could be to initialize everything to 0, but this is not a good
+ choice, because it disentivizes learning.
+ Instead, there are different initialization schemes, like random initialization.
+\end_layout
+
+\begin_layout Subsubsection
+Random Initialization
+\end_layout
+
+\begin_layout Standard
+Random initialization uses a probability distribution to initialize the
+ weights.
+ For example, 
+\series bold
+Xavier initialization
+\series default
+ uses an uniform distribution as
+\begin_inset Formula 
+\[
+W_{i,j}\sim U\left(-\frac{\sqrt{6}}{\sqrt{n_{i}+n_{i+1}}},\frac{\sqrt{6}}{\sqrt{n_{i}+n_{i+1}}}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $n_{j}$
+\end_inset
+
+ is the number of neurons in layer 
+\begin_inset Formula $j=1,...,N$
+\end_inset
+
+.
+ The input layer is initialized as
+\begin_inset Formula 
+\[
+W_{0,j}\sim\mathcal{N}\left(0,\sqrt{\frac{2}{n_{1}}}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Input normalization
+\end_layout
+
+\begin_layout Standard
+Gradient descent is sensitive to strong variations in the input, and, ideally,
+ the surface of the loss function should ahve a uniform curvature in all
+ directions, similar to a sphere.
+ This can be incentivized by input normalization, i.e., normalizing all input
+ parameters so that they all lie in a similar value range.
+\end_layout
+
+\begin_layout Standard
+Moreover, there is the concept of 
+\series bold
+batch normalization
+\series default
+, or adaptive reparametrization.
+ This consists in normalizing the input of each layer of a neural network.
+ It is motivated by the following:
+\end_layout
+
+\begin_layout Itemize
+Deep neural networks are compositions of functions, whose parameters are
+ iteratively updated during training.
+\end_layout
+
+\begin_layout Itemize
+The updates are done simultaneously to all layers, and unexpected effects
+ can come into play, since each layer is updated assuming all other layers
+ remain constant.
+\end_layout
+
+\begin_layout Itemize
+Therefore, the updates to other layers can add high order effects that can
+ lead to the problem of 
+\series bold
+gradient explosion
+\series default
+, a situation in which the gradient keeps growing indefinitely.
+\end_layout
+
+\begin_layout Standard
+In this case, the idea is to normalize the distribution of each input feature
+ in each layer, across each minibatch, to a normal, 
+\begin_inset Formula $\mathcal{N}\left(0,1\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\mu & \leftarrow\frac{1}{m}\sum_{i=1}^{m}\overline{x}^{i},\\
+\sigma^{2} & \leftarrow\frac{1}{m}\sum_{i=1}^{m}\left(\overline{x}^{i}-\mu\right)^{2},\\
+\overline{x}^{i} & \leftarrow\frac{\overline{x}^{i}-\mu}{\sqrt{\sigma^{2}-\varepsilon}}.
+\end{align*}
+
+\end_inset
+
+ Remember that 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ is the approximation of the generalization error, 
+\begin_inset Formula $\varepsilon=\frac{VC_{dim}}{N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Regularization
+\end_layout
+
+\begin_layout Standard
+The loss function can be small on the training data, but large on the dataset.
+ This is the overfitting problem, that we have seen before.
+ Deep NN can tend to overfit, since more depth implies more free parameters,
+ and therefore a higher VC dimension, which can increase 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ according the rule of thumb for its approximation.
+ 
+\end_layout
+
+\begin_layout Standard
+A way to go around this is to put constraints on the weights, to reduce
+ the VC dimension.
+ This can be done through regularization.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $\mathcal{L}_{2}$
+\end_inset
+
+ Regularization (or Ridge)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{L}_{2}$
+\end_inset
+
+ regularization keeps the 
+\begin_inset Formula $\mathcal{L}_{2}$
+\end_inset
+
+ norm of the free patameters, 
+\begin_inset Formula $\left\Vert \theta\right\Vert $
+\end_inset
+
+, as small as possible, during learning.
+\end_layout
+
+\begin_layout Standard
+The intuition is that each neuron will use all its inputs with small weights,
+ instead of specializing on a small part with high weights.
+\end_layout
+
+\begin_layout Standard
+To accomplish this, we have to minimize two things at the same time: the
+ training loss and a penanlty term representing the norm of the weights:
+\begin_inset Formula 
+\[
+\mathcal{J}\left(\theta\right)=\mathbb{E}_{D}\left[\left\Vert t-y\right\Vert ^{2}\right]+\lambda\left\Vert \theta\right\Vert ^{2},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the 
+\series bold
+regularization parameter
+\series default
+, controlling the strength of the regularization:
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is small, there is only a small regularization, allowing higher weights.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is high, the weights will be kept very small, but they may not minimize
+ the training loss.
+\end_layout
+
+\begin_layout Standard
+The gradient of this new loss function is
+\begin_inset Formula 
+\[
+\nabla_{\theta}\mathcal{J}\left(\theta\right)=-2\left(t-y\right)\nabla_{\theta}y+2\lambda\theta,
+\]
+
+\end_inset
+
+ and so the parameter updates become
+\begin_inset Formula 
+\[
+\Delta\theta=\eta\left(t-y\right)\nabla_{\theta}y-\eta\lambda\theta.
+\]
+
+\end_inset
+
+ The 
+\begin_inset Formula $\mathcal{L}_{2}$
+\end_inset
+
+ regularization leads to weights decay: even if there is no output error,
+ the weight will converge to 0, forcing the weights to constatly learn,
+ and disincentivizing the specialization on particular examples (overfitting),
+ enhancing generalization.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $\mathcal{L}_{1}$
+\end_inset
+
+ regularization (or Lasso)
+\end_layout
+
+\begin_layout Standard
+In this case, we penalize the absolute value of the weights, instead of
+ their euclidean norm:
+\begin_inset Formula 
+\[
+\mathcal{J}\left(\theta\right)=\mathbb{E}_{D}\left[\left\Vert t-y\right\Vert ^{2}\right]+\lambda\left\Vert \theta\right\Vert _{1}.
+\]
+
+\end_inset
+
+ This method leads to very sparse representations, where a lot of neurons
+ may be inactive, and only a few represent the input.
+\end_layout
+
+\begin_layout Subsubsection
+Early Stopping
+\end_layout
+
+\begin_layout Standard
+During training, a common behavior is the following:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado18.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It's usual that the training error decreases constantly, while the validation
+ error decreases, and the increases again.
+ If we manage to find the optimal point in this process, we can stop earlier
+ the training process, before the validation error gets larger.
+\end_layout
+
+\begin_layout Standard
+This method is equivalent to 
+\begin_inset Formula $\mathcal{L}_{2}$
+\end_inset
+
+ normalization, both limiting the capacity of the model:
+\end_layout
+
+\begin_layout Itemize
+With Ridge regularization, small slope regions contract the dimension of
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+, which decays to 0, and high slope regions are not regularized because
+ they help descent.
+\end_layout
+
+\begin_layout Itemize
+With early stopping, parameters with high slope are learned before parameters
+ with low slope.
+\end_layout
+
+\begin_layout Subsubsection
+Dropout
+\end_layout
+
+\begin_layout Standard
+Dropout considers all the networks can be formed by removing some units
+ from a network.
+ With this in mind, the method consists of:
+\end_layout
+
+\begin_layout Itemize
+At each optimization iteration: we apply random binary masks on the units
+ to consider.
+\end_layout
+
+\begin_layout Standard
+The probability of dropout, 
+\begin_inset Formula $p$
+\end_inset
+
+, is a hyperparameter.
+ Therefore, what we do at training time is, at each step, deactivate some
+ neurons, randomly.
+ This incentivizes generalization, since relying on some neurons specializing
+ a lot for some features of the training data is harder if these neurons
+ are not always available.
+ 
+\end_layout
+
+\begin_layout Standard
+Note that, at inference time, all neurons are always available.
+\end_layout
+
+\begin_layout Subsubsection
+Data Augmentation
+\end_layout
+
+\begin_layout Standard
+The best way to avoid overfitting is collecting more data, but this can
+ be hard, costly, or simply impossible.
+ A simple trick is 
+\series bold
+data augmentation
+\series default
+, which consists in creating new varied data from the current data by perturbing
+ it, while not chaning the labels associated to it.
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado19.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Mixup
+\series default
+ is a particular case of data augmentation, consisting on creating new training
+ new samples with labels by interpolation:
+\begin_inset Formula 
+\begin{align*}
+\hat{x} & =\lambda x_{i}+\left(1-\lambda\right)x_{j},\\
+\hat{y} & =\lambda y_{i}+\left(1-\lambda\right)y_{j},
+\end{align*}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda\sim Beta\left(\alpha,\alpha\right)$
+\end_inset
+
+, with 
+\begin_inset Formula $\alpha\in\left[0.1,0.4\right]$
+\end_inset
+
+ for classification tasks.
+ This method works for structured data, and can be used to stabilizing GANs
+ (we will see this later).
+\end_layout
+
+\begin_layout Subsection
+Vanishing Gradients
+\end_layout
+
+\begin_layout Standard
+Contrary to what we could think, adding more layers to a DNN does not necessaril
+y lead to better performance, both on the training and test set.
+ For instance, see the following graph, where we observe the performance
+ of a 20 layers NN (left) and a 56 layers NN (right):
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado20.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We observe how its performance is worse in all senses.
+ The main reason for this is the 
+\series bold
+vanishing gradient problem
+\series default
+.
+ The gradient of the loss function is repeatedly multiplied by a weight
+ matrix 
+\begin_inset Formula $W$
+\end_inset
+
+ as it travels backwards in a deep NN, as
+\begin_inset Formula 
+\[
+\frac{\partial h_{k}}{\partial h_{k-1}}=f'\left(W^{k}h_{k-1}+b^{k}\right)W^{k}.
+\]
+
+\end_inset
+
+ When the gradient arrives to the first layer, the contribution of the weight
+ matrices is comprised between 
+\begin_inset Formula $W_{min}^{d},$
+\end_inset
+
+ and 
+\begin_inset Formula $W_{max}^{d}$
+\end_inset
+
+, which are the weight matrix with the highest and lowest norm, and 
+\begin_inset Formula $d$
+\end_inset
+
+ is the depth of the network.
+ We find:
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\left|W_{max}\right|<1$
+\end_inset
+
+, then 
+\begin_inset Formula $W_{max}^{d}$
+\end_inset
+
+ is very small for high values of 
+\begin_inset Formula $d$
+\end_inset
+
+, and the gradient vanishes.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\left|W_{min}\right|>1$
+\end_inset
+
+, then 
+\begin_inset Formula $W_{min}^{d}$
+\end_inset
+
+ is very high for high values of 
+\begin_inset Formula $d$
+\end_inset
+
+, and the gradient explodes.
+\end_layout
+
+\begin_layout Standard
+We saw that exploding gradients can be solved by gradient clipping.
+ But vanishing gradients are still the current limitation of deep NN.
+ The solutions include the utilization of ReLU activaiton functions, unsupervise
+d pre-training, batch normalization, residual networks, etc.
+\end_layout
+
+\begin_layout Subsubsection
+Residual network
+\end_layout
+
+\begin_layout Standard
+A Residual Neural Network, or 
+\series bold
+ResNet
+\series default
+, is an advanced type of neural network that is specifically designed to
+ help improve the performance of deep learning models.
+\end_layout
+
+\begin_layout Standard
+ResNet introduces the concept of residual learning.
+ Instead of expecting each stack of layers to directly fit a desired underlying
+ mapping, ResNet layers are designed to fit a residual mapping.
+ The key component of ResNet is the introduction of "skip connections" or
+ "shortcuts" that bypass one or more layers.
+ A skip connection in a ResNet allows the gradient to be directly backpropagated
+ to earlier layers.
+\end_layout
+
+\begin_layout Standard
+These skip connections perform identity mapping, and their outputs are added
+ to the outputs of the stacked layers.
+ This design helps in training deeper networks by mitigating the vanishing
+ gradient problem.
+ With residual blocks, the network learns the additive residual function
+ with respect to the layer inputs, making it easier to optimize and gain
+ accuracy from considerably deeper networks.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado21.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Stochastic Depth
+\end_layout
+
+\begin_layout Standard
+Stochastic depth is a training technique for deep neural networks, particularly
+ effective for very deep networks like ResNets.
+ It was introduced as a solution to the problem of vanishing gradients and
+ long training times in deep networks.
+\end_layout
+
+\begin_layout Standard
+During training, stochastic depth randomly drops layers in the network.
+ The idea is similar to dropout, where random neurons are turned off during
+ training to prevent overfitting.
+ In stochastic depth, however, it's entire layers that are dropped.
+\end_layout
+
+\begin_layout Standard
+Each training iteration uses a shallower version of the network.
+ The depth of the network varies each time, as different subsets of layers
+ are randomly deactivated.
+\end_layout
+
+\begin_layout Standard
+Notice how stochastic depth is particularly useful for ResNets, where skip
+ connections (or residual connections) are a key feature.
+ When a residual block is dropped, the skip connection effectively takes
+ its place, allowing the signal to still propagate forward.
+\end_layout
+
+\begin_layout Standard
+At test time, all layers are used, but their outputs are scaled appropriately
+ to compensate for the dropout during training.
+ This ensures that the network can benefit from its full depth during inference.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado22.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Double Descent
+\end_layout
+
+\begin_layout Standard
+Double descent is a phenomenon observed in the training of machine learning
+ models, particularly in relation to the model's complexity and its performance
+ on a given task.
+ This concept challenges the traditional understanding of the bias-variance
+ tradeoff and has gained attention in the field of machine learning and
+ statistics.
+\end_layout
+
+\begin_layout Standard
+The double descent curve shows that after the point where the model starts
+ to overfit (as per the traditional U-shaped bias-variance tradeoff curve),
+ increasing the model complexity even further can lead to a decrease in
+ the total error again.
+\end_layout
+
+\begin_layout Standard
+It shows the following phases:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Underparameterized Regime
+\series default
+: Where the model has too few parameters and underfits the data.
+ Here, increasing complexity reduces bias and total error.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Interpolation Threshold
+\series default
+: At this point, the model just starts to fit all the training data perfectly
+ (including noise), leading to high variance and total error.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Overparameterized Regime
+\series default
+: Beyond this threshold, as complexity continues to increase, the model
+ enters the second descent where surprisingly, the total error begins to
+ decrease again despite the model being overparameterized.
+\end_layout
+
+\begin_layout Standard
+The double descent phenomenon is especially noticeable in scenarios with
+ limited training data.
+ With more data, the peak of the curve (at the interpolation threshold)
+ becomes less pronounced.
+\end_layout
+
+\begin_layout Standard
+Double descent suggests that in some cases, choosing an even more complex
+ model after hitting the overfitting point can improve performance.
+\end_layout
+
+\begin_layout Standard
+For example, observe this phenomenon in the following graphs:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado23.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A similar phenomenon is 
+\series bold
+grokking
+\series default
+, which occur when we increase training time.
+ It is remarkable that shallow models don't show it, which is a reason to
+ use deep networks! 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado24.png
+	scale 60
+
+\end_inset
+
 
 \end_layout
 
