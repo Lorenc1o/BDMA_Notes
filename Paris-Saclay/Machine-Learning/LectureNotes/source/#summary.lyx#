@@ -16787,32 +16787,8 @@ The returns, in this case, are:
 n=1 &  & G_{t}^{\left(1\right)}= & R_{t+1}+\gamma v\left(S_{t+1}\right)\\
 n=2 &  & G_{t}^{\left(2\right)}= & R_{t+1}+\gamma R_{t+2}+\gamma^{2}v\left(S_{t+2}\right)\\
 \vdots &  & \vdots\\
-n=\infty &  & G_{t}^{\left(\infty\right)}= & R_{t+1}+\gamma R_{t+2}+...+\gamma^{T-t-1}R_{T}
+n=\infty &  & G_{t}^{\left(\infty\right)}= & R_{t+1}+\gamma R_{t+2}+...+
 \end{align*}
-
-\end_inset
-
-As we can see, for 
-\begin_inset Formula $n=1$
-\end_inset
-
- we obtain the regular TD, and for 
-\begin_inset Formula $n=\infty$
-\end_inset
-
- we obtain MC.
-\end_layout
-
-\begin_layout Standard
-The 
-\series bold
-learning process
-\series default
- is done by
-\begin_inset Formula 
-\[
-v\left(S_{t}\right)\leftarrow v\left(S_{t}\right)+\alpha\left(G_{t}^{\left(n\right)}-v\left(S_{t}\right)\right).
-\]
 
 \end_inset
 
