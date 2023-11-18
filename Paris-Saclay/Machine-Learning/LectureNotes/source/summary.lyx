@@ -5586,6 +5586,2216 @@ grokking
 
 \end_layout
 
+\begin_layout Section
+Convolutional Neural Networks
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+When working with MLP, we find several limitations:
+\end_layout
+
+\begin_layout Enumerate
+Dealing with data with a high number of features.
+ For example, let imagine we are working with a dataset of images at full
+ HD resolution.
+ The feature size is 
+\begin_inset Formula $1920\times1080\times3=6\ 220\ 800$
+\end_inset
+
+.
+ Learning a single layer to reduce the dimension to 1000 requires around
+ 
+\begin_inset Formula $6000K\times1K\sim10^{9}$
+\end_inset
+
+ parameters, making the training really difficult.
+\end_layout
+
+\begin_layout Enumerate
+Use the knowledge of the input data modality to shape the network.
+ E.g., for images, the network should be equivariant to translation.
+ This means that a pattern should be detected independently of where it
+ is located in the image.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Convolutional Neural Networks (CNNs)
+\series default
+ appear to mitigate these limitations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A CNN is an NN that uses convolutions in place of general matrix multiplication
+ in, at least, one of their layers.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+CNNs deal with data arranged according to a grid, which can be temporal
+ date, images, videos, etc.
+\end_layout
+
+\begin_layout Subsubsection
+History of CNNs
+\end_layout
+
+\begin_layout Itemize
+The first work on CNNs was done in 1998, by LeCun et al.
+ 
+\end_layout
+
+\begin_layout Itemize
+Theoretical advances to make DNN converge by Hinton et al.
+ in 2006.
+\end_layout
+
+\begin_layout Itemize
+Access to large datasets such as ImageNet thanks to Deng et al.
+ in 2009.
+\end_layout
+
+\begin_layout Itemize
+Advances in hardware technology to scale learning, with better CPUs and
+ the development of GPUs.
+\end_layout
+
+\begin_layout Itemize
+Win of the 2012 ImageNet challenge with AlexNet, using CNNs, by Krizhevsky
+ et al.
+ in 2012, made them famous.
+\end_layout
+
+\begin_layout Subsection
+Convolutions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given two functions, 
+\begin_inset Formula $f,g:\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+, their 
+\series bold
+convolution
+\series default
+ is defined as
+\begin_inset Formula 
+\[
+\left(f*g\right)\left(x\right)=\int_{-\infty}^{\infty}f\left(z\right)g\left(x-z\right)dz.
+\]
+
+\end_inset
+
+ For discrete function, it becomes
+\begin_inset Formula 
+\[
+\left(f*g\right)\left(m,n\right)=\sum_{i,j=-\infty}^{i,j=\infty}f\left(i,j\right)g\left(m-i,n-j\right),
+\]
+
+\end_inset
+
+ where in this case 
+\begin_inset Formula $f$
+\end_inset
+
+ and 
+\begin_inset Formula $g$
+\end_inset
+
+ are bidimensional.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $f$
+\end_inset
+
+ is called the 
+\series bold
+input
+\series default
+ 
+\series bold
+signal
+\series default
+.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $g$
+\end_inset
+
+ is called the 
+\series bold
+kernel
+\series default
+, or filter.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Formula $f*g$
+\end_inset
+
+, the convolution output, is the 
+\series bold
+feature map
+\series default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Properties of convolutions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Commutativity:
+\begin_inset Formula 
+\[
+\left(f*g\right)\left(x\right)=\left(g*f\right)\left(x\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Distributivity:
+\begin_inset Formula 
+\[
+\left(f*\left(g+h\right)\right)\left(x\right)=\left(f*g\right)\left(x\right)+\left(f*h\right)\left(x\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Associativity:
+\begin_inset Formula 
+\[
+\left(\left(f*g\right)*h\right)\left(x\right)=\left(f*\left(g*h\right)\right)\left(x\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Observe that convolutions can be understood as taking a moving average of
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ around each point 
+\begin_inset Formula $x$
+\end_inset
+
+, with weights provided by 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\int gdx=1$
+\end_inset
+
+, then it would represent a proper moving average.
+\end_layout
+
+\begin_layout Standard
+In practice, however, CNNs do not really use convolutions, but 
+\series bold
+cross-correlations
+\series default
+, which consist in sliding one signal (or function) over another and measuring
+ the similarity at each position.
+ It's a way to track how much one signal resembles another as you shift
+ one of them over time or space.
+ Their definition is very similar to convolutions, but convolutions invert
+ the kernel function, while cross-correlations do not:
+\begin_inset Formula 
+\[
+\left(f\logof g\right)\left(m,n\right)=\sum_{i,j=-\infty}^{i,j=\infty}f\left(m,n\right)g\left(m+i,n+i\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While MLPs make an interaction between each input neurons and each output
+ neurons, CNNs have 
+\series bold
+sparse interactions
+\series default
+, thanks to the kernels, which have a small number of parameters, significantly
+ reducing the number of parameters of the network.
+\end_layout
+
+\begin_layout Standard
+Moreover, in MLP there is one weight per connection between the input and
+ the output, while CNNs apply the same kernel to different parts of the
+ input, also reducing the number of parameters of the network.
+ This is called the 
+\series bold
+parameter sharing
+\series default
+ property.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+A function 
+\begin_inset Formula $f$
+\end_inset
+
+ is said to be 
+\series bold
+equivariant
+\series default
+ to a transform 
+\begin_inset Formula $g$
+\end_inset
+
+, if for any input 
+\begin_inset Formula $x$
+\end_inset
+
+, it holds
+\begin_inset Formula 
+\[
+f\left(g\left(x\right)\right)=g\left(f\left(x\right)\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because of paratemer sharing, the CNNs are equivariant to translations.
+ This makes them particulary useful for some modalities, such as image,
+ for which we aim to detect several objects in the same manner.
+\end_layout
+
+\begin_layout Standard
+Images, and some other modalities, like videos, are composed of 
+\series bold
+channels
+\series default
+.
+ For example, RGB is a 3-channel way to compose images.
+\end_layout
+
+\begin_layout Standard
+Kernels are convoluted with all channels of the input, as visualized in
+ the following figure.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado28.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Convolution of a 3-channel input with a 3-channel kernel.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Convolutions are not equivariant to rotation, zoom, etc.
+ And these might be interesting for our model to be invariant.
+ To make the network invariant to such transformation, we can transform
+ the data with data augmentations including zooming and rotating, and feeding
+ the network with this transformed data.
+\end_layout
+
+\begin_layout Standard
+Notice how convolutions can reduce the input size, whenever the kernel is
+ larger than 
+\begin_inset Formula $1\times1$
+\end_inset
+
+.
+ This is due to the necessity to fit the whole image.
+ 
+\end_layout
+
+\begin_layout Standard
+The output size of the convolution of an input of size 
+\begin_inset Formula $n_{h}\times n_{w}$
+\end_inset
+
+ with a kernel of size 
+\begin_inset Formula $k_{h}\times k_{w}$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+\left(n-k_{h}+1\right)\times\left(n_{w}-k_{w}+1\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Fixed Kernels Weights
+\end_layout
+
+\begin_layout Standard
+If we are interested in certain features, and we know how to define a kernel
+ that is good for identifying these features, we can just do this and applying
+ this kernel.
+\end_layout
+
+\begin_layout Standard
+For example, in the following illustration we observe a kernel that is good
+ at finding vertical edges:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado29.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Learned Kernel Weights
+\end_layout
+
+\begin_layout Standard
+Learning a CNN backbone using DL is learning the weights of the kernels
+ via backpropagation.
+ The filters seek to learn the best representation to fit its training objective
+, via the training loss.
+\end_layout
+
+\begin_layout Standard
+Using different kernels allows to detect various patterns, so usually CNNs
+ contain thousands of kernels and are grouped in hierarchical layers, to
+ learn from low-level features to high-level features.
+\end_layout
+
+\begin_layout Standard
+To compute various features, such as different detections (horizontal, vertical,
+ diagonal, etc.) we need several filters.
+ For an input of size 
+\begin_inset Formula $C\times n_{1}\times n_{2}$
+\end_inset
+
+, where 
+\begin_inset Formula $C$
+\end_inset
+
+ is the amount of channels, and 
+\begin_inset Formula $F$
+\end_inset
+
+ filters of size 
+\begin_inset Formula $C\times m_{1}\times m_{2}$
+\end_inset
+
+, the feature map produced has 
+\begin_inset Formula $F$
+\end_inset
+
+ channels and is of size
+\begin_inset Formula 
+\[
+F\times\left(n_{1}-m_{1}+1\right)\times\left(n_{2}-m_{2}+1\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Receptive fields
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+receptive field
+\series default
+ is the region of the input space that a particular CNN's feature is looking
+ at.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $1\times1$
+\end_inset
+
+ Convolution
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolution is a linear combination of all channels for each pixel, allowing
+ to learn to reduce or increase the number of filters.
+\end_layout
+
+\begin_layout Standard
+In general, if the input is of size 
+\begin_inset Formula $F_{in}\times H\times W$
+\end_inset
+
+ and the filter is of size 
+\begin_inset Formula $F_{out}\times1\times1$
+\end_inset
+
+, then
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $F_{out}<F_{in}$
+\end_inset
+
+: the dimension is reduced.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $F_{out}>F_{in}$
+\end_inset
+
+: the dimension is increased.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolutions can replace fully connected layers.
+ For example, in classification, we could do 
+\begin_inset Formula $F_{out}=N_{classes}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Padding, Stride, Pooling
+\end_layout
+
+\begin_layout Subsubsection
+The Sides Problem
+\end_layout
+
+\begin_layout Standard
+Convolutions are applied on fixed size patches of the input data, and they
+ can only be shifted until there are no pixels.
+ This introduces two potential problems:
+\end_layout
+
+\begin_layout Itemize
+The output size is reduced.
+\end_layout
+
+\begin_layout Itemize
+The information in the sides of the image can be lost, because the convolution
+ cannot be applied there.
+\end_layout
+
+\begin_layout Subsubsection
+Padding
+\end_layout
+
+\begin_layout Standard
+Padding is a solution to the edge problem, consisting on adding data at
+ the sides of the image.
+ There are several strategies, but in general, we just add zeros:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado30.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are several modes of zero padding.
+ For a padding of 
+\begin_inset Formula $k$
+\end_inset
+
+ pixels:
+\end_layout
+
+\begin_layout Itemize
+Valid: no padding.
+\end_layout
+
+\begin_layout Itemize
+Same: add 
+\begin_inset Formula $\frac{k-1}{2}$
+\end_inset
+
+ zeros on each side.
+\end_layout
+
+\begin_layout Itemize
+Full: add 
+\begin_inset Formula $k$
+\end_inset
+
+ zeros on each side.
+\end_layout
+
+\begin_layout Standard
+The output size of a convolution of a 
+\begin_inset Formula $n_{h}\times n_{w}$
+\end_inset
+
+ sized input, to which we add 
+\begin_inset Formula $p_{h}$
+\end_inset
+
+ rows and 
+\begin_inset Formula $p_{w}$
+\end_inset
+
+ columns of padding, and a kernel of size 
+\begin_inset Formula $k_{h}\times k_{w}$
+\end_inset
+
+ becomes
+\begin_inset Formula 
+\[
+\left(n_{h}-k_{h}+p_{h}+1\right)\times\left(n_{w}-k_{w}+p_{w}+1\right).
+\]
+
+\end_inset
+
+ Generally, we want to have 
+\begin_inset Formula $p_{h}=k_{h}-1$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{w}=k_{w}-1$
+\end_inset
+
+, which is achieve by applying same zero padding.
+\end_layout
+
+\begin_layout Subsubsection
+Stride
+\end_layout
+
+\begin_layout Standard
+As far as we have seen, we slide the kernel across all locations right and
+ down.
+ However, we could skip some of this locations, effectively reducing the
+ feature map output and the computational cost, but at the expense of the
+ accuracy of the representations.
+\end_layout
+
+\begin_layout Standard
+If we add 
+\begin_inset Formula $s_{h},s_{w}$
+\end_inset
+
+ for the height and width strides, the feature map size is
+\begin_inset Formula 
+\[
+\frac{\left(n_{h}-k_{h}+p_{h}+1+s_{h}\right)}{s_{h}}\times\frac{\left(n_{w}-k_{w}+p_{w}+1+s_{w}\right)}{s_{w}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Pooling
+\end_layout
+
+\begin_layout Standard
+Pooling consists in statistically summarizing a neighbourhood.
+ A pooling layer takes a window of values and output one value.
+ There are several pooling types:
+\end_layout
+
+\begin_layout Itemize
+Max Pooling: take the maximum value of a window.
+\end_layout
+
+\begin_layout Itemize
+Average pooling: take the eman value of a window.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L_{2}$
+\end_inset
+
+ norm, weighted average pooling, etc.
+\end_layout
+
+\begin_layout Standard
+For example, the following illustrates the use of a 2x2 max pooling layer:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado31.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pooling is useful to make our representations invariant to minor translations.
+ For deep layers, minor modifications can mean great changes in the input
+ image.
+\end_layout
+
+\begin_layout Standard
+Also, it reduces the amount of parameters and computation, and help reducing
+ overfiting.
+\end_layout
+
+\begin_layout Standard
+It sets up a strong prior: invariance to local translation of learned kernels.
+\end_layout
+
+\begin_layout Standard
+It can be degrading for some tasks, where precise locations are required.
+\end_layout
+
+\begin_layout Subsection
+CNNs
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+LeNet
+\series default
+ by LeCun et al.
+ in 1998 was designed after 10 uears of working with handwritten bank checks.
+ It paved the basics of DL:
+\end_layout
+
+\begin_layout Itemize
+Feature extraction by convolution layers.
+\end_layout
+
+\begin_layout Itemize
+Classification by MLP layers.
+\end_layout
+
+\begin_layout Itemize
+Layer of convolution followed by average pooling, and non-linearity, with
+ sigmoid or tanh.
+\end_layout
+
+\begin_layout Itemize
+SGD optimizer to perform backpropagation.
+\end_layout
+
+\begin_layout Standard
+The architecture is the following:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado32.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+AlexNet
+\series default
+ by Krizhevsky et al.
+ in 2012 was on of the first DNN, and won the 2012 ImageNet challenge, causing
+ a new DL area.
+ They extended LeNet to larger images, with wider convolutions, and used
+ ReLUs and max pooling, combined with dropout.
+\end_layout
+
+\begin_layout Standard
+A very interesting fact they observed was that as the layers were deeper,
+ the receptive field was higher: The first layers learn basic patterns,
+ while deeper layers learn more complicated shapes.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado33.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Visual Geometry Group (VGG)
+\series default
+ by Simonyan et al.
+ in 2015 was the first network with blocks.
+ the blocks consisted in:
+\end_layout
+
+\begin_layout Itemize
+Convolution layer with padding to keep the same resolution.
+\end_layout
+
+\begin_layout Itemize
+Non-linearity.
+\end_layout
+
+\begin_layout Itemize
+Pooling layer to reduce resolution.
+\end_layout
+
+\begin_layout Standard
+The architecture was the following:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado34.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The problem was how to maintain enough resolution to have a lot of blocks.
+ The solution was to introduce more convolutions at low resolution, instead
+ of few convolutions at high resolution.
+\end_layout
+
+\begin_layout Standard
+This increases the number of non-linearities and reduces the number of parameter
+ to achieve an equal receptive field.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Network in Network (NiN)
+\series default
+, by Lin et al.
+ in 2013: previous architectures improved by enhacing the number of convolutions
+ (width) and deepening the network (depth).
+ This presents two problems:
+\end_layout
+
+\begin_layout Itemize
+The last fully connected layers consume large number of parameters.
+\end_layout
+
+\begin_layout Itemize
+It is difficult to add non-linearity without using fully connected layers,
+ that destroy the spatial structure.
+\end_layout
+
+\begin_layout Standard
+NiN made improvements:
+\end_layout
+
+\begin_layout Itemize
+It used 
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolutiones to increase the number of non-linearities.
+\end_layout
+
+\begin_layout Itemize
+Also, a global average pool at the end to remove large fully connected layers.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Inception Blocks
+\series default
+: Google was facing a problem.
+ They needed fast deployment and inference, but large convolutions with
+ lots of channels increase inference time.
+ Their solution was to reduce the number of channels by applying several
+ convolutions in parallel.
+ Instead of choosing a single filter size for a given layer, Inception blocks
+ apply multiple different-sized filters (e.g., 1x1, 3x3, 5x5 convolutions)
+ in parallel to the same input feature map.
+ This allows the network to capture information at various scales.
+\end_layout
+
+\begin_layout Standard
+An inception block looks as follows:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado35.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+GoogleNet
+\series default
+, by Szegedy et al.
+ in 2015 was based on inception blocks.
+ It used several classifiers throughout training to enhance discriminative
+ features at first layers, and reduce vanishing gradients.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Residual Blocks
+\series default
+: these blocks make use of 
+\series bold
+residual connections
+\series default
+, or shortcut connections, which forward the input to the following layer.
+ That is, if a layer is represented as 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+, the same layer, when used inside a residual block, would be 
+\begin_inset Formula $f\left(x\right)+x$
+\end_inset
+
+.
+ This is illustrated below.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado36.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Residual blocks make the identity function easier to learn, and reduce vanishing
+ or exploding gradient problems.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+ResNet Blocks
+\series default
+: these blocks are a combination of VGG blocks and residual blocks.
+ They use 
+\begin_inset Formula $3\times3$
+\end_inset
+
+ convolutions, with batch normalization to stabilize training and residual
+ connection concatenated to the result of applying two of these convolutions.
+ The residual connection can be either direct, or by means of a 
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolution.
+ This is illustrated below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado37.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Residual Neural Networks (ResNet)
+\series default
+, by He et al.
+ in 2016, is a network architecture consisting of blocks of residual blocks.
+ There are different ResNets depending on how many blocks or layer are used.
+ For example, the following is a ResNet-18, as it has 18 trainable layers
+ (the first 7x7 conv, two 3x3 convs for each internal block, and there are
+ eight of them, and the last fully connected layer):
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado38.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ResNet is a widely used backbone until today.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+ResNexts: Group convolution
+\series default
+, by Xie et al.
+ in 2017.
+ To add more non-linearities in ResNets we can add more layers, increase
+ the width of convolutions or the number of channels.
+ However, increasing the number of channels add quadratic complexity 
+\begin_inset Formula $\left(F_{in}\times F_{out}\right)$
+\end_inset
+
+.
+ Group convolutions is a technique to reduce the computational complexity
+ while still increasing the network's width.
+ In group convolution, the input channels are divided into groups, and a
+ convolution is performed independently on each group.
+ This means that if you have 
+\begin_inset Formula $g$
+\end_inset
+
+ groups, each group will have 
+\begin_inset Formula $\frac{c}{g}$
+\end_inset
+
+ input channels and 
+\begin_inset Formula $\frac{b}{g}$
+\end_inset
+
+ filters applied to it, where 
+\begin_inset Formula $c$
+\end_inset
+
+ is the total number of input channels, and 
+\begin_inset Formula $b$
+\end_inset
+
+ is the total number of intermediate channels.
+ Each filter in a group only interacts with the input channels within that
+ group.
+\end_layout
+
+\begin_layout Standard
+The following diagram shows a block of the ResNeXt architecture.
+ The input channels are first split into 
+\begin_inset Formula $g$
+\end_inset
+
+ groups.
+ Each group is processed by its own set of 1x1 convolutions (to reduce dimension
+ality), followed by 3x3 convolutions (to capture spatial hierarchies).
+ The outputs of these groups are then concatenated, and a final 1x1 convolution
+ is applied to the concatenated result to produce the final output channels.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado39.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+DenseNet
+\series default
+, by Huang et al.
+ in 2017.
+ This architecture is based on ResNet blocks, but instead of adding the
+ input and the result of the convolution, it concatenates both of them plus
+ the results of each dense blocks on the channel dimension.
+ It makes use of 
+\series bold
+transition layers
+\series default
+, which are 
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolutions after concatenation, to reduce feature dimension.
+\end_layout
+
+\begin_layout Standard
+Some other architectures address different problems.
+ MobileNets, by Howard et al.
+ in 2017 was thought to be deployed on mobiles, it separates convolution
+ in two operations; EfficientNet, by Tan et al.
+ in 2019, uses grid search without computational budget to modify the architectu
+re at best width, depth or input resolution...
+ 
+\end_layout
+
+\begin_layout Standard
+CNNs are being slowly replaced in some cases by 
+\series bold
+Visual Transformers
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Object Detection Problem
+\end_layout
+
+\begin_layout Standard
+The goal of the object detection problem is to find a bounding box that
+ contain an object of interest.
+ It implies two objectives:
+\end_layout
+
+\begin_layout Itemize
+Regression to shape the box.
+\end_layout
+
+\begin_layout Itemize
+Classification to identify the object.
+\end_layout
+
+\begin_layout Standard
+If we consider this problem as a classification problem, one approach is
+ to test various positions and scales to propose various anchor boxes.
+ This is scalable only if the classifier is fast enough.
+ However, CNNs are computationally expensive.
+ A solution is to select only a subset of the boxes, by finding blobs likely
+ to contain objects without class consideration.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Region proposal: selective search
+\series default
+, by Uijlings et al.
+ in 2013
+\end_layout
+
+\begin_layout Standard
+Selective search is a widely used tool to provide regions of interest in
+ images.
+ The regions are computed following the pipeline:
+\end_layout
+
+\begin_layout Enumerate
+Ascendant segmentation: The algorithm starts with a fine-grained segmentation
+ of the image, where many small regions are created based on pixel similarity
+ (color, texture, etc.).
+ This is often done using a graph-based segmentation method.
+\end_layout
+
+\begin_layout Enumerate
+Fuse regions at different scales: The segmented regions are then hierarchically
+ merged based on various similarity measures.
+ This process is iterative, with smaller regions combining to form larger
+ ones.
+ This step is crucial as it operates over multiple scales, allowing the
+ algorithm to be more robust in detecting objects of different sizes and
+ aspects.
+\end_layout
+
+\begin_layout Enumerate
+Convert regions to potential boxes of interest: The resulting regions from
+ the previous step are then used to generate bounding boxes, which are the
+ "region proposals." These are the candidate regions that could contain objects
+ and are subsequently used by an object detection model for classification.
+\end_layout
+
+\begin_layout Standard
+This process is depicted below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado40.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Intersection over Union (IoU)
+\end_layout
+
+\begin_layout Standard
+For two sets, 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+, the Jaccard index, or Intersection over Union, is the reatio of the intersecti
+on area to their union are
+\begin_inset Formula 
+\[
+J\left(A,B\right)=\frac{\left|A\cap B\right|}{\left|A\cup B\right|}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Label region proposal
+\end_layout
+
+\begin_layout Standard
+Region proposal anchor boxes are associated to ground-truth bounding boxes
+ given their IoU (above a threshold).
+ The class of an anchor is the same as its associated bounding box.
+ If the anchor box is not associated to a bounding box, it is labeled as
+ background.
+\end_layout
+
+\begin_layout Standard
+The offsets, relative to the position of central coordinates between anchor
+ box and boundingbox, label the region.
+\end_layout
+
+\begin_layout Standard
+That is, proposal anchor boxes are labeled with the same label of a ground-truth
+ bounding box if their IoU is above a given threshold.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+R-CNN
+\series default
+, by Girshick et al.
+ in 2014
+\end_layout
+
+\begin_layout Standard
+R-CNN takes region proposal as input.
+ It computes features for each of the regions, and the classification is
+ done using several SVMs.
+ The regression of offsets is done by using a linear regression model.
+\end_layout
+
+\begin_layout Standard
+To train R-CNNs, there is a supervised pretraining of a CNN backbone, generally
+ on ImageNet, followed by an optional fine-tuning of the backbone, to learn
+ specialised features based on a classification obkective.
+ The backbone is then fixed.
+\end_layout
+
+\begin_layout Standard
+For each input: crop and wrap proposal regions computed by selective search
+ and compute the features.
+ Train a binary SVM for each class, and apply linear regression to crrect
+ small offsets between the prediction and the actual bounding box.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado41.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Evaluating detection models
+\end_layout
+
+\begin_layout Standard
+The meaning of true positive, false positive and false negative for the
+ detection problem is not the same as for regular classification problems.
+ The threshold for True and Falso positive/negatives is based on the IoU
+ and a given threshold.
+ For example:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado42.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Remember, 
+\begin_inset Formula $precision=\frac{TP}{TP+FP}$
+\end_inset
+
+ and 
+\begin_inset Formula $recall=\frac{TP}{TP+FN}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+average precision
+\series default
+ is the area ander the prevision-recall curve.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+mean-average precision
+\series default
+ is the mean of average precision for various IoU threholds.
+\end_layout
+
+\begin_layout Standard
+R-CNNs is slow in testing phase, because there are as many passes in the
+ CNN as the number of region proposals, which is around 2000.
+ Also, SVM and regression are a bit old school, so this architecture is
+ not usable for real world applications.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Fast R-CNN
+\series default
+, by Girshick in 2015
+\end_layout
+
+\begin_layout Standard
+This modification of R-CNN was proposed to increase its efficiency.
+ It passes thewhole image only once in the CNN backbone.
+ The CNN is trainable, and not fixed, and the proposed regions are associated
+ with computed features from the output feature map.
+\end_layout
+
+\begin_layout Standard
+Each region of interest can have a different size, so selective search proposed
+ regions are concatenated with features from the CNN to form the 
+\series bold
+Region of Interest (RoI) Pooling Layer
+\series default
+, which reshape the features to feed them to fully connected layers.
+ From these features the classes and the offsets are predicted.
+\end_layout
+
+\begin_layout Standard
+The following table compares R-CNN and Fast R-CNN:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R-CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fast R-CNN
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test time per image
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+47 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.32 s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speedup
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+146x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test time per image with selective search
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+2 s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speedup
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+25x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Faster R-CNN
+\series default
+, by Ren et al.
+ in 2017
+\end_layout
+
+\begin_layout Standard
+This new modification replaces selective search by a learned region proposal
+ network.
+ The rest is similar to Fast R-CNN.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+region proposal network (RPN)
+\series default
+ is a network learned to propose regions of interest.
+ It slides a window on the feature size, and, at each location of the window,
+ it makes a prediction for 
+\begin_inset Formula $k$
+\end_inset
+
+ anchors (propositions), which are sampled by varying scale and aspect ratio.
+ A small network predicts if there is an object there, and a small network
+ predicts offsets with the bounding box.
+\end_layout
+
+\begin_layout Standard
+The following table compares the three approaches:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R-CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fast R-CNN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Faster R-CNN
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Test time per image (with proposals)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.2 s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speedup
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25x
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+250x
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mAP (VOC 2007)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+66.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+66.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+66.9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+You Only Look Once (YOLO)
+\series default
+, by Redmon et al.
+ in 2016
+\end_layout
+
+\begin_layout Standard
+This model is a single stage detector: one network is used to predict the
+ bounding boxes and the class probabilities.
+ It is the first real time detector close to Faster R-CNN performance.
+\end_layout
+
+\begin_layout Standard
+Its architecture consists of 24 convolutional layers and input dimension
+ of 
+\begin_inset Formula $448\times448$
+\end_inset
+
+.
+ For each input, it cuts it in 
+\begin_inset Formula $7\times7$
+\end_inset
+
+ grids of cells.
+ Each cell computes the objectness and anchor boxes, considering the object
+ at the center of the cell, and enabling the boxes to reach out the cell.
+\end_layout
+
+\begin_layout Standard
+This model has been enhanced multiple times, with YoLo v2, v3, v4, v5,...
+\end_layout
+
+\begin_layout Subsubsection
+Semantic Segmentation
+\end_layout
+
+\begin_layout Standard
+The goal in this case is to find an object class for each pixel.
+ There are several associated problems:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Semantic segmentation
+\series default
+: associate each pixel to a specific class.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instance segmentation
+\series default
+: associate each pixel to a specific class and identify various instances
+ from the same class.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Panoptic segmentation
+\series default
+: associate each pixel to once class, and prevent overlapping segments.
+\end_layout
+
+\begin_layout Standard
+These are illustrated below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado43.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Mask R-CNN
+\series default
+ by He et al.
+ in 2017
+\end_layout
+
+\begin_layout Standard
+Basically, it is Faster R-CNN with a third branch, which outputs the object
+ mask.
+ 
+\end_layout
+
+\begin_layout Standard
+It can use various backbones such as ResNet, DenseNet,...
+\end_layout
+
+\begin_layout Subsection
+Data and Transfer
+\end_layout
+
+\begin_layout Standard
+Modern CNNs are made of millions of parameters, requiring a huge amount
+ of data to train them.
+ For example, ImageNet has 1.2M images for 1k classes, and is being replaced
+ by ImageNet21k, that has 1B images.
+\end_layout
+
+\begin_layout Standard
+Manually annotating such amount of images is costly in terms of money and
+ time, and therefore there is the need for techniques to deal with lacking
+ of data: data augmentation and transfer learning.
+\end_layout
+
+\begin_layout Subsubsection
+Data Augmentation
+\end_layout
+
+\begin_layout Standard
+We already saw it! It increases the diversity of data by transforming the
+ source data with invariants
+\end_layout
+
+\begin_layout Subsubsection
+Transfer Learning
+\end_layout
+
+\begin_layout Standard
+Sometimes there is possibility to learn from scratch, by random initialisation,
+ because of lack of data.
+ In this case, we can make use of an already 
+\series bold
+pre-trained
+\series default
+ backbone from a source task for the target task.
+\end_layout
+
+\begin_layout Itemize
+If the target task is similar to the source task, and the size is comparable,
+ transfer learning works directly; while if the size is inferior, there
+ is a risk of overfitting to the target task after few epochs.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For small problems, the transfer learning is accomplished by learning a
+ linear classifier with last layers of a pre-trained backbone.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If the target task is very different from the the source task, and the problem
+ is small, a linear classifier from lower level layers can be used; if the
+ problem is large, we can fine-tune the backbone to the new task.
+\end_layout
+
+\begin_layout Standard
+In all cases, starting from initialized weights is better than nothing.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Fine tuning
+\end_layout
+
+\begin_layout Standard
+Fine tuning consists in training several layers of a pre-trained backbone:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado44.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Domain Adaptation
+\end_layout
+
+\begin_layout Standard
+Sometimes, the target task and the source task share the same classes, but
+ the target data has a different distribution than the source.
+ This is an entire field in ML: how to adapt our features to the new domain,
+ and have the best possible results.
+\end_layout
+
+\begin_layout Subsection
+Self-Supervised Learning (SSL)
+\end_layout
+
+\begin_layout Standard
+We already know supervised learning.
+ It consists on predicting a target associated to an input.
+ 
+\end_layout
+
+\begin_layout Standard
+Self-Supervised Learning (SSL) is different.
+ It consists on predicting a part of en input, from the input.
+ This means the model learns to understand and generate data by teaching
+ itself.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+pretext task
+\series default
+ is a task designed to teach the model something about the structure of
+ the input data without using labels.
+ For example, the pretext task might involve predicting the next word in
+ a sentence, or the color version of a grayscale image.
+ The idea is to construct targets from the data itself and learn from these
+ artificially created labels.
+\end_layout
+
+\begin_layout Standard
+SSL presents several advantages:
+\end_layout
+
+\begin_layout Itemize
+Reduces the Need for Labeled Data: Labeling is often expensive and time-consumin
+g, and SSL offers a way to learn useful representations without the need
+ for extensive labeled datasets.
+ 
+\end_layout
+
+\begin_layout Itemize
+Better Pre-training: SSL can serve as pre-training for neural networks,
+ allowing them to learn general features from the data that can then be
+ refined with a smaller amount of labeled data for a specific task (using
+ transfer learning).
+\end_layout
+
+\begin_layout Standard
+All this is illustrated below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado45.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For images, several pretext tasks have been firstly proposed, like rotation,
+ patch localization, colorization, counting,...
+\end_layout
+
+\begin_layout Standard
+For videos, which add the time dimension, we find the same pretext tasks
+ as in images, plus some others specific to videos, which can be masking
+ frames, shuffling frames,...
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Contrastive Learning
+\end_layout
+
+\begin_layout Standard
+Constrastive Learning is a pretext task for SSL.
+ It aligns positively pairs of images, and push away other images.
+ We find the problem of defining what is a positive pair, which can be solved
+ by using data augmentation.
+\end_layout
+
+\begin_layout Standard
+The following figure illustrates this concept:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado46.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SimCLR
+\series default
+, by Chen et al.
+ in 2020
+\end_layout
+
+\begin_layout Standard
+This model defines a siamese pipeline for contrastive learning.
+ Positive pairs are formed from strong data augmentation, like color jittering,
+ gaussian blur, grayscale, etc.
+ Both paris go through an encoder and a projector, which consists on several
+ stacked MLP layers.
+ Then, contrastive loss is applied.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado47.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+SCE
+\series default
+, by Denize et al.
+ in 2021
+\end_layout
+
+\begin_layout Standard
+This model tries to address the problem of how to deal with negatives that
+ share semantic information with the positive pairs.
+ For example, two different cats share more information than two different
+ dogs.
+ Pushing negatives with high semantic similarities makes training unstable,
+ and so SCE predicts positive pairs and estimated relations among instances.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Deep Cluster
+\series default
+, by Caron et al.
+ in 2018
+\end_layout
+
+\begin_layout Standard
+Clustering associates several input data to a same pseudo-label, without
+ supervision.
+\end_layout
+
+\begin_layout Standard
+Deep Cluster applies clustering to traing a backbone using several stages:
+\end_layout
+
+\begin_layout Itemize
+Estimate pseudo-labels for each instance with a fixed backbone.
+\end_layout
+
+\begin_layout Itemize
+Train the backbone on this label.
+\end_layout
+
+\begin_layout Itemize
+Repeat the operations until convergence.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
