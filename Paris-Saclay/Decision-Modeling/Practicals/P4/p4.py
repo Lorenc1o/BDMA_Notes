@@ -362,25 +362,36 @@ def bestRecommendWithCosine(person, critiques):
     recommendations.sort(key=lambda x: x[1], reverse=True)
     return recommendations
 
-def Jaccard(person1, person2):
-    """Computes the Jaccard similarity between two persons.
+def Tanimoto(person1, person2):
+    """Computes the Tanimoto coefficient between two persons.
 
     Args:
         person1 (dict): the first person.
         person2 (dict): the second person.
 
     Returns:
-        float: the Jaccard similarity between the two persons.
+        float: the Tanimoto coefficient between the two persons.
     """
-    intersection = 0
-    union = 0
+    sum_xy = 0
+    sum_x2 = 0
+    sum_y2 = 0
+
     for key in person1:
         if key in person2:
-            intersection += 1
-    union = len(person1) + len(person2) - intersection
-    return intersection / union
+            x = person1[key]
+            y = person2[key]
+            sum_xy += x * y
+            sum_x2 += x**2
+            sum_y2 += y**2
 
-def bestRecommendWithJaccard(person, critiques):
+    denominator = sum_x2 + sum_y2 - sum_xy
+
+    if denominator == 0:
+        return 0
+
+    return sum_xy / denominator
+
+def bestRecommendWithTanimoto(person, critiques):
     """Computes the best recommendations for a person.
     
     Args:
@@ -391,7 +402,7 @@ def bestRecommendWithJaccard(person, critiques):
         list: the list of best recommendations for the person.
     """
     # For each movie not seen by the person, compute the weighted average of the ratings of the nearest neighbors.
-    # The weight of a neighbor is the Jaccard similarity. In this case we don't need to compute the exponential, because the Jaccard similarity is already positive.
+    # The weight of a neighbor is the Tanimoto similarity. In this case we don't need to compute the exponential, because the Tanimoto similarity is already positive.
     # The rating of a neighbor is the rating of the movie by the neighbor.
     recommendations = []
     inverted = invertDict(critiques)
@@ -400,8 +411,8 @@ def bestRecommendWithJaccard(person, critiques):
             total = 0
             s = 0
             for critic in inverted[movie]:
-                total += inverted[movie][critic] * Jaccard(critiques[person], critiques[critic])
-                s += Jaccard(critiques[person], critiques[critic])
+                total += inverted[movie][critic] * Tanimoto(critiques[person], critiques[critic])
+                s += Tanimoto(critiques[person], critiques[critic])
 
             if s == 0:
                 recommendations.append((movie, 0))
@@ -421,9 +432,9 @@ def getTableOfRecommendations(users, critiques):
     Returns:
         pd.DataFrame: the table of recommendations.
     """
-    table = pd.DataFrame(columns=["Nearest neighbor", "Best", "Best with exp", "Pearson", "Best with Pearson", "Cosine", "Best with cosine", "Best with Jaccard"])
+    table = pd.DataFrame(columns=["Nearest neighbor", "Best", "Best with exp", "Pearson", "Best with Pearson", "Cosine", "Best with cosine", "Best with Tanimoto"])
     for user in users:
-        table.loc[user] = [recommendNearestNeighbor(user, critiques, 'Manh')[0][0], bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], pearsonRecommend(user, critiques)[0][0][0], bestRecommendWithPearson(user, critiques)[0][0], cosineRecommend(user, critiques)[0][0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithJaccard(user, critiques)[0][0]]
+        table.loc[user] = [recommendNearestNeighbor(user, critiques, 'Manh')[0][0], bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], pearsonRecommend(user, critiques)[0][0][0], bestRecommendWithPearson(user, critiques)[0][0], cosineRecommend(user, critiques)[0][0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithTanimoto(user, critiques)[0][0]]
     return table
 
 def getTableOfRecommendations_v2(users, critiques):
@@ -436,9 +447,9 @@ def getTableOfRecommendations_v2(users, critiques):
     Returns:
         pd.DataFrame: the table of recommendations.
     """
-    table = pd.DataFrame(columns=["Best", "Best with exp", "Best with Pearson", "Best with cosine", "Best with Jaccard"])
+    table = pd.DataFrame(columns=["Best", "Best with exp", "Best with Pearson", "Best with cosine", "Best with Tanimoto"])
     for user in users:
-        table.loc[user] = [bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], bestRecommendWithPearson(user, critiques)[0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithJaccard(user, critiques)[0][0]]
+        table.loc[user] = [bestRecommend(user, critiques)[0][0], bestRecommentWithExp(user, critiques)[0][0], bestRecommendWithPearson(user, critiques)[0][0], bestRecommendWithCosine(user, critiques)[0][0], bestRecommendWithTanimoto(user, critiques)[0][0]]
     return table
 
 def checkMinBlanks(critiques):
@@ -507,7 +518,7 @@ def CritiquesGenerator(n = 10, m = 15):
     for i in range(n):
         critiques["Person "+str(i+1)] = {}
         for j in range(m):
-            if random.random() < 0.2:
+            if random.random() < 0.4:
                 critiques["Person "+str(i+1)]["Movie "+str(j+1)] = ""
             else:
                 critiques["Person "+str(i+1)]["Movie "+str(j+1)] = random.randint(1, 5)

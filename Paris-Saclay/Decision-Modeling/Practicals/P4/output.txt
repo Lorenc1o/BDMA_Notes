@@ -1,0 +1,145 @@
+[93mReading Excel file...
+Done.[0m
+{'Lady': 2.5, 'Snakes': 3.5, 'Luck': 3.0, 'Superman': 3.5, 'Dupree': 2.5, 'Night': 3.0}
+[93mComputing Manhattan distance...[0m
+4.5
+[93mComputing Euclidean distance...[0m
+2.3979157616563596
+[93mComputing nearest neighbors...[0m
+[94mFor Lisa Rose:[0m
+[('Michael Phillips', 1.5), ('Claudia Puig', 2.0), ('Anne', 2.5), ('Mick Lasalle', 3.0), ('Toby', 3.0), ('Jack Matthews', 3.5), ('Gene Seymour', 4.5)]
+[94mFor Toby:[0m
+[('Anne', 1.0), ('Michael Phillips', 2.0), ('Claudia Puig', 2.5), ('Mick Lasalle', 2.5), ('Lisa Rose', 3.0), ('Jack Matthews', 4.0), ('Gene Seymour', 4.5)]
+[93mComputing recommendations...[0m
+[94mFor Lisa Rose:[0m
+[]
+[94mFor Toby:[0m
+[('Luck', 4.0), ('Lady', 1.5)]
+[93mComputing best recommendations...[0m
+[94mFor Anne:[0m
+[('Superman', 3.908627564898196), ('Snakes', 3.7102754377162173), ('Night', 3.6071368399770862)]
+[93mComputing best recommendations with exponential function...[0m
+[94mFor Anne:[0m
+[('Night', 3.927900678942954), ('Superman', 3.821068742837592), ('Snakes', 3.699042610620127)]
+[93mComputing Pearson recommendations...[0m
+For Anne, the pearson correlations are:
+	Lisa Rose: 0.9819805060619622
+	Gene Seymour: -0.9078412990032034
+	Michael Phillips: 0
+	Claudia Puig: 0.9999999999999998
+	Mick Lasalle: -0.6546536707079765
+	Jack Matthews: 0.9999999999999998
+	Toby: 0
+For Anne:, the recommendations are:
+([('Night', 4.5), ('Superman', 4.0), ('Snakes', 3.5)], 'Claudia Puig')
+If we weight the recommendations by the Pearson correlation coefficient, we get:
+[('Superman', 4.069558670324343), ('Snakes', 3.6921199365977326), ('Night', 3.506258017730156)]
+[93mComputing cosine recommendations...[0m
+[94mFor Anne:[0m
+([('Snakes', 4.5), ('Superman', 4.0)], 'Toby')
+If we weight the recommendations by the cosine correlation coefficient, we get:
+[('Superman', 3.973339341194271), ('Snakes', 3.7541226482666006), ('Night', 3.4829217290645857)]
+[93mReading Excel file...
+Done.[0m
+Angellica: {'Blues Traveler': 3.5, 'Broken Bells': 2.0, 'Norah Jones': 4.5, 'Phoenix': 5.0, 'Slightly Stoopid': 1.5, 'The Strokes': 2.5, 'Vampire Weekend': 2.0}
+Bill: {'Blues Traveler': 2.0, 'Broken Bells': 3.5, 'Deadmau5': 4.0, 'Phoenix': 2.0, 'Slightly Stoopid': 3.5, 'Vampire Weekend': 3.0}
+Chan: {'Blues Traveler': 5.0, 'Broken Bells': 1.0, 'Deadmau5': 1.0, 'Norah Jones': 3.0, 'Phoenix': 5.0, 'Slightly Stoopid': 1.0}
+Dan: {'Blues Traveler': 3.0, 'Broken Bells': 4.0, 'Deadmau5': 4.5, 'Phoenix': 3.0, 'Slightly Stoopid': 4.5, 'The Strokes': 4.0, 'Vampire Weekend': 2.0}
+Hailey: {'Broken Bells': 4.0, 'Deadmau5': 1.0, 'Norah Jones': 4.0, 'The Strokes': 4.0, 'Vampire Weekend': 1.0}
+Jordyn: {'Broken Bells': 4.5, 'Deadmau5': 4.0, 'Norah Jones': 5.0, 'Phoenix': 5.0, 'Slightly Stoopid': 4.5, 'The Strokes': 4.0, 'Vampire Weekend': 4.0}
+Sam: {'Blues Traveler': 5.0, 'Broken Bells': 2.0, 'Norah Jones': 3.0, 'Phoenix': 5.0, 'Slightly Stoopid': 4.0, 'The Strokes': 5.0}
+Veronica: {'Blues Traveler': 3.0, 'Norah Jones': 5.0, 'Phoenix': 4.0, 'Slightly Stoopid': 2.5, 'The Strokes': 3.0}
+[93mComputing recommendations...[0m
+[94mFor Veronica:[0m
+	Nearest neighbor:
+		[('Broken Bells', 4.0), ('Deadmau5', 1.0), ('Vampire Weekend', 1.0)]
+	Best:
+		[('Broken Bells', 3.243288590604027), ('Deadmau5', 2.78125), ('Vampire Weekend', 2.230769230769231)]
+	Best with exponential function:
+		[('Broken Bells', 3.7060486400373835), ('Deadmau5', 1.907255466380703), ('Vampire Weekend', 1.6353931490705687)]
+	Pearson:
+		([('Broken Bells', 2.0), ('Vampire Weekend', 2.0)], 'Angellica')
+	Best with Pearson:
+		[('Broken Bells', 2.923810055917128), ('Deadmau5', 2.7490552938566695), ('Vampire Weekend', 2.5812113652288415)]
+	Cosine:
+		([('Deadmau5', 4.0), ('Broken Bells', 3.5), ('Vampire Weekend', 3.0)], 'Bill')
+	Best with cosine:
+		[('Broken Bells', 3.0196492938219195), ('Deadmau5', 2.9438999903674907), ('Vampire Weekend', 2.4076899918517083)]
+[94mFor Hailey:[0m
+	Nearest neighbor:
+		[('Phoenix', 4.0), ('Blues Traveler', 3.0), ('Slightly Stoopid', 2.5)]
+	Best:
+		[('Phoenix', 4.1439456113154405), ('Blues Traveler', 3.59036030937559), ('Slightly Stoopid', 2.9330932044540363)]
+	Best with exponential function:
+		[('Phoenix', 4.1267130055552235), ('Blues Traveler', 3.374134370081063), ('Slightly Stoopid', 2.6063133402163063)]
+	Pearson:
+		([('Phoenix', 5.0), ('Slightly Stoopid', 4.5)], 'Jordyn')
+	Best with Pearson:
+		[('Phoenix', 4.267321196498178), ('Blues Traveler', 3.661358708336797), ('Slightly Stoopid', 3.0424877709151654)]
+	Cosine:
+		([('Blues Traveler', 5.0), ('Phoenix', 5.0), ('Slightly Stoopid', 1.0)], 'Chan')
+	Best with cosine:
+		[('Phoenix', 4.144195214158697), ('Blues Traveler', 3.5975159372603907), ('Slightly Stoopid', 3.040335052684877)]
+[93mComputing table of recommendations...[0m
+     Nearest neighbor      Best  ... Best with cosine Best with Tanimoto
+Anne            Night  Superman  ...         Superman           Superman
+
+[1 rows x 8 columns]
+[93mComputing table of recommendations...[0m
+         Nearest neighbor          Best  ... Best with cosine Best with Tanimoto
+Veronica     Broken Bells  Broken Bells  ...     Broken Bells       Broken Bells
+Hailey            Phoenix       Phoenix  ...          Phoenix            Phoenix
+
+[2 rows x 8 columns]
+[93mGenerating table of critiques...[0m
+[94mThe table of critiques is:[0m
+          Person 1  Person 2  Person 3  ...  Person 8  Person 9  Person 10
+Movie 1        5.0       NaN       4.0  ...       NaN       5.0        NaN
+Movie 2        5.0       NaN       5.0  ...       3.0       NaN        2.0
+Movie 6        3.0       NaN       3.0  ...       NaN       4.0        1.0
+Movie 7        2.0       4.0       NaN  ...       4.0       4.0        NaN
+Movie 13       5.0       1.0       2.0  ...       4.0       NaN        4.0
+Movie 14       2.0       4.0       2.0  ...       NaN       3.0        2.0
+Movie 15       3.0       3.0       3.0  ...       1.0       3.0        1.0
+Movie 3        NaN       2.0       3.0  ...       NaN       1.0        NaN
+Movie 4        NaN       4.0       2.0  ...       3.0       NaN        4.0
+Movie 5        NaN       4.0       5.0  ...       5.0       NaN        NaN
+Movie 8        NaN       1.0       2.0  ...       NaN       NaN        2.0
+Movie 9        NaN       3.0       4.0  ...       5.0       3.0        2.0
+Movie 10       NaN       5.0       4.0  ...       NaN       4.0        2.0
+Movie 11       NaN       3.0       NaN  ...       NaN       NaN        4.0
+Movie 12       NaN       5.0       4.0  ...       2.0       2.0        NaN
+
+[15 rows x 10 columns]
+There are 51 NaNs in the table, that is 34.0% of the table.
+[94mThe table of recommendations is:[0m
+             Best Best with exp  ... Best with cosine Best with Tanimoto
+Person 1  Movie 5       Movie 5  ...          Movie 5            Movie 5
+
+[1 rows x 5 columns]
+[93mGenerating table of critiques...[0m
+[94mThe table of critiques is:[0m
+          Person 1  Person 2  Person 3  ...  Person 8  Person 9  Person 10
+Movie 2        2.0       4.0       4.0  ...       2.0       5.0        1.0
+Movie 3        5.0       2.0       3.0  ...       NaN       5.0        NaN
+Movie 4        4.0       1.0       4.0  ...       NaN       NaN        2.0
+Movie 5        1.0       2.0       NaN  ...       1.0       2.0        NaN
+Movie 6        3.0       2.0       NaN  ...       NaN       NaN        NaN
+Movie 7        5.0       NaN       NaN  ...       NaN       4.0        1.0
+Movie 9        1.0       4.0       NaN  ...       NaN       2.0        2.0
+Movie 10       5.0       5.0       NaN  ...       1.0       NaN        NaN
+Movie 11       5.0       1.0       3.0  ...       NaN       4.0        NaN
+Movie 13       2.0       NaN       1.0  ...       1.0       1.0        NaN
+Movie 14       4.0       NaN       NaN  ...       2.0       1.0        NaN
+Movie 1        NaN       4.0       NaN  ...       NaN       NaN        NaN
+Movie 12       NaN       5.0       NaN  ...       1.0       NaN        1.0
+Movie 15       NaN       5.0       4.0  ...       2.0       NaN        NaN
+Movie 8        NaN       NaN       NaN  ...       NaN       5.0        2.0
+
+[15 rows x 10 columns]
+There are 60 NaNs in the table, that is 40.0% of the table.
+[94mThe table of recommendations is:[0m
+              Best Best with exp  ... Best with cosine Best with Tanimoto
+Person 3  Movie 12      Movie 14  ...          Movie 9            Movie 8
+
+[1 rows x 5 columns]
