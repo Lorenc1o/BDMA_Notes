@@ -7796,6 +7796,684 @@ Train the backbone on this label.
 Repeat the operations until convergence.
 \end_layout
 
+\begin_layout Section
+Recurrent Neural Networks
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+Recurrent Neural Networks are a family of Neural Network architectures specially
+ designed to deal with sequential data, such as text in NLP, speech signals
+ in speech2text tasks, temporal data in videos, or other temporal signals,
+ like ECGs, time series, etc.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Sequential data
+\series default
+ is data with a temporal component, that usually implies correlation in
+ the temporal dimension.
+ More precisely, a 
+\series bold
+sequence
+\series default
+ consists in a set of vectors 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+, where 
+\begin_inset Formula $t\in\left[1,\tau\right]$
+\end_inset
+
+ is a temporal index.
+\end_layout
+
+\begin_layout Standard
+Note that the temporal index is not necessarily related to time, but to
+ order.
+ For example, text is not temporal, but words are ordered.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Memory
+\series default
+ is essential for us to understand and interpret what we perceive.
+ Memory can be understood as a persistent format of information.
+ MLP don't have this persistence, each data point is processed independently
+ of the rest.
+ Therefore, RNNs introduce a way to store information, by adding inner loops
+ that enables them to preserve information at each time-step.
+\end_layout
+
+\begin_layout Subsection
+Recurrent Neural Networks
+\end_layout
+
+\begin_layout Standard
+A Recurrent Neural Network (RNN) is defined with a state, 
+\begin_inset Formula $h^{\left(t\right)}$
+\end_inset
+
+, by recurrence.
+ This state depends on the current input, 
+\begin_inset Formula $x^{\left(t\right)}$
+\end_inset
+
+, and the previous state, 
+\begin_inset Formula $h^{\left(t-1\right)}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+h^{\left(t\right)}=f\left(h^{\left(t-1\right)},x^{\left(t\right)};\theta\right).
+\]
+
+\end_inset
+
+ The computational graph can be represented with a loop, or unfolded, making
+ it direct and acyclic, as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado50.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A RNN is trained to predict the future, given past information, in such
+ a way that 
+\begin_inset Formula $h^{\left(t\right)}$
+\end_inset
+
+ is a summary of the sequence until the timestep 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ This summarization implies information compression, or loss of information,
+ and the training must keep relevant information for the task.
+\end_layout
+
+\begin_layout Standard
+Going back to the definition of the state, we can then write it alternative
+ as
+\begin_inset Formula 
+\[
+h^{\left(t\right)}=f\left(h^{\left(t-1\right)},x^{\left(t\right)};\theta\right)=g^{\left(t\right)}\left(x^{\left(t\right)},x^{\left(t-1\right)},...,x^{\left(1\right)}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $g^{\left(t\right)}$
+\end_inset
+
+ takes the whole sequence as input, of variable length.
+\end_layout
+
+\begin_layout Standard
+On the other hand, using the factorized form, with 
+\series bold
+transition function 
+\begin_inset Formula $f$
+\end_inset
+
+
+\series default
+, the function is the same at each timestep, allowing for parameter sharing
+ and generalization.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+RNNs are universal approximators.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We measure the performance of a RNN through the cost function 
+\begin_inset Formula $L$
+\end_inset
+
+, between the output 
+\begin_inset Formula $o$
+\end_inset
+
+ and the ground truth 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ Internatlly, we use softmax:
+\begin_inset Formula 
+\[
+\hat{y}_{i}=\frac{e^{o_{i}}}{\sum_{j}e^{o_{j}}}.
+\]
+
+\end_inset
+
+ The parameters of a RNN are:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $U$
+\end_inset
+
+: input to hidden layers.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $W$
+\end_inset
+
+: recurrent connections between hidden layers.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V$
+\end_inset
+
+: hidden layers to output.
+\end_layout
+
+\begin_layout Standard
+That is:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado51.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Direct Propagation
+\end_layout
+
+\begin_layout Standard
+In the case of discrete variable prediction (like words), 
+\begin_inset Formula $o$
+\end_inset
+
+ represents log-likelihoods of possible output values, and the normalize
+ probability is 
+\begin_inset Formula $\hat{y}=softmax\left(o\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Direct propagation works by:
+\begin_inset Formula 
+\begin{align*}
+a^{\left(t\right)} & =b+Wh^{\left(t-1\right)}+Ux^{\left(t\right)},\\
+h^{\left(t\right)} & =\phi\left(a^{\left(t\right)}\right),\\
+o^{\left(t\right)} & =c+Vh^{\left(t\right)},\\
+\hat{y}^{\left(t\right)} & =softmax\left(o^{\left(t\right)}\right),
+\end{align*}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is the activation function.
+\end_layout
+
+\begin_layout Subsubsection
+Recurrent Neural Networks with output recurrence
+\end_layout
+
+\begin_layout Standard
+We don't link directly hidden layers recurrently, but rather we link the
+ output to a hidden layer.
+ This has the cons of using less information than 
+\begin_inset Formula $h^{\left(t-1\right)}$
+\end_inset
+
+, being therefore a less expressive model, but the pros of being easier
+ to train, enabling parallelization and efficient backpropagation.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado52.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Recurrent Neural Networks with unique output
+\end_layout
+
+\begin_layout Standard
+In this case, it needs the complete input sequence, and the output is a
+ summary of the input.
+ This kind of setting is usually used a simpler module of a more complex
+ architecture.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado53.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+More architectures
+\end_layout
+
+\begin_layout Standard
+In this figure we observe different possible setups, which apply to different
+ use cases.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado54.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For instance:
+\end_layout
+
+\begin_layout Itemize
+Automatic captioning, converting images to text sequences, could be done
+ with a one to many architecture.
+\end_layout
+
+\begin_layout Itemize
+Sentiment analysis, converting a text sequence to a predicted label, could
+ be done with a many to one architecture.
+\end_layout
+
+\begin_layout Itemize
+Machine translation, converting text sequence to text sequence, could be
+ done with a many to many architecture.
+\end_layout
+
+\begin_layout Itemize
+Frame-label video classification, converting a video sequence into a sequence
+ of labels, could also be done with a many to many architecture.
+\end_layout
+
+\begin_layout Subsubsection
+Bi-Directional Recurrent Neural Network
+\end_layout
+
+\begin_layout Standard
+Sometimes, the future of the sequence can also be helpful, for example in
+ NLP, in Character recognition and even in Speech recognition.
+ For this, there exist the Bi-Directional RNN (BRNN), which combine a RNN
+ processing from past to future, with state 
+\begin_inset Formula $h$
+\end_inset
+
+, and a RNN processing from future to past, with state 
+\begin_inset Formula $g$
+\end_inset
+
+, and the output combines the two of them.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado55.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moreover, BRNN can be applied to images with 4 direction, applying them
+ up,down and left,right.
+ This is a bit outdated approach for visual recognition, with architectures
+ as ReNet for classification and ReSeg for segmentation.
+\end_layout
+
+\begin_layout Subsubsection
+Deep Recurrent Neural Network
+\end_layout
+
+\begin_layout Standard
+A classical RNN has an input layer, 
+\begin_inset Formula $U$
+\end_inset
+
+, a hidden layer, 
+\begin_inset Formula $W$
+\end_inset
+
+, and an output layer 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ However, we can add hidden layers, allowing to go higher in abstraction.
+\end_layout
+
+\begin_layout Standard
+The representation improves hierarchically:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h$
+\end_inset
+
+, the first state, represents temporal dependencies on inputs 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z$
+\end_inset
+
+, the second state, represents temporal dependencies on the representations
+ 
+\begin_inset Formula $h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado56.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also, we can add an MLP before every recurrent layer, increasing the representat
+ion capacity of the network, at the expense of a harder training.
+ A possibility to improve these is to use skip connections.
+\end_layout
+
+\begin_layout Subsection
+Recurrent Neural Networks Training
+\end_layout
+
+\begin_layout Standard
+The principle is the same as with MLP and CNNs: we choose a cost function
+ a minimize it during training using gradient descent with backpropagation.
+\end_layout
+
+\begin_layout Standard
+However, we need to take into account the recurrency of the network, and
+ so we use what is called 
+\series bold
+Backpropagation through time 
+\series default
+(BPTT), which consists in applying backpropagation to an unrolled graph
+ of the RNN.
+\end_layout
+
+\begin_layout Standard
+The idea is to forward through the entire sequence to compute the loss,
+ and then go backwards through the entire sequence to compute gradient.
+\end_layout
+
+\begin_layout Standard
+However, this can be very inefficient, so we also find the 
+\series bold
+truncated BPTT
+\series default
+, which does BPTT to chunks of the sequence, instead of the complete sequence.
+ The hidden states are carried forward in time until the end of the sequence,
+ but we only backpropagation for some smaller number of steps.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado57.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Long-Short Term Memory (LSTM) and Gated Recurrent Units (GRU)
+\end_layout
+
+\begin_layout Standard
+Classical RNN present two main limitations:
+\end_layout
+
+\begin_layout Enumerate
+A computation limitation: they are hard to train, and prone to gradient
+ vanishing and explosion.
+\end_layout
+
+\begin_layout Enumerate
+Long term interactions are hard to model.
+\end_layout
+
+\begin_layout Standard
+Some upgraded variants of RNNs are Long Short Term Memory (LSTM) and Gated
+ Recurrent Units (GRU).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gradient vanishing and exploding
+\series default
+: the reason RNNs are prone to gradient vanishing/exploding is that the
+ gradient needs to go through the unfolded computational graph.
+ If the largest singular value of the hidden matrix is greater than 1, a
+ recurrent multiplication by it would tend to increase the gradient vector,
+ leading to gradient explosion.
+ The opposite happens when the largest singular value is smaller than 1,
+ leading to gradient vanishing.
+\end_layout
+
+\begin_layout Standard
+The solution to gradient explosion can be using gradient clipping.
+\end_layout
+
+\begin_layout Standard
+The solution to gradient vanishing is to change the RNN architecture.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Long-term dependency problem
+\series default
+: RNNs can connect past information to present data, and, in theory, time
+ distance of information is irrelevant.
+ However, in practice, classical RNNs cannot model long sequences (more
+ than 20 points).
+\end_layout
+
+\begin_layout Subsubsection
+LSTM
+\end_layout
+
+\begin_layout Standard
+LSTM is based on a standard RNN whose neuron activates with 
+\begin_inset Formula $tanh$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado58.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $C_{t}$
+\end_inset
+
+ is the cell state, which flows through the entire chain and is updated
+ with a sum instead of a product.
+ This avoids memory vanishing and the gradient explosion and vanish.
+ 
+\end_layout
+
+\begin_layout Standard
+Then, there are three gates foverned by sigmoid units, which define the
+ control of in and out information.
+\end_layout
+
+\begin_layout Standard
+A key component is the forget gate,
+\begin_inset Formula 
+\[
+f_{t}=\sigma\left(W_{f}\cdot\left[h_{t-1},x_{t}\right]+b_{f}\right),
+\]
+
+\end_inset
+
+ which can affect the affect the previous state, letting it through or not
+ (forgetting).
+\end_layout
+
+\begin_layout Standard
+Then, the input gate layer,
+\begin_inset Formula 
+\[
+i_{t}=\sigma\left(W_{i}\cdot\left[h_{t-1},x_{t}\right]+b_{i}\right),
+\]
+
+\end_inset
+
+ which processes the input, contributing to the cell state.
+\end_layout
+
+\begin_layout Standard
+Then, there is the classical neuron, activated with 
+\begin_inset Formula $tanh$
+\end_inset
+
+, which also contributes to the cell state, by
+\begin_inset Formula 
+\[
+\hat{C}_{t}=tanh\left(W_{C}\cdot\left[h_{t-1},x_{t}\right]+b_{C}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, to update the cell state it is
+\begin_inset Formula 
+\[
+C_{t}=f_{t}\cdot C_{t-1}+i_{t}\cdot\hat{C}_{t}.
+\]
+
+\end_inset
+
+ Notice that the output is computed as
+\begin_inset Formula 
+\[
+h_{t}=tanh\left(C_{t}\right)+\sigma\left(W_{o}\cdot\left[h_{t-1},x_{t}\right]+b_{o}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+GRU
+\end_layout
+
+\begin_layout Standard
+GRU is a variant of LSTM, simpler and faster, and with similar performance.
+ It works by applying:
+\begin_inset Formula 
+\begin{align*}
+u_{i} & =\sigma\left(W_{u}\cdot x_{i}+U_{u}\cdot h_{i-1}+b_{u}\right),\\
+r_{i} & =\sigma\left(W_{r}\cdot x_{i}+U_{r}\cdot h_{i-1}+b_{r}\right),\\
+\hat{h}_{i} & =tanh\left(W_{h}\cdot x_{i}+r_{i}\circ U_{h}\cdot h_{i-1}+b_{h}\right),\\
+h_{i} & =u_{i}\circ\hat{h}_{i}+\left(1-u_{i}\right)\circ h_{i-1}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -19931,6 +20609,43 @@ This can be solved by weighting the data using the ratio
 \end_inset
 
 , but common under 
+\begin_inset Formula $d$
+\end_inset
+
+, and scale down events that are common under 
+\begin_inset Formula $d'$
+\end_inset
+
+, but rare under 
+\begin_inset Formula $d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Estimate one-step reward, with behavior 
+\begin_inset Formula $\mu\left(a|s\right)$
+\end_inset
+
+.
+ Then
+\begin_inset Formula 
+\[
+\mathbb{E}\left[R_{t+1}|S_{t}=s,A_{t}\sim\pi\right]=\sum_{a}\pi\left(a|s\right)r\left(s,a\right)=\sum\mu\left(a|s\right)\frac{\pi\left(a|s\right)}{\mu\left(a|s\right)}r\left(s,a\right)=\mathbb{E}\left[\frac{\pi\left(A_{t}|S_{t}\right)}{\mu\left(A_{t}|S_{t}\right)}R_{t+1}|S_{t}=s,A_{t}\sim\mu\right].
+\]
+
+\end_inset
+
+ Therefore, when following policy 
+\begin_inset Formula $\mu$
+\end_inset
+
+, we can use 
+\begin_inset Formula $\frac{\pi\left(A_{t}|S_{t}\right)}{\mu\left(A_{t}|S_{t}\right)}R_{t+1}$
+\end_inset
+
+ as unbiased sample.
 \end_layout
 
 \begin_layout Standard
