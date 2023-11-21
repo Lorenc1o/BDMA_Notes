@@ -19931,43 +19931,6 @@ This can be solved by weighting the data using the ratio
 \end_inset
 
 , but common under 
-\begin_inset Formula $d$
-\end_inset
-
-, and scale down events that are common under 
-\begin_inset Formula $d'$
-\end_inset
-
-, but rare under 
-\begin_inset Formula $d$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Example
-Estimate one-step reward, with behavior 
-\begin_inset Formula $\mu\left(a|s\right)$
-\end_inset
-
-.
- Then
-\begin_inset Formula 
-\[
-\mathbb{E}\left[R_{t+1}|S_{t}=s,A_{t}\sim\pi\right]=\sum_{a}\pi\left(a|s\right)r\left(s,a\right)=\sum\mu\left(a|s\right)\frac{\pi\left(a|s\right)}{\mu\left(a|s\right)}r\left(s,a\right)=\mathbb{E}\left[\frac{\pi\left(A_{t}|S_{t}\right)}{\mu\left(A_{t}|S_{t}\right)}R_{t+1}|S_{t}=s,A_{t}\sim\mu\right].
-\]
-
-\end_inset
-
- Therefore, when following policy 
-\begin_inset Formula $\mu$
-\end_inset
-
-, we can use 
-\begin_inset Formula $\frac{\pi\left(A_{t}|S_{t}\right)}{\mu\left(A_{t}|S_{t}\right)}R_{t+1}$
-\end_inset
-
- as unbiased sample.
 \end_layout
 
 \begin_layout Standard
