@@ -8489,6 +8489,887 @@ Even with these improvements, RNN struggle with long sequences, and remain
 : the Transformer.
 \end_layout
 
+\begin_layout Section
+Deep Generative Modelling
+\end_layout
+
+\begin_layout Standard
+Recall that the objective of supervised learning is to learn a mapping,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+, between a data sample, 
+\begin_inset Formula $x$
+\end_inset
+
+, and its label, 
+\begin_inset Formula $y$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+y=f\left(x\right).
+\]
+
+\end_inset
+
+ This can be formalized by learning the conditional distribution between
+ labels, given a data point, that is, 
+\begin_inset Formula $p\left(y|x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For this task, we need to have access the annotated pairs 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+.
+ The applications of supervised learning are classification, object detection,
+ segmentation, etc.
+\end_layout
+
+\begin_layout Standard
+On the other hand, unsupervised learning tries to learn the underlying hidden
+ data structure, formalized by the unconditional distribution data points,
+ 
+\begin_inset Formula $p\left(x\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In this case, we don't need any annotations to the data.
+ The applications of unsupervised learning are generative modelling, clustering,
+ feature learning, summarization, etc.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Generative modelling
+\series default
+ consists in learning a model, 
+\begin_inset Formula $M$
+\end_inset
+
+, that can approximate the data distribution, 
+\begin_inset Formula 
+\[
+p_{M}\left(x\right)\sim p\left(x\right),
+\]
+
+\end_inset
+
+ and should enable sampling easily.
+ That is, a generative model aims to provide:
+\end_layout
+
+\begin_layout Itemize
+Density estimation: it can evaluate the likelihood of a data point belonging
+ to the original distribution.
+\end_layout
+
+\begin_layout Itemize
+Sampling: it can provide likely samples.
+\end_layout
+
+\begin_layout Subsection
+Variational Auto-Encoders (VAE)
+\end_layout
+
+\begin_layout Subsubsection
+Auto-Encoders
+\end_layout
+
+\begin_layout Standard
+AEs are a type of unsupervised model used to learn low-dimensional latent
+ representations, 
+\begin_inset Formula $z$
+\end_inset
+
+, of data samples, 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ This means that the aim is to somehow try to summarize the input data space,
+ 
+\begin_inset Formula $X$
+\end_inset
+
+, into a smaller space, 
+\begin_inset Formula $Z$
+\end_inset
+
+, so 
+\begin_inset Formula $dim\left(Z\right)<dim\left(X\right)$
+\end_inset
+
+.
+ 
+\begin_inset Formula $Z$
+\end_inset
+
+ should capture relevant characteristics of data, and the choice of its
+ dimensionality is a compromise between interpretability and the amount
+ of information to keep.
+\end_layout
+
+\begin_layout Standard
+In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-autoencoders."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ we can see an illustration of autoencoders.
+ The input is processed by the encoder, which is able to embed it into a
+ smaller space, the 
+\series bold
+latent space
+\series default
+.
+ The decoder can take the point in the latent space and reconstruct the
+ original image.
+\end_layout
+
+\begin_layout Standard
+To train them, this process is applied to the training set, and the loss
+ function is the distance between the reconstructed images and the original
+ ones:
+\begin_inset Formula 
+\[
+\mathcal{L}\left(M,X\right)=\sum_{x\in X}\left\Vert M\left(x\right)-x\right\Vert ^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename autoencoder.png
+	scale 10
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-autoencoders."
+
+\end_inset
+
+Illustration of autoencoders.
+ Source: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://www.v7labs.com/blog/autoencoders-guide
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\color red
+problem
+\color inherit
+ of AEs is that they don't allow generation, because the distribution of
+ 
+\begin_inset Formula $p\left(z\right)$
+\end_inset
+
+ is difficult to sample from.
+\end_layout
+
+\begin_layout Standard
+To see this more clearly, let's discuss an example done by Joseph Rocca,
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "Understanding VAEs"
+target "https://towardsdatascience.com/understanding-variational-autoencoders-vaes-f70510919f73"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the following image, we observe how, when using AEs, points in the latent
+ space can have no real meaning, making it difficult to sample and generate
+ new objects, which is the ultimate goal of generative models.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado60.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+What is desirable, is that somehow, points in the latent space that are
+ close to each other, should have a similar real meaning, once they are
+ decoded:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado61.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This cannot be achieved with AEs, and this led to the introduction of Variationa
+l Auto-Encoders (VAEs).
+\end_layout
+
+\begin_layout Subsubsection
+Variational Auto-Encodersi
+\end_layout
+
+\begin_layout Standard
+In this case, the latent representation is not directly learnt, but rather
+ a 
+\series bold
+latent distribution
+\series default
+.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Illustration-of-a"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we observe the illustration of VAEs.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado62.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of a variational auto-encoder.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Illustration-of-a"
+
+\end_inset
+
+.
+ Source: 
+\begin_inset CommandInset href
+LatexCommand href
+name "Wikipedia"
+target "https://en.wikipedia.org/wiki/Variational_autoencoder"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, training is more complex.
+ We want to mazimize the data likelihood.
+ More precisely, its log-likelihood:
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\theta,\phi,x\right)=\log p_{\theta}\left(x\right).
+\]
+
+\end_inset
+
+ Notice that this is not dependent on the distribution of 
+\begin_inset Formula $z$
+\end_inset
+
+, 
+\begin_inset Formula $q_{\phi}$
+\end_inset
+
+, so we can write:
+\begin_inset Formula 
+\[
+\log p_{\theta}\left(x\right)=\mathbb{E}_{z\sim q_{\phi}\left(z|x\right)}\left[\log p_{\theta}\left(x\right)\right],
+\]
+
+\end_inset
+
+ and applying the reversed Bayes' Rule:
+\begin_inset Formula 
+\[
+\mathbb{E}_{z}\left[\log p_{\theta}\left(x\right)\right]=\mathbb{E}_{z}\left[log\frac{p_{\theta}\left(x|z\right)p_{\theta}\left(x\right)}{p_{\theta}\left(z|x\right)}\right].
+\]
+
+\end_inset
+
+ Here, we can multiply and divide by 
+\begin_inset Formula $q_{\phi}\left(z|x\right)$
+\end_inset
+
+ and use the properties of logarithms, to get:
+\begin_inset Formula 
+\[
+\mathbb{E}_{z}\left[\log p_{\theta}\left(x\right)\right]=\mathbb{E}_{z}\left[\log p_{\theta}\left(x|z\right)\right]-\mathbb{E}_{z}\left[\log\frac{q_{\phi}\left(z|x\right)}{p_{\theta}\left(z\right)}\right]+\mathbb{E}_{z}\left[\log\frac{q_{\phi}\left(z|x\right)}{p_{\theta}\left(z|x\right)}\right].
+\]
+
+\end_inset
+
+ Now, recalling the definition of the Kullback-Leibler Divergence:
+\begin_inset Formula 
+\[
+D_{KL}\left(P\parallel Q\right)=\mathbb{E}_{P}\left[\log\frac{P\left(x\right)}{Q\left(x\right)}\right],
+\]
+
+\end_inset
+
+ we can rewrite:
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\theta,\phi,x\right)=\mathbb{E}_{z}\left[\log p_{\theta}\left(x|z\right)\right]-D_{KL}\left(q_{\phi}\left(z|x\right)\parallel p_{\theta}\left(z\right)\right)+D_{KL}\left(q_{\phi}\left(z|x\right)\parallel p_{\theta}\left(z|x\right)\right).
+\]
+
+\end_inset
+
+ Now, the last term is very difficult to compute, because 
+\begin_inset Formula $p_{\theta}\left(z|x\right)$
+\end_inset
+
+ is intractable.
+ Since it is bigger than 0, we can bound 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+ from below by
+\begin_inset Formula 
+\[
+\mathcal{L}\left(\theta,\phi,x\right)\geq\mathbb{E}_{z}\left[\log p_{\theta}\left(x|z\right)\right]-D_{KL}\left(q_{\phi}\left(z|x\right)\parallel p_{\theta}\left(z\right)\right),
+\]
+
+\end_inset
+
+ this is called the 
+\series bold
+Evidence Lower Bound
+\series default
+.
+ The first term is called the 
+\series bold
+reconstruction term
+\series default
+, and can be approximated by sampling and serves to ensure good reconstructions
+ of the output.
+ The second term is the 
+\series bold
+regularisation term
+\series default
+, which makes the distribution of the encoder close to the prior.
+\end_layout
+
+\begin_layout Standard
+The impact of the regularisation is that it enables for 
+\series bold
+continuity
+\series default
+ in the latent representation, so that similar data samples have similar
+ latent representations; and it helps to ensure 
+\series bold
+completeness
+\series default
+ of the latent space, so that all latent points have a meaningful decoding.
+\end_layout
+
+\begin_layout Standard
+Joseph Rocca illustrates this as:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado63.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition to enabling continuity and completeness, or maybe thanks to
+ this, VAEs enable a much easier sampling and generation.
+ We can just sample 
+\begin_inset Formula $z$
+\end_inset
+
+ from a normal distribution, and process it through the decoder.
+\end_layout
+
+\begin_layout Subsection
+Generative Adversarial Networks
+\end_layout
+
+\begin_layout Standard
+Now, the objective is to sample for a high dimensional and multi-modal distribut
+ion, 
+\begin_inset Formula $p\left(x\right)$
+\end_inset
+
+, by learning a mapping, 
+\begin_inset Formula $G$
+\end_inset
+
+, between a simple distribution from which we can sample and the high dimensiona
+l distribution.
+ For this, Generative Adversarial Networks (GANs), consist of two components:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Discriminator
+\series default
+: tries to distinguish between generated and real data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Generator
+\series default
+: tries to fool the discriminator by creating likely samples.
+\end_layout
+
+\begin_layout Standard
+This is illustrated below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado64.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To train these models, we follow a minimax approach: the discriminator aims
+ at maximizing its success rate, while the generator aims to minimizing
+ the success rate of the discriminator.
+ This can be expressed as:
+\begin_inset Formula 
+\begin{align*}
+\mathcal{J}\left(D,G,X\right) & =\min_{G}\max_{D}V\left(D,G,X\right)\\
+ & =\min_{G}\max_{D}\mathbb{E}_{x\sim p_{data}\left(x\right)}\left[\log D\left(x\right)\right]+\mathbb{E}_{z\sim p_{z}\left(z\right)}\left[\log\left(1-D\left(G\left(z\right)\right)\right)\right].
+\end{align*}
+
+\end_inset
+
+ This can be divided:
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+discriminator loss
+\series default
+ is
+\begin_inset Formula 
+\[
+\mathcal{J}\left(D,X\right)=\max_{D}\mathbb{E}_{x\sim p_{data}\left(x\right)}\left[\log D\left(x\right)\right]+\mathbb{E}_{z\sim p_{z}\left(z\right)}\left[\log\left(1-D\left(G\left(z\right)\right)\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+generator loss
+\series default
+ is
+\begin_inset Formula 
+\[
+\mathcal{J}\left(G,X\right)=\min_{G}\mathbb{E}_{z\sim p_{z}\left(z\right)}\left[\log\left(1-D\left(G\left(z\right)\right)\right)\right].
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Once the training is done, generation is quite straightforward.
+ We only need to sample 
+\begin_inset Formula $z\sim p_{z}\left(z\right)$
+\end_inset
+
+ and process it with the generator module.
+\end_layout
+
+\begin_layout Standard
+An interesting property of GANs is that they show continuous representations
+ of the latent space, as shown in the figure below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado65.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Interpolating in the latent space of GANs.
+ Source: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "radford2015"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the following table, we compare GANs and VAEs in different aspects:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sample Quality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inference
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mode Coverage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Training Quality Assesment
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Training Stability
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+VAE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intermediate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Good
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GAN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Very good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bad
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intermediate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intermediate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intermediate
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Other Approaches
+\end_layout
+
+\begin_layout Subsubsection
+Normalizing Flows
+\end_layout
+
+\begin_layout Standard
+The idea is to transform a simple distribution into acomplex one, by applying
+ a sequence of invertible transformation functions.
+\end_layout
+
+\begin_layout Standard
+The pros of this approach is that it provides good sample quality, exact
+ inference and stable training.
+ However, it requires invertible neural networks.
+\end_layout
+
+\begin_layout Subsubsection
+Pixel RNN
+\end_layout
+
+\begin_layout Standard
+This approach consists in generated image pixels starting from the corner.
+ The dependencies between the current pixel and the previous ones is modelled
+ using an RNN.
+ The biggest drawback of this approach is that sequential generation is
+ very slow.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
