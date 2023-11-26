@@ -10086,6 +10086,1004 @@ Ordering guarantees
  However, this is not guaranteed.
 \end_layout
 
+\begin_layout Section
+Spark Parallel Computing Framework
+\end_layout
+
+\begin_layout Standard
+Nowadays, data is growing faster than processing speeds, and so the only
+ possible solution is to parallelize on large clusters.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Apache Spark
+\series default
+ is an open source implementation of a framework for large-scale data processing
+, providing an interface for programming clusters with implicit data parallelism
+ and fault tolerance.
+ It extends a programming language with read-only data structure distributed
+ over a cluster of machines, the 
+\series bold
+Resilient Distributed Datasets (RDDs)
+\series default
+, maintained in a fault-tolerant way.
+ RDDs were developed in 2012 in response to limitations in Hadoop's MapReduce,
+ which forces a particular linear dataflow as a sequence of HDFS reads and
+ writes.
+ 
+\end_layout
+
+\begin_layout Standard
+Spark is up to 100 times faster than traditional Hadoop thanks to its in-memory
+ data processing:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado14.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Spark's Engine Properties and Components
+\end_layout
+
+\begin_layout Standard
+Spark was originally written in Scala, a high level language for JVM.
+ There are APIs for Java, Scala, Python, R,...
+ 
+\end_layout
+
+\begin_layout Standard
+The Dataframe API was released as an abstraction on top of the RDD, as well
+ as packages like MLlib or GraphX, that can be used for machine learning
+ and graph analytics.
+ These APIs facilitate the implementation of both iterative algorithms and
+ interactive or exploratory data analysis.
+\end_layout
+
+\begin_layout Standard
+Spark requires a cluster manager and a distributed storage system:
+\end_layout
+
+\begin_layout Itemize
+Cluster management: Spark supports standalone, native Spark clusters, where
+ we can launch a cluster either manually or using scripts, or we can use
+ Hadoop YARN, Apache Mesos, or Kubernetes.
+\end_layout
+
+\begin_layout Itemize
+Distributed storage: Spark cna interface with a wide variety of distributed
+ databases, like Alluxio, HDFS, MapR-FS, Cassandra,...
+\end_layout
+
+\begin_layout Standard
+Spark also supports different sources of data, in different formats and
+ from different databases.
+ All these relationships are shown below:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado15.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Spark's Execution Architecture
+\end_layout
+
+\begin_layout Standard
+Data is splitted into partitions or blocks, and the driver assigns tasks
+ to each worker, which reads a HDFS block, and has a cache.
+ Each worker process and cache data, if necessary, sending the results to
+ the driver when done.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado16.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado17.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado18.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado19.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Resilient Distributed Datasets (RDDs)
+\end_layout
+
+\begin_layout Standard
+RDDs are immutable and distributed collections of objects, spread across
+ a cluster, and stored in RAM or disk (when they are persistent).
+ They are statically typed, i.e., RDD[T] has objects of type T.
+ The types can be of any type of Python, Java, or Scala objects, including
+ user-defined classes.
+\end_layout
+
+\begin_layout Standard
+RDDs are built via parallel 
+\series bold
+transformations
+\series default
+ and computed via parallel 
+\series bold
+actions
+\series default
+ on distributed datasets, executed lazily.
+ For instnace, RDDs are splitted into multiple partitions, which may be
+ computed on different nodes of a cluster.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transformation
+\series default
+: operation on an RDD that returns a new RDD.
+ They are computed lazily, only after an action is called.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Action
+\series default
+: operation on an RDD that returns a final result which is not another RDD.
+ When an action is called, all the transformations prior to it are executed
+ in the same order they were defined.
+ Each time a new action is called, the entire RDD must be computed from
+ scratch, but the user can deide to persist intermediate result (caching).
+\end_layout
+
+\begin_layout Standard
+Inside Apache Spark, the workflow is managed as a directed acyclic graph
+ (DAG).
+ Nodes represents RDDs while edges represent the operations executed on
+ the RDDs.
+ Spark keeps track of the set of dependencies between different RDDs.
+ This is called the 
+\series bold
+lineage graph
+\series default
+.
+\end_layout
+
+\begin_layout Example
+Python Example: first line mentioning Python
+\end_layout
+
+\begin_layout Example
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# spark context creation
+\end_layout
+
+\begin_layout Plain Layout
+
+sc = pyspark.SparkContext(...)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# creating an RDD of strings with textFile()
+\end_layout
+
+\begin_layout Plain Layout
+
+lines = sc.textFile(
+\begin_inset Quotes eld
+\end_inset
+
+README.txt
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Transformations:
+\end_layout
+
+\begin_layout Plain Layout
+
+# 	Construct a new RDD from a previous one, one common transformation is
+ filtering data that matches a predicate
+\end_layout
+
+\begin_layout Plain Layout
+
+pythonLines = lines.filter(lambda line: 
+\begin_inset Quotes eld
+\end_inset
+
+Python
+\begin_inset Quotes erd
+\end_inset
+
+ in line)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Actions:
+\end_layout
+
+\begin_layout Plain Layout
+
+# 	Compute a result based on an RDD, and either return it to the driver
+ program or save it to an external sotrage system
+\end_layout
+
+\begin_layout Plain Layout
+
+pythonLines.first()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Some notes:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Once a SparkContext, 
+\begin_inset Formula $sc$
+\end_inset
+
+, is set, it is used to build RDDs.
+ The driver program manages a number of workers, and different workers on
+ different machines might count lines in different ranges of the file.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $filter\left(\right)$
+\end_inset
+
+ does not mutate the existing input RDD.
+ Instead, it returns a pointer to a new RDD.
+\end_layout
+
+\begin_layout Itemize
+Many transformations work on one element at a time, but this is not true
+ for all transformation, like 
+\begin_inset Formula $union$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+RDDs Operations
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $map\left(\right)$
+\end_inset
+
+ is used from different purposes, from fetching a large collection to just
+ squaring numbers.
+ It transforms an RDD of length 
+\begin_inset Formula $N$
+\end_inset
+
+ into another RDD of length 
+\begin_inset Formula $N$
+\end_inset
+
+, applying a function to each element in the RDD.
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+nums = sc.parallelize([1,2,3,4])
+\end_layout
+
+\begin_layout Plain Layout
+
+squared = nums.map(lambda x: x*x).collect()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for num in squared:
+\end_layout
+
+\begin_layout Plain Layout
+
+	print(num)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# 1 4 9 16
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $flatMap\left(\right)$
+\end_inset
+
+ transforms an RDD of length 
+\begin_inset Formula $N$
+\end_inset
+
+ into a collection of 
+\begin_inset Formula $N$
+\end_inset
+
+ collection, then flatterns these into a single RDD of results, applying
+ a function to each collection.
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def tokenize(sentence):
+\end_layout
+
+\begin_layout Plain Layout
+
+	return [word for word in sentence]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rdd = sc.parallelize([
+\begin_inset Quotes eld
+\end_inset
+
+coffee panda
+\begin_inset Quotes erd
+\end_inset
+
+])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Using map
+\end_layout
+
+\begin_layout Plain Layout
+
+map_result = rdd1.map(tokenize).collect()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for token in map_result:
+\end_layout
+
+\begin_layout Plain Layout
+
+	print(token)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Output: [
+\begin_inset Quotes eld
+\end_inset
+
+coffee
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+panda
+\begin_inset Quotes erd
+\end_inset
+
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Using flatMap
+\end_layout
+
+\begin_layout Plain Layout
+
+flatmap_result = rdd1.flatMap(tokenize).collect()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for token in flatmap_result:
+\end_layout
+
+\begin_layout Plain Layout
+
+	print(token)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Output: 
+\begin_inset Quotes eld
+\end_inset
+
+coffee
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+panda
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $reduce\left(\right)$
+\end_inset
+
+ is the most common action on basic RDDs.
+ It operates on two elements of the type of the RDD and returns a new element
+ of the same type.
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+data = sc.parallelize([1,2,3])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+data.reduce(lambda x, y: x+y) # Result is 6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $reduceByKey\left(\right)$
+\end_inset
+
+ operates on RDD of key-value pairs.
+ It runs several parallel reduce operations, for each key, where each operations
+ combines values that have the same key.
+ It returns a new RDD consisting of each key and the reduced value for that
+ key.
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+pets = sc.parallelize([(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 3), (
+\begin_inset Quotes eld
+\end_inset
+
+dog
+\begin_inset Quotes erd
+\end_inset
+
+, 2), (
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 1)])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pets.reduceByKey(lambda x, y: x+y)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Result: {(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 4),(
+\begin_inset Quotes eld
+\end_inset
+
+dog
+\begin_inset Quotes erd
+\end_inset
+
+, 2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $groupByKey\left(\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $sortByKey\left(\right)$
+\end_inset
+
+ return the RDD with the values grouped or sorted by the keys.
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+pets = sc.parallelize([(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 3), (
+\begin_inset Quotes eld
+\end_inset
+
+dog
+\begin_inset Quotes erd
+\end_inset
+
+, 2), (
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 1)])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pets.groupsByKey() # Result: {(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, [3, 1]),(
+\begin_inset Quotes eld
+\end_inset
+
+dog
+\begin_inset Quotes erd
+\end_inset
+
+, [2])}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+pets.sortByKey() # Result: {(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 3),(
+\begin_inset Quotes eld
+\end_inset
+
+cat
+\begin_inset Quotes erd
+\end_inset
+
+, 1),(
+\begin_inset Quotes eld
+\end_inset
+
+dog
+\begin_inset Quotes erd
+\end_inset
+
+, 2)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $distinct\left(\right)$
+\end_inset
+
+ produces a new RDD with only distinct items.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $union\left(otherRDD\right)$
+\end_inset
+
+ produces a new RDD consisting of the data from both sources, removing duplicate
+s.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $RDD.subtract\left(otherRDD\right)$
+\end_inset
+
+ produces a new RDD consisting in all values present in 
+\begin_inset Formula $RDD$
+\end_inset
+
+ but not in 
+\begin_inset Formula $otherRDD$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $RDD.cartesian\left(otherRDD\right)$
+\end_inset
+
+ returns of possible pairs 
+\begin_inset Formula $\left(a,b\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $a\in RDD$
+\end_inset
+
+ and 
+\begin_inset Formula $b\in otherRDD$
+\end_inset
+
+.
+ Note that this operation is very costly.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $RDD.innerJoin(otherRDD)$
+\end_inset
+
+ returns only keys that are present in both pairs to the output RDD.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $RDD.leftOuterJoin\left(otherRDD\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $RDD.rightOuterJoin\left(otherRDD\right)$
+\end_inset
+
+ join the two RDDs together by key, allowing one of them to miss the key
+ (left or right).
+ For example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+rdd = sc.parallelize([(1,2),(3,4),(3,6)])
+\end_layout
+
+\begin_layout Plain Layout
+
+other = sc.parallelzie([3, 9])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rdd.join(other) # result: {(3, (4,9)), (3, (6,9))}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+rdd.leftOuterJoin(other) # result: {(1, (2, None)), (3, (4,9)), (3, (6,9))}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+RDDs Actions
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $collect\left(\right)$
+\end_inset
+
+ is used to retrieve the entire RDD.
+ It is useful if it filters RDDs down to a very small size to deal with
+ it locally at the driver.
+ The retrieved dataset must fit in memory in a single machine.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $take\left(N\right)$
+\end_inset
+
+ is used to retrieve a small number of elements in the RDD at the driver
+ program and then iterate them over them locally.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $top\left(N\right)$
+\end_inset
+
+ is used to extract the top elements.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $takeSample\left(withReplacement,N,seed\right)$
+\end_inset
+
+ allows to take a sample of the data either with out without replacement.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $foreach\left(\right)$
+\end_inset
+
+ performs computations on each element in the RDD without bringing it back
+ locally.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $count\left(\right)$
+\end_inset
+
+ returns a count of the elements.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $countByValue\left(\right)$
+\end_inset
+
+ returns a map of each unique value and its count.
+\end_layout
+
+\begin_layout Subsubsection
+Caching
+\end_layout
+
+\begin_layout Standard
+Spark RDDs are lazily evaluated, and sometimes we use the same RDD multiple
+ times.
+ Naively, Spark will recompute the RDD and all of tis dependencies each
+ time we call an action on the RDD.
+ To avoid this, we can ask Spark to persist data using 
+\begin_inset Formula $persist\left(\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Notice that calling 
+\begin_inset Formula $persist\left(\right)$
+\end_inset
+
+ does not force the evaluation of the RDD.
+\end_layout
+
+\begin_layout Standard
+If we cache too much data, Spark will automatically delete old partitions.
+ For the memory-only storage levels, it will recompute these partitions
+ the next time they are accessed.
+ This means that caching unnecessary data can lead to eviction and increased
+ re-computation time.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
