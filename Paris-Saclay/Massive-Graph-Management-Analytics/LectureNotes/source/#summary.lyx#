@@ -10005,85 +10005,10 @@ Reduce: each key represents a group, so we apply
 \end_inset
 
 , where 
-\begin_inset Formula $x=\theta\left(b_{1},...,b_{n}\right)$
+\begin_inset Formula $x=\theta\left(b_{1},...,b\right)$
 \end_inset
 
-.
-\end_layout
 
-\begin_layout Subsection
-Some Issues of MapReduce
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Locality
-\series default
-: input data is stored on local disks of machines in the cluster.
- Each file is divided into blocks of 64MB, each of which is stored several
- times, as replicas, on different machines.
- MapReduce master node takes the location information of the input files
- into account, and attempts to schedule a map task on a machine that contains
- the needed replica.
- If this fails, it tries to schedule a map task in a machine that is near
- to one that has a replica.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Granularity
-\series default
-: the amp and reduce steps are divided into 
-\begin_inset Formula $M$
-\end_inset
-
- and 
-\begin_inset Formula $R$
-\end_inset
-
- pieces.
- 
-\begin_inset Formula $M$
-\end_inset
-
- and 
-\begin_inset Formula $R$
-\end_inset
-
- should be much larger than the number of workers.
- Each worker can perform different tasks, improving dynamic load balancing
- and speeding up recovery when a worker fails.
- Some practical bounds on how large these values should be say that the
- master should take 
-\begin_inset Formula $M+R$
-\end_inset
-
- scheduling decisions and keep 
-\begin_inset Formula $M\times R$
-\end_inset
-
- states in memory.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Refinements
-\series default
-: partitioning input data using different functions according to the problem
- to be solved.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Ordering guarantees
-\series default
-: the intermediate key-value pairs are generally processed in increasing
- key order, to make it easy to generate a sorted output file per partition.
- However, this is not guaranteed.
 \end_layout
 
 \begin_layout Standard
