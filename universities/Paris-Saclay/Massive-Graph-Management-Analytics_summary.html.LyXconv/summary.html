@@ -111,6 +111,14 @@ used.
 <br/>  <span class="subsectionToc">4.6 <a href="#x1-250004.6" id="QQ2-1-25">Clustering Coefficient Centrality</a></span>
 <br/>  <span class="subsectionToc">4.7 <a href="#x1-260004.7" id="QQ2-1-26">Closeness Centrality</a></span>
 <br/>  <span class="subsectionToc">4.8 <a href="#x1-270004.8" id="QQ2-1-27">Betweenness Centrality</a></span>
+<br/> <span class="sectionToc">5 <a href="#x1-280005" id="QQ2-1-28">MapReduce Computation Model</a></span>
+<br/>  <span class="subsectionToc">5.1 <a href="#x1-290005.1" id="QQ2-1-29">The Map Function</a></span>
+<br/>  <span class="subsectionToc">5.2 <a href="#x1-300005.2" id="QQ2-1-30">Shuflling/Grouping Function</a></span>
+<br/>  <span class="subsectionToc">5.3 <a href="#x1-310005.3" id="QQ2-1-31">Reduce Function</a></span>
+<br/>  <span class="subsectionToc">5.4 <a href="#x1-320005.4" id="QQ2-1-32">MapReduce Execution Model</a></span>
+<br/>  <span class="subsectionToc">5.5 <a href="#x1-350005.5" id="QQ2-1-35">Use-Case: Matrix-Vector Multiplication by MapReduce</a></span>
+<br/>  <span class="subsectionToc">5.6 <a href="#x1-370005.6" id="QQ2-1-37">Relational Algebra by MapReduce</a></span>
+<br/>  <span class="subsectionToc">5.7 <a href="#x1-420005.7" id="QQ2-1-42">Some Issues of MapReduce</a></span>
 </div>
 <!--l. 127--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-20001"></a>Introduction</h3>
@@ -2428,11 +2436,335 @@ B = ||  60||  = || 0.83 || .
 </p></li></ul>
 </p></div>
 <!--l. 2871--><p class="noindent">
-<h3 class="likesectionHead"><a id="x1-280004.8"></a>References</h3>
+<!--l. 2874--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">5   </span> <a id="x1-280005"></a>MapReduce Computation Model</h3>
+<!--l. 2876--><p class="noindent">The advent of big data and the increasing analysis needs favorised the design of parallel algorithms, specially in
+the realm of big data processing pipelines, with a tradeoff between communication costs and degree of
+parallelism.
+                                                                                            
+                                                                                            
+<!--l. 2881--><p class="noindent">MapReduce is a processing paradigm that works on top of distributed environments. More precisely, it was built on top
+of Google File System (GFS) and Hadoop Distributed File System (HDFS), used to manage large-scale data and to be
+tolerant to hardware and networks faults. To do this, HDFS splits files into large blocks and distributes thema cross
+nodes in a cluster, and MapReduce is the programming model used to manage many large-scale parallel
+computations.
+<!--l. 2889--><p class="noindent">Basically, the idea is that the data is first splitted, then some operation is done to it, and then it’s merged to produce
+the final results. For this, we will just need to define the <span class="ecbx-1000">Map </span>and <span class="ecbx-1000">Reduce </span>functions, while the system manages the
+parallel execution on distributed data and the coordination between them, leading with the possibility that one of the
+tasks may fail.
+<div class="newtheorem">
+<!--l. 2895--><p class="noindent"><span class="head">
+<a id="x1-28001r1"></a>
+<span class="ecbx-1000">Example 5.1.</span> </span>Word Counter
+<!--l. 2898--><p class="noindent">Consider a text file splitted into partitions <span class="cmmi-10">A,B,C,D</span>, across different nodes. We want to count how many times each
+word appears in the whole document. For this, we can use MapReduce as follows:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-28003x1">
+<!--l. 2902--><p class="noindent">Map: for each word, <span class="cmmi-10">w</span>, in each partition, generate the pair <img align="middle" alt="(w,1)" class="left" src="summary415x.png"/>.
+     </p></li>
+<li class="enumerate" id="x1-28005x2">
+<!--l. 2903--><p class="noindent">Shuffle/sort: collects and groups the pairs by key (word), in order to guarantee that the same key will be
+     processed by the same reduce task. <span class="ecbx-1000">Shuffling </span>is the process of redistributing data from Map nodes to
+     Reduce nodes.
+     <!--l. 2908--><p class="noindent">In our example, we would have, for each word <span class="cmmi-10">w</span>, the pairs <img align="middle" alt="(w,[1,...,1])" class="left" src="summary416x.png"/>, with as many 1s as <span class="cmmi-10">w </span>appearances.
+     </p></p></li>
+<li class="enumerate" id="x1-28007x3">
+<!--l. 2910--><p class="noindent">Reduce: for each input <img align="middle" alt="(w,[1,...,1])" class="left" src="summary417x.png"/>, output <img align="middle" alt="(w, Nw)" class="left" src="summary418x.png"/>, where <span class="cmmi-10">N</span><sub><span class="cmmi-7">w</span></sub> is the amount of 1s.</p></li></ol>
+<!--l. 2913--><p class="noindent">The Map task will typically process many words in one or more chunks. If a word, <span class="cmmi-10">w</span>, appears <span class="cmmi-10">m </span>times among all
+chunks assigned to that process, there will be <span class="cmmi-10">m </span>key-value pairs <img align="middle" alt="(w,1)" class="left" src="summary419x.png"/> among its output.
+<!--l. 2918--><p class="noindent">To perform the grouping and distribution to the Reduce task, the master controller merges the pairs by key and
+produces a sequence of <img align="middle" alt="(w,[1,...,1])" class="left" src="summary420x.png"/>. Since it knows how many reduce tasks there will be, <span class="cmmi-10">r</span>, it will produce <span class="cmmi-10">r </span>lists,
+putting a list in one of <span class="cmmi-10">r </span>local files destined to one of the Reduce tasks. Each key is assigned as input to one, and only
+one, Reduce task.
+<!--l. 2925--><p class="noindent">The Reduce task executes one or more reducers, one per key. The outputs from all reducers are merges into a single
+final file.
+</p></p></p></p></p></div>
+<!--l. 2927--><p class="noindent">
+<!--l. 2929--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.1   </span> <a id="x1-290005.1"></a>The Map Function</h4>
+<!--l. 2931--><p class="noindent">In general, a map function can be defined as a function, <span class="cmmi-10">m</span><sub><span class="cmmi-7">f</span></sub> <span class="cmr-10">: </span><span class="msbm-10">E</span><sub><span class="cmr-7">1</span></sub><sup><span class="cmmi-7">n</span></sup> <span class="cmsy-10">→ </span><span class="msbm-10">E</span><sub><span class="cmr-7">2</span></sub><sup><span class="cmmi-7">n</span></sup>, where <span class="msbm-10">E</span><sub><span class="cmmi-7">i</span></sub> is the domain of the input (1) or
+output (2) and <span class="cmmi-10">f </span><span class="cmr-10">: </span><span class="msbm-10">ℝ </span><span class="cmsy-10">→ </span><span class="msbm-10">ℝ</span>, that applies <span class="cmmi-10">f </span>to each coordinate. That is:
+<div class="math-display">
+<img alt="mf ([e1,...,en]) = [f (e1),...,f (en)].
+" class="math-display" src="summary421x.png"/></div>
+<!--l. 2938--><p class="noindent">For example:
+<div class="math-display">
+<img alt="m⋅2([2,3,6]) = [4,6,12].
+" class="math-display" src="summary422x.png"/></div>
+<!--l. 2943--><p class="noindent">In the MapReduce scheme, map is more restrictive, as the function <span class="cmmi-10">f </span>must produce a key-value pair. That is, for all
+<span class="cmmi-10">i </span><span class="cmr-10">= 1</span><span class="cmmi-10">,...,n</span>, it is
+<div class="math-display">
+<img alt="f (e ) = (k ,v ).
+   i     i i
+" class="math-display" src="summary423x.png"/></div>
+<!--l. 2950--><p class="noindent">For example, in the word counter example:
+<div class="math-display">
+<img alt="mf ([”a”,”b”,”a”]) = [(”a”,1),(”b”,1),(”a”,1)].
+" class="math-display" src="summary424x.png"/></div>
+<!--l. 2956--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.2   </span> <a id="x1-300005.2"></a>Shuflling/Grouping Function</h4>
+<!--l. 2958--><p class="noindent">The shuffle function consists in grouping the outputs of the map function by key, so
+<div class="math-display">
+<img alt="s([(k1,v1),...,(kn,vn)]) = [(k1,(vj : kj = k1,∀j = 1,...,n )),...].
+" class="math-display" src="summary425x.png"/></div>
+<!--l. 2963--><p class="noindent">Following the previous example:
+<div class="math-display">
+<img alt="s([(”a”,1),(”b”,1),(”a”,1)]) = [(”a”,[1,1]),(”b”,[1])].
+" class="math-display" src="summary426x.png"/></div>
+<!--l. 2969--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.3   </span> <a id="x1-310005.3"></a>Reduce Function</h4>
+<!--l. 2971--><p class="noindent">Generally, a reduce function applies to a vector/row, and outputs a single value, applying the aggregation function
+<span class="cmmi-10">f</span>:
+<div class="math-display">
+<img alt="rf ([v1,...,vn]) = f (v1,...,vn).
+" class="math-display" src="summary427x.png"/></div>
+<!--l. 2976--><p class="noindent">In MapReduce, reduce applies to each output of the shuffle function with the same key:
+<div class="math-display">
+<img alt="rf ((k,[v1,...,vn])) = [(k′1,f (v1,...,vn)),...,(km′, f (v1,...,vn))].
+" class="math-display" src="summary428x.png"/></div>
+<!--l. 2981--><p class="noindent">Following the previous example:
+<div class="math-display">
+<img alt="rsum ([(”a”,[1,1]),(”b”,[1])]) = [(”a”,2) ,(”b”,1)].
+" class="math-display" src="summary429x.png"/></div>
+<!--l. 2986--><p class="noindent">A <span class="ecbx-1000">MapReduce pipeline </span>can be a composition of different <span class="cmmi-10">r</span><sub><span class="cmmi-7">f</span><sub><span class="cmmi-5">r</span></sub></sub> <span class="cmsy-10">∘ </span><span class="cmmi-10">s </span><span class="cmsy-10">∘ </span><span class="cmmi-10">m</span><sub><span class="cmmi-7">f</span><sub><span class="cmmi-5">m</span></sub></sub><span class="cmmi-10">.</span>
+<!--l. 2988--><p class="noindent">The process is illustrated below:
+<div class="center">
+<!--l. 2989--><p class="noindent">
+<!--l. 2990--><p class="noindent"><img alt="PIC" src="28_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado10.png"/>
+</p></p></div>
+<!--l. 2993--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.4   </span> <a id="x1-320005.4"></a>MapReduce Execution Model</h4>
+<!--l. 2995--><p class="noindent">Whenever we launch the execution of a MapReduce pipeline, the following happens:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 2998--><p class="noindent">The user program forks a master controller process and some number of worker processes at different
+     computer nodes.
+     </p></li>
+<li class="itemize">
+<!--l. 3000--><p class="noindent">The amster creates some number of map tasks and some number of reduce tasks. It assigns the tasks to
+     worker processes by taking into account the co-location.
+     </p></li>
+<li class="itemize">
+<!--l. 3003--><p class="noindent">A worker handles either map tasks (a <span class="ecbx-1000">map worker</span>) or reduce tasks (a <span class="ecbx-1000">reduce worker</span>), but not both.
+     </p></li>
+<li class="itemize">
+<!--l. 3005--><p class="noindent">A worker process reports to the amster when it finishes a task, and a new task is scheduled by the master
+     for that worker process.
+                                                                                            
+                                                                                            
+     </p></li>
+<li class="itemize">
+<!--l. 3007--><p class="noindent">The master keeps track of the status of each map and reduce task (idle, executing, or completed).</p></li></ul>
+<div class="center">
+<!--l. 3010--><p class="noindent">
+<!--l. 3011--><p class="noindent"><img alt="PIC" src="29_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado11.png"/>
+</p></p></div>
+<!--l. 3014--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.4.1   </span> <a id="x1-330005.4.1"></a>Coping with Node Failures</h5>
+<!--l. 3016--><p class="noindent">If the master node fails, the entire MapReduce job must be restarted.
+<!--l. 3018--><p class="noindent">If a worker node fails, it would be detected and managed by the master, since it periodically pings the worker processes.
+All the map tasks assigned to this worker have to be redone in this case.
+<!--l. 3022--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.4.2   </span> <a id="x1-340005.4.2"></a>Algorithms by MapReduce</h5>
+<!--l. 3024--><p class="noindent">This paradigm is not a solution to every problem, and in fact it only makes sense when files are very large, and rarely
+outdated. Its original purpose was to execute very large matrix-vector multiplications.
+<!--l. 3028--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.5   </span> <a id="x1-350005.5"></a>Use-Case: Matrix-Vector Multiplication by MapReduce</h4>
+<!--l. 3030--><p class="noindent">Let <span class="cmmi-10">M </span>be a <span class="cmmi-10">n </span><span class="cmsy-10">× </span><span class="cmmi-10">n </span>squared matrix and <span class="cmmi-10">V </span>a vector of size <span class="cmmi-10">n</span>. Their product,
+<div class="math-display">
+<img alt="W = M V,
+" class="math-display" src="summary430x.png"/></div>
+<!--l. 3035--><p class="noindent">is defined by
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="      n
+w  = ∑  m  v .
+  i  j=1  ij j
+" class="math-display" src="summary431x.png"/></div>
+<!--l. 3039--><p class="noindent">We can store <span class="cmmi-10">M </span>and <span class="cmmi-10">V  </span>in a file in <span class="cmmi-10">HDFS </span>as triples <img align="middle" alt="((i,j),mij)" class="left" src="summary432x.png"/> for <span class="cmmi-10">M </span>and pairs <img align="middle" alt="(j,vj)" class="left" src="summary433x.png"/> for
+<span class="cmmi-10">V</span> <span class="footnote-mark"><a href="summary2.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a id="x1-35001f1"></a>  . Now
+we can compute the computation by MapReduce as:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3043--><p class="noindent">Map: for each <img align="middle" alt="((i,j),mij)" class="left" src="summary434x.png"/> and <img align="middle" alt="(j,vj)" class="left" src="summary435x.png"/>, it returns <img align="middle" alt="(i,mijvj)" class="left" src="summary436x.png"/>.
+     </p></li>
+<li class="itemize">
+<!--l. 3045--><p class="noindent">Reduce: simply sums all the values for each key <span class="cmmi-10">i</span>, producing the pair <img align="middle" alt="(i,wi)" class="left" src="summary437x.png"/>.</p></li></ul>
+<!--l. 3048--><p class="noindent">For this to work, all the pairs from <span class="cmmi-10">V </span>must be available in all chunks (<span class="cmmi-10">V </span>cannot be stored distributely).
+<!--l. 3051--><p class="noindent">More concretely, we can define the functions:
+<!--l. 3053-->
+<div class="lstlisting" id="listing-8"><span class="label"><a id="x1-35002r1"></a><span class="ecrm-0500">1</span></span><span style="color:#000000"><span class="ectt-0800">map</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35003r2"></a><span class="ecrm-0500">2</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">(1)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35004r3"></a><span class="ecrm-0500">3</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">j</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">(2)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35005r4"></a><span class="ecrm-0500">4</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">j2</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">V</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35006r5"></a><span class="ecrm-0500">5</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">if</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">j</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">==</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">j2</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35007r6"></a><span class="ecrm-0500">6</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">*</span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35008r7"></a><span class="ecrm-0500">7</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35009r8"></a><span class="ecrm-0500">8</span></span><span style="color:#000000"><span class="ectt-0800">reduce</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35010r9"></a><span class="ecrm-0500">9</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">0</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35011r10"></a><span class="ecrm-0500">10</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35012r11"></a><span class="ecrm-0500">11</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">+=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-35013r12"></a><span class="ecrm-0500">12</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span></div>
+<div class="center">
+<!--l. 3068--><p class="noindent">
+<!--l. 3069--><p class="noindent"><img alt="PIC" src="30_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado12.png"/>
+</p></p></div>
+<!--l. 3072--><p class="noindent">Now, if <span class="cmmi-10">n </span>is large, <span class="cmmi-10">V </span>might not fit in main memory of a worker node, and a large number of disk accesses may be
+required. We can improve the approach by distributing <span class="cmmi-10">V </span>and refining the algorithm as follows:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3077--><p class="noindent">We devide the matrix into vertical stripes of equal width, and the vector in strips of the same size:
+     <div class="center">
+<!--l. 3079--><p class="noindent">
+<!--l. 3080--><p class="noindent"><img alt="PIC" src="31_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado13.png"/>
+</p></p></div>
+<!--l. 3083--><p class="noindent">Here, the size of <span class="cmmi-10">M</span><sub><span class="cmmi-7">k</span></sub> is <span class="cmmi-10">n</span><span class="cmsy-10">×</span><span class="cmmi-10">n</span><sub><span class="cmmi-7">k</span></sub> and the size of <span class="cmmi-10">V</span> <sub><span class="cmmi-7">k</span></sub> is <span class="cmmi-10">n</span><sub><span class="cmmi-7">k</span></sub>, so that the product <span class="cmmi-10">M</span><sub><span class="cmmi-7">k</span></sub> <span class="cmsy-10">⋅</span><span class="cmmi-10">V</span> <sub><span class="cmmi-7">k</span></sub> can be performed, outputing
+     a vector of size <span class="cmmi-10">n</span>.
+     </p></p></li>
+<li class="itemize">
+<!--l. 3086--><p class="noindent">Each map task is assigned a chunk from one of the matrix stripes and gets the entire corresponding stripe of the
+     vector.
+     </p></li>
+<li class="itemize">
+<!--l. 3088--><p class="noindent">The final result would be
+<div class="math-display">
+<img alt="          ∑K
+W = M V =    Mk  ⋅Vk,
+          k=1
+" class="math-display" src="summary438x.png"/></div>
+<!--l. 3092--><p class="noindent">where we apply the previously explained algorithm to each sub-multiplication step.</p></p></li></ul>
+<h5 class="subsubsectionHead"><span class="titlemark">5.5.1   </span> <a id="x1-360005.5.1"></a>Matrix Multiplication</h5>
+<!--l. 3098--><p class="noindent">This approach can be extended to matrix multiplication. Now, let <span class="cmmi-10">M </span>be a matrix of size <span class="cmmi-10">n</span><sub><span class="cmr-7">1</span></sub> <span class="cmsy-10">×</span><span class="cmmi-10">n</span><sub><span class="cmr-7">2</span></sub> and <span class="cmmi-10">N </span>a matrix of size
+<span class="cmmi-10">n</span><sub><span class="cmr-7">2</span></sub> <span class="cmsy-10">× </span><span class="cmmi-10">n</span><sub><span class="cmr-7">3</span></sub>, the product <span class="cmmi-10">P </span><span class="cmr-10">= </span><span class="cmmi-10">MN </span>is a matrix of size <span class="cmmi-10">n</span><sub><span class="cmr-7">1</span></sub> <span class="cmsy-10">× </span><span class="cmmi-10">n</span><sub><span class="cmr-7">3</span></sub>, where
+<div class="math-display">
+<img alt="      n
+     ∑ 2
+pik = j=1MijNjk.
+" class="math-display" src="summary439x.png"/></div>
+<!--l. 3105--><p class="noindent">The matrices are stored as <img align="middle" alt="(M, (i,j),mij)" class="left" src="summary440x.png"/> and <img align="middle" alt="(N, (j,k),njk)" class="left" src="summary441x.png"/>.
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3108--><p class="noindent">Map 1: transform <img align="middle" alt="(M, (i,j),mij)" class="left" src="summary442x.png"/> into <img align="middle" alt="(j,(M, i,mij))" class="left" src="summary443x.png"/> and <img align="middle" alt="(N, (j,k),njk)" class="left" src="summary444x.png"/> into <img align="middle" alt="(j,(N, k,njk))" class="left" src="summary445x.png"/>.
+     </p></li>
+<li class="itemize">
+<!--l. 3110--><p class="noindent">Reduce 1: for each key, <span class="cmmi-10">j</span>, produces the key-value pair <img align="middle" alt="((i,k),mijnjk)" class="left" src="summary446x.png"/>.
+                                                                                            
+                                                                                            
+     </p></li>
+<li class="itemize">
+<!--l. 3111--><p class="noindent">Map 2: the identity.
+     </p></li>
+<li class="itemize">
+<!--l. 3112--><p class="noindent">Reduce  2:  for  each  key,  <img align="middle" alt="(i,k)" class="left" src="summary447x.png"/>,  produce  the  sum  of  the  list  of  values  associated  to  this  key,
+     <img align="middle" alt="(               )
+ (i,k),∑j mijnjk" class="left" src="summary448x.png"/><span class="cmmi-10">.</span></p></li></ul>
+<!--l. 3115--><p class="noindent">In addition, <span class="cmmi-10">M </span>could be divided into <span class="cmmi-10">K </span>vertical stripes of size <img align="middle" alt="(n1,nk)" class="left" src="summary449x.png"/> and <span class="cmmi-10">N </span>into <span class="cmmi-10">K </span>horizontal stripes of size <img align="middle" alt="(nk,n3)" class="left" src="summary450x.png"/>,
+where <span class="cmex-10">∑</span>
+<sub><span class="cmmi-7">k</span></sub><span class="cmmi-10">n</span><sub><span class="cmmi-7">k</span></sub> <span class="cmr-10">= </span><span class="cmmi-10">n</span><sub><span class="cmr-7">2</span></sub>. In this setup, we can apply the algorithm to compute each <span class="cmmi-10">M</span><sub><span class="cmmi-7">k</span></sub> <span class="cmsy-10">⋅ </span><span class="cmmi-10">N</span><sub><span class="cmmi-7">k</span></sub> and then sum them
+all.
+<!--l. 3121--><p class="noindent">The functions can be defined more precisely as:
+<!--l. 3123-->
+<div class="lstlisting" id="listing-9"><span class="label"><a id="x1-36001r1"></a><span class="ecrm-0500">1</span></span><span style="color:#000000"><span class="ectt-0800">map_1</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">T</span></span><span style="color:#000000"><span class="ectt-0800">,(</span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">j</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">T_ij</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36002r2"></a><span class="ecrm-0500">2</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">j</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">T</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">T_ij</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36003r3"></a><span class="ecrm-0500">3</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36004r4"></a><span class="ecrm-0500">4</span></span><span style="color:#000000"><span class="ectt-0800">reduce_1</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36005r5"></a><span class="ecrm-0500">5</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36006r6"></a><span class="ecrm-0500">6</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">w</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36007r7"></a><span class="ecrm-0500">7</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">if</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800">(1)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">==</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">M</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">and</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">w</span></span><span style="color:#000000"><span class="ectt-0800">(1)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">==</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">N</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36008r8"></a><span class="ecrm-0500">8</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800">(2)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36009r9"></a><span class="ecrm-0500">9</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">M_ij</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800">(3)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36010r10"></a><span class="ecrm-0500">10</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">k</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">w</span></span><span style="color:#000000"><span class="ectt-0800">(2)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36011r11"></a><span class="ecrm-0500">11</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">N_jk</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">w</span></span><span style="color:#000000"><span class="ectt-0800">(3)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36012r12"></a><span class="ecrm-0500">12</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">((</span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">k</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">M_ij</span></span><span style="color:#000000"><span class="ectt-0800">*</span></span><span style="color:#000000"><span class="ectt-0800">N_jk</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36013r13"></a><span class="ecrm-0500">13</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36014r14"></a><span class="ecrm-0500">14</span></span><span style="color:#000000"><span class="ectt-0800">map_2</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36015r15"></a><span class="ecrm-0500">15</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36016r16"></a><span class="ecrm-0500">16</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36017r17"></a><span class="ecrm-0500">17</span></span><span style="color:#000000"><span class="ectt-0800">reduce_2</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36018r18"></a><span class="ecrm-0500">18</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">0</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36019r19"></a><span class="ecrm-0500">19</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">val</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36020r20"></a><span class="ecrm-0500">20</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">+=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">v</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-36021r21"></a><span class="ecrm-0500">21</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">emit</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">key</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sum</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span></div>
+<!--l. 3148--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.6   </span> <a id="x1-370005.6"></a>Relational Algebra by MapReduce</h4>
+<!--l. 3150--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.6.1   </span> <a id="x1-380005.6.1"></a>Selection</h5>
+<!--l. 3152--><p class="noindent">Let <span class="cmmi-10">R</span><img align="middle" alt="(A1,...,An)" class="left" src="summary451x.png"/> be a relation stored as a file in HDFS. The elements of this file are the tuples of <span class="cmmi-10">R</span>. The selection
+operator, <span class="cmmi-10">σ</span><sub><span class="cmmi-7">C</span></sub><img align="middle" alt="(R)" class="left" src="summary452x.png"/> can be defined using MapReduce as:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3157--><p class="noindent">Map: for each tuple in <span class="cmmi-10">R</span>, <span class="cmmi-10">t</span>, test if <span class="cmmi-10">t </span>satisfies <span class="cmmi-10">C</span>. If it does, produce the key-value pair <img align="middle" alt="(t,t)" class="left" src="summary453x.png"/>.
+     </p></li>
+<li class="itemize">
+<!--l. 3159--><p class="noindent">Reduce: the identity.</p></li></ul>
+<!--l. 3162--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.6.2   </span> <a id="x1-390005.6.2"></a>Projection</h5>
+<!--l. 3164--><p class="noindent">For the projection, <span class="cmmi-10">π</span><sub><span class="cmmi-7">A</span></sub><img align="middle" alt="(R)" class="left" src="summary454x.png"/>, we can do:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3166--><p class="noindent">Map: for each tuple in <span class="cmmi-10">R</span>, <span class="cmmi-10">t</span>, construct a tuple <span class="cmmi-10">t</span><span class="cmsy-10">′ </span>by removing the attributes that are not in <span class="cmmi-10">A</span>. Output
+     <img align="middle" alt="  ′ ′
+(t,t)" class="left" src="summary455x.png"/>.
+     </p></li>
+<li class="itemize">
+<!--l. 3168--><p class="noindent">Reduce: for each key, <span class="cmmi-10">t</span><span class="cmsy-10">′</span>, produced by the map tasks, there will be one or more key-value pairs <img align="middle" alt="  ′ ′
+(t,t)" class="left" src="summary456x.png"/>. The
+     reduce function turns <img align="middle" alt=" ′  ′ ′   ′
+(t,[t,t,...,t])" class="left" src="summary457x.png"/> into <img align="middle" alt=" ′  ′
+(t,t)" class="left" src="summary458x.png"/> so it produces exactly one pair.</p></li></ul>
+<!--l. 3174--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.6.3   </span> <a id="x1-400005.6.3"></a>Join</h5>
+<!--l. 3176--><p class="noindent"><span class="cmmi-10">R</span><img align="middle" alt="(A)" class="left" src="summary459x.png"/><img alt="⊳⊲" class="bowtie" src="summary460x.png"/><sub><span class="cmmi-7">B</span></sub><span class="cmmi-10">S</span><img align="middle" alt="(C )" class="left" src="summary461x.png"/> with <span class="cmmi-10">A,B,C </span>sets of attributes satisfying <span class="cmmi-10">B </span><span class="cmsy-10">⊂ </span><span class="cmmi-10">A,B </span><span class="cmsy-10">⊂ </span><span class="cmmi-10">C</span>, can be implemented with MapReduce
+as:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3180--><p class="noindent">Map: for each tuple <img align="middle" alt="(a,b)" class="left" src="summary462x.png"/> <span class="cmsy-10">∈ </span><span class="cmmi-10">R</span>, produce the key-value pair <img align="middle" alt="(b,(R,a))" class="left" src="summary463x.png"/>. For each tuple <img align="middle" alt="(c,b)" class="left" src="summary464x.png"/> <span class="cmsy-10">∈ </span><span class="cmmi-10">S</span>, produce
+     the key-value pair <img align="middle" alt="(b,(S,c))" class="left" src="summary465x.png"/>.
+     </p></li>
+<li class="itemize">
+<!--l. 3183--><p class="noindent">Reduce: for each key, <span class="cmmi-10">b</span>, output as many pairs as needed, <img align="middle" alt="(b,[(R,a),(S,c)])" class="left" src="summary466x.png"/>.</p></li></ul>
+<!--l. 3186--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">5.6.4   </span> <a id="x1-410005.6.4"></a>Aggregation</h5>
+<!--l. 3188--><p class="noindent">The aggregation operator, <span class="cmmi-10">γ</span><sub><span class="cmmi-7">A,θ</span><img align="middle" alt="(B)" class="left" src="summary467x.png"/></sub><img align="middle" alt="(R)" class="left" src="summary468x.png"/>, where <span class="cmmi-10">A </span><span class="cmsy-10">∪ </span><span class="cmmi-10">B </span>is the set of attributes of <span class="cmmi-10">R</span>, and <span class="cmmi-10">A </span><span class="cmsy-10">∩ </span><span class="cmmi-10">B </span><span class="cmr-10">= </span><span class="cmsy-10">∅</span>, can be defined with
+MapReduce as:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 3192--><p class="noindent">Map: for each tuple, <span class="cmmi-10">t</span>, produce <img align="middle" alt="(a,b)" class="left" src="summary469x.png"/>, where <span class="cmmi-10">a </span>is the <span class="cmmi-10">A </span>part of <span class="cmmi-10">t</span>, and <span class="cmmi-10">b </span>is the <span class="cmmi-10">B </span>part.
+     </p></li>
+<li class="itemize">
+<!--l. 3194--><p class="noindent">Reduce: each key represents a group, so we apply <span class="cmmi-10">θ </span>to the list <img align="middle" alt="[b1,...,bn ]" class="left" src="summary470x.png"/> associated to each value <span class="cmmi-10">a</span>. We
+     output <img align="middle" alt="(a,x)" class="left" src="summary471x.png"/>, where <span class="cmmi-10">x </span><span class="cmr-10">= </span><span class="cmmi-10">θ</span><img align="middle" alt="(b1,...,bn)" class="left" src="summary472x.png"/>.</p></li></ul>
+<!--l. 3199--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">5.7   </span> <a id="x1-420005.7"></a>Some Issues of MapReduce</h4>
+<ul class="itemize1">
+<li class="itemize">
+<!--l. 3201--><p class="noindent"><span class="ecbx-1000">Locality</span>: input data is stored on local disks of machines in the cluster. Each file is divided into blocks of
+     64MB, each of which is stored several times, as replicas, on different machines. MapReduce master node
+     takes the location information of the input files into account, and attempts to schedule a map task on a
+     machine that contains the needed replica. If this fails, it tries to schedule a map task in a machine that is
+     near to one that has a replica.
+     </p></li>
+<li class="itemize">
+<!--l. 3208--><p class="noindent"><span class="ecbx-1000">Granularity</span>: the amp and reduce steps are divided into <span class="cmmi-10">M </span>and <span class="cmmi-10">R </span>pieces. <span class="cmmi-10">M </span>and <span class="cmmi-10">R </span>should be much larger
+     than the number of workers. Each worker can perform different tasks, improving dynamic load balancing
+     and speeding up recovery when a worker fails. Some practical bounds on how large these values should be
+     say that the master should take <span class="cmmi-10">M </span><span class="cmr-10">+ </span><span class="cmmi-10">R </span>scheduling decisions and keep <span class="cmmi-10">M </span><span class="cmsy-10">× </span><span class="cmmi-10">R </span>states in memory.
+                                                                                            
+                                                                                            
+     </p></li>
+<li class="itemize">
+<!--l. 3215--><p class="noindent"><span class="ecbx-1000">Refinements</span>: partitioning input data using different functions according to the problem to be solved.
+     </p></li>
+<li class="itemize">
+<!--l. 3217--><p class="noindent"><span class="ecbx-1000">Ordering guarantees</span>: the intermediate key-value pairs are generally processed in increasing key order,
+     to make it easy to generate a sorted output file per partition. However, this is not guaranteed.</p></li></ul>
+<!--l. 3221--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-430005.7"></a>References</h3>
 <!--l. 1--><p class="noindent">
 <div class="thebibliography">
 <p class="bibitem"><span class="biblabel">
  [1]<span class="bibsp">   </span></span><a id="XSeghouani2023"></a>NacÃ<span class="tcrm-1000">©</span>ra Seghouani. Massive graph management and analytics. Lecture Notes.
 </p>
 </div>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
