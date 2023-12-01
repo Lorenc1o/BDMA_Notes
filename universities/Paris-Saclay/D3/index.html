@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Visual Analytics: D3 Assignment</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+      .axis path,
+      .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+      }
+
+      .axis text {
+          font-family: sans-serif;
+          font-size: 10px;
+      }
+
+      #selectors-container {
+          display: flex;
+          justify-content: center;
+          margin-top: 20px;
+      }
+
+      .selector-box {
+          border: 1px solid #ddd;
+          background-color: rgb(255, 251, 244);
+          padding: 10px;
+          margin-right: 20px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .selector-box h3 {
+          margin-top: 0;
+          font-family: Arial, sans-serif;
+          color: #333;
+          text-align: center;
+      }
+
+      input[type="checkbox"] {
+          margin-right: 5px;
+      }
+
+      label {
+          margin-right: 15px;
+          font-family: Arial, sans-serif;
+      }
+
+      #province-selectors {
+          flex-direction: column;
+          column-count: 5;
+      }
+
+      .nice-button {
+          background-color: #ffdd62;
+          border: none;
+          color: rgb(0, 0, 0);
+          padding: 5px 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 14px;
+          margin: 4px 2px;
+          cursor: pointer;
+          border-radius: 5px;
+      }
+  </style>
+</head>
+<body>
+  <svg width="1000" height="400"></svg>  
+  <div id="selectors-container">
+      <div class="selector-box" id="category-selector-box">
+          <h3>Crime Categories</h3>
+          <button class="nice-button" id="select-all-categories">Select All</button>
+          <button class="nice-button" id="deselect-all-categories">Deselect All</button>
+          <div id="category-selectors"></div>
+      </div>
+      <div class="selector-box" id="province-selector-box">
+          <h3>Provinces</h3>
+          <button class="nice-button" id="select-all-provinces">Select All</button>
+          <button class="nice-button" id="deselect-all-provinces">Deselect All</button>
+          <div id="province-selectors"></div>
+      </div> 
+  </div>
+<script src="assets/js/scripts.js"></script>
+</body>
+</html>
