@@ -333,7 +333,7 @@ function drawStackedBarChart(data, selectedCategories, selectedProvinces) {
         .attr("y", -margin.top/1.5 + 15)
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
-        .text("(Crimes per 1000 inhabitants)");
+        .text("(Crimes per 1000 inhabitants in 2022)");
 }
 
 // Function to update the chart
