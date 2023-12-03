@@ -4308,6 +4308,763 @@ Therefore, electing the Condorcet winner is an attractive idea, but not
  always possible or effective.
 \end_layout
 
+\begin_layout Section
+Preferences Aggregation: the Multri-Attribute Utility Theory (MAUT) Approach
+\end_layout
+
+\begin_layout Subsection
+Multi-Criteria Decision Analysis (MCDA)
+\end_layout
+
+\begin_layout Standard
+Think about a situation in which a Decision Maker (DM) is facing a decision
+ problem, i.e., the DM has to deal with different alternatives and compare
+ them, to take a decision.
+ The alternatives are described by several attributes.
+ 
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+criterion
+\series default
+ is an attribute associated to a preference relation, also called a monotonic
+ attribute.
+\end_layout
+
+\begin_layout Standard
+Criteria cannot be reduced to only one criterion, since they can potentially
+ be in conflict.
+\end_layout
+
+\begin_layout Standard
+More formally, let 
+\begin_inset Formula $X=\left\{ x_{1},...,x_{m}\right\} $
+\end_inset
+
+ be the set of alternatives, that are evaluated on a finite set of criteria,
+ 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+.
+ 
+\begin_inset Formula $X$
+\end_inset
+
+ can be also written as 
+\begin_inset Formula $X=X_{1}\times X_{2}\times...\times X_{n}$
+\end_inset
+
+, where 
+\begin_inset Formula $X_{i}\in\mathbb{R}^{m}$
+\end_inset
+
+ is the vector of all alternatives evaluated with criterion 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+There exist preferences on the values for each criterion 
+\begin_inset Formula $i$
+\end_inset
+
+, by means of an utility funtion, a qualitative preference relation 
+\begin_inset Formula $\succsim_{i}$
+\end_inset
+
+, etc.; and a representation of the importance of each criterion or set of
+ criteria, by means of weights, importance relations, etc.
+\end_layout
+
+\begin_layout Standard
+Now, using the input information, we want to elaborate a decision rule allowing
+ to compare two different alternatives.
+ That is, given two alternatives, 
+\begin_inset Formula $x=\left(x_{1},...,x_{n}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $y=\left(y_{1},...,y_{n}\right)$
+\end_inset
+
+, we want to be able to say whether 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+ or 
+\begin_inset Formula $y\succsim x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Consider the following students grades:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Math
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stats
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lang
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+How we can rank these students?
+\end_layout
+
+\begin_layout Example
+There are many ways to do this, for example, we can assign weights to each
+ course and use the weighted sum to make the ranking, for example, with
+ 
+\begin_inset Formula $w_{M}=1,w_{S}=0,w_{L}=1$
+\end_inset
+
+, the ranking would be: 
+\begin_inset Formula $b\succ a\succ d\succ c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Another way is to use a rule system, such as: Compare Math -> If tied, compare
+ Stats -> If tied, compare Lang.
+ In this case, the ranking would be 
+\begin_inset Formula $a\succ b\succ c\succ d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+MCDA presents several difficulties:
+\end_layout
+
+\begin_layout Itemize
+It is not easy.
+\end_layout
+
+\begin_layout Itemize
+There is no best method for all situations.
+\end_layout
+
+\begin_layout Itemize
+All methods have some structural bias.
+\end_layout
+
+\begin_layout Standard
+There are three main problems treated with MCDA:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Problem of Choice
+\series default
+: choose the best out of a set of alternatives.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Problem of Ranking
+\series default
+: rank a set of alternatives from best to worst.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Problem of Sorting
+\series default
+: sort the alternatives into a set of pre-defined categories, which are
+ usually ordered.
+\end_layout
+
+\begin_layout Subsection
+Some Simple Models
+\end_layout
+
+\begin_layout Subsubsection
+Pareto Dominance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given two alternatives, 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+, evaluated on a set of criteria, 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+, we say that 
+\begin_inset Formula $x$
+\end_inset
+
+ (pareto) dominates 
+\begin_inset Formula $y$
+\end_inset
+
+, 
+\begin_inset Formula $x\succsim y$
+\end_inset
+
+, if it is considered better on all the criteria:
+\begin_inset Formula 
+\[
+x\succsim y\iff\left[\forall i\in N,x_{i}\succsim_{i}y_{i}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+We say that 
+\begin_inset Formula $x$
+\end_inset
+
+ (pareto) strictly dominates 
+\begin_inset Formula $y$
+\end_inset
+
+, 
+\begin_inset Formula $x\succ y$
+\end_inset
+
+, if it is considered strictly better on all the criteria:
+\begin_inset Formula 
+\[
+x\succ y\iff\left[\forall i\in N,x_{i}\succ y_{i}\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+The 
+\series bold
+pareto front
+\series default
+ is the set of all non-dominated alternatives, i.e., those that are not dominated
+ by any other alternative.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The optimal solution is necessarily in the pareto front.
+\end_layout
+
+\begin_layout Standard
+This model is not very interesting, because most alternatives will not be
+ pareto comparable, i.e., one will be better in some criteria, and the other
+ will be better on different criteria.
+ This means that the pareto front would usually be very similar to the whole
+ set of alternatives.
+\end_layout
+
+\begin_layout Subsubsection
+Weighted Sum
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given two alternatives, 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+, evaluated on a set of real-valued criteria, 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+, and a set of weights 
+\begin_inset Formula $W=\left\{ w_{1},...,w_{n}\right\} $
+\end_inset
+
+, we define the following preference relationship:
+\begin_inset Formula 
+\[
+w\succsim y\iff\sum_{i=1}^{n}w_{i}x_{i}\geq\sum_{i=1}^{n}w_{i}y_{i}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Majority Rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+Given two alternatives, 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+, evaluated on a set of criteria, 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+, we say that 
+\begin_inset Formula $x$
+\end_inset
+
+ is preferred to 
+\begin_inset Formula $y$
+\end_inset
+
+ if it is considered better in a majority of the criteria:
+\begin_inset Formula 
+\[
+x\succsim y\iff\left|\left\{ i\in N:x_{i}\succsim y_{i}\right\} \right|\geq\left|\left\{ i\in N:y_{i}\succsim x_{i}\right\} \right|.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consider the following example:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Speed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Robustness
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Price
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Very Good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+600
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Good
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bad
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+550
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+We find that 
+\begin_inset Formula $A\succsim B,B\succsim C$
+\end_inset
+
+ and 
+\begin_inset Formula $C\succsim A$
+\end_inset
+
+, so we cannot make a decision.
+ This is called the 
+\series bold
+Condorcet Paradox
+\series default
+.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
