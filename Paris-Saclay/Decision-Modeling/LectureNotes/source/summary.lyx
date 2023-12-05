@@ -5066,6 +5066,2078 @@ Condorcet Paradox
 \end_layout
 
 \begin_layout Standard
+All the previous approaches can be grouped into two main kinds:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Multi Attribute Utility Theory
+\series default
+: a quantitative approach based on 'aggregate, then compare':
+\begin_inset Formula 
+\[
+x\succsim y\iff U\left(x\right)\geq U\left(y\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $U$
+\end_inset
+
+ is an utility function.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Outranking
+\series default
+: a qualitative approach, based on 'compare, then aggregate':
+\begin_inset Formula 
+\[
+x\succsim y\iff\left|\left\{ i\in N:x_{i}\succsim_{i}y_{i}\right\} \right|\triangleright\left|\left\{ i\in N:y_{i}\succsim_{i}x_{i}\right\} \right|.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are going to focus on MAUT approach.
+\end_layout
+
+\begin_layout Subsection
+Multi Attribute Utility Theory (MAUT)
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be a set of alternatives evaluated on a finite set of criteria, 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+, as before, 
+\begin_inset Formula $X=X_{1}\times X_{2}\times...\times X_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\succsim_{X}$
+\end_inset
+
+ be a complete preorder on 
+\begin_inset Formula $X$
+\end_inset
+
+, indicating the preferences of the Decision Maker (DM).
+ We assume that 
+\begin_inset Formula $\succsim_{X}$
+\end_inset
+
+ is representable by an overal utility function.
+ That is,
+\begin_inset Formula 
+\[
+\exists F,U:\forall x,y\in X,x\succsim y\iff F\left(U\left(x\right)\right)\geq F\left(U\left(y\right)\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $x,y$
+\end_inset
+
+ are alternatives in 
+\begin_inset Formula $X$
+\end_inset
+
+, 
+\begin_inset Formula $U\left(x\right)=\left(u_{1}\left(x_{1}\right),...,u_{n}\left(x_{n}\right)\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $u_{i}:X_{i}\rightarrow\mathbb{R}$
+\end_inset
+
+ is a marginal utility function and 
+\begin_inset Formula $F:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+ is an aggregation function.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $F$
+\end_inset
+
+ is usually characterized by a parameter vector, 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+ This is, for example, a weight vector in the case of the weighted sum.
+\end_layout
+
+\begin_layout Standard
+There are several considerations to take into account:
+\end_layout
+
+\begin_layout Itemize
+How to choose the aggregation function 
+\begin_inset Formula $F$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Itemize
+How to construct the marginal utility functions 
+\begin_inset Formula $u_{i}:X_{i}\rightarrow\mathbb{R}$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Itemize
+The marginal utility functions 
+\begin_inset Formula $u_{i}$
+\end_inset
+
+ should have a signification for the DM:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ordinal scales: absolute differences between values have no importance.
+ They can represents order and preorders.
+\end_layout
+
+\begin_layout Itemize
+Cardinal scales: differences between values may be meaningful.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+The Additive Model
+\end_layout
+
+\begin_layout Standard
+In the additive model, the overall utility function can be represented as
+\begin_inset Formula 
+\[
+F\left(U\left(x\right)\right)=\sum_{i=1}^{n}u_{i}\left(x_{i}\right),
+\]
+
+\end_inset
+
+ or, equivalently,
+\begin_inset Formula 
+\[
+F\left(U\left(x\right)\right)=\sum_{i=1}^{n}w_{i}u_{i}\left(x_{i}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a simple method that involves a compensation between criteria, i.e.,
+ a bad performance on a criterion 
+\begin_inset Formula $i$
+\end_inset
+
+ could be compensated by a good performance on another criterion.
+\end_layout
+
+\begin_layout Standard
+In the weighted sum, the weights represents the substitution rate between
+ criteria.
+ For example, consider 
+\begin_inset Formula $n=2$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{1}=b\cdot w_{2}$
+\end_inset
+
+.
+ In this case, the alternatives 
+\begin_inset Formula $\left(0,b\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(1,0\right)$
+\end_inset
+
+ are indifferent.
+\end_layout
+
+\begin_layout Standard
+If we have 
+\begin_inset Formula $\left(a,b\right)\sim\left(a-\delta,b+\gamma\right)$
+\end_inset
+
+, then the gain of 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ compensates the loss of 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+ Indeed, we have
+\begin_inset Formula 
+\begin{align*}
+w_{1}\cdot a+w_{2}\cdot b & =w_{1}\cdot\left(a-\delta\right)+w_{2}\cdot\left(b+\gamma\right)\\
+\iff & w_{1}\delta=w_{2}\gamma\\
+\iff & \frac{w_{1}}{w_{2}}=\frac{\gamma}{\delta}.
+\end{align*}
+
+\end_inset
+
+ Implicitly, this implies that all the criteria could be expressed indirectly
+ in the same unit.
+\end_layout
+
+\begin_layout Standard
+Note that the additive model requires to normalize the criteria.
+ In general, we set, 
+\begin_inset Formula $\forall i\in N$
+\end_inset
+
+, 
+\begin_inset Formula $u_{i}:X_{i}\rightarrow\left[0,1\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For example, we can use:
+\begin_inset Formula 
+\[
+u_{i}\left(x_{i},X\right)=\frac{x_{i}}{\max_{y\in X}y_{i}},
+\]
+
+\end_inset
+
+ or
+\begin_inset Formula 
+\[
+u_{i}\left(x_{i},X\right)=\frac{x_{i}-\min_{y\in X}y_{i}}{\max_{y\in X}y_{i}-\min_{y\in X}y_{i}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+The Mutual Preferencial Independence Axiom
+\end_layout
+
+\begin_layout Plain Layout
+The additive model requires to satisfy the Mutual Preferencial Independence
+ Axiom, i.e., the criteria are independent in the sense of preferences.
+ This is formalized as
+\begin_inset Formula 
+\[
+\forall i\in N,\forall z_{i},t_{i}\in X_{i},\forall x,y\in X,\left(z_{i},x_{N-1}\right)\succsim\left(z_{i},y_{N-1}\right)\iff\left(t_{i},x_{N-1}\right)\succsim\left(t_{i},y_{N-1}\right).
+\]
+
+\end_inset
+
+ This means that an attribute is preferentially independent from all the
+ other attributes if changes in the rank ordering of preferences of other
+ attributes do not change the preference order of the attribute.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+MAUT in Practice
+\end_layout
+
+\begin_layout Standard
+In practice, we ask the DM some preferencial information 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+ on a 
+\series bold
+reference set
+\series default
+ (or learning set), 
+\begin_inset Formula $X'\subset X$
+\end_inset
+
+.
+ Then, the parameter vector that represents the overall utility function
+ is constructed so that 
+\begin_inset Formula $\succsim_{X}$
+\end_inset
+
+ is an extension of 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+, so that the modelobtained in 
+\begin_inset Formula $X'$
+\end_inset
+
+ is automatically extended to 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+The UTilités Additives (UTA) Approach
+\end_layout
+
+\begin_layout Standard
+The UTA method aims at inferring one or more additive value functions from
+ a given ranking on a reference set 
+\begin_inset Formula $A_{R}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The method uses linear programming techniques to assess these functions
+ so that the reankings obtained through these functions on 
+\begin_inset Formula $A_{R}$
+\end_inset
+
+ are consistent with the given one.
+\end_layout
+
+\begin_layout Standard
+The input data of UTA is a set of criteria 
+\begin_inset Formula $N$
+\end_inset
+
+, on which a set of alternatives, 
+\begin_inset Formula $X$
+\end_inset
+
+, is evaluated; a preorder 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+ on 
+\begin_inset Formula $X'\subset X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For each element 
+\begin_inset Formula $x\in X$
+\end_inset
+
+, it is assumed that
+\begin_inset Formula 
+\[
+U\left(x\right)=\sum_{i=1}^{n}u_{i}\left(x_{i}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $u_{i}:X_{i}\rightarrow\mathbb{R}$
+\end_inset
+
+ are marginal utility functions.
+\end_layout
+
+\begin_layout Standard
+Then, for each element 
+\begin_inset Formula $x\in X'$
+\end_inset
+
+, we set
+\begin_inset Formula 
+\[
+V\left(x\right)=U\left(x\right)+\sigma\left(x\right),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\sigma\left(x\right)$
+\end_inset
+
+ is a non-negative real valued function estimating the error of the estimation
+ of the value 
+\begin_inset Formula $U\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The value 
+\begin_inset Formula $\sigma\left(x\right)$
+\end_inset
+
+ will be minimized by the linear program.
+ That is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\min & \sum_{x\in X'}\sigma\left(x\right)\\
+s.t.\\
+ & V\left(x\right)\geq V\left(y\right)+\delta & if\ x\succ y\\
+ & V\left(x\right)\sim V\left(y\right) & if\ x\sim y\\
+ & u_{i}\left(x_{i}^{j+1}\right)-u_{i}\left(x_{i}^{j}\right)\geq0 & if\ x_{i}^{j+1}\succ_{i}x_{i}^{j}\\
+ & \sigma\left(x\right)\geq0 & \forall x\in X'
+\end{align*}
+
+\end_inset
+
+ If the optimal solution is equal to 0, then 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+ is representable by an additive model.
+\end_layout
+
+\begin_layout Standard
+Note that there are many variations of this method.
+ For example, the 
+\series bold
+
+\begin_inset Formula $\boldsymbol{UTA^{GMS}}$
+\end_inset
+
+ Approach
+\series default
+, which generalizes the UTA approach taking into account all additive value
+ functions compatible with indirect preference information, while 
+\begin_inset Formula $UTA$
+\end_inset
+
+ is using only one such function.
+ The marginal value functions are general monotonic non-decreasing functions,
+ and not just piecewise linear.
+ This method produces two rankings in the set of alternatives 
+\begin_inset Formula $X$
+\end_inset
+
+, such that, for any pair of alternatives 
+\begin_inset Formula $x,y\in X$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+In the 
+\series bold
+necessary order
+\series default
+, 
+\begin_inset Formula $x\succsim_{X}y\iff U\left(x\right)\geq U\left(y\right)$
+\end_inset
+
+, for all value functions 
+\begin_inset Formula $U$
+\end_inset
+
+ compatible with 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+In the 
+\series bold
+possible order
+\series default
+, 
+\begin_inset Formula $x\succsim_{X}y\iff U\left(x\right)\geq U\left(y\right)$
+\end_inset
+
+, for at least one value function 
+\begin_inset Formula $U$
+\end_inset
+
+ compatible with 
+\begin_inset Formula $\succsim_{X'}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Final Thoughts
+\end_layout
+
+\begin_layout Standard
+The Multi-Criteria Decision Aid (MCDA) phenomena has three branches:
+\end_layout
+
+\begin_layout Itemize
+Prescriptive approach: help the DM by proposing a solution using a model.
+\end_layout
+
+\begin_layout Itemize
+Descriptive approach: describe the DM preferences using a model.
+\end_layout
+
+\begin_layout Itemize
+Elicitation: obtain the parameters of a decision model that explains the
+ past decisions, in order to help with future decisions.
+ This can be done in two main ways:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Explicit elicitation: explain the model to the DM and let the DM choose
+ the parameters of the model.
+\end_layout
+
+\begin_layout Itemize
+Implicit eliciation: present some alternatives to the DM and ask him to
+ compare them.
+ From these, deduct the parameters of the model by solving an optimization
+ problem.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+The Outranking Approach
+\end_layout
+
+\begin_layout Standard
+Now, we are going to study the outranking approach, based on the premise
+ 'compare, then aggregate':
+\begin_inset Formula 
+\[
+x\succsim y\iff\left|\left\{ i\in N:x_{i}\succsim_{i}y_{i}\right\} \right|\triangleright\left|\left\{ i\in N:y_{i}\succsim_{i}x_{i}\right\} \right|.
+\]
+
+\end_inset
+
+ The principle of this approach is to compare alternatives criterion by
+ criterion, and then aggregated the comparisons:
+\begin_inset Formula 
+\[
+x\succsim y\iff U\left(c\left(x_{1},x_{2}\right),...,c\left(x_{n},y_{n}\right)\right)\geq0.
+\]
+
+\end_inset
+
+ The objectives of the approach is to build a relation on the alternatives,
+ called the 
+\series bold
+outranking relation
+\series default
+, and exploit it to solve on the MCDA problems.
+ One of the particularities of outranking methods is that the relation built
+ on the set 
+\begin_inset Formula $X$
+\end_inset
+
+ allows three types of comparisons of alternatives, namely: 
+\emph on
+preference, indifference
+\emph default
+ and 
+\emph on
+incomparability
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+This approach allows to represents doubts or hesitations of the DM, which
+ may result from phenomena like uncertainty, conflicts or contradictions.
+\end_layout
+
+\begin_layout Subsection
+Elaboration of the Outranking Relation
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be a set of alternatives evaluated on 
+\begin_inset Formula $n$
+\end_inset
+
+ real-valued criteria, 
+\begin_inset Formula $N=\left\{ 1,...,n\right\} $
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $W=\left(w_{1},...,w_{n}\right)$
+\end_inset
+
+ be a non-negative weight vector assigned to the different criteria.
+ Without loss of generality, we can suppose that 
+\begin_inset Formula $\sum_{i=1}^{n}w_{i}=1$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $p_{i}\geq0$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,...,n$
+\end_inset
+
+ be a non-negative preference threshold assigned to each criterion 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ If the value 
+\begin_inset Formula $0<x_{i}-y_{i}<p_{i}$
+\end_inset
+
+, we assume that this difference is not significant.
+ Hence, on this criterion, the two alternatives should be considered indifferent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+partial concordance index
+\series default
+ is a map 
+\begin_inset Formula $c_{i}:X\times X\rightarrow\left[0,1\right]$
+\end_inset
+
+ defined on each criterion 
+\begin_inset Formula $i\in N$
+\end_inset
+
+ by
+\begin_inset Formula 
+\[
+c_{i}\left(x,y\right)=\begin{cases}
+1 & if\ x_{i}-y_{i}>p_{i}\\
+0 & if\ x_{i}-y_{i}\leq p_{i}
+\end{cases}.
+\]
+
+\end_inset
+
+ The 
+\series bold
+concordance index
+\series default
+ is an aggregation of partial concordance indices 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+c\left(x,y\right)=\sum_{i=1}^{n}w_{i}\cdot c_{i}\left(x,y\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+The 
+\series bold
+outranking relation
+\series default
+, 
+\begin_inset Formula $S_{\lambda}$
+\end_inset
+
+, given the 
+\series bold
+cutting level 
+\series default
+
+\begin_inset Formula $\lambda\in\left[0,1\right]$
+\end_inset
+
+, on 
+\begin_inset Formula $X$
+\end_inset
+
+, is a binary relation defined by
+\begin_inset Formula 
+\[
+xS_{\lambda}y\iff c\left(x,y\right)\geq\lambda.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The concordance indicates whether there are enough reasons to say that 
+\begin_inset Formula $x$
+\end_inset
+
+ is at least as good as 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ An alternative 
+\begin_inset Formula $x\in X$
+\end_inset
+
+ outranks an alternative 
+\begin_inset Formula $y\in X$
+\end_inset
+
+ if it can be considered 
+\emph on
+'at least as good'
+\emph default
+ as the latter, given the values of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ for the 
+\begin_inset Formula $n$
+\end_inset
+
+ criteria.
+ However, if there are some criteria in which 
+\begin_inset Formula $x$
+\end_inset
+
+ is worse than 
+\begin_inset Formula $y$
+\end_inset
+
+, then 
+\begin_inset Formula $x$
+\end_inset
+
+ may outrank 
+\begin_inset Formula $y$
+\end_inset
+
+ or not, depending on the relative importance of those criteria and the
+ differences in the evaluations, since 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ may allow for ignoring small differences.
+\end_layout
+
+\begin_layout Standard
+From 
+\begin_inset Formula $S_{\lambda}$
+\end_inset
+
+, we can derive three binary relations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Strictly better than
+\series default
+ relation:
+\begin_inset Formula 
+\[
+xP_{\lambda}y\iff\left[xS_{\lambda}y\land not\left(yS_{\lambda}x\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Indifferent to
+\series default
+ relation:
+\begin_inset Formula 
+\[
+xI_{\lambda}y\iff\left[xS_{\lambda}y\land yS_{\lambda}x\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Incomparable 
+\series default
+relation:
+\begin_inset Formula 
+\[
+xU_{\lambda}y\iff\left[not\left(xS_{\lambda}y\right)\land not\left(yS_{\lambda}x\right)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Notice that an outranking relation is not necessarily transitive, and that
+ it can be defined using qualitative data as well.
+\end_layout
+
+\begin_layout Remark
+Moreover, we could also use a 
+\series bold
+discordance threshold
+\series default
+, which indicates whether there are not enough important reasons to say
+ that 
+\begin_inset Formula $x$
+\end_inset
+
+ is worse than 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+ELECTRE TRI Method
+\end_layout
+
+\begin_layout Standard
+Let us consider 
+\begin_inset Formula $r$
+\end_inset
+
+ ordered categories, 
+\begin_inset Formula $C_{1},...,C_{r}$
+\end_inset
+
+, with 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ being the worst one, and 
+\begin_inset Formula $C_{r}$
+\end_inset
+
+ the best one.
+ Each category, 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+, is modeled by using limiting profiles, i.e., 
+\begin_inset Formula $C_{k}=\left[\pi_{k},\pi_{k+1}\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $\pi_{k+1}\succ\pi_{k}$
+\end_inset
+
+ and it holds:
+\begin_inset Formula 
+\[
+\forall x\in X,xP_{\lambda}\pi_{1},\pi_{r+1}P_{\lambda}x.
+\]
+
+\end_inset
+
+ ELECTRE TRI is MCDA method that uses limiting profiles to classify the
+ elements in 
+\begin_inset Formula $X$
+\end_inset
+
+ into the 
+\begin_inset Formula $r$
+\end_inset
+
+ classes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Pessimistic version of ELECTRE TRI
+\end_layout
+
+\begin_layout Definition
+For each 
+\begin_inset Formula $x\in X$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Decrease 
+\begin_inset Formula $k$
+\end_inset
+
+, from 
+\begin_inset Formula $r+1$
+\end_inset
+
+, until the first 
+\begin_inset Formula $k$
+\end_inset
+
+ such that 
+\begin_inset Formula $xS_{\lambda}\pi_{k}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+k=\arg\max_{k}\left\{ k:xS_{\lambda}\pi_{k}\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Assign alternative 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The pessimistic version of ELECTRE TRI assigns an alternative 
+\begin_inset Formula $x$
+\end_inset
+
+ to the unique class 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+ such that 
+\begin_inset Formula $x$
+\end_inset
+
+ is at least as good as to its lower limiting profile, and not at least
+ as good as its upper limiting profile.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Optimistic version of ELECTRE TRI
+\end_layout
+
+\begin_layout Definition
+For each 
+\begin_inset Formula $x\in X$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Increase 
+\begin_inset Formula $k$
+\end_inset
+
+, from 
+\begin_inset Formula $1$
+\end_inset
+
+, until the first 
+\begin_inset Formula $k$
+\end_inset
+
+ such that 
+\begin_inset Formula $\pi_{k}P_{\lambda}a$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+k=\arg\min_{k}\left\{ k:\pi_{k}P_{\lambda}x\right\} .
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Assign alternative 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $C_{k-1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The optimistic version of ELECTRE TRI assigns an alternative 
+\begin_inset Formula $x$
+\end_inset
+
+ to the unique class 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+ such that its upper limiting profile is better than 
+\begin_inset Formula $x$
+\end_inset
+
+ and its lower limiting profile is not better than 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $x\in X$
+\end_inset
+
+ is assigned to the class 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+ by the pessimistic version, and to the category 
+\begin_inset Formula $C_{l}$
+\end_inset
+
+ by the optimistic version, then 
+\begin_inset Formula $k\leq l$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Majority Rule Sorting (MR-Sort)
+\end_layout
+
+\begin_layout Standard
+MR-Sort is a simplified version of the ELECTRE TRI method.
+ The general principle of MR-Sort is to assign alternatives by comparing
+ their performances to those to profiles delimiting the categories.
+ An alternative is assigned to a category above a profile if, and only if,
+ it's at least as good as the profile on a weighted majority of criteria.
+ 
+\end_layout
+
+\begin_layout Standard
+That it, 
+\begin_inset Formula $x\in X$
+\end_inset
+
+ is assigned to category 
+\begin_inset Formula $C_{k}$
+\end_inset
+
+ if
+\begin_inset Formula 
+\[
+\sum_{i:a_{i}\geq\pi_{k,i}}w_{i}\geq\lambda
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+\sum_{i:a_{i}\geq\pi_{k+1,i}}w_{i}<\lambda.
+\]
+
+\end_inset
+
+ The MR-Sort method involves 
+\begin_inset Formula $r\times n+1$
+\end_inset
+
+ parameters.
+\end_layout
+
+\begin_layout Standard
+The problem of learning the parameters of MR-Sort model on the basis of
+ assignment examples can be formulated as a MIP problem, but only instances
+ of modest size can be solved in reasonable computing times.
+\end_layout
+
+\begin_layout Standard
+For instance, a problem involving 1000 alternatives, 10 criteria and 5 categorie
+s requires 21000 binary variables.
+\end_layout
+
+\begin_layout Standard
+Learning only the weights and the majority threshold of an MR-Sort model
+ on the basis of assignment examples can be done using an ordinary linear
+ program, without binary nor integer variables.
+ On the contrary, learning profile evaluations is not possible by linear
+ programming without binary variables.
+\end_layout
+
+\begin_layout Example
+Given the following alternatives, criteria and weights:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+c
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+e
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Weights
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Assign them to the categories 
+\begin_inset Formula $C_{1}\equiv Bad$
+\end_inset
+
+, 
+\begin_inset Formula $C_{2}\equiv Medium$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{3}\equiv Good$
+\end_inset
+
+, with limiting profiles:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\pi_{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\pi_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\pi_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\pi_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+With 
+\begin_inset Formula $\lambda=0.7$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $a$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+a-\pi_{3}:0+0.3+0+0.2=0.5<0.7
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+a-\pi_{2}:0.4+0.3+0+0.2=0.9\geq0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $a\in C_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $b$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+b-\pi_{3}:0.4+0+0.1+0=0.5<0.7
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+a-\pi_{2}:0.4+0+0.1+0=0.5<0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $b\in C_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $c$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+c-\pi_{3}:0+0.3+0.1+0.2=0.6<0.7
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+c-\pi_{2}:0+0.3+0.1+0.2=0.6<0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $c\in C_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $d$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+d-\pi_{3}:0.4+0+0.1+0.2=0.7\geq0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $d\in C_{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $e$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+e-\pi_{3}:0+0.3+0+0.2=0.5<0.7
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+e-\pi_{2}:0+0.3+0+0.2=0.5<0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $e\in C_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+f-\pi_{3}:0+0+0.1+0=0.1<0.7
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+f-\pi_{3}:0+0.3+0.1+0.2=0.6<0.7
+\]
+
+\end_inset
+
+ So 
+\begin_inset Formula $f\in C_{1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Therefor, 
+\begin_inset Formula $C_{1}=\left\{ b,c,e,f\right\} ,C_{2}=\left\{ a\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $C_{3}=\left\{ b\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
