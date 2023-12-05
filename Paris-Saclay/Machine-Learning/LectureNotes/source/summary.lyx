@@ -9370,6 +9370,380 @@ This approach consists in generated image pixels starting from the corner.
  very slow.
 \end_layout
 
+\begin_layout Section
+Denoising Diffusion Models
+\end_layout
+
+\begin_layout Standard
+To train diffusion models, there are two processes involved:
+\end_layout
+
+\begin_layout Itemize
+Forward process: gradually adds noice to the input, until obtaining a completely
+ noisy image.
+\end_layout
+
+\begin_layout Itemize
+Reverse process: learns to generate data by denoising.
+\end_layout
+
+\begin_layout Standard
+This is illustrated in this Figure:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado66.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The forward process can be seen as a Markov process, with starting state
+ 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ and transition probability 
+\begin_inset Formula $q\left(x_{t}|x_{t-1}\right)$
+\end_inset
+
+ for 
+\begin_inset Formula $t=1,...,T$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+x_{0}\overset{q\left(x_{1}|x_{0}\right)}{\rightarrow}x_{1}\overset{q\left(x_{2}|x_{1}\right)}{\rightarrow}x_{2}\overset{q\left(x_{3}|x_{2}\right)}{\rightarrow}...\overset{q\left(x_{T-1}|x_{T-2}\right)}{\rightarrow}x_{T-1}\overset{q\left(x_{T}|x_{T-1}\right)}{\rightarrow}x_{T}
+\]
+
+\end_inset
+
+ The transition probability or 
+\series bold
+Markov kernel
+\series default
+ is usually chosen to be
+\begin_inset Formula 
+\[
+q\left(x_{t}|x_{t-1}\right)=\mathcal{N}\left(x_{t};\sqrt{1-\beta_{t}}x_{t-1},\beta_{t}I\right),\ \beta_{t}\in\left(0,1\right),
+\]
+
+\end_inset
+
+ but it can be any Markov Diffusion Kernel.
+ The property of these kernels is that they converge to a standard distribution.
+ In this case, they converge to a normal distribution, always the same,
+ no matter the input, 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Thus, the forward trajectory can be expressed as
+\begin_inset Formula 
+\[
+q\left(x_{0;T}\right)=q\left(x_{0}\right)\prod_{t=1}^{T}q\left(x_{t}|x_{t-1}\right).
+\]
+
+\end_inset
+
+ And to go to step 
+\begin_inset Formula $t$
+\end_inset
+
+, from the step 
+\begin_inset Formula $t-1$
+\end_inset
+
+, we just need to sample from the kernel distribution.
+\end_layout
+
+\begin_layout Standard
+It is also possible to go advance several steps at once.
+ For this, we can define the parameters:
+\begin_inset Formula 
+\[
+\begin{cases}
+\alpha_{t}=1-\beta_{t}\\
+\hat{\alpha}_{t}=\prod_{s=1}^{t}\alpha_{s}
+\end{cases},
+\]
+
+\end_inset
+
+ and use the Markov kernel
+\begin_inset Formula 
+\[
+q\left(x_{t}|x_{0}\right)=\mathcal{N}\left(x_{t};\sqrt{\hat{\alpha}_{t}}x_{0},\left(1-\hat{\alpha}_{t}\right)I\right),
+\]
+
+\end_inset
+
+ which is equivalent to do
+\begin_inset Formula 
+\[
+x_{t}=\sqrt{\hat{\alpha}_{t}}x_{0}+\sqrt{1-\hat{\alpha}_{t}}\varepsilon
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\varepsilon\sim\mathcal{N}\left(0,I\right)$
+\end_inset
+
+.
+ This allows to go to any node in the chain in just one step.
+\end_layout
+
+\begin_layout Standard
+The parameter 
+\begin_inset Formula $\beta_{t}$
+\end_inset
+
+ is the 
+\series bold
+noise scheduler
+\series default
+, and it's chosen to have increasing variance, in such a way that 
+\begin_inset Formula $q\left(x_{T}\right)$
+\end_inset
+
+ is a standard Gaussian.
+ If the 
+\begin_inset Formula $\beta_{t}$
+\end_inset
+
+-s are small enough, the reverse transitions are also Gaussian, but 
+\begin_inset Formula $q\left(x_{t-1}|x_{t}\right)$
+\end_inset
+
+ in intractable, but using the Bayes rule we know that
+\begin_inset Formula 
+\[
+q\left(x_{t-1}|x_{t}\right)\propto q\left(x_{t-1}\right)q\left(x_{t}|x_{t-1}\right),
+\]
+
+\end_inset
+
+ and we can use a model to approximate this reverse process.
+\end_layout
+
+\begin_layout Standard
+That is, we are going to train a model to approximate the reverse, denoising,
+ process.
+ This parametric reverse model:
+\end_layout
+
+\begin_layout Itemize
+Is also a Markov chain, starting at 
+\begin_inset Formula $x_{T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+It starts with 
+\begin_inset Formula $p\left(x_{T}\right)=\mathcal{N}\left(x_{T};0,I\right)$
+\end_inset
+
+, since 
+\begin_inset Formula $q\left(x_{T}\right)\approx\mathcal{N}\left(0,I\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Its transitions are learned.
+\end_layout
+
+\begin_layout Standard
+So, how may we achieve this? 
+\end_layout
+
+\begin_layout Standard
+The reverse process is:
+\begin_inset Formula 
+\[
+x_{0}\overset{p_{\theta}\left(x_{0}|x_{1}\right)}{\leftarrow}x_{1}\overset{p_{\theta}\left(x_{1}|x_{2}\right)}{\leftarrow}x_{2}\overset{p_{\theta}\left(x_{2}|x_{3}\right)}{\leftarrow}...\overset{p_{\theta}\left(x_{T-2}|x_{T-1}\right)}{\leftarrow}x_{T-1}\overset{p_{\theta}\left(x_{T-1}|x_{T}\right)}{\leftarrow}x_{T}
+\]
+
+\end_inset
+
+ So the reverse transitions are
+\begin_inset Formula 
+\[
+p_{\theta}\left(x_{t-1}|x_{t}\right)=\mathcal{N}\left(x_{t-1};{\color{red}\mu_{\theta}\left(x_{t},t\right)},\sigma_{t}^{2}I\right),
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula $\mu_{\theta}\left(x_{t},t\right)$
+\end_inset
+
+ will be our trainable network! The reverse trajectory is then
+\begin_inset Formula 
+\[
+p_{\theta}\left(x_{0;T}\right)=p\left(x_{T}\right)\prod_{t=1}^{T}p_{\theta}\left(x_{t-1}|x_{t}\right).
+\]
+
+\end_inset
+
+ To train this, we follow a maximum likelihood approach:
+\begin_inset Formula 
+\[
+\mathcal{J}\left(x,\theta\right)=-\log p_{\theta}\left(x_{0}\right)
+\]
+
+\end_inset
+
+ Now, we can marginalize by integrating over the latents:
+\begin_inset Formula 
+\[
+-\log p_{\theta}\left(x_{0}\right)=-\log\int p_{\theta}\left(x_{0:T}\right)dx_{1:T},
+\]
+
+\end_inset
+
+ which is a shortened notation for 
+\begin_inset Formula $-\log\int...\int p_{\theta}\left(x_{0},x_{1},...,x_{T}\right)dx_{1}...dx_{T}$
+\end_inset
+
+.
+ Here, we can multiply and divide by 
+\begin_inset Formula $q\left(x_{1:T}|x_{0}\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+-\log p_{\theta}\left(x_{0}\right)=-\log\int p_{\theta}\left(x_{0:T}\right)\frac{q\left(x_{1:T}|x_{0}\right)}{q\left(x_{1:T}|x_{0}\right)}dx_{1:T},
+\]
+
+\end_inset
+
+ which can be seen as an expectation:
+\begin_inset Formula 
+\[
+-\log p_{\theta}\left(x_{0}\right)=-\log\mathbb{E}_{x_{1:T}\sim q\left(x_{1:T}|x_{0}\right)}\left[\frac{p_{\theta}\left(x_{0:T}\right)}{q\left(x_{1:T}|x_{0}\right)}\right],
+\]
+
+\end_inset
+
+ and in this point we can use the Jensen's inequality:
+\begin_inset Formula 
+\[
+-\log\mathbb{E}_{x_{1:T}\sim q\left(x_{1:T}|x_{0}\right)}\left[\frac{p_{\theta}\left(x_{0:T}\right)}{q\left(x_{1:T}|x_{0}\right)}\right]\leq\mathbb{E}_{x_{1:T}\sim q\left(x_{1:T}|x_{0}\right)}\left[-\log\frac{p_{\theta}\left(x_{0:T}\right)}{q\left(x_{1:T}|x_{0}\right)}\right]=L_{VLB}.
+\]
+
+\end_inset
+
+ We have reached 
+\begin_inset Formula $L_{VLB}$
+\end_inset
+
+, the 
+\series bold
+variational lower bound
+\series default
+.
+ After some derivations, it is possible to arrive to
+\begin_inset Formula 
+\[
+\mathbb{E}_{q}\left[{\color{red}D_{KL}\left(q\left(x_{T}|x_{0}\right)\Vert p\left(x_{T}\right)\right)}+\sum_{t>1}{\color{red}{\color{blue}D_{KL}\left(q\left(x_{t-1}|x_{t},x_{0}\right)\Vert p_{\theta}\left(x_{t-1}|x_{t}\right)\right)}}-{\color{purple}\log p_{\theta}\left(x_{0}|x_{1}\right)}\right],
+\]
+
+\end_inset
+
+ here 
+\begin_inset Formula ${\color{red}D_{KL}\left(q\left(x_{T}|x_{0}\right)\Vert p\left(x_{T}\right)\right)}$
+\end_inset
+
+ has no learnable parameters, so we can remove it, and we name:
+\begin_inset Formula 
+\[
+{\color{red}{\color{blue}L_{t-1}=D_{KL}\left(q\left(x_{t-1}|x_{t},x_{0}\right)\Vert p_{\theta}\left(x_{t-1}|x_{t}\right)\right)}}
+\]
+
+\end_inset
+
+ and
+\begin_inset Formula 
+\[
+{\color{purple}L_{0}=-\log p_{\theta}\left(x_{0}|x_{1}\right)}.
+\]
+
+\end_inset
+
+Now, 
+\begin_inset Formula $D_{KL}\left(P\Vert Q\right)$
+\end_inset
+
+ is always non-negative, and is 0 when 
+\begin_inset Formula $P=Q$
+\end_inset
+
+.
+ Also, when conditioned on 
+\begin_inset Formula $x_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, the reverse process becomes tractable:
+\begin_inset Formula 
+\[
+q\left(x_{t-1}|x_{t},x_{0}\right)=\mathcal{N}\left(x_{t-1};\hat{\mu}_{t}\left(x_{t},x_{0}\right),\hat{\beta}_{t}I\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\hat{\mu}_{t}\left(x_{t},x_{0}\right)=\frac{\sqrt{\hat{\alpha}_{t-1}}\beta_{t}}{1-\hat{\alpha}_{t}}x_{0}+\frac{\sqrt{\alpha_{t}}\left(1-\hat{\alpha}_{t-1}\right)}{1-\hat{\alpha}_{t}}x_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\beta}_{t}=\frac{1-\hat{\alpha}_{t-1}}{1-\hat{\alpha}_{t}}\beta_{t}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Of course, we don't have 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ available at inference time, so what we want is 
+\begin_inset Formula $p_{\theta}\left(x_{t-1}|x_{t}\right)$
+\end_inset
+
+ to be as close as possible to 
+\begin_inset Formula $q\left(x_{t-1}|x_{t},x_{0}\right)$
+\end_inset
+
+.
+ For this, we use the normal law and approximate our 
+\begin_inset Formula $\hat{\mu}_{t}\left(x_{t},x_{0}\right)$
+\end_inset
+
+ in our approximated reverse process.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
