@@ -9327,14 +9327,36 @@ F\left(f\right)>F\left(e\right)\iff50w_{1}+70w_{2}+60w_{3}>50w_{1}+65w_{2}+75w_{
 
 \end_inset
 
- The previous restriction is equivalent to
+ The first restriction is equivalent to
 \begin_inset Formula 
 \[
-5w_{2}>2w_{3}-w_{1}>2w_{3}.
+5w_{2}>2w_{3}-w_{1},
 \]
 
 \end_inset
 
+ using the second restriction, we obtain that
+\begin_inset Formula 
+\[
+5w_{2}>15w_{3},
+\]
+
+\end_inset
+
+ so making
+\begin_inset Formula 
+\[
+15w_{3}>2w_{3}-w_{1}\iff13w_{3}>-w_{1}
+\]
+
+\end_inset
+
+ works.
+ Since this is always true 
+\begin_inset Formula $\left(w_{1},w_{3}\geq0\right)$
+\end_inset
+
+, it is enough to ensure the second restriction.
  Therefore, choosing 
 \begin_inset Formula $\left(w_{1},w_{2},w_{3}\right)$
 \end_inset
