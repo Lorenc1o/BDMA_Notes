@@ -12923,7 +12923,7 @@ Let's compute the comparison value for each pair of alternatives:
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.45
+0.3
 \end_layout
 
 \end_inset
@@ -13068,7 +13068,7 @@ Let's compute the comparison value for each pair of alternatives:
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.7
+0.8
 \end_layout
 
 \end_inset
@@ -13421,7 +13421,7 @@ Let's compute the comparison value for each pair of alternatives:
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.7
+0.8
 \end_layout
 
 \end_inset
@@ -13507,7 +13507,7 @@ Let's compute the comparison value for each pair of alternatives:
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.75
+0.7
 \end_layout
 
 \end_inset
@@ -13614,137 +13614,8 @@ a_{8}\succsim a_{1},a_{2},a_{3},a_{4},a_{5},a_{6},a_{7}
 , with
 \begin_inset Formula 
 \[
-a_{8}\succ\left[a_{2},a_{3},a_{5},a_{6},a_{7}\right]\succ\left[a_{1},a_{5}\right]
+a_{8}\succsim\left[a_{2},a_{3},a_{5},a_{6},a_{7}\right]\succsim\left[a_{1},a_{5}\right]
 \]
-
-\end_inset
-
- So the classification must be
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $C_{1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $C_{2}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $a_{1},a_{5}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $C_{3}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $a_{2},a_{3},a_{5},a_{6},a_{7}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $C_{4}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\xout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $a_{8}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
 
 \end_inset
 
