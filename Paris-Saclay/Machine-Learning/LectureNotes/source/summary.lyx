@@ -4,8 +4,29 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass article
+\textclass scrartcl
 \begin_preamble
+\usepackage{ifpdf}
+\ifpdf
+
+% set fonts for nicer pdf view
+\IfFileExists{lmodern.sty}
+ {\usepackage{lmodern}}{}
+
+\fi % end if pdflatex is used
+
+\@ifpackageloaded{babel}{
+ % increase link area for cross-references and autoname them,
+ \AtBeginDocument{\renewcommand{\ref}[1]{\mbox{\autoref{#1}}}}
+ \@ifundefined{extrasenglish}{\usepackage[english]{babel}}{}
+ \addto\extrasenglish{%
+  \renewcommand*{\equationautorefname}[1]{}%
+  \renewcommand{\sectionautorefname}{sec.\negthinspace}%
+  \renewcommand{\subsectionautorefname}{sec.\negthinspace}%
+  \renewcommand{\subsubsectionautorefname}{sec.\negthinspace}%
+ }
+}{}
+
 \usepackage{footmisc}
 \usepackage{listings}
 \usepackage{colortbl}
@@ -37,6 +58,7 @@
 
 \lstset{style=mystyle}
 \end_preamble
+\options BCOR8mm, most, usenames, dvipsnames
 \use_default_options true
 \begin_modules
 tcolorbox
@@ -21916,6 +21938,240 @@ Estimate one-step reward, with behavior
 \end_inset
 
  as unbiased sample.
+\end_layout
+
+\begin_layout Section
+Value approximation & Deep Reinforcement Learning
+\end_layout
+
+\begin_layout Subsection
+Approximate Model-Free Prediction
+\end_layout
+
+\begin_layout Standard
+Tabular RL does not scale to large, complex problems, because there are
+ too many states to store in memory, and it is too slow to learn the values
+ of each state separately.
+ Therefore, we need to generalise what we learn across states.
+\end_layout
+
+\begin_layout Standard
+We can estimate values or policies in an approximate way:
+\end_layout
+
+\begin_layout Enumerate
+Map states 
+\begin_inset Formula $s$
+\end_inset
+
+ onto a suitable feature representation 
+\begin_inset Formula $\phi\left(s\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Map features to values through a parametrised funciton 
+\begin_inset Formula $v_{\theta}\left(\phi\left(s\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Update parameters 
+\begin_inset Formula $\theta$
+\end_inset
+
+ so that 
+\begin_inset Formula $v_{\pi}\left(s\right)\sim v_{\theta}\left(\phi\left(s\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+goal
+\series default
+ is then to find 
+\begin_inset Formula $\theta$
+\end_inset
+
+ that minimises the difference between 
+\begin_inset Formula $v_{\pi}$
+\end_inset
+
+ and 
+\begin_inset Formula $v_{\theta}$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+L\left(\theta\right)=\mathbb{E}_{S\sim d}\left[\left(v_{\pi}\left(S\right)-v_{\theta}\left(S\right)\right)^{2}\right],
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $d$
+\end_inset
+
+ is the state visitation distribution induced by 
+\begin_inset Formula $\pi$
+\end_inset
+
+ and the dynamics 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For this, we can use gradient descent to iteratively minimise this objective
+ function:
+\begin_inset Formula 
+\[
+\Delta\theta=-\frac{1}{2}\alpha\nabla_{\theta}L\left(\theta\right)=\alpha\mathbb{E}_{S\sim d}\left[\left(v_{\pi}\left(S\right)-v_{\theta}\left(S\right)\right)\nabla_{\theta}v_{\theta}\left(S\right)\right].
+\]
+
+\end_inset
+
+ The evaluation of the expectation is going to be a 
+\color red
+problem
+\color inherit
+, and therefore the solution is to use 
+\color green
+stochastic gradient descent
+\color inherit
+, sampling the gradient update:
+\begin_inset Formula 
+\[
+\Delta\theta=\alpha\left(G_{t}-v_{\theta}\left(S_{t}\right)\right)\nabla_{\theta}v_{\theta}\left(S_{t}\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $G_{t}$
+\end_inset
+
+ is a suitable sampled estimate of the return.
+\end_layout
+
+\begin_layout Standard
+For Monte Carlo Prediction, it is
+\begin_inset Formula 
+\[
+G_{t}=R_{t}+\gamma R_{t+1}+\gamma^{2}R_{t+2}+...
+\]
+
+\end_inset
+
+ and for Temporal Difference Prediction it is
+\begin_inset Formula 
+\[
+G_{t}=R_{t}+\gamma v_{\theta}\left(S_{t+1}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At this point, it is pretty evident that we can use Deep Learning in this
+ setting!
+\end_layout
+
+\begin_layout Subsection
+Deep Reinforcement Learning
+\end_layout
+
+\begin_layout Standard
+Before, the feature representation was typically fixed, and the parametrized
+ function was just a linear mapping.
+ We will consider more complicated non-linear mappings 
+\begin_inset Formula $v_{\theta}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A popular choice is to use DNNs to parameterize such mapping.
+ These are known to discover useful feature representation tailored to the
+ specific task, and we can leverage extensive research on architectures
+ and optimisation from DL.
+\end_layout
+
+\begin_layout Standard
+Therefore, we are going to parameterize 
+\begin_inset Formula $v_{\theta}$
+\end_inset
+
+ using a DNN.
+ For instance, as a MLP:
+\begin_inset Formula 
+\[
+v_{\theta}\left(S\right)=W_{2}\cdot tanh\left(W_{1}\cdot S+b_{1}\right)+b_{2},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\theta=\left\{ W_{1},b_{1},W_{2},b_{2}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When 
+\begin_inset Formula $v_{\theta}$
+\end_inset
+
+ is linear, 
+\begin_inset Formula $\nabla v_{\theta}$
+\end_inset
+
+ is trivial to compute.
+ However, now we have to use automatic differentiation with back-propagation
+ implemented in DL frameworks.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+colback=green!5!white,colframe=green!75!black,title=DeepMind Atari Breakthrough
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+DeepMind was able to develop a Deep Reinforcement Learning system that obtained
+ human performance in all classic Atari games.
+ The did it by using function approximation to help scale ip to making decisions
+ in very large domains.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
