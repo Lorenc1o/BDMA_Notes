@@ -22154,7 +22154,11 @@ status open
 status open
 
 \begin_layout Plain Layout
-colback=green!5!white,colframe=green!75!black,title=DeepMind Atari Breakthrough
+colback=blue!5!white,colframe=blue!75!black,title=
+\backslash
+textbf{
+\backslash
+color{white}DeepMind Atari Breakthrough}
 \end_layout
 
 \end_inset
@@ -22172,6 +22176,560 @@ DeepMind was able to develop a Deep Reinforcement Learning system that obtained
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+To achieve such thing, they developed the concept of 
+\series bold
+Deep Q-Networks (DQN)
+\series default
+ which consists on neural networks that are used to represents the value
+ function, 
+\begin_inset Formula $Q$
+\end_inset
+
+, policies and models, optimising a loss function by SGD.
+\end_layout
+
+\begin_layout Standard
+Therefore, we represent the state-action value function by a DQN with weights
+ 
+\begin_inset Formula $w$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\hat{Q}\left(s,a;w\right)\approx Q\left(s,a\right),
+\]
+
+\end_inset
+
+ for which we:
+\end_layout
+
+\begin_layout Enumerate
+Map the input state, 
+\begin_inset Formula $s$
+\end_inset
+
+, to a 
+\begin_inset Formula $h$
+\end_inset
+
+-dimensional vector.
+\end_layout
+
+\begin_layout Enumerate
+Apply a non-linear transformation, like 
+\begin_inset Formula $tanh$
+\end_inset
+
+ or 
+\begin_inset Formula $ReLU$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Map the hidden vector to the 
+\begin_inset Formula $m$
+\end_inset
+
+ possible action values, as a classification problem.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The action with greatest approximated 
+\begin_inset Formula $Q$
+\end_inset
+
+-value is selected.
+\end_layout
+
+\begin_layout Standard
+It is also possible to pass each action to the network, and output its 
+\begin_inset Formula $Q$
+\end_inset
+
+-value.
+ This is useful when there are too many actions or the action space is continuou
+s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+colback=blue!5!white,colframe=blue!75!black,title=
+\backslash
+textbf{
+\backslash
+color{white}DeepMind Atari Breakthrough}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+The performed end-to-end learning of the values 
+\begin_inset Formula $Q\left(s,a\right)$
+\end_inset
+
+ from the states, 
+\begin_inset Formula $s$
+\end_inset
+
+, represented by the pixels of the game of the last 4 frames of the game.
+\end_layout
+
+\begin_layout Plain Layout
+The output is the value 
+\begin_inset Formula $Q\left(s,a\right)$
+\end_inset
+
+ for the 18 possible button positions.
+\end_layout
+
+\begin_layout Plain Layout
+The reward is a change in the score for that step.
+\end_layout
+
+\begin_layout Plain Layout
+The network architecture and hyperparameters were the same for all the games
+ of the console!
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado67.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We saw in previous sections that 
+\begin_inset Formula $Q$
+\end_inset
+
+-learning converges to the optimal 
+\begin_inset Formula $Q^{*}\left(s,a\right)$
+\end_inset
+
+ using table lookup representation.
+ When working with value function approximation, we can minimize the MSE
+ loss by SGD using a target 
+\begin_inset Formula $Q$
+\end_inset
+
+ estimate instead of the true 
+\begin_inset Formula $Q$
+\end_inset
+
+, like in linear value function approximation.
+\end_layout
+
+\begin_layout Standard
+However, 
+\begin_inset Formula $Q$
+\end_inset
+
+-learning with value function approximation can diverge from the optimal
+ 
+\begin_inset Formula $Q^{*}$
+\end_inset
+
+, due to mainly the correlations between samples, and the existence of non-stati
+onary targets.
+\end_layout
+
+\begin_layout Standard
+DQN addresses these challenges by leveraging 
+\series bold
+experience replay
+\series default
+ and 
+\series bold
+fixed 
+\begin_inset Formula $Q$
+\end_inset
+
+-targets
+\series default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Experience Replay
+\end_layout
+
+\begin_layout Standard
+To help remove correlations, we can store a dataset, called the 
+\series bold
+replay buffer
+\series default
+, 
+\begin_inset Formula $\mathcal{D}$
+\end_inset
+
+, obtained from prior experience.
+ In this dataset, we store at each step 
+\begin_inset Formula $i$
+\end_inset
+
+, the tuple 
+\begin_inset Formula $\left(s_{i},a_{i},r_{i+1},s_{i+1}\right)$
+\end_inset
+
+, that is:
+\end_layout
+
+\begin_layout Itemize
+The initial state.
+\end_layout
+
+\begin_layout Itemize
+The action taken.
+\end_layout
+
+\begin_layout Itemize
+The reward.
+\end_layout
+
+\begin_layout Itemize
+The obtained state.
+\end_layout
+
+\begin_layout Standard
+Once we have the dataset, we would perform experience replay as follows:
+\end_layout
+
+\begin_layout Enumerate
+Sample an experience tuple from the replay buffer:.
+\begin_inset Formula 
+\[
+\left(s,a,r,s'\right)\sim\mathcal{D}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compute the target value for the sampled 
+\begin_inset Formula $s$
+\end_inset
+
+ as 
+\begin_inset Formula $r+\gamma\max_{a'}\hat{Q}\left(s',a';w\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Use SGD to update the network weights:
+\begin_inset Formula 
+\[
+\Delta w=\alpha\left(r+\gamma\max_{a'}\hat{Q}\left(s',a';w\right)-\hat{Q}\left(s,a;w\right)\right)\nabla_{w}\hat{Q}\left(s,a;w\right),
+\]
+
+\end_inset
+
+ obtained from the loss function
+\begin_inset Formula 
+\[
+L\left(w\right)=\frac{1}{2}\left(r+\gamma\max_{a'}\hat{Q}\left(s',a';w\right)-\hat{Q}\left(s,a;w\right)\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Deep Learning aware Reinforcement Learning
+\end_layout
+
+\begin_layout Standard
+As always, things are not all good, and there exist issues with online deep
+ RL.
+ We know from DL literature that
+\end_layout
+
+\begin_layout Itemize
+SGD assumes gradients are sampled IID.
+\end_layout
+
+\begin_layout Itemize
+Using mini-batches instead of single samples is typically better.
+\end_layout
+
+\begin_layout Standard
+However, in online RL, we perform an update on every new sample, and consecutive
+ updates are strongly correlated.
+\end_layout
+
+\begin_layout Standard
+We can be smart in the design of the method to improve it.
+ For instance, Experience Replay helps with this, because we can mix online
+ updates with updates on data sampled from the replay buffer.
+ This approach can reduce correlation between consecutive updates, and enables
+ mini-batch updates, instead of vanilla SGD.
+\end_layout
+
+\begin_layout Standard
+Other ways to address this issue are:
+\end_layout
+
+\begin_layout Itemize
+Use better online algorithms, like eligibility traces.
+\end_layout
+
+\begin_layout Itemize
+Use better optimizers, like with momentum.
+\end_layout
+
+\begin_layout Itemize
+Planning with learnt models, like Dyna-Q.
+\end_layout
+
+\begin_layout Itemize
+Changing the problem setting itself, like using parallel environments.
+\end_layout
+
+\begin_layout Subsubsection
+The Deadly Triad
+\end_layout
+
+\begin_layout Standard
+If we use experience replay, we are combining:
+\end_layout
+
+\begin_layout Enumerate
+Function approximation: with the mere use of a neural network to fit the
+ action values.
+\end_layout
+
+\begin_layout Enumerate
+Bootstrapping: because we bootstrap on 
+\begin_inset Formula $\max_{a}Q_{\theta}\left(s,a\right)$
+\end_inset
+
+ to construct the target.
+\end_layout
+
+\begin_layout Enumerate
+Off-policy learning: the replay hold data from a mixture of past policies.
+\end_layout
+
+\begin_layout Standard
+When these three elements are combined, they can create a feedback loop
+ where errors in the function approximation are compounded through bootstrapping
+, and the off-policy nature of the learning algorithm can lead to poor or
+ incorrect updates.
+ This can cause the learning algorithm to diverge, meaning that instead
+ of converging to a solution, it becomes increasingly unstable over time.
+\end_layout
+
+\begin_layout Standard
+Empirically, it is actually rare to see unbounded divergence.
+ The most common scenarios are value explosions that recover after an initial
+ phase, a phenomenon referred to as 
+\series bold
+soft-divergence
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Soft-divergence still cause value estimates to be quite poor for extended
+ periods...
+ But we can address this in our RL agents using a separate 
+\series bold
+target network
+\series default
+, that is:
+\end_layout
+
+\begin_layout Itemize
+Hold fixed the parameters used to compute the bootstrap targets 
+\begin_inset Formula $\max_{a}Q_{\theta}\left(s,a\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Only update them periodically (every few hundreds or thousands of updates).
+\end_layout
+
+\begin_layout Standard
+This way, we can break the feedback loop that sits at the heart of the deadly
+ triad.
+\end_layout
+
+\begin_layout Standard
+The general pseudocode of DQN is the following:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def DQN(C, alpha, gamma):
+\end_layout
+
+\begin_layout Plain Layout
+
+	D = {} #Replay buffer
+\end_layout
+
+\begin_layout Plain Layout
+
+	Initialize w #DQN
+\end_layout
+
+\begin_layout Plain Layout
+
+	w_ = w #Target network
+\end_layout
+
+\begin_layout Plain Layout
+
+	t = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+	Get initial state s_0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	while True:
+\end_layout
+
+\begin_layout Plain Layout
+
+		sample action a_t given eps-greedy policy for current Q'(s_t,a;w)
+\end_layout
+
+\begin_layout Plain Layout
+
+		Observe reward r_t
+\end_layout
+
+\begin_layout Plain Layout
+
+		Observe next state s_t+1
+\end_layout
+
+\begin_layout Plain Layout
+
+		D.append(s_t,a_t,r_t,s_t+1)
+\end_layout
+
+\begin_layout Plain Layout
+
+		sample random mini-batch of tuples (s_i,a_i,r_i,s_i+1) from D
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		for j in mini-batch do
+\end_layout
+
+\begin_layout Plain Layout
+
+			if episode terminated at step i+1 then
+\end_layout
+
+\begin_layout Plain Layout
+
+				y_i = r_i
+\end_layout
+
+\begin_layout Plain Layout
+
+			else
+\end_layout
+
+\begin_layout Plain Layout
+
+				y_i = r_i + gamma * max_a[Q'(s_i,a_i;w_)]
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\end_layout
+
+\begin_layout Plain Layout
+
+			do SGD step on (y_i - Q'(s_i,a_i;w))^2
+\end_layout
+
+\begin_layout Plain Layout
+
+			update w += dw
+\end_layout
+
+\begin_layout Plain Layout
+
+		t++
+\end_layout
+
+\begin_layout Plain Layout
+
+		if t % C == 0:
+\end_layout
+
+\begin_layout Plain Layout
+
+			w_ = w
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Deep Double Q-Learning
 \end_layout
 
 \begin_layout Standard

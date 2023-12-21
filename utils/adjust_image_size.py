@@ -1,5 +1,18 @@
 from bs4 import BeautifulSoup
 import chardet
+import re
+
+def replace_img_urls(file_path):
+    with open(file_path, 'r+', encoding='utf-8') as file:
+        content = file.read()
+
+        # Regular expression to find image tags and capture the src attribute
+        pattern = r'<img [^>]*src="([^"]+)"'
+        modified_content = re.sub(pattern, lambda match: '<img src="./' + match.group(1).split('/')[-1] + '"', content)
+
+        file.seek(0)
+        file.write(modified_content)
+        file.truncate()
 
 def adjust_image_size(html_file_path):
     with open(html_file_path, 'rb') as file:
@@ -26,5 +39,7 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
         adjust_image_size(sys.argv[1])
+        if len(sys.argv) > 2:
+            replace_img_urls(sys.argv[1])
     else:
         print("Provide the path to the HTML file as an argument.")
