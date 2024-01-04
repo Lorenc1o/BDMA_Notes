@@ -9766,6 +9766,1038 @@ Of course, we don't have
  in our approximated reverse process.
 \end_layout
 
+\begin_layout Section
+Transformers
+\end_layout
+
+\begin_layout Standard
+Credits to Lucas Beyer's slides 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://acdl2023.icas.cc/dr-lucas-beyers-slides/"
+target "https://acdl2023.icas.cc/dr-lucas-beyers-slides/"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Attention
+\end_layout
+
+\begin_layout Standard
+Attention is a function, similar to a 
+\emph on
+soft
+\emph default
+ k-v dictionary lookup.
+ Let's delve into it more precisely:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Attention weights
+\series default
+, 
+\begin_inset Formula $a_{1:N}$
+\end_inset
+
+ represents query-key similarities.
+ They are defined by
+\begin_inset Formula 
+\[
+\hat{a}_{i}=q\cdot k_{i},
+\]
+
+\end_inset
+
+ and normalized via softmax
+\begin_inset Formula 
+\[
+a_{i}=\frac{e^{\hat{a}_{i}}}{\sum_{j}e^{\hat{a}_{j}}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Output
+\series default
+, 
+\begin_inset Formula $z$
+\end_inset
+
+, is an attention-weigthed average of the values 
+\begin_inset Formula $v_{1:N}$
+\end_inset
+
+.
+ That is:
+\begin_inset Formula 
+\[
+z=\sum_{i}\hat{a}_{i}v_{i}=\hat{a}\cdot v.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Usually, 
+\begin_inset Formula $k$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ are derived from the same input 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+k=W_{k}\cdot x,
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+v=W_{v}\cdot x.
+\]
+
+\end_inset
+
+ The query, 
+\begin_inset Formula $q$
+\end_inset
+
+, can come from a separate input 
+\begin_inset Formula $y$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+q=W_{q}\cdot y
+\]
+
+\end_inset
+
+ or from the same input 
+\begin_inset Formula $x$
+\end_inset
+
+ (in which case it's called 
+\series bold
+self-attention
+\series default
+):
+\begin_inset Formula 
+\[
+q=W_{q}\cdot x.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition, it is usual to use many queries, 
+\begin_inset Formula $q_{1:M}$
+\end_inset
+
+, not just one...
+ Stacking the different queries leads to the definition of the 
+\series bold
+attention matrix
+\series default
+, 
+\begin_inset Formula $A_{1:N,1:M}$
+\end_inset
+
+, and subsequently to many outputs:
+\begin_inset Formula 
+\[
+z_{1:M}=Attn\left(q_{1:M},x\right)=\left[Attn\left(q_{1},x\right)|...|Attn\left(q_{M},x\right)\right].
+\]
+
+\end_inset
+
+ We usually use 
+\series bold
+multi-head attention
+\series default
+.
+ This simply means that the operation is repeated 
+\begin_inset Formula $K$
+\end_inset
+
+ times, with results concatenated along the feature dimension, with different
+ 
+\begin_inset Formula $W_{k}$
+\end_inset
+
+s.
+\end_layout
+
+\begin_layout Standard
+The most commonly seen formulation of the process is
+\begin_inset Formula 
+\[
+z=softmax\left(\frac{QK'}{\sqrt{d_{key}}}\right)V,
+\]
+
+\end_inset
+
+ where here actually 
+\begin_inset Formula $Q$
+\end_inset
+
+ is the query matrix, 
+\begin_inset Formula $K$
+\end_inset
+
+ is the key matrix, and 
+\begin_inset Formula $V$
+\end_inset
+
+ is the value vector.
+ 
+\begin_inset Formula $d_{key}$
+\end_inset
+
+ is the dimension of a key in 
+\begin_inset Formula $K$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Architecture
+\end_layout
+
+\begin_layout Standard
+The architecture of the transformer is the following:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado73.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's analyze it step by step:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado74.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Input tokenization and embedding
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The input text is first split into pieces, called tokens.
+ These can be characters, words,...
+ or even bytes.
+\end_layout
+
+\begin_layout Itemize
+Tokens can be represented as indices of a dictionary of all possible tokens.
+\end_layout
+
+\begin_layout Itemize
+Each entry corresponds to a learned 
+\begin_inset Formula $d_{model}$
+\end_inset
+
+-dimensional vector in the embedding space.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Positional encoding
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Attention is permutation invariant, but language is not.
+\end_layout
+
+\begin_layout Itemize
+Therefore, we need to provide a way to differenciate the position of each
+ word.
+ The idea is to add something based on the position of the token in the
+ sentence.
+ For example, add 1 for the first position, 2 for the second, and so on.
+ In reality, a more complex approach is used, but with the same idea in
+ mind.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado75.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado76.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Multi-headed self-attention
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The input sequence is used to create queries, keys and values.
+\end_layout
+
+\begin_layout Itemize
+Each token can 
+\emph on
+look around
+\emph default
+ the whole input sequence, and decide how to update its representation based
+ on what it sees.
+ For example, the word 
+\emph on
+seed
+\emph default
+ will have a different representation in a biology context and in a computer
+ science context.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado77.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado78.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Point-wise MLP
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A simple MLP is applied to each token individually, with GeLU activation
+ function:
+\begin_inset Formula 
+\[
+z_{i}=W_{2}\cdot GeLU\left(W_{1}x+b_{1}\right)+b_{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This is as each token pondering for itself about what it has observed previosly.
+\end_layout
+
+\begin_layout Itemize
+There is some weak evidence this is where the world knowledge is stored.
+\end_layout
+
+\begin_layout Itemize
+It contains the bulk of the parameters of the model.
+ When people make giant models and sparse/moe, this is what becomes giant.
+\end_layout
+
+\begin_layout Itemize
+Some people like to call it a 
+\begin_inset Formula $1\times1$
+\end_inset
+
+ convolution.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado79.png
+	scale 60
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename pegado80.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Residual connections
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each module's output has the exact same shape as its input.
+\end_layout
+
+\begin_layout Itemize
+Following ResNets, the module computes a residual, instead of a new value.
+ That is, the action of module 
+\begin_inset Formula $M$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+z_{i}=M\left(x_{i}\right)+x_{i}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Was shown to dramatically improve trainability.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+LayerNorm:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Normalization also improves trainability.
+\end_layout
+
+\begin_layout Itemize
+There is post-norm (the one used originally)
+\begin_inset Formula 
+\[
+z_{i}=norm\left(M\left(x_{i}\right)+x_{i}\right),
+\]
+
+\end_inset
+
+ and pre-norm (a modern approach)
+\begin_inset Formula 
+\[
+z_{i}=M\left(norm\left(x_{i}\right)\right)+x_{i}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado81.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Encoding/Encoder
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Since input and output shapes are identical, we can stack 
+\begin_inset Formula $N$
+\end_inset
+
+ such blocks.
+\end_layout
+
+\begin_layout Itemize
+Typically, 
+\begin_inset Formula $N=6$
+\end_inset
+
+ is base and 
+\begin_inset Formula $N=12$
+\end_inset
+
+ is large.
+ But more can be stacked.
+\end_layout
+
+\begin_layout Itemize
+Encoder output is a 
+\emph on
+heavily processed
+\emph default
+ version of the input tokens.
+\end_layout
+
+\begin_layout Itemize
+This has nothing to do with the requested output yet.
+ This is achieved at the decoder.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado82.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Decoding/Decoder
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We want to model 
+\begin_inset Formula $p\left(z|x\right)$
+\end_inset
+
+, to select the most likely outcome.
+\end_layout
+
+\begin_layout Itemize
+This seems impossible at first...
+ but we can decompose this into tokens:
+\begin_inset Formula 
+\[
+p\left(z|x\right)=p\left(z_{1}|x\right)p\left(z_{2}|z_{1},x\right)p\left(z_{3}|z_{2},z_{1},x\right)\cdot...
+\]
+
+\end_inset
+
+ Meaning, we can generate the answer one token at a time, where each 
+\begin_inset Formula $p$
+\end_inset
+
+ is a full pass through the model.
+\end_layout
+
+\begin_layout Itemize
+For generating 
+\begin_inset Formula $p\left(z_{1}|z_{2},z_{1},x\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $x$
+\end_inset
+
+ comes from the encoder
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $z_{1},z_{2}$
+\end_inset
+
+ is what we have predicted so far, goes into the decoder.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Once we have 
+\begin_inset Formula $p\left(z|x\right)$
+\end_inset
+
+, we actually need to actually sample a sentence.
+ There are different strategies for this, like greedy or beam-search, among
+ others.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado83.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+At training time: masked self-attention
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This is regular self-attention, as in the encoder, to process what's been
+ decoded so far (
+\begin_inset Formula $z_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{2}$
+\end_inset
+
+ in the previous example), but with a trick.
+\end_layout
+
+\begin_layout Itemize
+If we had to train on one single 
+\begin_inset Formula $p\left(z_{3}|z_{2},z_{1},x\right)$
+\end_inset
+
+ at a time, the process would be very slow.
+\end_layout
+
+\begin_layout Itemize
+Instead, we can train on all 
+\begin_inset Formula $p\left(z_{i}|z_{1:i-1},x\right)$
+\end_inset
+
+ simultaneously.
+\end_layout
+
+\begin_layout Itemize
+For this, in the attention weights for 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+, we set all entries 
+\begin_inset Formula $i:N$
+\end_inset
+
+ to 0, and use the ground truth 
+\begin_inset Formula $y$
+\end_inset
+
+ to simulate that we have already computed the previous tokens of 
+\begin_inset Formula $z$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+At generation time
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+This trick is not possible now.
+ We need to generate each 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ at a time.
+ 
+\end_layout
+
+\begin_layout Itemize
+This is why autoregressive encoding is extremely slow.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado84.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cross-attention
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each decoded token can look at the encoder's output:
+\begin_inset Formula 
+\[
+Attn\left(q=W_{q}x_{dec},k=W_{k}x_{enc},v=W_{v}x_{enc}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This is where the conditional 
+\begin_inset Formula $|x$
+\end_inset
+
+ in 
+\begin_inset Formula $p\left(z_{i}|z_{1:i-1},x\right)$
+\end_inset
+
+ comes from.
+\end_layout
+
+\begin_layout Itemize
+Since self-attention is so widely used, people have started to call it attention
+, and cross attention, which is in fact the original attention, is usually
+ called cross-attention.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado85.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Feedforward and stack layers
+\series default
+: similar as before.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado86.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Output layer
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assume we have already generated 
+\begin_inset Formula $K$
+\end_inset
+
+ tokens, we generate the next one.
+\end_layout
+
+\begin_layout Itemize
+The decodeer was used to gather all information necessary to predict a probabili
+ty distribution for the enxt token over the whole vocabulary.
+\end_layout
+
+\begin_layout Itemize
+It is fairly simple: a linear projection of token 
+\begin_inset Formula $K$
+\end_inset
+
+ and a 
+\begin_inset Formula $softmax$
+\end_inset
+
+ normalization to select the output.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+The first big takeover: Language Modeling
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado87.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The second big takeover: Computer Vision
+\end_layout
+
+\begin_layout Standard
+Previous approaches used attention by:
+\end_layout
+
+\begin_layout Itemize
+Applying it at the pixel level, but locally or factorized.
+ The results are usually not amazing, definitely not justifying the increased
+ complexity nor the slowdown over convolution networks.
+\end_layout
+
+\begin_layout Itemize
+Globally, after or inside a full-blown CNN, or even in a detector/segmenter
+ architecture.
+ The results were highly complex, often multi-stage trained architecture.
+ Also, the transformer can't learn to fix the CNN's mistakes.
+\end_layout
+
+\begin_layout Standard
+Then came the 
+\series bold
+Vision Transformer
+\series default
+.
+ Many prior works attempted to introduce self-attention at the pixel level.
+ For 
+\begin_inset Formula $224px^{2}$
+\end_inset
+
+, this is a 50k sequence length.
+ Definitely too much.
+ Therefore, most works restrict attention to local pixel neighbourhoods,
+ or as high-level mechanism on top of detections.
+\end_layout
+
+\begin_layout Standard
+The key breakthrough for using the full transformer architecture, standalone,
+ was to tokenize the images by cutting it into patches of 16x16 pixels,
+ and treating each patch as a token...
+ i.e., embedding it into an input space.
+\end_layout
+
+\begin_layout Subsection
+The third big takeover: speech
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+conformer
+\series default
+ is a modified architecture, following a same story as happened in the vision
+ realm, but with spectograms of the sounds instead of images.
+\end_layout
+
+\begin_layout Standard
+The conformer adds a third type of block, using convolutions, and slightly
+ reorder blocks, but overal is very similar to transformer.
+\end_layout
+
+\begin_layout Standard
+It exists as encoder-decoder, or as encoder-only variant with CTC loss.
+\end_layout
+
+\begin_layout Subsection
+The fourth big takeover: Reinforcement Learning
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+decision transformer
+\series default
+ casts the supervised/online RL problem into a sequence modeling task.
+ It can generate/decode sentences of actions with desired return.
+ The trick is prompting:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+The following is a trajectory of an expert player: [obs] ...
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The Transformer's unification of communities
+\end_layout
+
+\begin_layout Standard
+Anything we can tokenize, we can feed to Transformer! The idea is basically
+ to tokenize different modalities, each one in their own way, and send them
+ all jointly into a Transformer...
+ And this seems to work.
+\end_layout
+
+\begin_layout Standard
+This is called 
+\series bold
+multimodal model
+\series default
+, and there is currently an explosion of works doing this.
+\end_layout
+
+\begin_layout Subsection
+A note on efficient transformers
+\end_layout
+
+\begin_layout Standard
+The self-attention operation complexity is 
+\begin_inset Formula $O\left(N^{2}\right)$
+\end_inset
+
+ for sequence length 
+\begin_inset Formula $N$
+\end_inset
+
+, because we need to compute a matrix product of size 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ We'd like to use larger 
+\begin_inset Formula $N$
+\end_inset
+
+, for whole articles or books, full video movies, high resolution images,
+ etc.
+\end_layout
+
+\begin_layout Standard
+Many 
+\begin_inset Formula $O\left(N\right)$
+\end_inset
+
+ approximations to the full self-attention have been proposed, but none
+ provides yet a clear improvment.
+ There seems to always be a trade-off between speed and quality.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado88.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -22527,12 +23559,19 @@ If we use experience replay, we are combining:
 \end_layout
 
 \begin_layout Enumerate
-Function approximation: with the mere use of a neural network to fit the
- action values.
+
+\series bold
+Function approximation
+\series default
+: with the mere use of a neural network to fit the action values.
 \end_layout
 
 \begin_layout Enumerate
-Bootstrapping: because we bootstrap on 
+
+\series bold
+Bootstrapping
+\series default
+: because we bootstrap on 
 \begin_inset Formula $\max_{a}Q_{\theta}\left(s,a\right)$
 \end_inset
 
@@ -22540,7 +23579,11 @@ Bootstrapping: because we bootstrap on
 \end_layout
 
 \begin_layout Enumerate
-Off-policy learning: the replay hold data from a mixture of past policies.
+
+\series bold
+Off-policy learning
+\series default
+: the replay hold data from a mixture of past policies.
 \end_layout
 
 \begin_layout Standard
@@ -22730,6 +23773,375 @@ def DQN(C, alpha, gamma):
 
 \begin_layout Subsubsection
 Deep Double Q-Learning
+\end_layout
+
+\begin_layout Standard
+We've said that Q-Learning has an overstimation bias, and this can be correcpted
+ by double Q-Learning.
+ That is, we have two models: the current network, 
+\begin_inset Formula $q_{\theta}$
+\end_inset
+
+, and the target network, 
+\begin_inset Formula $q_{\theta^{-}}$
+\end_inset
+
+.
+ The current network is used to select the best action, and the target network
+ is used to evaluate the Q-value of that action.
+ By decoupling the action selection from its evaluation (using different
+ networks), DDQN mitigates the overestimation bias.
+ When updating the Q-value for a state-action pair, the current network
+ determines the action that maximizes the Q-value, but the target network
+ provides the Q-value for that action.
+ Periodically, the weights of the target network are updated to match those
+ of the current network.
+ This lag in updating helps stabilize learning.
+ The likelihood function in this case becomes:
+\begin_inset Formula 
+\[
+L\left(\theta\right)=\frac{1}{2}\left(R_{i+1}+\gamma\cdot q_{\theta^{-}}\left(S_{i+1},\arg\max_{a}q_{\theta}\left(S_{i+1}.a\right)\right)-q_{\theta}\left(S_{i},A_{i}\right)\right)^{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Prioritized Replay
+\end_layout
+
+\begin_layout Standard
+DQN samples uniformly from replays, so an idea would be to prioritize those
+ transitions with which the model can learn more.
+ A basic implementation is to set a priority for sample 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $\left|\delta_{i}\right|$
+\end_inset
+
+, as the TD error on the last time this transition was sampled.
+ Then, we sample according to this priority.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Multi-Step Control
+\end_layout
+
+\begin_layout Standard
+In the context of Deep Q-Learning (DQL), multi-step control is integrated
+ to enhance the learning process by considering a sequence of actions and
+ their cumulative rewards over multiple steps, rather than relying on single-ste
+p rewards and transitions.
+ We define the 
+\begin_inset Formula $n$
+\end_inset
+
+-step Q-Learning target as
+\begin_inset Formula 
+\[
+G_{t}^{\left(n\right)}=R_{t+1}+\gamma R_{t+1}+...+\gamma^{n-1}R_{t+n}+\gamma^{n}q_{\theta^{-}}\left(S_{i+1},\arg\max_{a}q_{\theta}\left(S_{i+1},a\right)\right),
+\]
+
+\end_inset
+
+ with the update rule
+\begin_inset Formula 
+\[
+\Delta\theta=\alpha\left(G_{t}^{\left(n\right)}-q_{\theta}\left(S_{t},A_{t}\right)\right)\nabla_{\theta}q_{\theta}\left(S_{t},A_{t}\right).
+\]
+
+\end_inset
+
+ The return is partially on-policy, while the bootstrap is off-policy: For
+ a certain number of steps (
+\begin_inset Formula $n$
+\end_inset
+
+ steps), the agent follows its current policy (on-policy learning).
+ It accumulates rewards for these steps and uses them to update its value
+ estimates.
+ After these 
+\begin_inset Formula $n$
+\end_inset
+
+ steps, the agent uses a value estimate from a target policy (which could
+ be a greedy policy) for further updates.
+ This part is off-policy because it involves using a different policy (the
+ target or greedy policy) for the value update.
+\end_layout
+
+\begin_layout Standard
+A well-defined target: 
+\begin_inset Quotes eld
+\end_inset
+
+On-policy for 
+\begin_inset Formula $n$
+\end_inset
+
+ steps, then act greedy
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+That's, okay: less greedy, but still a policy improvement.
+ This method allows the agent to explore and learn effectively from its
+ own policy while still benefiting from the stability and efficiency of
+ using a greedy policy for value estimation.
+\end_layout
+
+\begin_layout Subsection
+Reinforcement Learning Aware Deep Learning
+\end_layout
+
+\begin_layout Subsubsection
+Architectures
+\end_layout
+
+\begin_layout Standard
+Much of the successes of DL have come from encoding the right inductive
+ bias in the network structure.
+ To name a few examples:
+\end_layout
+
+\begin_layout Itemize
+Translation invariance in image recognition led to convolutional networks.
+\end_layout
+
+\begin_layout Itemize
+Long term memory led to gating in LSTMs.
+\end_layout
+
+\begin_layout Itemize
+Permutation invariance/equivariance led to attention in transformers.
+\end_layout
+
+\begin_layout Standard
+We should not just copy architectures designed for supervised problems,
+ but rather design the appropriate architecture to encode inductive biases
+ that are good for RL.
+\end_layout
+
+\begin_layout Paragraph
+Dueling networks
+\end_layout
+
+\begin_layout Standard
+We can decompose
+\begin_inset Formula 
+\[
+q_{\theta}\left(s,a\right)=v_{\xi}\left(s\right)+A_{\chi}\left(s,a\right),
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\theta=\xi\cup\chi$
+\end_inset
+
+, with 
+\begin_inset Formula $A_{\chi}$
+\end_inset
+
+ representing the adcantage of taking action 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ That is, we modify
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado68.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+to be:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado69.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Dueling Network architecture splits the deep neural network into two
+ distinct pathways at its final layers:
+\end_layout
+
+\begin_layout Itemize
+One for estimating the state value function (
+\begin_inset Formula $V(s)$
+\end_inset
+
+), which gives the value of being in a particular state.
+\end_layout
+
+\begin_layout Itemize
+The other for estimating the action advantage function (
+\begin_inset Formula $A(s,a)$
+\end_inset
+
+), which represents the additional value of taking a particular action in
+ that state, compared to other actions.
+\end_layout
+
+\begin_layout Standard
+The outputs of these two pathways are then combined to estimate the Q-value
+ function.
+ This is typically done by adding the state value to the action advantage,
+ but with an adjustment to maintain a zero advantage at the chosen action.
+ The Q-value function represents the value of taking a certain action in
+ a given state.
+\end_layout
+
+\begin_layout Standard
+The final output is a set of Q-values for each action in the given state,
+ just like in a traditional DQN.
+ However, the way these Q-values are computed is different due to the dueling
+ structure.
+\end_layout
+
+\begin_layout Standard
+The advantages of this architecture over traditional ones are:
+\end_layout
+
+\begin_layout Enumerate
+Improved Learning of State Values: Since one pathway is dedicated to learning
+ the state value function, the network can more accurately learn the value
+ of each state, regardless of the actions available.
+\end_layout
+
+\begin_layout Enumerate
+Efficient Learning of Action Advantages: By separately estimating the advantage
+ of each action, the network can more effectively distinguish between the
+ importance of the state and the importance of the individual actions within
+ that state.
+ This leads to more nuanced policy learning.
+\end_layout
+
+\begin_layout Enumerate
+Stability and Robustness: Dueling networks can lead to more stable learning
+ and improved convergence properties.
+ By disentangling the estimation of state values and action advantages,
+ the network reduces the potential for harmful interference between these
+ two aspects of the learning process.
+\end_layout
+
+\begin_layout Enumerate
+Better Policy Evaluation and Generalization: The architecture allows for
+ better generalization across actions without compromising the learning
+ of the state value.
+ It can also provide a more accurate evaluation of the policy.
+\end_layout
+
+\begin_layout Enumerate
+Handling Environments with Many Similar Actions: In situations where many
+ actions yield similar results (e.g., in video games where moving left or
+ right might have similar outcomes), a dueling network can effectively learn
+ the value of the state, which is more significant than the specific action
+ taken.
+\end_layout
+
+\begin_layout Subsubsection
+Capacity
+\end_layout
+
+\begin_layout Standard
+In supervised DL, we often find that the more data and compute we have,
+ the better performance we can get, since the loss is easier to optimise,
+ there is less interference, we can have bigger models, etc.
+ But this phenomenon is not found the same way in reinforcement learning,
+ where larger network do typically perform better overall, but become more
+ susceptible to the deadly triad.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado70.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Generalisation
+\end_layout
+
+\begin_layout Standard
+The deadly triad also shows that generalization in RL can be tricky...
+ Consider the problem of value learning, in presence of sharp discontinuities
+ of 
+\begin_inset Formula $v_{\pi}$
+\end_inset
+
+.
+ Deep neural networks, used in deep reinforcement learning (like DQN or
+ policy gradient methods), might struggle to approximate functions with
+ sharp discontinuities accurately.
+ This is because neural networks, by their nature, tend to interpolate smoothly
+ between points in their training data.
+ For example:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado71.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TD learning with DL approximation leads to what's called 
+\series bold
+leakage propagation
+\series default
+, that is, the discontinuities spread their values to undesired areas of
+ the space:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado72.png
+	scale 60
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
