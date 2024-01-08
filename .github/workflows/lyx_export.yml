@@ -42,7 +42,7 @@ jobs:
                 else
                     lyx --export xhtml summary.lyx > /dev/null || echo "Failed: $uni$(basename $course) XHTML"
                     mkdir summary.html.LyXconv
-                    mv *.png summary.html.LyXconv/
+                    cp *.png summary.html.LyXconv/
                     mv summary.xhtml summary.html.LyXconv/summary.xhtml
                     mv summary.html.LyXconv "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv"
                     python $GITHUB_WORKSPACE/utils/adjust_image_size.py "${GITHUB_WORKSPACE}/docs/$uni$(basename $course)_summary.html.LyXconv/summary.xhtml"
