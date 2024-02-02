@@ -1,0 +1,1672 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{footmisc}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,0.99,0.94}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    frame=single,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\end_preamble
+\use_default_options true
+\begin_modules
+tcolorbox
+customHeadersFooters
+theorems-ams-bytype
+theorems-sec-bytype
+algorithm2e
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=blue, urlcolor=blue, citecolor=blue, pdfstartview={FitH}, unicode=true"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\boxbgcolor #62a0ea
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 3cm
+\headheight 2cm
+\headsep 1cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BDMA - Law & Intellectual Property
+\end_layout
+
+\begin_layout Date
+Fall 2023
+\end_layout
+
+\begin_layout Author
+Jose Antonio Lorencio Abril
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename ../../../Decision-Modeling/LectureNotes/source/CS-logo.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+Professor: Karim Tadrist
+\end_layout
+
+\begin_layout Standard
+\align right
+Student e-mail: jose-antonio.lorencio-abril@student-cs.fr
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Address
+This is a summary of the course 
+\emph on
+Law & Intellectual Property
+\emph default
+ taught at the Université Paris Saclay - CentraleSupélec by Professor Karim
+ Tadrist in the academic year 23/24.
+ Most of the content of this document is adapted from the course notes by
+ Tadrist, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "karim2023"
+literal "false"
+
+\end_inset
+
+, so I won't be citing it all the time.
+ Other references will be provided when used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Rule of Law
+\end_layout
+
+\begin_layout Definition
+General rule imposed on human beings living in society and punished by public
+ authority.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+rule of Law
+\emph default
+ is a fundamental principle that governs how a society operates.
+ It means that all individuals, institutions and entities, public or private,
+ including the state itself, are accountable to laws that are publicly promulgat
+ed, equally enforced, and independently adjudicated, and which are consistent
+ with international human rights principles.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Characteristics
+\series default
+ of the 
+\emph on
+rule of Law
+\emph default
+:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Generality
+\series default
+: It targets everyone, or some specific kind of people, and it is applied
+ equally.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mandatory
+\series default
+: rules established by law must be followed, and there are consequences
+ of not doing so.
+ This happens regardless of the kind of rule:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Imperative rules: non-negotiable demands of the law.
+ These define what must or must not be done.
+ For example, criminal laws that prohibit theft.
+\end_layout
+
+\begin_layout Itemize
+Complementary rules: norms that can be modified or set aside by the parties
+ involved, usually in the context of private law.
+ For instance, parties entering into a contract can agree on terms that
+ deviate from standard legal provisions as long as they do not violate imperativ
+e rules or public policy.
+\end_layout
+
+\begin_layout Standard
+Both types of rules are mandatory as they establish a framework of legal
+ obligations, but they differ in how strictly they bind the parties and
+ their flexibility.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Validity
+\series default
+: refers to the legitimacy or authority of the legal rule.
+ For a law to be considered valid:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It must be created by a legitimate authority or legislator.
+\end_layout
+
+\begin_layout Itemize
+It must follow the proper procedure for legislation, which often includes
+ debate, public consultation, and adherence to constitutional principles.
+\end_layout
+
+\begin_layout Itemize
+It must be promulgated or published, making it known to the public before
+ it can be enforced.
+\end_layout
+
+\begin_layout Standard
+This characteristic ensures that laws are not arbitrary but are created
+ through a recognized legal process that confers legitimacy and legal force.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Sanctionability
+\series default
+: once the rule is chosen, it will be applied with the risk of a sanction.
+ Sanctions are the consequences or penalties for violating a law, and they
+ serve as a deterrent against illegal behavior.
+ This principle is crucial for the rule of law because it ensures that laws
+ are not just theoretical but have practical effect.
+ 
+\end_layout
+
+\begin_layout Standard
+While 
+\series bold
+legal rules
+\series default
+ are formal, codified norms enforced by the state to regulate behavior and
+ maintain order, 
+\series bold
+moral rules
+\series default
+ are informal, subjective norms based on ethical principles and values that
+ guide individual behavior.
+ 
+\series bold
+Natural law
+\series default
+, meanwhile, is a philosophical theory suggesting the existence of universal,
+ inherent moral principles that should underpin human-made laws and ethical
+ behavior.
+ Each of these norms plays a distinct role in shaping human conduct, societal
+ norms, and legal systems.
+\end_layout
+
+\begin_layout Subsection
+Classification of Legal Rules
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Public Law
+\series default
+: governs the relationship between individuals and the state, as well as
+ the relationships between different branches of the state.
+ It is subcaterogized as:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Constitutional Law
+\series default
+: the foundation of the legal system of a country.
+ It outlines the structure of the government, the distribution of powers
+ among different branches (executive, legislative, judicial), and the fundamenta
+l rights and freedoms of citizens.
+ It is the highest law, against which all other laws are evaluated.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Administrative Law
+\series default
+: covers the rules and procedures that govern administrative agencies of
+ the government.
+ It deals with the actions and decisions of government departments and agencies,
+ including rulemaking, enforcement of laws, issuing permits, and resolving
+ disputes involving public administration.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+International Public Law
+\series default
+: governs the conduct of states and international organizations.
+ It encompasses treaties, conventions, and customs that regulate interactions
+ between sovereign nations, including issues related to war, diplomacy,
+ human rights, and territorial boundaries.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Private Law
+\series default
+: deals with the relationships between private individuals or entities.
+ It governs legal disputes that involve private parties and their rights
+ and obligations.
+ It is subcategorized as:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+International Private Law
+\series default
+: deals with cases where foreign elements are involved, determining which
+ jurisdiction's law applies to a legal dispute and how judgements from one
+ jurisdiction are recognized and enforced in another.
+ For example, when two parties from different countries sign a contract,
+ the matter of deciding which national law shall apply to the contract is
+ a matter of international private law.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Civil Law
+\series default
+: the core of private law.
+ It covers non-criminal disputes between individuals and entities, including
+ laws on contracts, property, family relations, and inheritance.
+ It establishes the rights and duties of private parties in their interactions.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Commercial Law
+\series default
+: it is a subset of civil law, that deals with issues related to commerce
+ and trade between businesses and individuals, including contracts, transactions
+ and business organization.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Labor Law
+\series default
+: this area governs the relationship between employers and employees, including
+ employment contracts, labor rights, working conditions and collective bargainin
+g.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Mixed
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Procedural Law
+\series default
+: encompasses the rules that govern how courts and other legal institutions
+ handle civil, criminal, and administrative proceedings.
+ It includes the procedures for filing cases, conducting trials, and appealing
+ decisions.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Criminal Law
+\series default
+: governs crimes and punishments.
+ It defines what constitutes criminal behavior and specifies the sanctions
+ (punishments) for such behavior.
+ While it primarily deals with offenses against the state or society at
+ large, it has elements of both public law (the state prosecutes offenders)
+ and private law (in aspects like victim compensation).
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Sources of the Rule of Law
+\end_layout
+
+\begin_layout Enumerate
+Before the French Revolution, local laws in what is now France were divided
+ between the 
+\series bold
+Germanic customary laws
+\series default
+ in the north and the 
+\series bold
+Roman laws
+\series default
+ in the south.
+ There laws were based on local customs and traditions, with Roman law influenci
+ng the legal systems due to the Roman Empire's historical presence.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Ordinances and Edicts of the King
+\series default
+ began to replace local customary laws.
+ Ordinances were more general laws, while edicts could address specific
+ issues or grant rights and privileges.
+ This centralization of legal authority under the monarchy was a step towards
+ a unified legal system.
+\end_layout
+
+\begin_layout Enumerate
+In the 
+\emph on
+ancien régime
+\emph default
+ of France, there were 
+\series bold
+Parlements
+\series default
+, which were sovereign courts that registered the king's edicts and could
+ protest against them, although they could not ultimately prevent their
+ enforcement.
+\end_layout
+
+\begin_layout Enumerate
+In addition, there was the 
+\series bold
+Canon Law
+\series default
+, the law governing the Church and its members, which was a significant
+ source of law in Europe before the French revolution, especially in matters
+ of marriage, legitimacy and inheritance.
+\end_layout
+
+\begin_layout Enumerate
+Now, there are other sources of the contemporary law, divided into international
+ and national sources:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+International Sources
+\series default
+: 
+\series bold
+treaties
+\series default
+ are international agreements that countries are bound to follow.
+ The article 55 of the French Constitution acknowledges the superiority
+ of treaties over national laws, provided they are ratified according to
+ the constitution.
+ In addition, there is the 
+\series bold
+European Union Law
+\series default
+, which is based on the Treaty of Rome (1957), that established the European
+ Economic Community, now part of the European Union.
+ EU law includes regulations and directives issued by EU institutions like
+ the European Commision and the European Council, which have direct or indirect
+ effect on member states' laws and take precedence over national legislation.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+National Sources
+\series default
+: the 
+\series bold
+Law
+\series default
+ referes to statutes passed by the Parliament, while 
+\series bold
+regulations
+\series default
+ are issued by the executive branch (the government) and deal with matters
+ not expressly reserved for law.
+ In addition, there are 
+\series bold
+decrees
+\series default
+ and 
+\series bold
+orders
+\series default
+, which are forms of regulation dealing with specific issues or individual
+ matters, not considered as the law in the broader sense.
+ For example, a decree might appoint public officials to certain administrative
+ positions, or an order might impose temporary restrictions on water use
+ in response to a severe drought in a department.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Finally, we find the 
+\series bold
+Constitution
+\series default
+, which is the supreme legal document, defining the fundamental principles
+ and the organization of the state.
+ It outlines the domain of laws passed by Parliament (matters of personal
+ status, fundamental principles) and the Executive branch's authority to
+ issue regulations on matters not covered by law, except as specified in
+ articles 38 and 16 of the French Constitution.
+ Article 38 allows the government to legislate by ordinance in areas delegated
+ by Parliament, while Article 16 grants the President exceptional powers
+ under certain crisis conditions.
+\end_layout
+
+\begin_layout Subsection
+Drafting of a Law
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Initiative
+\series default
+: the process of creating a new law begins with the initiative, which can
+ be taken by the Prime Minister or member of the Parliament.
+ This involves the drafting and proposal of a new law.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Examination and voting
+\series default
+: the proposed law is examined, debated, and voted on by each assembly of
+ Parliament (the National Assembly and the Senate).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Promulgation
+\series default
+: after a law is passed by Parliament, it is promulgated by the President
+ of the Republic through a decree.
+ Promulgation is the formal declaration that the law is enforceable.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Publication
+\series default
+: the law is then published in the official gazette, and it becomes enforceable
+ the day after its publication.
+\end_layout
+
+\begin_layout Standard
+In addition, it must be ensured that the law complies with higher sources
+ of law:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Constitutionality
+\series default
+: the Constitutional Council examines the constitutionality of the new law
+ before its promulgation.
+ This can be requested as a preliminary ruling on constitutionality.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Review of legality
+\series default
+: there's also a mechanism for reviewing the legality of regulations, which
+ can be challenged a posteriori (after the fact) by someone claiming a legitimat
+e interest, either by 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+voie d'action
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (direct action) or 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+voie d'exception
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+(as a defense in court proceedings).
+\end_layout
+
+\begin_layout Subsubsection
+Revoke of Laws and Regulations
+\end_layout
+
+\begin_layout Standard
+Laws and regulations do not automatically fall into disuse: they must be
+ explicitly or implicitly revoked.
+ The principle is that law remain in force until revoked.
+\end_layout
+
+\begin_layout Subsubsection
+Case Law or Judicial Precedence
+\end_layout
+
+\begin_layout Standard
+Judges in France are expected to enforce the law.
+ However, judicial decisions can create law under certain conditions, such
+ as when the law is unclear or when new, unforeseen situations arise.
+ Article 4 of the Civil Code mandates that judges must make a decision even
+ in the absence of clear, precise laws, under penalty of being charged with
+ denial of justice.
+\end_layout
+
+\begin_layout Standard
+However, according to Article 1355 of the Civil Code, a judgment only has
+ authority in relation to the specific case it resolves and does not create
+ regulatory judgments applicable to all.
+\end_layout
+
+\begin_layout Standard
+Therefore...
+ 
+\series bold
+do judges create the rule of law?
+\end_layout
+
+\begin_layout Standard
+While judges do not create laws in the legislative sense, their interpretations
+ and decisions in unclear or new situations can influence the development
+ of the law.
+ They do not create rules that have general applicability like laws passed
+ by Parliament, but can set precedents within the bounds of existing laws
+\end_layout
+
+\begin_layout Subsubsection
+Other Sources of Law
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Customs
+\series default
+ are established practices that are considered legally binding, even though
+ they are not formal laws.
+ Customs can be used to interpret and complete the law, provided they are
+ not 
+\emph on
+contra legem
+\emph default
+ (against the law).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Legal doctrine
+\series default
+ refers to scholarly legal writings that can influence legal interpretations
+ and the development of the law.
+ Legal doctrine is not binding like laws or regulations but can be persuasive
+ in legal reasoning and decision-making.
+\end_layout
+
+\begin_layout Subsection
+The Applicability of the Rule of Law
+\end_layout
+
+\begin_layout Subsubsection
+The Applicability of Law in Space
+\end_layout
+
+\begin_layout Standard
+French Law applies throughout the entire country to everyone living in the
+ national territory, with the exception of local legal systems surviving
+ in Alsace Lorraine and in some territories outside continental France.
+\end_layout
+
+\begin_layout Subsubsection
+The Applicability of Law in Time
+\end_layout
+
+\begin_layout Standard
+The principle is the 
+\series bold
+non-retroactivity of Laws
+\series default
+.
+ Article 2 of the Civil Code states that a new law applies only to the future
+ and does not have a retroactive effect.
+ This means that actions taken and situations that arose before the new
+ law's enactment are governed by the law as it was at that time.
+ The rationale behind this principle is to protect legal certainty and individua
+l's trust in the law, ensuring that people can plan their actions according
+ to the law without fear of future changes affecting them retroactively.
+\end_layout
+
+\begin_layout Standard
+However, the new law may apply to ongoing legal situations without retroactive
+ effect.
+ For instance, a new law may apply to continuing contracts or relationships,
+ affecting the rights and obligations of the parties from the date of the
+ law's enactment forward, without altering the legal situation that existed
+ before.
+\end_layout
+
+\begin_layout Standard
+There are some 
+\series bold
+exceptions
+\series default
+:
+\end_layout
+
+\begin_layout Itemize
+Retroactive laws by nature: certain types of laws are designed to have retroacti
+ve effects.
+ These include:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+More clement criminal laws: if a new criminal law is more favorable to the
+ defendant, it can be applied retroactively to past actions.
+ This exception is rooted in the principle of lenity (courts should interpret
+ the law in the way most favorable to the defendant), which aims to ensure
+ fairness in the administration of justice.
+\end_layout
+
+\begin_layout Itemize
+Interpretative laws: these laws clarify the intended meaning of previous
+ legislation without changing the legal rule itself.
+ Since they aim to explain what the law always meant, they can be applied
+ to situations that occured before their enactment.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Decision of the legislative power: the legislators may explicitly decide
+ that a particular law should have retroactive effect.
+ This is usually done in specific cases where the lawmakers deem it necessary
+ for the law to address past situations, subject to constitutional and human
+ rights considerations that may limit the ability to legislate retroactively.
+\end_layout
+
+\begin_layout Subsection
+Subjective Rights
+\end_layout
+
+\begin_layout Standard
+Subjective rights are legal rights that belong to individuals or legal entities,
+ granting them the authority to perform certain actions or to demand certain
+ behaviors from others, based on the legal system's recognition of those
+ rights.
+ They are 
+\emph on
+subjective
+\emph default
+ because they are granted to individuals, the 
+\emph on
+subjects
+\emph default
+ of the law.
+ They are considered subjective in contrast to 
+\emph on
+objective law
+\emph default
+, which refers to the body of laws, norms, and statutes that govern society
+ as a whole.
+\end_layout
+
+\begin_layout Subsubsection
+Patrimonial Rights
+\end_layout
+
+\begin_layout Standard
+Patrimonial rights are economic in nature, can be assessed financially,
+ and relate to an individual's assets and liabilities.
+ They can be transferred, seized, and have commercial value.
+ These rights can be subdivided into:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Patrimony (property)
+\series default
+: refers to the total sum of an individual's rights and obligations with
+ economic value.
+ It's a legal universality, distinct from the individual assets or liabilities
+ it comprises.
+ The key characteristics are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Inalienability: it cannot be transferred except by death.
+\end_layout
+
+\begin_layout Itemize
+Singular nature: a person only has one patrimony.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Rights in Rem (real rights)
+\series default
+: these are rights directly over things, giving the holder a direct and
+ immediate authority over the property.
+ This includes:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Principal rights in Rem
+\series default
+: concern the ownership and use of property, which itself can be broken
+ down into the right of usus (use), fructus (enjoyment of fruits, i.e., rent),
+ and abusus (disposition, including sale or destruction).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rights in Rem Accesories
+\series default
+: these are a type of right that serves as security interests.
+ Unlike principal rights in rem, these are secondary rights that secure
+ the performance of an obligation, usually the payment of a debt.
+ They are 
+\emph on
+accessory
+\emph default
+ because their existence depends on a principal obligation.
+ Therefore, these are guarantees for creditors, such as pledges (a right
+ over a movable asset, which the creditor can sell if the debtor fails to
+ repay the loan) and mortgages (a right over immovable property).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Intellectual Property Rights
+\series default
+: these are rights based on intangible assets, including:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Literary and Artistic Property: covers copyright.
+\end_layout
+
+\begin_layout Itemize
+Industrial property: includes patents, trademarks, designs and models.
+\end_layout
+
+\begin_layout Itemize
+Right of clientele: relates to the commercial exploitation of a business's
+ customer base.
+ This right refers to the value associated to the customer base of a business.
+ It is specially relevant in commercial entreprises and professional practices
+ where the ongoing relationship with customers or clients contributes significan
+tly to the business's value.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Patrimonial rights can be commercialized (sold, leased, etc.), transmitted
+ during the owner's lifetime or upon death, seized by creditors, and may
+ become extinct.
+\end_layout
+
+\begin_layout Subsubsection
+Extrapatrimonial Rights
+\end_layout
+
+\begin_layout Standard
+Extrapatrimonial rights are non-economic, related to personal and family
+ dignity and integrity, cannot be commercialized, and are inalienable and
+ imprescriptible.
+ They include:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Family Rights
+\series default
+: such as parental rights, which govern the relationship between parents
+ and their children.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Individual Rights
+\series default
+: including the right to one's name, honor, image rights, and the right
+ to privacy.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Moral Rights of the Author
+\series default
+: protect the personal and reputational interests of creators, such as the
+ right to be recognized as the author of a work and to prevent any changes
+ in the work that harms the creator's honor or reputation.
+\end_layout
+
+\begin_layout Standard
+The key features of extrapatrimonial rights are:
+\end_layout
+
+\begin_layout Itemize
+Non-marketable: cannot be sold or bought.
+\end_layout
+
+\begin_layout Itemize
+Cannot be included in one's patrimony.
+\end_layout
+
+\begin_layout Itemize
+Inalienable: cannot be transferred, seized.
+\end_layout
+
+\begin_layout Itemize
+Imprescriptible: not subject to expiration or limitation over time.
+\end_layout
+
+\begin_layout Subsubsection
+Sources of Subjective Rights
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Legal Acts
+\series default
+ are actions taken by individuals or legal entities with the intention of
+ creating, modifying, transferring, or extinguishing legal rights and obligation
+s.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These can be:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bilateral acts
+\series default
+: these involve two or more parties and include agreements or contracts,
+ where each party, undertakes certain obligations towards the others.
+ For example, a sales contract involves a buyer agreeing to pay a price
+ and a seller agreeing to deliver goods.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unilateral acts
+\series default
+: these are actions taken by one party that can create legal obligations
+ or rights, even without the consent of others.
+ For instance, a will is a unilateral act where a person decides the distributio
+n of their estate after their death without needing agreement from the beneficia
+ries.
+\end_layout
+
+\begin_layout Standard
+Legal acts are further categorized based on their nature and purpose:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Acts of disposal
+\series default
+: these involve transferring or renouncing a right or interest in property.
+ Selling a piece of land is an act of disposal because it transfer the ownership
+ from the seller to the buyer.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Acts of administration
+\series default
+: these are actions taken to manage and maintain an asset without altering
+ its substance or ownership structure, like leasing a property.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Conservative acts
+\series default
+: these are measures taken to preserve the value or condition of an asset,
+ such as repairs or maintenance work on a property.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Definition
+
+\series bold
+Legal Facts
+\series default
+ refer to events or situations that create, modify, or extinguish legal
+ rights and obligations, independent of the will or intention of the parties
+ involved.
+ These can be natural events (like birth and death) or human actions that
+ are not intended as legal acts but still have legal consequences.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Article 1242-3 et seq.
+\series default
+: these are related to example of creation of a right in response to a fact.
+ For example, when a person makes a payment thinking they are paying a debt,
+ which did not exist (fact), they have the right to reclaim the payment
+ from the recipient.
+ A similar situation arises when someone pays intentionally someone else's
+ debt.
+\end_layout
+
+\begin_layout Standard
+Legal facts differ from legal acts in that they do not stem from the deliberate
+ intention to bring about legal effects.
+ For example, the death of a person is a legal fact that triggers the distributi
+on of the deceased's estate according to their will (a unilateral legal
+ act) or the law of succession if there is no will.
+\end_layout
+
+\begin_layout Subsection
+Proof of Subjective Rights
+\end_layout
+
+\begin_layout Subsubsection
+The Subject of the Proof
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Principle 
+\emph on
+Actori Incumbit Probatio
+\series default
+: 
+\emph default
+this latin maxim means 'the burden of the proof lies with the demander'.
+ In legal disputes, the party making the claim (demander) must provide evidence
+ to support their claim.
+ Conversely, the defender may need to present evidence to refute the claim
+ or support their defense.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The proof experiences a 
+\series bold
+back and forth movement
+\series default
+, because the burden of the proof may shift between parties during a trial,
+ depending on the initial evidence presented and the legal context.
+\end_layout
+
+\begin_layout Standard
+The judge's role is to remain neutral in the evidence-gathering process,
+ not actively seeking proof but rather evaluating the evidence presented
+ by the parties.
+\end_layout
+
+\begin_layout Standard
+An exception to the standard proof requirement is the 
+\series bold
+legal presumption system
+\series default
+, where certain facts are presumed to be true unless proven otherwise.
+ This includes simple presumptions (which can be rebutted) and irrefragable
+ presumptions (which cannot be contested), as explained in Article 1351
+ regarding the authority of adjudicated cases.
+\end_layout
+
+\begin_layout Subsubsection
+Systems of Legal Evidence
+\end_layout
+
+\begin_layout Standard
+There is 
+\series bold
+freedom of evidence
+\series default
+ when evidence can be introduced in any form, as long as it is relevant
+ and legally obtained.
+ This is the case of criminal law.
+\end_layout
+
+\begin_layout Standard
+In other cases, the system is 
+\series bold
+legally defined
+\series default
+, where proofs must follow specific rules for evidence, often requiring
+ written form or other legally defined standards.
+\end_layout
+
+\begin_layout Standard
+Civil law is a mixed system, where facts can be freely proved without strict
+ formality, but legal acts must follow specific rules.
+\end_layout
+
+\begin_layout Paragraph
+Written evidence
+\end_layout
+
+\begin_layout Standard
+Written evidence is crucial and often required for proving legal acts, with
+ the law of March 13, 2000, and Article 1316 of the Civil Code defining
+ what constitutes valid written evidence, in order to obtain its 
+\series bold
+binding nature
+\series default
+: 
+\emph on
+'a sequence of letters, numbers, printed or other symbols, a sequence that
+ must be understandable and decipherable by others'
+\emph default
+.
+ The 
+\series bold
+function of the signature
+\series default
+ is defined in Article 1316-4, as to identify the signer and express consent
+ to the document's obligations: 
+\emph on
+'identifying the person who signs, expressing his or her consent to the
+ obligations resulting from the document'
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+There are two essential conditions for the validity of written evidence:
+\end_layout
+
+\begin_layout Enumerate
+The person must be identified.
+\end_layout
+
+\begin_layout Enumerate
+The conservation of the document must guarantee its integrity.
+\end_layout
+
+\begin_layout Standard
+Written evidence can be of several types:
+\end_layout
+
+\begin_layout Itemize
+Authentic Acts: official documents prepared by public officers (like notaries
+ or civil registrars) with legal power.
+ These documents have a high degree of reliability and enforceability.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A notarial deed is comprised of a 'minute' kept by the notary and an authentic
+ copy sent to the parties.
+ When the copy is said to be enforceable, it authorizes the use of the enforceme
+nt agencies.
+\end_layout
+
+\begin_layout Itemize
+The document is considered valid until it is recorded as false for the observed
+ information by the public officer and until the reality is proved for the
+ other elements
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Private Deeds: documents signed by the parties involved, requiring a certain
+ number of original copies and specific details:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Should be sign by the parties.
+\end_layout
+
+\begin_layout Itemize
+Be written with as many original copies as parties (Article 1325 of the
+ Civil Code).
+\end_layout
+
+\begin_layout Itemize
+Commitment to pay should bear the amount of the quantity in numbers and
+ letters.
+\end_layout
+
+\begin_layout Itemize
+Binding unless proved otherwise.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Electronic medium and signatures
+\end_layout
+
+\begin_layout Standard
+Electronic signatures and documents are 
+\series bold
+legally recognized
+\series default
+, with specific requirements for validity, identification, and integrity
+ outlined in Articles 1367 and 1316-4 of the Civil Code, and enforced by
+ the law of June 21, 2004.
+\end_layout
+
+\begin_layout Standard
+There are 
+\series bold
+technical requirements
+\series default
+, and reliability and integrity of electronic signatures are ensured through
+ technologies like asymmetric key encryption and third-party certifiers,
+ as detailed in the Decre of March 30, 2001.
+ The system must guarantee the document's unaltered state and authenticate
+ the signer's identity.
+\end_layout
+
+\begin_layout Standard
+The technical solution must not result in any alteration of the document.
+\end_layout
+
+\begin_layout Standard
+The verification is based on an electronic qualified certificate, which
+ guarantees the authenticity of the signature.
+\end_layout
+
+\begin_layout Standard
+There is a large number of technical rules, and the qualification of the
+ third party is equivalent to a presumption of respect of those rules.
+\end_layout
+
+\begin_layout Subsection
+Electronic Archives
+\end_layout
+
+\begin_layout Standard
+Traditionally, and original copy is a document that is officialy signed
+ by the parties involved in a legal deed.
+ In the context of electronic documents, an 
+\series bold
+original copy
+\series default
+ refers to a digital version that serves the same legal purpose as a paper
+ document.
+ The original copy has 
+\series bold
+legal importance ad probationem/ad validatem
+\series default
+, which are latin terms referring to the legal significance of documents
+ for the purpose of the proof (ad probationem) and for fulfilling legal
+ requirements to validate a deed or contract (ad validatem).
+\end_layout
+
+\begin_layout Standard
+The Article 1375 of the Civil Code adapts the requirement for mutiple original
+ copies to the digital age.
+ It stipulates that for electronic contracts, the requirement is met if
+ the deed is established and maintained in a way that complies with articles
+ 1366 and 1367 of the Civil Code, ensuring that each party can access of
+ obtain a copy of the document.
+\end_layout
+
+\begin_layout Subsubsection
+Validity of the Copy
+\end_layout
+
+\begin_layout Standard
+The Article 1379 of the Civil Code says that a copy must be an identical
+ and durable reproduction of the original, not signed (as that would make
+ it another original), and must maintain the same legal value as the original.
+ The copy must accurately reproduce both the form and content of the original
+ document.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+Afnor Z 42-013
+\series default
+ standard specifies requirements for electronic archiving systems, ensuring
+ that all necessary information is preserved accurately and reliably, making
+ it retrievable for its intended purposes.
+\end_layout
+
+\begin_layout Standard
+However, if the original copy exists, the judge may require it.
+\end_layout
+
+\begin_layout Subsubsection
+Other Forms of Evidence
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Evidence through a witness
+\series default
+: witness statements are considered based on predetermined rules in the
+ Code of Civil Procedure, with the judge assessing their admissibility and
+ weight.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Evidence by the presumption of facts
+\series default
+: Article 1382 allows judges to consider presumptions based on serious,
+ precise, and corroborating evidence, but it is not binding on them.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proof of admission
+\series default
+: admission in judicial inquiries is considered irrevocable and binding,
+ unlike admissions made outside of court, which are not binding.
+ This is, if you admit to be guilty in front of the court, then you are
+ legally guilty.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proof by oath
+\series default
+: legal mechanism where a party to a legal proceeding is asked to affirm
+ the truthfulness of their statements or claims under oath.
+ This method of proof relies on the solemn declaration or affirmation made
+ by a party or witness, asserting the truth of certain facts or denials
+ in dispute.
+ There are tipically two types of oaths used as proof:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Decisive oath
+\series default
+: requested by one party for the other to take.
+ Its probative strength is absolute.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Additional oath
+\series default
+: may be requested by the judge to complement other evidence, not absolute
+ in its probatory value.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Use of Evidence
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Statutory facts
+\series default
+ are those that must be established or proven in court to meet the legal
+ criteria set by statutes for various purposes, like determining legal rights
+ or liabilities, qualifying for exceptions or exemptions, or triggering
+ or preventing legal actions.
+ For example, in the context of family law, statutory facts might include
+ the circumstances of a marriage or the parentage of a child, which are
+ relevant to legal issues like custody, support, and inheritance.
+\end_layout
+
+\begin_layout Standard
+The use of evidence in statutory facts is characterized by being free for
+ civil status or filiation: this means that for matters concerning an individual
+'s civil status (e.g., birth, marriage, death) or filiation (determining parent-ch
+ild relationship), the law allows flexibility in the types of evidence that
+ can be presented, except in certain cases where specific legal restrictions
+ may apply.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Proof by legal documents
+\series default
+ (article 1341 of the Civil Code): legal documents are the primary source
+ of evidence for asserting claims or defenses in court.
+ These documents need to meet certain legal requirements to be considered
+ valid.
+\end_layout
+
+\begin_layout Standard
+In principle, documentary evidence is needed:
+\end_layout
+
+\begin_layout Itemize
+In principle, 
+\series bold
+a legal document is necessary
+\series default
+: generally, a written document is required to prove a legal act or transaction,
+ reflecting the principle that written evidence provides a clear and durable
+ record of agreements, rights and obligations.
+\end_layout
+
+\begin_layout Itemize
+Exceptions - 
+\series bold
+Oaths and Admission
+\series default
+: in situations where a legal document is not available, an individual's
+ oath (solemn promise regarding the truth of the information provided) or
+ admission (a party's acknowledgement of a fact) can be accepted as evidence.
+ In commercial litigation, the rules are more indulgent, allowing a wider
+ range of evidence to be used (free evidence).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Prima Facie Evidence
+\series default
+ (Article 1347): refers to evidence that is accepted as sufficient to proof
+ a fact unless contradicted and overcome by other evidence.
+ It includes situations where:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+It was materially or morally impossible to create a legal document at the
+ time of the transaction.
+\end_layout
+
+\begin_layout Itemize
+A legal document was lost or destroyed due to force majeure (an unforeseeable
+ and unavoidable event).
+\end_layout
+
+\begin_layout Standard
+A legally defined copy is a copy of a document that meets legal standards.
+ This can serve as evidence in the absence of the original.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Acts involving less than 1500€ can be proved by any means, offering flexibility
+ in how evidence can be presented in smaller claims.
+\end_layout
+
+\begin_layout Itemize
+Proof against or beyond a legal document: if evidence is presented that
+ contradicts or extends beyond what is contained in a legal document, another
+ document is required to support the new evidence, regardless of the monetary
+ value involved.
+\end_layout
+
+\begin_layout Subsection
+The Legal System
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "ps-cs"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
