@@ -2175,6 +2175,3235 @@ How are rights proved?
 
 \end_layout
 
+\begin_layout Section
+Contract Law
+\end_layout
+
+\begin_layout Standard
+Contract Law is a fundamental aspect of legal studies that deals with the
+ rules and principles governing agreements between parties.
+\end_layout
+
+\begin_layout Subsection
+Classification
+\end_layout
+
+\begin_layout Standard
+Understanding the classification of contracts helps in grasping the legal
+ implications and obligations that contracts impose on the parties involved.
+\end_layout
+
+\begin_layout Subsubsection
+Classification Depending on the Type of Contract
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Named contracts
+\series default
+ have specific designations and are recognized by law, such as sales, leasing,
+ service contracts, work, deposit, and company agreements.
+ The advantage of named contracts is that they are already established by
+ law, which can be either supplementary (optional) or mandatory (compulsory).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Unnamed contracts
+\series default
+, on the other hand, are complex and unique (
+\emph on
+sui generis
+\emph default
+).
+ These contracts do not fit into the predefined categories and may require
+ special consideration and interpretation.
+\end_layout
+
+\begin_layout Standard
+It's important to note that this classification does not bind judges: there
+ is 
+\series bold
+judicial discretion
+\series default
+.
+ In cases of mistakes or dissimulation (concealment of truth), a judge has
+ the discretion to interpret the contract beyond its classification.
+ For example, a contract may be classified as a service contract, while
+ the reality behind the contract is a work relation.
+ In this case, the judge can interpret the contract as a work contract,
+ even if it classified by the parties as a service contract.
+\end_layout
+
+\begin_layout Standard
+Contracts can also be classified as 
+\series bold
+general agreements
+\series default
+ or 
+\series bold
+accessory agreements
+\series default
+, highlighting the primary versus supplementary nature of the contractual
+ obligations.
+\end_layout
+
+\begin_layout Subsubsection
+Classification Depending on the Object
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bi-/Multi-Lateral (Synallagmatic) Agreements
+\series default
+: according to the Article 1106 of the Civil Code, synallagmatic agreements
+ create recriprocal obligations for all parties involved.
+ This means each party has duties towards the others, establishing a mutual
+ dependency.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unilateral Agreements
+\series default
+: conversely, Article 1106 of the Civil Code also mentions that unilateral
+ agreements impose obligations on one party alone.
+ This type of contract involves a single party's commitment without requiring
+ a reciprocal promise from another party.
+ For example, I can post an offer of a reward in exchange for a lost wallet,
+ setting up an unilateral agreement that stipulates that the reward will
+ be issued once my wallet is found.
+\end_layout
+
+\begin_layout Standard
+This distinction is particularly relevant for mechanisms such as the 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+exception d'inexécution
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (defense of non-performance), which includes suspension, resolution, and
+ risk theory.
+ These mechanisms allow parties to respond to breaches of contract in a
+ manner that reflects the mutual or unilateral nature of their agreement.
+\end_layout
+
+\begin_layout Standard
+The proof of contracts and their terms is subject to the dual original exigency,
+ as stated in Article 1375.
+ This means that establishing the existence and specifics of a contract
+ often requires adherence to strict legal standards, emphasizing the importance
+ of clear, mutual agreements and understanding.
+\end_layout
+
+\begin_layout Subsubsection
+Free-of-Charge Contracts or Contracts Drawn Up in Return for Payment
+\end_layout
+
+\begin_layout Standard
+Contracts can be also classified based on the presence or absence of a financial
+ consideration:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Free-of-Charge Contracts
+\series default
+: these are agreements where one party benefits without a requirement to
+ provide a financial return to the other party.
+ For example, in a donation, one party, the donor, transfers ownership of
+ property or a sum of money to another party, the donee, without expecting
+ anything in return.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Contracts Drawn Up in Return for Payment
+\series default
+: these involve transactions where services of goods are exchanged for payment.
+ They can be either reciprocal or unilateral in nature, depending on whether
+ both or one party is obligated to provide something of value.
+\end_layout
+
+\begin_layout Standard
+Within the realm of return-for-payment contracts, further subdivisions include
+ commutative and aleatory contracts, both of which are forms of synallagmatic
+ agreements:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Commutative contracts
+\series default
+: these contracts involve exchanges where the reciprocal advantages are
+ immediately known and can be evaluated.
+ Each party knows what to expect and what is expected in return.
+ For example, a sales contract, in which one party sells a product to the
+ other party for a certain amount of money.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Aleatory contracts
+\series default
+: these are characterized by uncertainty.
+ The advantages or obligations depend on an uncertain event (
+\emph on
+aléa
+\emph default
+).
+ The risk can be inherent to the contract's nature or introduced by the
+ parties' agreement.
+ The principle here is that hazard nullifies tort (
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+l'aléa chasse la lésion
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+), meaning a contract cannot be nullified due to the absence of cause or
+ because of an unfair disadvantage (
+\emph on
+lésion
+\emph default
+), except in specific cases related to the aleatory element, like in life-contin
+gent annuities (
+\emph on
+rente viagère
+\emph default
+).
+ These contracts reflects an economic application of game theory, where
+ the principle of large numbers does not apply uniformly, affected by the
+ parties' quality.
+ An example of an aleatory contract is a life insurance policy, where the
+ obligations of the parties involved depend on an uncertain event.
+\end_layout
+
+\begin_layout Subsubsection
+Instantaneous Contracts and Contracts of Continuing Performance
+\end_layout
+
+\begin_layout Standard
+The execution timeline of contracts introduces another layer of classification:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instantaneous contracts
+\series default
+: these are executed in a single action or step.
+ Once the agreed exchange is made, the contract is considered fulfilled.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Contracts of continuing performance
+\series default
+: these require a certain period to be fully executed, establishing ongoing
+ obligations over time.
+\end_layout
+
+\begin_layout Standard
+The interest of distinguishing between these types lies in the implications
+ for declaring invalidity.
+ For contracts of continuing performance, rescinding or terminating the
+ agreement can significantly impact the contractual relationship, affecting
+ how and when parties can exit the contract.
+\end_layout
+
+\begin_layout Standard
+The distinction between instantaneous and continuing performance contracts
+ is 
+\series bold
+relative
+\series default
+.
+ A series of instantaneous contracts can collectively resemble a continuing
+ performance contract, especially in scenarios like a processing contract
+ or in the event of bankruptcy, where the ongoing nature of obligations
+ comes to the forefront.
+\end_layout
+
+\begin_layout Subsubsection
+Contracts That Are Limited in Time or With A Termination Date
+\end_layout
+
+\begin_layout Standard
+Contracts of continuing performance often include provisions for 
+\series bold
+tacit renewal
+\series default
+.
+ This means that even without explicit agreement, the contract can automatically
+ renew under certain conditions.
+ Such provisions allow for a seamless continuation of the agreement, provided
+ both parties continue to fulfill their obligations without objection.
+\end_layout
+
+\begin_layout Standard
+A contract might be set without a specific deadline, being its end dependent
+ of a particular event.
+ According to a ruling by the Cour de Cassation on October 28, 1992, the
+ event triggering the contract's end must be independent of the parties'
+ will.
+ This ensures the contract's continuity is not arbitrarily controlled by
+ either party, providing a fair and predictable framework for its duration.
+\end_layout
+
+\begin_layout Standard
+For contracts without a fixed duration, unilateral termination is generally
+ permissible at any time.
+ However, this termination must not be abusive (
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+in case of excess
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+) and should be executed with a reasonable period of advance notice.
+ The flexibility allows parties to exit agreements when they no longer serve
+ their mutual interests, provided they do so considerately and fairly.
+\end_layout
+
+\begin_layout Standard
+Article 1738 of the Civil Code provides a legal framework for tacit renewal,
+ especially in the context of written leases.
+ If, at the expiry of the lease, the lessee remains in possession of the
+ property with the lessor's acquiescence, a new lease is formed under the
+ conditions of an unwritten lease, unless specifically excluded by the initial
+ agreement or by the contract's nature.
+\end_layout
+
+\begin_layout Standard
+The general rule for renewed contracts is that they continue under the same
+ conditions as the original, except for certain clauses that may be considered
+ divisible or specific to the initial term.
+ Each renewal is treated as a new contract, allowing for adjustments and
+ updates to reflect the parties' current circumstances and intentions.
+ Notably, unless explicitly agreed otherwise, a renewed contract under Article
+ 1738 does not have a predetermined termination date, reinforcing the importance
+ of specifying any desired changes or limitations during the renewal process.
+\end_layout
+
+\begin_layout Standard
+All these rules are meant to protect the interests of the weaker party in
+ contractual relationships, such as in rental agreements or employment contracts.
+ By ensuring that renewals and terminations adhere to principles of fairness
+ and reasonable notice, the law aims to maintain balanced and equitable
+ agreements.
+\end_layout
+
+\begin_layout Subsubsection
+Classification Depending on the Status of the Different Parties
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+intuitu personae 
+\emph default
+(depending on the person) nature of certain contracts highlights the importance
+ of personal considerations in the formation of agreements.
+ In such contracts, the specific characteristics or qualifications of the
+ parties involved are crucial, and a mistake regarding the identity or essential
+ qualities of a party (
+\emph on
+erreur sur la personne
+\emph default
+) can be a reason for nullifying the agreement.
+ However, the importance of personal considerations has diminished over
+ time due to the growth and frequency of commercial exchanges, making it
+ a less dominant factor in many contractual relationship.
+\end_layout
+
+\begin_layout Paragraph
+The Status of 
+\emph on
+Consumer 
+\emph default
+and 
+\emph on
+Professional
+\end_layout
+
+\begin_layout Standard
+The distinction between a consumer and a professional is objectively defined
+ within consumer law, as demonstrated by the Cour de Cassation's decision
+ on May 15, 1984, concerning a patient's relationship with a doctor.
+ This distinction is pivotal in determining the applicability of specific
+ protections and obligations.
+\end_layout
+
+\begin_layout Standard
+Jurisprudence has further clarified this distinction, as seen in the case
+ of May 3, 1998, where a priest purchasing a photocopier for parish use
+ was not considered a professional act due to its linkage to the parish's
+ activities.
+ Conversely, acts directly related to professional activity are deemed 
+\emph on
+professional
+\emph default
+.
+ This was adjusted from earlier jurisprudence, which considered professional
+ acting outside their area of expertise as consumers, as in the case of
+ May 25, 1992, regarding a reseller buying an alarm.
+\end_layout
+
+\begin_layout Standard
+Special rules apply to loans for consumers, where the object of the loan
+ is a critical consideration.
+ Since 1993, consumer rights have been codified, encompassing rules on advertisi
+ng, information, cooling-off periods, and retraction, alongside mechanisms
+ for control and enforcement against unfair terms.
+\end_layout
+
+\begin_layout Standard
+The codification of consumer rights aims to balance interests and promote
+ 
+\emph on
+legal solidarism
+\emph default
+, though it also introduces some challenges.
+ It disrupts traditional contract law principles, like consent, offer and
+ acceptance, and can be seen as unstable, bureaucratic, formalistic, and
+ rigid.
+ Critics argue that the emphasis on consumer protection can hinder economic
+ development by introducing additional costs and complexities.
+ Special attention is given to adults incapable of managing their affairs
+ independently, whose protection is considered very important.
+\end_layout
+
+\begin_layout Subsubsection
+Classification Depending on the Mode of Formation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Consensual contracts
+\series default
+: these are based on the simple agreement of the parties involved.
+ The essence of consensual contracts is that they are formed by the mutual
+ consent of the parties regarding the contract's terms, without the need
+ for any formalities or the transfer of a thing.
+ This principle is foundational in French law, as highlighted in Article
+ 1172, which underscores the importance of consent in contract formation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Real contracts
+\series default
+: real contracts require the transfer of a thing (an object or right) for
+ the contract to be considered formed.
+ Examples include loans (Article 1875), deposits (Article 1919), and pledges
+ (Articles 2071).
+ These contracts are not complete until the specified object has been transferre
+d from one party to the other.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Solemn contracts
+\series default
+: solemn contracts require specific formalities to be fulfilled for the
+ contract to be valid.
+ These formalities could include written documentation, registration, or
+ other legal procedures.
+ The solemnity aspect underscores the contract's importance, ensuring clarity
+ and legal compliance.
+ For example, a real estate contract that requires a notarized deed to be
+ legally valid.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Negociated contracts
+\series default
+: these contracts are the results of back-and-forth negotiations between
+ the parties, allowing for terms and conditions to be discussed and agreed
+ upon before the contract is finalized.
+ This type reflects a social reality where parties have equal bargaining
+ power to shape the contract's content.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Membership (adhesion) contracts
+\series default
+: membership contracts are standard form contracts where one party (typically
+ a business or service provider) sets the contract terms, and the other
+ party (usually a consumer) has little to no ability to negotiate.
+ The consumer can aither accept the contract as is or reject it entirely.
+\end_layout
+
+\begin_layout Standard
+Despite the foundational role of Common Law principles in contracts, the
+ issue of 
+\begin_inset Quotes eld
+\end_inset
+
+unfair terms
+\begin_inset Quotes erd
+\end_inset
+
+ has gained prominence, addressing concerns over potential imbalances in
+ membership contracts.
+ This has led to specific regimes in some foreign legal systems to protect
+ parties, particularly consumers, from unfair or abusive terms that one
+ party might impose due to a superior bargaining position.
+\end_layout
+
+\begin_layout Standard
+The distinction between
+\end_layout
+
+\begin_layout Subsection
+The Notion of Contract
+\end_layout
+
+\begin_layout Subsubsection
+Historical Review
+\end_layout
+
+\begin_layout Paragraph
+Roman contracts and non-contractual obligations
+\end_layout
+
+\begin_layout Standard
+The Roman legal system introduced the notion of contracts with four primary
+ consensual contracts: sale, mandate, rental, and company.
+\end_layout
+
+\begin_layout Standard
+It also recognized non-contractual obligations such as guardianship and
+ tort sources, expanding the scope of legal obligations beyond formal agreements.
+\end_layout
+
+\begin_layout Paragraph
+Evolution from individualism to opposing interests
+\end_layout
+
+\begin_layout Standard
+In 1804, the notion of contract was heavily individualistic, anchored in
+ the theory of free will (
+\emph on
+autonomie de la volonté
+\emph default
+).
+ Over time, legal theory has shifted towards considering 
+\begin_inset Quotes eld
+\end_inset
+
+opposing interests
+\begin_inset Quotes erd
+\end_inset
+
+, acknowledging the dynamic and often conflicting nature of contractual
+ relationships.
+\end_layout
+
+\begin_layout Subsubsection
+Unilateral Deed
+\end_layout
+
+\begin_layout Standard
+A unilateral deed, or unilateral declaration, involves a situation where
+ a single party's declaration or promise creates an obligation upon them,
+ without requiring acceptance or an act of performance by another party
+ for it to take effect.
+ The obligation is self-imposed by the declarant's will alone, and it must
+ be communicated to the person it affects, but it does not form an agreement
+ between two parties.
+ For example, a promise to make a donation to charity can be considered
+ a unilateral deed.
+ If an individual publicly announces their intention to donate a certain
+ amount to a charity, they have created an obligation for themselves through
+ their declaration.
+\end_layout
+
+\begin_layout Standard
+A unilateral deed is distinguised from a unilateral contract by requiring
+ only one party's will to create an obligation, while in a unilateral contract,
+ the obligation is conditional upon the performance of a specified act by
+ another party, essentially forming an agreement once the act is performed.
+ However, for such a deed to be valid, the impacted individual must be informed,
+ and there exists debate over the validity of self-imposed obligations.
+ An example is a public promise to reimburse, which can be revoked until
+ the promised act is accomplished.
+\end_layout
+
+\begin_layout Subsubsection
+Non-Mandatory Conventions
+\end_layout
+
+\begin_layout Standard
+Non-mandatory conventions, such as debt forgiveness, do not create obligations
+ and are theoretically distinct from contracts, despite being effective
+ in practice.
+ 
+\end_layout
+
+\begin_layout Standard
+Another example are acts of kindness and accommodation, which are actions
+ taken out of goodwill or to accommodate someone else, such as providing
+ a ride or assisting a third party withoyt expecting anything in return.
+ Initially, these acts may not create legal obligations.
+ However, if they lead to harm or loss, they could result in indemnity claims.
+ Over time, such acts might be interpreted through a quasi-contractual lens,
+ especially if they resemble actions typically covered by contracts, like
+ providing services under a free services contract.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Gentleman's agreements
+\series default
+ are informal agreements based on the honor of the parties involved, rather
+ than legal obligations.
+ They are characterized by:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Basis in honor
+\series default
+: the primary foundation of a gentlemna's agreement is the personal integrity
+ and honor of the parties.
+ Such agreements are common between states or friends, where formal contracts
+ are either impractical or deemed innecessary.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Legal enforceability
+\series default
+: while the legal doctrine often views these agreements as non-binding due
+ to the lack of legal obligations, courts sometimes consider the common
+ intentions of the parties involved.
+ If it appears that the parties intended to create a binding commitment,
+ a court may enforce the agreement based on those intentions, despite the
+ informal nature of the agreement.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Letters of intent
+\series default
+ are documents used during the preliminary stages of negotitations to outline
+ the key elements of a proposed agreement and the parties' intent to continue
+ discussions.
+ They serve several important functions:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Clarification of intentions
+\series default
+: they help both parties clarify their intentions and the main points of
+ the deal under considetation, providing a roadmap for future negotiations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Non-binding nature
+\series default
+: typically, they are non-binding regarding the final agreement, meaning
+ they do not legally obligate the parties to finalzie the deal.
+ However, certain parts of a letter of intention, such as confidentiality
+ clauses or exclusivity agreements, may be binding.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ambiguity and enforcement
+\series default
+: the notion of letter of intention is ambiguous because, while they signify
+ a willingness to engage in negotiations, the extent to which they are enforceab
+le varies.
+ If a letter of intention is detailed and includes terms that suggest a
+ commitment, courts may interpret it as binding, depending on the parties'
+ apparent intent and the document's specific language.
+\end_layout
+
+\begin_layout Subsubsection
+Avant-Contracts (Preliminary Contracts)
+\end_layout
+
+\begin_layout Standard
+Avant-contracts are preliminary agreements that outline the terms and conditions
+ under which the parties intend to enter into a definitive contract in the
+ future.
+ They are binding to the extent that they commit the parties to continue
+ their negotiations based on the terms outlined in the avant-contract.
+\end_layout
+
+\begin_layout Standard
+There are several types:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unilateral promise to contract
+\series default
+: gives one party, the beneficiary, the option to enter into a contract
+ within a specified time frame.
+ This promise grants the beneficiary a personal right against the promisor,
+ which becomes enforceable once the option is exercised.
+ Before acceptance, it's a personal right; after acceptance, it transforms
+ into an indefeasible right subject to forced execution.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Synallagmatic promise
+\series default
+: involves mutual commitments from both parties to enter into a contract
+ upon meeting certain conditions or formalities.
+ This type of acant-contract is immediately binding as a promise of sale,
+ effectively considered equivalent to a sale, as per Article 1589 of the
+ Civil Code.
+ However, the execution of the definitive contract may depend on completing
+ specific formalities or conditions.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Crossed promises
+\series default
+: consist of two unlitateral promises that intersect; for example, one party
+ promises to sell, and the other promises to buy under the same conditions.
+ This arrangement is treated as a synallagmatic promise and is equivalent
+ to a sales contract, although this interpretation has faced criticism.
+\end_layout
+
+\begin_layout Paragraph
+Legal implications
+\end_layout
+
+\begin_layout Itemize
+Contractual value of pre-contractual documents: even advertisements and
+ pre-contractual documents can have contractual value, as seen in a 2004
+ ruling by the Cour de Cassation.
+ Misrepresentations in such documents can lead to liability for misconduct.
+\end_layout
+
+\begin_layout Itemize
+No constraining value after contract conclusion: once the definitive contract
+ is concluded, the pre-contractual documents lose their binding force under
+ specifically incorporated into the final agreement.
+\end_layout
+
+\begin_layout Itemize
+Exceptions: there are exceptions where the promise of a contract does not
+ equate to the contract itself, particularly in cases involving loans and
+ where adamages are sought as a remedy.
+\end_layout
+
+\begin_layout Paragraph
+Reiteraiton and consent
+\end_layout
+
+\begin_layout Standard
+Reiteration, the act of repeating the contract formalization process, typically
+ in front of a notary, can sometimes be replaced by a court decision.
+ Parties may also choose to include reiteration as an element of their consent,
+ further solidifying the agreement's binding nature.
+\end_layout
+
+\begin_layout Subsection
+Formation of the Contract
+\end_layout
+
+\begin_layout Standard
+The formation of a contract is a fundamental concept in contract law that
+ outlines the conditions under which agreements become legally binding between
+ parties.
+\end_layout
+
+\begin_layout Standard
+The Article 1103 of the Civil Code establishes that contracts, once legally
+ constituted, are binding upon the parties involved, acting as their law.
+ This principle underscores the autonomy and the binding nature of contracts,
+ highlighting the importance of agreements being formed in compliance with
+ legal standards.
+ It specifies four essential requirements for a contract's validity:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Consent of the parties
+\series default
+: agreement must be made without coercion, mistake, or misrepresentation.
+ Both parties must clearly and voluntarily agree to the contract terms.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Capacity to contract
+\series default
+: parties must have the legal ability to enter into a contract.
+ This typically means they are of a certain age (usually 18 or older) and
+ of sound mind.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Definite object
+\series default
+: the contract must have a clear subject matter or obejctive.
+ This means the goods, services, or rights being exchanged are specified.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Lawful cause
+\series default
+: the purpose and terms of the contract must be legal and not against public
+ policy.
+\end_layout
+
+\begin_layout Standard
+Notably, Article 1108 does not mandate a specific form for the contract,
+ allowing for flexibility in how agreements are made, whether orally, in
+ writing, or through conduct.
+\end_layout
+
+\begin_layout Subsubsection
+Voluntary Agreements
+\end_layout
+
+\begin_layout Standard
+The formation process emphasizes the voluntary nature of agreements, detailing
+ how parties should conduct negotiations:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Discussions
+\series default
+: the initial stage involves discussions, which are not the same as making
+ a firm offer.
+ It's an invitation to negotiate, marking the start of potential contract
+ formation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Invitation to start discussions
+\series default
+: this is distinct from a firm offer and serves as the initiation of negotiation
+s, without committing either party.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Freedom to end negotiations
+\series default
+: parties are free to withdraw from talks at any time before an agreement
+ is reached.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Obligations of good faith
+\series default
+: throughout the discussions, parties are expected to engage honestly and
+ fairly, avoiding misleading or deceitful practices.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Informing and cooling off period
+\series default
+: parties should inform each other about the terms and conditions of the
+ proposed agreement.
+ A cooling-off period may be allowed, giving parties time to reconsider
+ their commitment.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Effort to reach an agreement
+\series default
+: negotiations should aim to conclude with a mutual agreement, avoiding
+ unnecessary delays or extensions.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Confidentiality
+\series default
+: respect for sensitive information shared during negotiations is crucial.
+ Confidential details whould not be disclosed without consent.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Limited tort liability
+\series default
+: while parties may be held liable for certain costs incurred during the
+ negotiation phase, such as preliminary studies, they generally cannot be
+ held responsible for the loss of an opportunity that never materialzied
+ into a contract.
+\end_layout
+
+\begin_layout Paragraph
+Examples
+\end_layout
+
+\begin_layout Standard
+Example of consent: two businesses agreeing to terms for a supply of goods
+ after negotiations, where both parties clearly accept the terms.
+\end_layout
+
+\begin_layout Standard
+Example of capacity: an adult entering into a lease agreement for an apartment,
+ having the legal age and mental ability to do so.
+\end_layout
+
+\begin_layout Standard
+Example of definitive object: a contract for the sale of a car, where the
+ make, model, and year of the car are specified.
+\end_layout
+
+\begin_layout Standard
+Example of lawful cause: a service contract for landscaping work, where
+ the services to be provided are legal and have a legitimate purpose.
+\end_layout
+
+\begin_layout Subsubsection
+Pollicitation
+\end_layout
+
+\begin_layout Standard
+Pollicitation refers to the act of making an offer in the context of contract
+ formation.
+ It is a key step in initiating contractual negotiations, setting out the
+ terms under which the offeror is willing to enter into a contract.
+ Let's break down the essential characteristics of a pollicitation and provide
+ some clarity on its implications:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Firmness
+\series default
+: an offer must be firm, indicating the offeror's clear intention to be
+ bound by the offer if accepted by the offeree.
+ This means the offeror cannot withdraw the offer arbitrarily before the
+ specified time period for acceptance has elapse or, if no time is specified,
+ within a reasonable period.
+ For example, a car dealership places an advertisement offering a specific
+ model at a stated price, indicated the offer is valid until the end of
+ the month.
+ This is a firm offer because the dealership commits to the terms provided
+ until the specified expiration date.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Precision
+\series default
+: the offer must be precise, containing all the essential elements of the
+ contract, notably the price.
+ This precision ensures that, upon acceptance, there is a clear agreement
+ on the contract's fundamental terms without the need for further negotiation.
+ For example, an online retailer lists a product with a detailed description
+ and price, making it clear what is being offered for sale.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Express nature
+\series default
+: pollicitation must always be express, regardless of its form.
+ It can be communicated in various ways, including written, oral, or even
+ through conduct, such as displaying goods for sale in a public space.
+ The key is that the offer must unambiguously indicate the offeror's intention
+ to be bound.
+ For example, a company sends a proposal to provide IT services to another
+ business, detailing the scope of services and associated costs.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Public offer
+\series default
+: a public offer, one made to an unspecified audience, holds the same legal
+ weight as an offer directed at a specific individual.
+ The first party to accept such an offer in accordance with its terms effectivel
+y enters into a contract with the offeror.
+ For example, a restaurant displaying a sign outside offering a lunch special
+ at a specific price.
+ This is binding on the restaurant for anyone who enters and orders the
+ special, fulfilling the conditions of the offer.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reservations
+\series default
+: to mitigate the strictness of this rule, an offer can include certain
+ reservations.
+ For instance, the 
+\emph on
+intuitu peersonae
+\emph default
+ principle allows the offeror to stipulate that the acceptance must come
+ from a party possessing specific qualities or qualifications deemed necessary
+ for the contract's purpose.
+ For example, a job posting requires applicants to have certain qualifications
+ or experience, indicating that only those who meet these criteria are eligible
+ to accept the offer of employment.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Period of time
+\series default
+: an offer also includes a time frame for acceptance, which can be explicit
+ or implicit, repending on the contract's nature or intended to be resonable.
+ This period defines how long the offer remains open for acceptance, after
+ which it may expire if not accepted.
+ For example, the car sale previously mention.
+\end_layout
+
+\begin_layout Subsubsection
+The Regime Governing the Offer
+\end_layout
+
+\begin_layout Standard
+The regime governing the offer outlines the conditions under which an offer
+ can be made, modified, or withdrawn, and the consequences of these actions.
+ 
+\end_layout
+
+\begin_layout Paragraph
+Retraction of the offer
+\end_layout
+
+\begin_layout Standard
+Generally, an offer is revocable, meaning the offeror can withdraw it before
+ it is accepted.
+ However, an offer becomes irrevocable if the offeror explicitly states
+ the intention to not withdraw the offer for a certain period or under specific
+ conditions.
+\end_layout
+
+\begin_layout Standard
+If the offeror retracts an irrevocable offer, they may be liable for breach
+ of the promise not to revoke the offer.
+ This could lead to claims for damages by the offeree or enforcement of
+ a penalty clause, if one was included in the offer.
+\end_layout
+
+\begin_layout Standard
+If the offeror retracts the offer during the period it was supposed to remain
+ open (or before the offeree has had a reasonable time to consider it, in
+ the absence of a specified period), this action constitutes a fault.
+ If the cancellation causes damages to the offeree, the offeror may be held
+ liable under tort responsibility.
+\end_layout
+
+\begin_layout Itemize
+Public offers: the offeror can freely revoke a public offer unless it has
+ been accepted.
+\end_layout
+
+\begin_layout Itemize
+Specific person: if the offer targets a specific person, the offeror must
+ allow a reasonable period for the offeree to examine and consider the offer
+ before revocation, as established in a 2005 decision by the Cour de cassation.
+\end_layout
+
+\begin_layout Paragraph
+Lapse of termination of the offer
+\end_layout
+
+\begin_layout Standard
+An offer becomes 
+\series bold
+obsolete
+\series default
+, meaning it stops producing effects, under certain conditions, such as:
+\end_layout
+
+\begin_layout Itemize
+The death of the offeror.
+\end_layout
+
+\begin_layout Itemize
+The offeror undergoing bankruptcy.
+\end_layout
+
+\begin_layout Itemize
+Sudden incapacity of the offeror.
+\end_layout
+
+\begin_layout Standard
+If the offeree initially refuses the offer but then rapidly changes their
+ mind, the initial refusal typically terminates the offer.
+ However, the legal implications can vary based on the specifics of the
+ situation and the timing of the change of mind.
+\end_layout
+
+\begin_layout Standard
+Jurisprudence is not clear regarding the effect of the offeror'sdeath within
+ the specified time period for acceptance.
+ Generally, unless the offer is of a personal nature or the contract specifies
+ otherwise, the death of the offeror does not automatically revoke the offer
+ before its expiration.
+\end_layout
+
+\begin_layout Subsubsection
+Acceptance
+\end_layout
+
+\begin_layout Standard
+Acceptance is a crucial step in the formation of a contract, indicating
+ the offeree's agreement to the terms proposed by the offeror.
+\end_layout
+
+\begin_layout Paragraph
+Enlightened (Wise) acceptance
+\end_layout
+
+\begin_layout Standard
+For acceptance to be valid, it must be informed.
+ The offeree is presumed to be aware of and understand all clauses that
+ are 
+\begin_inset Quotes eld
+\end_inset
+
+readable
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+usual
+\begin_inset Quotes erd
+\end_inset
+
+ within the context of the agreement.
+ Clauses that fall outside of what's considered a tacit agreement are not
+ deemed accepted unless proven otherwise.
+ This ensures that acceptance is based on a full understanding of the terms.
+\end_layout
+
+\begin_layout Standard
+For example, a person signing a lease agreement is presumed to understand
+ and accept all standard clauses that are clearly presented and typical
+ for such agreements.
+\end_layout
+
+\begin_layout Paragraph
+Pure and simple
+\end_layout
+
+\begin_layout Standard
+Acceptance must be unconditional and unambiguous.
+ If the acceptance alters any terms of the offer, it is not considered a
+ true acceptance but a counter-offer, which effectively nullifies the original
+ offer.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tacit acceptance
+\series default
+: can be inferred from the actions of the parties, indicating agreement
+ to the contract terms through conduct rather than explicit verbal or wirtten
+ confirmation.
+ For example, using a product or service without objection after receiving
+ it can be interpreted as tacit acceptance of the sale terms.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Silence as acceptance
+\series default
+: generally, silence is not considered acceptance.
+ This principle is particularly emphasized in consumer law to prevent practices
+ such as forced sales at a distance.
+ An exception exists when silence can be contextualized, such as in ongoing
+ business relationships, or specific legal texts allow for it, or a letter
+ confirms a previous verbal agreement.
+\end_layout
+
+\begin_layout Subsubsection
+Contracts Between Absents
+\end_layout
+
+\begin_layout Standard
+Contracts between absents refer to agreements made when the offeror and
+ offeree are not physically present together, often facilitated through
+ communication technologies.
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+emission/reception theory
+\series default
+ addresses how and when a contract is formed between absent parties.
+ The focus is on:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Emission theory
+\series default
+: a contract is considered formed when the offeror sends the acceptance,
+ regardless of whether the offeree has received it.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reception theory
+\series default
+: a contract is only formed when the acceptance is received by the offeror.
+ This approach is more common and practical, ensuring that the offeror is
+ aware of the acceptance before being bound by it.
+\end_layout
+
+\begin_layout Standard
+For example, if a freelancer sends an email accepting a project offer and
+ the terms are received and acknowledged by the client, the contract is
+ formed under the reception theory.
+\end_layout
+
+\begin_layout Paragraph
+Practical implications
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Jurisdiction
+\series default
+: the location where the contract is considered completed can affect legal
+ jurisdiction, which is important for determining the applicable laws and
+ where legal actions can be initiated.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Revocation of the offer
+\series default
+: challenges arise when an offer is revoked after acceptance has been sent
+ but before it is received.
+ The lack of clear jurisprudence on this matter requires judges to interpret
+ the intent of the parties to determine if a contract was effectively formed.
+\end_layout
+
+\begin_layout Subsubsection
+Electronic Contracts
+\end_layout
+
+\begin_layout Standard
+The French Law on Confidence in the Digital Economy (LCEN), dated June 4,
+ 2004, and its subsequent modification on June 16, 2005, to transpose a
+ European Directive from June 8, 2000, provide a regulatory framework for
+ electronic contracts.
+ These regulations are encapsulated within Articles 1369-1 to 1369-3 (and
+ beyond) of the French Civil Code.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Electronic contracts
+\series default
+ are agreements where at least one party offers goods or services through
+ electronic means, typically via the internet.
+ This definition includes a broad range of commercial transactions conducted
+ online, from e-commerce sales to service agreements.
+\end_layout
+
+\begin_layout Paragraph
+Key provisions and requirements
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Article 1369-1: offer and technical conditions
+\end_layout
+
+\begin_layout Standard
+The offer in an electronic contract must clearly detail the contractual
+ terms and various technical conditions pertinent to digital transactions.
+ These include:
+\end_layout
+
+\begin_layout Itemize
+Contractual conditions: detailed description of goods or services, pricing,
+ and terms of use.
+\end_layout
+
+\begin_layout Itemize
+Technical conditions: steps for contract conclusion, mechanisms for identifying
+ and correcting errors before submission, language of the contract, and
+ rules regarding the archiving of contracts and commercial regulations.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Steps for contract conclusions
+\end_layout
+
+\begin_layout Standard
+The law specifies that clear instructions must be provided on how to proceed
+ through the different stages of entering into the contract.
+ This ensures transparency and understanding for users navigating the contract
+ formation process online.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Correction of errors
+\end_layout
+
+\begin_layout Standard
+There must be be technical means available for users to identify and correct
+ any errors in their inputs before the final submission of their agreement.
+ This feature is crucial for preventing misunderstandings or unintentional
+ commitments.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Contract language and archives
+\end_layout
+
+\begin_layout Standard
+Specifications regarding the language used in the contract and how the contracts
+ are archived offer additional clarity and security for both parties involved
+ in the electronic transaction.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Professional and commercial rules
+\end_layout
+
+\begin_layout Standard
+The offer must also include any relevant professional or commercial rules,
+ ensuring that parties are aware of the regulatory environment governing
+ the transaction.
+\end_layout
+
+\begin_layout Paragraph
+Acceptance and the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\emph on
+Double Click
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ rule
+\end_layout
+
+\begin_layout Standard
+The acceptance of electronic contracts follows the general principles of
+ contract law, requiring a clear and unequivocal agreement to the terms
+ proposed by the offeror.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+double click rule
+\series default
+, introduced in Article 1369-4, emphasizes the need for explicit confirmation
+ of acceptance.
+ Typically, this involves a process where the user must click once to select
+ an option and again to confirm their choice, ensuring a deliberate and
+ informed agreement to the contract terms.
+\end_layout
+
+\begin_layout Standard
+For the purposes of evidence and certainty, and order, its acceptance, and
+ the acknowledgment of receipt are considered received when they can be
+ accesses by the intended recipients.
+ This provisions addresses the unique aspect of electronic communication,
+ where access equates to receipt.
+ Article 1369-5.
+\end_layout
+
+\begin_layout Standard
+For example, an online retailer's checkout process that requires customers
+ to review their cart, confirm personal and payment information, and finally
+ click a 
+\begin_inset Quotes eld
+\end_inset
+
+Place Order
+\begin_inset Quotes erd
+\end_inset
+
+ button, followed by a confirmation screen where they click 
+\begin_inset Quotes eld
+\end_inset
+
+Confirm Order
+\begin_inset Quotes erd
+\end_inset
+
+, exemplifies the double click rule.
+ The retailer then sends an email acknowledgment that the customer can access,
+ completing the transaction cycle as per Article 1369-5.
+\end_layout
+
+\begin_layout Subsection
+Defects in Consent
+\end_layout
+
+\begin_layout Standard
+Defects in consent are critical considerations in contract law that can
+ affect the validity of a contract.
+ These defects arise when the agreement between parties is influenced by
+ factors that compromise the free and informed consent of one or more parties.
+\end_layout
+
+\begin_layout Subsubsection
+Preliminary Remarks
+\end_layout
+
+\begin_layout Standard
+For a contract to be valid, it must meet four fundamental conditions (Article
+ 1108):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Consent of the obliging party
+\series default
+: the party agreeing to the contract must do so willingly and knowingly.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Capacity to contract
+\series default
+: parties must have the legal ability to enter into a contract, typically
+ involving agre and mental competence.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Definite object
+\series default
+: the contract must have a clear subject matter.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lawful cause
+\series default
+: the purpose of the contract must be elgal.
+\end_layout
+
+\begin_layout Standard
+Consent is considered valid only if it is given freely and without any defects.
+ If consent is flawed, the contract may be deemed void.
+\end_layout
+
+\begin_layout Standard
+Certain individuals, such as those who are incapable (due to mental incapacity),
+ dying persons, or illiterate individuals, may lack the ability to give
+ valid consent.
+ Originally, the concern oveer consent was particularly relevant to gifts
+ but has been extended to all acts requiring legal capacity, as highlighted
+ by Article 489, which states the necessity of being of sound mind to engage
+ in valid legal acts.
+\end_layout
+
+\begin_layout Paragraph
+Objectives of protection and contractual security
+\end_layout
+
+\begin_layout Standard
+The law aims to balance the protection of individuals with the need for
+ contractual security.
+ This includes safeguarding against 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+lésion
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+, where there's a significant imbalance between the obligations of the parties
+ involved.
+\end_layout
+
+\begin_layout Standard
+Consent is not considered valid if it is affected by any of the following
+ defects (Article 1109):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mistake
+\series default
+: an error by one or more parties about a fundamental aspect of the contract.
+ For example, a person buys a painting believing it to be an original work
+ of a famous artist, but it turns out to be a false copy.
+ The mistake about a fundamental aspect of the contract (the painting's
+ authenticity) could nullify the agreement.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dol
+\series default
+: deception by one party to induce another to enter into the contract.
+ For example, if a seller knowingly misrepresents a car's condition to a
+ buyer, and the buyer relies on this misinformation when agreeing to the
+ purchase, the contract could be voided due to fraud.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Violence
+\series default
+: coercion or undue pressure exerted on a party to force them into the contract.
+ For example, threatening someone to sign a contract under threat of harm
+ constitutes duress.
+ Contracts signed under such conditions are voidable.
+\end_layout
+
+\begin_layout Subsubsection
+The Mistake
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+mistake
+\series default
+ occurs when one or both parties hold an incorrect belief about a critical
+ fact at the time of contract formation.
+ It is a commong ground for disputing the validity of a contract, because
+ it indicates that the parties may not have reached a genuine agreement
+ due to the error.
+ 
+\end_layout
+
+\begin_layout Standard
+Distinguishing between a mistake and a guarantee against hidden effects
+ is crucial.
+ A mistake pertains to an error in understanding or belief at the time of
+ agreement, while a 
+\series bold
+guarantee against hidden effects
+\series default
+ deals with undisclosed flaws in the subject matter, that were not known
+ at the time of sale.
+\end_layout
+
+\begin_layout Standard
+There are several types of mistake:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mistake on the Substance 
+\series default
+(Article 1133):
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\bar under
+Objective and subjective evaluation
+\bar default
+: initially, the substance of a mistake was viewed objectively, focusing
+ on whether a reasonable person would find the error significant.
+ Over time, the assessment has become more subjective, considering whether
+ the mistaken fact was a substantial quality important to the contracting
+ party.
+\end_layout
+
+\begin_layout Itemize
+
+\bar under
+Concrete VS Abstract Evaluation
+\bar default
+: the debate centers on whether the significance of the mistake should be
+ evaluated in the specific context of the contract (
+\emph on
+in concreto
+\emph default
+) or based on general standards (
+\emph on
+in abstracto
+\emph default
+), affecting the burden of the proof.
+\end_layout
+
+\begin_layout Standard
+A notable case is 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Le Verrou
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+case from March 24, 1987.
+ In this case, the controversy involved the sale of an artwork attributed
+ to Fragonard.
+ The court ruled that the parties ahd accepted the risk of the painting's
+ authenticity, and the heirs failed to prove that the seller has consented
+ to the sale under a mistaken belief.
+ This illustrates the complexity of proving a mistake in contracts involving
+ art, where authenticity may be uncertain.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+The obstacle mistake
+\series default
+: this refers to a fundamental misunderstanding where there is no true meeting
+ of minds, often relating to the contract's object.
+ It requires clarification or can lead to contract annulment if the mistake
+ is about a central aspect of the agreement.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A notable case is 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Le Poussin
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ case.
+ In this case, an amateur auctioned a painting believed to be by Poussin,
+ a belief based on family tradition.
+ However, after the Louvre won the auction and declared it a Poussin, the
+ attribution was contested.
+ This case highlights mistakes regarding the provision or attribution of
+ an artwork, affecting the contract's validity.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Irrelevant mistake
+\series default
+: mistakes about a party's motivation or the value of the contract subject
+ are generally deemed irrelevant, as they do not pertain to the contract's
+ substance.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The principle 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+de non vigilantibus non curat praetor
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (the law does not protect those who are not vigilant) applies here, indicating
+ that the law does not remedy mistakes due to a lack of diligence.
+\end_layout
+
+\begin_layout Standard
+The material mistake does not lead ot the annulment but has to be modified.
+ This modification could be refused if it creates a prejudice and the victim
+ has good faith.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+The Dol
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Dol
+\series default
+ refers to fraudulent behavior or deceit employed by one party to induce
+ another to enter into a contract.
+ Dol has characteristics of both a criminal offense, fue to the deceitful
+ intent, and a civil one, as it pertains to the breach of contractual obligation
+s.
+ The modern perspective focuses on the vistim's experience, emphasizing
+ the deceit's impact on their consent to the contract.
+\end_layout
+
+\begin_layout Standard
+The criteria for dol are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Intentional deceit
+\series default
+: dol is considered a cause for annulment of a contract when one party uses
+ tactics so deceptive that it's evident the other party would not have consented
+ without such deceit.
+ This requires the victim to prove the presence of dol, as it is not presumed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dishonest tactics
+\series default
+: the essence of dol lies in the use of dishonest tactics, including lies
+ or significant omissions, to mislead the other party.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Silence as dol (
+\emph on
+réticence dolosive
+\emph default
+)
+\series default
+: deliberately withholding crucial information that one has a duty to disclose
+ can constitute dol.
+ This is particularly the case when the omission manipulates the other party
+ into entering the contract under false pretenses (Article 1139).
+\end_layout
+
+\begin_layout Standard
+Some examples and jurisprudence are:
+\end_layout
+
+\begin_layout Itemize
+Lies and exaggerations: while mere puffery or sales talk may not always
+ constitute dol, outright lies or strategic omissions designed to deceive
+ do.
+ For instance, the case from the Cour de Cassation November 6, 1970, highlighted
+ that even lies without accompanying actions could constitute dol.
+\end_layout
+
+\begin_layout Itemize
+Employment applications: jurisprudence tends to be lenient towards misrepresenta
+tions made by job applicants unless they significantly impact the employment
+ decision.
+\end_layout
+
+\begin_layout Standard
+The determining factos and exceptions are:
+\end_layout
+
+\begin_layout Itemize
+Determinant for consent: dol must be a determining factor in the victim's
+ consent; otherwise, the remedy may be limited to damages rather than annulment
+ of the contract.
+\end_layout
+
+\begin_layout Itemize
+Proof of intention: proving dol requires showing intentional deceit.
+\end_layout
+
+\begin_layout Itemize
+Source of dol: usually, dol originates from the other contractual party,
+ but exceptions exist, such as in cases of fraudulent collusion or when
+ dol is based on a unilateral document.
+\end_layout
+
+\begin_layout Standard
+The practical implications of dol can be:
+\end_layout
+
+\begin_layout Itemize
+Annulment and damages: if dol is proven, it can lead to the annulment of
+ the contract, or in less clear-cut cases, victims may be entitled to damages
+ for the deceit suffered.
+\end_layout
+
+\begin_layout Itemize
+Responsibility to disclose: parties to a contract have a fundamental obligation
+ to be honest and forthcoming about critical information related to the
+ agreement.
+\end_layout
+
+\begin_layout Subsubsection
+Violence
+\end_layout
+
+\begin_layout Standard
+Violence addresses situations where consent to a contract is obtained through
+ undue pressure, whether physical, psychological, or economic.
+\end_layout
+
+\begin_layout Standard
+The legal basis of violence are:
+\end_layout
+
+\begin_layout Itemize
+Article 1111: this article establishes that violence, whether exerted by
+ a party to the contract or a third party for their benefit, is a valid
+ cause for annulment of the contract.
+\end_layout
+
+\begin_layout Itemize
+Article 1112: defines violence as acts that would intimidate a reasonable
+ person, causing fear of exposing oneself or one's property to significant
+ and immediate danger.
+\end_layout
+
+\begin_layout Standard
+The characteristics and scope of violence are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rarity
+\series default
+: it's less commonly invoked than mistake and dol.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Source and means
+\series default
+: the origin of the violence and the methods used are immaterial to its
+ validity as a cause for annulment.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Exploiting weakness
+\series default
+: modern interpretations include exploting a party's weakness that leads
+ to a significant mistake as a form of violence.
+ For example, a case where an individual, knowing another person's desperate
+ financial situation, offers a loan on extremely unfavorable terms.
+ The lender exploits the borrower's vulnerability, which could be considered
+ a form of violenve if it led to the borrower's consent.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Exclusions
+\series default
+: mere reverential fear, where respects or deference to another causes one
+ to agree, does not constitute violence for the purpose of annulment.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Economic violence
+\series default
+: since 2002, the concept has expanded to include economic violence, where
+ undue advantage is taken of another's economic dependence.
+\end_layout
+
+\begin_layout Standard
+The conditions for violence are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Determinant
+\series default
+: the violence must be a determining factor in the aggrieved party's decision
+ to enter into the contract, assessed on a case-by-case basis (
+\emph on
+in concreto
+\emph default
+).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Human action
+\series default
+: violence must emanate from an action or threat by another person, directly
+ or indirectly affecting the contract party.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Exceptional adjustments
+\series default
+: in specific situations, such as some maritime rescues, the agreement might
+ be adjusted rather than annulled to reflect the circumstances.
+ For example, imagine your boat breaks in the sea, and another boat passes
+ by.
+ They offer to rescue you for 1M€, and at the moment you accept.
+ However, once you are in land, you think they took advantage of your desperate
+ position.
+\end_layout
+
+\begin_layout Subsubsection
+The Lesion
+\end_layout
+
+\begin_layout Standard
+Lesion refers to a situation where there is a significant imbalance between
+ the performances of the parties involved in a contract, to the detriment
+ of one party.
+ Unlike classical defects in consent, lesion is considered a special cause
+ for the annulment or adjustment of a contract.
+\end_layout
+
+\begin_layout Standard
+Article 1118 specifies that the lesion vitiates contracts only under certain
+ conditions, applicable to specific contracts or certain categories of people.
+ It suggests that the principle of freedom of contract is paramount, but
+ exceptions exist to protect parties from grossly unfair agreements.
+\end_layout
+
+\begin_layout Standard
+The characteristics of the lesion are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Not a general vice
+\series default
+: it's not recognized as a general ground for annulment across all contracts.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Security of contract principle
+\series default
+: underscores the importance of respecting agreements and ensuring that
+ contracts are respected as binding obligations.
+ Lesion is an exception to this principle, introduced to prevent exploitation
+ and ensure fairness.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Applicability
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Incapables: are protected against lesion.
+\end_layout
+
+\begin_layout Itemize
+Sales or real estate: transactions involving real estate may be scrutinized
+ for lesion, given the significant value and potential for exploitation.
+ For example if a person, taking advantage of another's urgent need for
+ money, purchases their property at a price significantly below market value,
+ this could be challenged as lesion, especially if the seller is considered
+ incapable of fully understanding the transaction's implication.
+\end_layout
+
+\begin_layout Itemize
+Shares and other securities: deals involving shares, stocks, or other financial
+ instruments may also be subject to review for lesion.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The courts have granted themselves the authority to adjust the remunerations
+ of mandatory and liberal professions if they are deemed to involve lesion.
+ For example, if a doctor charges a fee that is exorbitantly high compared
+ to the standard rates for their services, and especially if the client
+ is in a vulnerable position, the courts may decide to reduce the fee on
+ the ground of lesion.
+\end_layout
+
+\begin_layout Subsection
+The Protective Legislation of the Consumer
+\end_layout
+
+\begin_layout Standard
+The protective legislation for consumers is a critical component of modern
+ legal systems, particularly in response to the complexities of a consumption-dr
+iven society.
+ These laws aim to correct the imbalances between consumers and businesses
+ by enrusing trasparency, fairness, and informed consent in transactions.
+ 
+\end_layout
+
+\begin_layout Standard
+Businesses are obliged to inform their clients, and this has three branches.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Commercial advertisement
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+False advertising
+\series default
+: any commercial advertisement found to be false is subject to sanctions.
+ This protects consumers from being misled about the quality, nature, or
+ price of goods and services.
+ For example, a company advertises a weight loss supllement with unfounded
+ claims about its effectiveness.
+ Upon investigation, these claims are found to be false, leading to sanctions
+ against the company.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Comparative publicity
+\series default
+: allowed since 1992, provided it is fair and honers, comparative advertising
+ helps consumer make informed decisions by comparing the attributes of different
+ products or services.
+ For example, an electronic retailer publishes an ad comparing the specification
+s and prices of laptops from different manufacturers.
+ The comparison is factual and helps consumers make informed choices, so
+ it is permitted.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Information on the product
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Mandatory disclosures
+\series default
+: this includes price labeling, quality labels, informative documents, and
+ manual mentions, which ensure that consumers have access to essential informait
+on about what they are purchasing.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Neiertz law generalization
+\series default
+: this law mandates that every professional seller of goods or service provider
+ must, before concluding a transaction, enable the consumer to understand
+ the main characteristics of the good or service.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Personalized information
+\series default
+: this aspect is often emphasized by jurisprudence, requiring professional
+ sellers to inform, advise, or recommend based on their duty towards the
+ consumer.
+ This personalized information helps consumers make choices that are best
+ suited to their specific needs and circumstances.
+\end_layout
+
+\begin_layout Subsubsection
+Repent Cooling Off Withdraw
+\end_layout
+
+\begin_layout Standard
+The objective is to reinforce the consumer's consent by providing a cooling-off
+ period.
+ This period allows consumers to reconsider their purchase decisions without
+ pressure.
+\end_layout
+
+\begin_layout Standard
+The right of cooling off are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+L121-6
+\series default
+: regulates any money given as a guarantee or payment during the cooling-off
+ period.
+ This provisions ensures that consumers can back out a transaction without
+ financial penalty.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Anticipation and preservation
+\series default
+: the law provides for the anticipaiton of a cooling-off period or the preservat
+ion of a withdrawal right in specific transactions, such as distant sales
+ or financial services.
+\end_layout
+
+\begin_layout Standard
+For example, a consumer purchases a smartphone online and then decides it
+ does not meet their needs.
+ Thanks to the cooling-off period, they can return the phone within a specified
+ timeframe for a full refund without needing to provide a reason.
+\end_layout
+
+\begin_layout Subsection
+Object and Cause
+\end_layout
+
+\begin_layout Standard
+The concepts of object and cause are central to understanding the validity
+ and enforceability of contracts under the French Civil Code.
+ These elements ensure that a contract is formed based on clear, lawful,
+ and achievable terms.
+\end_layout
+
+\begin_layout Subsubsection
+Object of the Obligation or Object of the Contract
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+object
+\series default
+ refers to the subject matter of the agreement or obligation.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+object of the obligation
+\series default
+ refers specically to the performance that is due from the obligor to the
+ obligee.
+ This performance can be an action or an omission.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+object of the contract
+\series default
+ encompasses the broader subject matter of the contract itseld, including
+ all the rights and obligations that the contract creates for the parties
+ involved.
+ It is more comprehensive than the object of the obligation, as it considers
+ the overall purpose and scope of the agreement.
+\end_layout
+
+\begin_layout Standard
+The Civil Code addresses both notions.
+ While the doctrine emphasizes the 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+object of the obligation
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ as the primary valid notion (Article 1129), references to the 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+object of the contract
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ are found in Articles 1110, 1128 and 220, among others.
+\end_layout
+
+\begin_layout Standard
+For example, in a contract for the sale of a house:
+\end_layout
+
+\begin_layout Itemize
+Object of the obligation: for the seller, it's to transfer ownership of
+ the house to the buyer and ensure the property is as agreed.
+ For the buyer, it's to pay the agreed price to the seller.
+\end_layout
+
+\begin_layout Itemize
+Object of the contract: the broader agreement that encompasses not only
+ the transfer of property and payment, but any additional terms such as
+ the timeline for the transfer, conditions for inspection, obligations for
+ repairs, etc.
+\end_layout
+
+\begin_layout Standard
+The conditions for the object are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Existence
+\series default
+: the object must exist at the time of the contract, or at least its future
+ existence is anticipated, making it valid for contracts involving future
+ goods (Article 1130).
+ An example is an agreement to purchase crops that are yet to be harvested.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Determined or determinable
+\series default
+: the specific items doesn't need to be identified at the contract's formation
+ but must be identifiable in the future.
+ For example, a contract for the delivery of 100 tons of wheat from the
+ enxt harvest meets this condition.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Possible
+\series default
+: the object must be physically and legally possible to deliver.
+ For example, a contract to sell a piece of land on the moon would be considered
+ impossible.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Licit
+\series default
+: the object must be legal and not violate public policy or legal norms.
+ For example, selling prohibited substances would constitute an illicit
+ object.
+\end_layout
+
+\begin_layout Standard
+Some restrictions are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Future successions and work
+\series default
+: the law prohibits contracts based purely on speculative future successions
+ or the global assignment of future work, ensuring contracts are based on
+ concrete, definable object.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Price fixing and distribution framework agreements
+\series default
+: the Civil Code clarifies that while the determination of goods is essential,
+ price-fixing within distribution agreements does not pertain to the object
+ itself but to the terms of the contract.
+\end_layout
+
+\begin_layout Subsubsection
+The Cause
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+cause
+\series default
+ refers to the underlying reason or purpose behind entering into an agreement.
+ It represents the legal and motivational basis for the obligations that
+ parties undertake through the contract.
+\end_layout
+
+\begin_layout Standard
+In classical analysis, the cause is seen as the counterpart for each party's
+ obligation, analyzed objectively to determine its legality and existence.
+\end_layout
+
+\begin_layout Standard
+The cause must persist throughout the duration of the contract.
+ If the underlying cause of one party's obligation ceases to exist, the
+ principle of reciprocity may be compromised, potentially leading to the
+ contract's resolution for non-performance.
+\end_layout
+
+\begin_layout Standard
+In the modern conception, the existence of the cause is considered from
+ an objective standpoint, separate from the parties' subjective motivations,
+ yet crucial for the contract's validity.
+ The cause must be lawful, meaning it cannot contravene legal norms or public
+ policy.
+ The assessment of whether a cause is licit involves considering the parties'
+ intentions and the contract's circumstances.
+\end_layout
+
+\begin_layout Standard
+For example, if the primary motivation for entering a contract is smuggling
+ goods, the cause is deemed illicit, rendering the contract void.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+false cause
+\series default
+ occurs when a party is mistaken about the existence of a counterpart or
+ benefit.
+ For instance, entering a contract believing it grants exclusive rights
+ to a product, only to find out such exclusivity doesn't exist, could constitute
+ a false cause.
+\end_layout
+
+\begin_layout Subsubsection
+Function of the Cause
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Legal requirement for effectiveness
+\series default
+: an obligation without a cause, based on a false cause, or founded on an
+ illicit one, is ineffective.
+ The typical remedy for contracts lacking a valid cause is relative annulment.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Judge's role
+\series default
+: the absense or inadequacy of a cause is subject to judicial review, ensuring
+ that contracts are founded on legitimate bases.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Special consideration for aleatory contracts
+\series default
+: in contracts dependent on chance, the cause relates to the risk or chance
+ of an event occurring, which constitutes the aagreement's basis.
+ For example, in an insurance contract, the cause is the risk or chance
+ involved.
+ Participants enter these contracts accepting the uncertainty of outcomes
+ as the cause.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Chronopost case
+\series default
+: this case highlighted the judiciary's power to nullify clauses that eliminate
+ a contract's fundamental obligation, demonstrating how the cause, or its
+ violation, affects contractual obligations.
+ Chronopost offered express delivery services.
+ The company had contractsthat included clauses limiting its liability for
+ delays in delivery.
+ These clauses essentially exempted Chronopost from significant responsibility
+ if it failed to meet its express delivery guarantees.
+ The central issue was whether the limitation of liability clauses were
+ enforceable, especially when the company failed to meet its guaranteed
+ delivery times.
+ The case reached the Cour de cassation, which held that the limitation
+ of liability clauses were not enforceable to the extent that they nullified
+ the essential obligation of the contract, which was timely delivery.
+ The court reasoned that the main cause of the contract from the customers'
+ perspective was the guarantee of express delivery.
+ If Chronopost could limit its liability for not fulfilling this essential
+ obligation, it would undermine the very purpose for which customers entered
+ into the contracts.
+\end_layout
+
+\begin_layout Subsubsection
+The Proof of the Cause
+\end_layout
+
+\begin_layout Standard
+The necessity to prove the existence of a cause is particularly emphasized
+ for unilateral contracts with a financial basis, such as debt acknowledgments.
+\end_layout
+
+\begin_layout Standard
+The Article 1132 of the Civil Code articulates that a contract remains valid
+ even if the cause if not explicitly stated within the document.
+ The obligation is presumed to be for a licit cause, and the burden of prood
+ rests with the obligation holder to demonstrate this if challenged.
+ However, if there is a claim that the cause is illicit, the proof can be
+ provided by any means available, reflecting the flexibility in challenging
+ the presumed legality of the cause.
+\end_layout
+
+\begin_layout Subsubsection
+The Good Faith
+\end_layout
+
+\begin_layout Standard
+The Civil Code underscores the principle of good faith in the execution
+ of contracts.
+ The Article 1134, paragraph 3, states that contracts must be executed in
+ good faith, aiming to ensure economic predictability and fairness in contractua
+l relationships.
+\end_layout
+
+\begin_layout Standard
+The objectives and implications of good faith are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Economic predictability
+\series default
+: good faith execution supports the stability and reliability of commercial
+ transactions by ensuring that contracts are carried out according to their
+ agreed terms and spirit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Adaptation to circumstances
+\series default
+: the principle may require parties to adjust the terms of a contract in
+ response to unforeseen circumstances, facilitating the contract's continuity
+ and preserving the parties' relationship.
+\end_layout
+
+\begin_layout Standard
+The sanctions for breaching good faith can be:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Forced termination
+\series default
+: a contract may be terminated if one party violates the principle of good
+ faith, undermining the contract's foundation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Forced continuation
+\series default
+: conversely, a court may mandate a continuation of a contract, possibly
+ under adjusted terms, to rectify a breach of good faith.
+\end_layout
+
+\begin_layout Paragraph
+Relationship to abuse of right theory
+\end_layout
+
+\begin_layout Standard
+The principle of good faith is closely related to the theory of abuse of
+ rights, where exercising one's contractual rights in a manner intended
+ to harm the other party or in a way that is beyond the contract's purpose
+ can be sanctioned.
+\end_layout
+
+\begin_layout Paragraph
+Motivation control and limits
+\end_layout
+
+\begin_layout Standard
+While good faith imposes behavioral standards on contractual parties, it
+ also respects the autonomy of the contract, implying that not all motivations
+ or actions can be controlled or penalized under this principle.
+ The application of good faith is contextual, considering the specifics
+ of each case and the extent to which actions deviate from accepted standards
+ of fairness and honesty.
+\end_layout
+
+\begin_layout Subsection
+Contractual Responsibility
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Contractual responsibility
+\series default
+ is a fundamental concept that outlines the conditions under which a party
+ may be held liable for failing to fulfill contractual obligations, This
+ responsibility is determined by the nature of the obligations, the occurrence
+ of damage, and the presence of fault.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Tort responsibility
+\series default
+ arises from damages caused by actions not bound by a contract, whereas
+ contractual responsibility pertains to the failure to meet the obligations
+ specified within a contract.
+\end_layout
+
+\begin_layout Standard
+The elements of contractual responsibility are:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Damage
+\series default
+: there must be a recognizable damage that is certain, direct, personal
+ and foreseeable.
+ This damage must result from the failure to fulfill a contractual obligation.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Fault
+\series default
+: this involves the failrue to meet the agree standards or outcomes specified
+ in the contract.
+\end_layout
+
+\begin_layout Subsubsection
+Obligations as to Results
+\end_layout
+
+\begin_layout Standard
+In an oblifations as to results, the focus is on achieving a specific outcome
+ promised in the contract.
+\end_layout
+
+\begin_layout Itemize
+Fault: here, the fault is equated with the mere absence of the expected
+ results, without needing to delve into the diligence or efforts of the
+ debtor.
+\end_layout
+
+\begin_layout Itemize
+Causes of exemption: the party bound by this obligation can be exempted
+ from responsibility if they can prove that the failure was due to force
+ majeure, a third-party action beyond their control, or the responsibility
+ of the victim.
+\end_layout
+
+\begin_layout Itemize
+Exception to the exception: even with these potential exemptions, certain
+ guarantees may obligate the debtor regardless of these causes.
+\end_layout
+
+\begin_layout Standard
+For example, a courier company promises to deliver a package by a certain
+ date.
+ If the package is not delivered on time, the company is in fault due to
+ the non-achivement of the specified result, unless it can prove an exemption.
+\end_layout
+
+\begin_layout Subsubsection
+Obligations of Means
+\end_layout
+
+\begin_layout Standard
+The debtor promises to exert all possible efforts and employ the necessary
+ means to achieve a certain goal, but the specific result cannot be guaranteed.
+\end_layout
+
+\begin_layout Itemize
+Evidence: the focus shifts to whether there was a failure to exercise the
+ requisite level of care or effort.
+ Establishing fault requires proving a breach in the standard of care or
+ diligence expected under the circumstances.
+\end_layout
+
+\begin_layout Itemize
+Appreciation of infringement: the assessment of whether the efforts were
+ sufficient is generally more subjective and depends on the context of the
+ obligation.
+\end_layout
+
+\begin_layout Standard
+For example, a doctor treating a patient cannot guarantee recovery but is
+ expected to provide competent and diligent medical care.
+ Fault would be established if the doctor failed to provide the standard
+ of care expected of a professional in similar circumstances
+\end_layout
+
+\begin_layout Subsubsection
+Relativity of Notions
+\end_layout
+
+\begin_layout Standard
+This concept emphasizes the variability and context-dependency of obligations
+ within contracts.
+\end_layout
+
+\begin_layout Itemize
+Educational aspect: the relativity of notions serves as an educational tool
+ in contract law.
+\end_layout
+
+\begin_layout Itemize
+Multiplicity of obligations: each contract can contain a wide range of obligatio
+ns, each with its own characteristics and requirements.
+ 
+\end_layout
+
+\begin_layout Itemize
+Nature and degree: the nature of any given obligation often exists on a
+ spectrum, with the specific details of the obligation and its enforcement
+ being matters of degree.
+\end_layout
+
+\begin_layout Itemize
+Uncertainty: the uncertain character of the notion points to the inherent
+ ambiguities that can arise in interpreting and applying contractual obligations.
+\end_layout
+
+\begin_layout Itemize
+Ineffectiveness in international contracts: the principle of the relativity
+ of notions may have limited applicability in international contracts, where
+ differing legal systems and cultural understanding can affect the interpretatio
+n and enforcement of obligations.
+\end_layout
+
+\begin_layout Itemize
+Criterion of hazard: in some context, the concept of hazard (risk or chance)
+ can serve as a criterion for determining the nature and extent of contractual
+ obligations, especially in aleatory contracts.
+\end_layout
+
+\begin_layout Subsubsection
+Peculiar Attention
+\end_layout
+
+\begin_layout Standard
+For contractual parties, it is crucial to precisely define their obligations
+ to ensure clarity and enforceability.
+\end_layout
+
+\begin_layout Itemize
+Define the mission: clearly articulating the objectives and scope of the
+ contract.
+\end_layout
+
+\begin_layout Itemize
+Time constraints: establishing deadlines and schedules for the performance
+ of obligations.
+\end_layout
+
+\begin_layout Itemize
+Means involved: specifying the resources and methods to be used in fulfulling
+ the contract.
+\end_layout
+
+\begin_layout Itemize
+Limiting liability: incorporating lcauses that limit liability under certain
+ conditions can help manage risk, but must be carefully crafted to avoid
+ undermining the contract's essential obligations, as highlighted in the
+ Chronopost case.
+\end_layout
+
+\begin_layout Subsubsection
+The Fault
+\end_layout
+
+\begin_layout Standard
+The Article 1150 of the Civil Code outlines the principle that a debtor
+ is only liable for damages that were foreseen or could have been foreseen
+ at the time the contract was made, unless the failure to execute the obligation
+ was due to their fraud (dol).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Dolosive fault
+\series default
+ refers to intentional misconduct or fraud in the non-fulfillment of an
+ obligation.
+ It goes beyond mere negligence, indicating a deliberate intent to cause
+ harm or not to perform a contractual duty.
+\end_layout
+
+\begin_layout Standard
+When a fault is dolosive, any contractual limitations on liability are rendered
+ inapplicable, allowing for claims exceeding the initially foreseeable damages.
+\end_layout
+
+\begin_layout Standard
+Regarding jurisprudence, courts have nuanced the requirements for an intention
+ to harm, recognizing that extremely grave behavior or gross negligence
+ can be assimilated with dolosive fault, thus extending the scope of the
+ liability.
+\end_layout
+
+\begin_layout Standard
+For example, a contractor deliberately uses substandard materials in a construct
+ion project, knowing it will result in future structural failures, despite
+ contractual specifications for higher quality materials.
+\end_layout
+
+\begin_layout Subsubsection
+Les Causes d'Exonération
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+fource majeure
+\series default
+ is an unforeseeable, external, and irresistible occurrence that prevents
+ the fulfillment of contractual obligations.
+\end_layout
+
+\begin_layout Standard
+Parties can modify the application of force majeure within their contract,
+ adjusting the standard for what constitutes such an event.
+\end_layout
+
+\begin_layout Standard
+For example, a natural disaster that destroy's a supplier's warehouse, making
+ it impossible to deliver goods on time.
+\end_layout
+
+\begin_layout Subsubsection
+La Clause Pénale
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+penalty clause
+\series default
+ contractual determines the damages for breach of contract, typically setting
+ the compensation above the actual loss to deter non-performance.
+ The predetermined compensation applies regardless of whether actual harm
+ occurs, simplifying the process of claiming damages.
+\end_layout
+
+\begin_layout Standard
+Courts retain the power to adjust the penalty if it is deemed excessively
+ burdensome or unjust, ensuring fairness in its application.
+ Some jurisdictions impose legal limits on the application or enforceability
+ of penalty clauses.
+\end_layout
+
+\begin_layout Standard
+For example, a penalty clause may stipulate that for every day of delay
+ beyond the agreed date, the seller will pay a fixed amount to the buyer
+ as compensation.
+\end_layout
+
+\begin_layout Subsubsection
+The Quasi-Contracts
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+quasi-contract
+\series default
+ occurs when a person, the manager, voluntarily takes charge of another
+ person's affairs without their authorization.
+ The manager is expected to manage these affairs with the diligence of a
+ reasonable person (
+\emph on
+bon père de famille
+\emph default
+).
+\end_layout
+
+\begin_layout Standard
+The master of the affair is obliged to fulfill the commitments made by the
+ manager in the course of managing the affairs.
+ 
+\end_layout
+
+\begin_layout Standard
+The quasi-contract of gestion d'affaires requires that the master was not
+ initially involved in the business, and the manager intended to manage
+ the affairs on behalf of the master, eprforming management actions in their
+ interest.
+\end_layout
+
+\begin_layout Standard
+For example, if a person notices that their neighbor's house is on fire
+ while the neighbor is away and calls the fire department, incurring expenses,
+ the neighbor is expected to reimburse those expenses, recognizing the actions
+ taken in their interest without prior agreement.
+\end_layout
+
+\begin_layout Subsection
+Questions
+\end_layout
+
+\begin_layout Subsubsection
+Short Questions
+\end_layout
+
+\begin_layout Exercise
+What are the essential elements of a valid contract?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are the contract classifications based on compensation?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are random contracts?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Is lesion a vice?
+\end_layout
+
+\begin_layout Subsubsection
+Long Questions
+\end_layout
+
+\begin_layout Exercise
+What are the vice of the contract?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+How is a contract formed?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are the different classifications of contracts?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are the object and cause of a contract?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Intellectual Property
+\end_layout
+
+\begin_layout Standard
+Intellectual property law is designed to protect creators' rights to their
+ works, balancing the interests of authors, intermediaries, and the public.
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Paragraph
+Origins and Historical Background
+\end_layout
+
+\begin_layout Standard
+Intellectual property law has evolved significantly over time, tracing back
+ to the Renaissance when the first copyright laws emerged to protect authors
+ and inventors.
+ The development of IP law reflects the changing societal views on creativity,
+ innovation, and the dissemination of knowledge.
+\end_layout
+
+\begin_layout Paragraph
+Theoretical foundations
+\end_layout
+
+\begin_layout Standard
+The core of IP law lies in recognizing and safeguarding the intellectual
+ and creative labor of individuals, ensuring they can control and benefit
+ from their creations.
+ This legal framework seeks to stimulate crativity and innovation, while
+ ensuring that the public can access and build upon existing works.
+\end_layout
+
+\begin_layout Subsubsection
+Substantice Law
+\end_layout
+
+\begin_layout Subsubsection
+Protected Works
+\end_layout
+
+\begin_layout Subsubsection
+Originality
+\end_layout
+
+\begin_layout Subsubsection
+Protection Without Formalities
+\end_layout
+
+\begin_layout Subsubsection
+Indifference to the Genre, Form of Expression, Merit and Purpose
+\end_layout
+
+\begin_layout Subsubsection
+Application of the Protection Criterion
+\end_layout
+
+\begin_layout Subsection
+Application of the Criterion of Originality: Special Cases
+\end_layout
+
+\begin_layout Subsubsection
+Photographic Works
+\end_layout
+
+\begin_layout Subsubsection
+Titles
+\end_layout
+
+\begin_layout Subsubsection
+Derivative Works, Collections and Databases
+\end_layout
+
+\begin_layout Subsection
+Authorship and Ownership of the Rights
+\end_layout
+
+\begin_layout Subsubsection
+Principles
+\end_layout
+
+\begin_layout Subsubsection
+Presumptions
+\end_layout
+
+\begin_layout Subsubsection
+Special Cases
+\end_layout
+
+\begin_layout Subsubsection
+The Author's Status: Paid Employee, Civil Servant or Working To Order
+\end_layout
+
+\begin_layout Subsubsection
+Works Created by Several Authors
+\end_layout
+
+\begin_layout Subsection
+The Exclusive Right of the Author Over His or Her Work
+\end_layout
+
+\begin_layout Subsection
+Moral Right
+\end_layout
+
+\begin_layout Subsubsection
+Characters Involved
+\end_layout
+
+\begin_layout Subsubsection
+The Attributes of Moral Rights
+\end_layout
+
+\begin_layout Subsection
+Patrimonial Rights
+\end_layout
+
+\begin_layout Subsubsection
+Principle
+\end_layout
+
+\begin_layout Subsubsection
+The Right of Reproduction
+\end_layout
+
+\begin_layout Subsubsection
+The Right of Public Performance
+\end_layout
+
+\begin_layout Subsubsection
+Exceptions to Exploitations Rights
+\end_layout
+
+\begin_layout Subsubsection
+Resale Rights
+\end_layout
+
+\begin_layout Subsubsection
+Agreements to Exploit the Work
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Industrial Property
+\end_layout
+
+\begin_layout Subsection
+What's A Patent
+\end_layout
+
+\begin_layout Subsection
+Object of the Patent Application
+\end_layout
+
+\begin_layout Subsubsection
+Patentability
+\end_layout
+
+\begin_layout Subsubsection
+Invention
+\end_layout
+
+\begin_layout Subsubsection
+Industrial Application
+\end_layout
+
+\begin_layout Subsubsection
+Novelty
+\end_layout
+
+\begin_layout Subsubsection
+Inventive Step
+\end_layout
+
+\begin_layout Subsubsection
+Non-Patentability
+\end_layout
+
+\begin_layout Subsection
+Rights Conferred by the Patent
+\end_layout
+
+\begin_layout Subsubsection
+Property of Who?
+\end_layout
+
+\begin_layout Subsubsection
+Rights of the Patentee
+\end_layout
+
+\begin_layout Subsubsection
+Obtaining the Property
+\end_layout
+
+\begin_layout Subsubsection
+Defining the Protection
+\end_layout
+
+\begin_layout Subsection
+The Patent Document
+\end_layout
+
+\begin_layout Subsubsection
+Specification
+\end_layout
+
+\begin_layout Subsubsection
+Claims
+\end_layout
+
+\begin_layout Subsubsection
+Multi-National Granting Processes: Timelines
+\end_layout
+
+\begin_layout Subsubsection
+Costs
+\end_layout
+
+\begin_layout Subsection
+Enforcing the Property Rights of Patents
+\end_layout
+
+\begin_layout Subsubsection
+Managing the Property Right - Proprietor
+\end_layout
+
+\begin_layout Subsubsection
+Managing the Property Right - Challenger
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
