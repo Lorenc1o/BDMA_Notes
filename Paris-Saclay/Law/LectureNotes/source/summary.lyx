@@ -1611,7 +1611,7 @@ Oaths and Admission
 \series bold
 Prima Facie Evidence
 \series default
- (Article 1347): refers to evidence that is accepted as sufficient to proof
+ (Article 1347): refers to evidence that is accepted as sufficient to prove
  a fact unless contradicted and overcome by other evidence.
  It includes situations where:
 \end_layout
@@ -5195,29 +5195,417 @@ The core of IP law lies in recognizing and safeguarding the intellectual
 \end_layout
 
 \begin_layout Subsubsection
-Substantice Law
+Substantive Law
+\end_layout
+
+\begin_layout Standard
+The Act of March 11, 1957 marked a shift towards a more industrial viewpoint
+ of intellectual property, emphasizing the need for robust legal protection
+ of creations without fundamentally altering the nature of copyright law.
+ Its goals were to enhance legal protection, facilitate the dissemination
+ of works, and streamline the consultation process.
+\end_layout
+
+\begin_layout Standard
+The Acr of July 3, 1985 introduced the codification of IP laws, organizing
+ and clarifying the rules to make them more accessible and systematic.
 \end_layout
 
 \begin_layout Subsubsection
 Protected Works
 \end_layout
 
+\begin_layout Standard
+To be protected under IP law, according to Article L.
+ 111-1 of the French IP Code, works must be:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Original
+\series default
+: the work has the personal stamp of its creator, reflecting their choices
+ and personality.
+ This principle applies across different forms of IP, including copyright
+ and patent law, where the focus is on the uniqueness of the expression
+ or invention rather than the novelty or utility.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Materialized
+\series default
+: it needs to be physically done.
+ Ideas are not protected.
+\end_layout
+
 \begin_layout Subsubsection
 Originality
+\end_layout
+
+\begin_layout Standard
+Originality is not explicitly defined but is understood as the unique expression
+ of the creator's personality in the work.
+ Article L.
+ 112-1 emphasizes that protection covers all intellectual works, regardless
+ of their form, merit, or purpose, as long as they reflect the author's
+ personal contribution.
+\end_layout
+
+\begin_layout Standard
+This concept is 
+\series bold
+flexible
+\series default
+, allowing for a broad interpretation of what contributes a protectable
+ work.
+ This flexibility extends to adaptations of pre-existing works, which can
+ be considered original if they sufficiently reflect the author's personal
+ creativity.
+ 
+\end_layout
+
+\begin_layout Standard
+For example, Marcel Duchamp's works, such as his readymades, challenge tradition
+al notions of originality and creativity.
+ By selecting everyday objects and presenting them as art, Duchamp's contributio
+ns lie in the idea and conceptual shift rather than in traditional artistic
+ craftmanship.
+ This raises interesting questions about where the line is drawn between
+ idea and expression in art, reflecting the broader challenges with IP law
+ of defining and protecting original works.
 \end_layout
 
 \begin_layout Subsubsection
 Protection Without Formalities
 \end_layout
 
+\begin_layout Standard
+IP law grants authors exclusive rights to their creations without the need
+ for formal registration processes.
+ This principle, anchored in Article L.
+ 111-1 of the French IP Code, ensures that creators enjoy rights from the
+ moment of creation, diverging from traditional copyright laws requirinig
+ formal registration.
+\end_layout
+
+\begin_layout Paragraph
+Safeguards and systems for protection
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+EU Directive 2001
+\series default
+: integrated into French law, this directive enhances protections for works
+ shared on the Internet, addressing modern challenges in IP law.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Deposit Systems
+\series default
+: while formal registration is not required for protection, deposit systems
+ such as legal deposits, public registers for films, audiovisual works,
+ and national registers for designs serve as additional safeguards.
+ For example, publishers submitting copies of books to a national library
+ as part of the legal system.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Private Deposit Systems
+\series default
+: tools like the Soleau envelope or public notary deposits offer creators
+ a means to document the creation date and details of their work, providing
+ evidence that can be useful in disputes.
+\end_layout
+
 \begin_layout Subsubsection
 Indifference to the Genre, Form of Expression, Merit and Purpose
+\end_layout
+
+\begin_layout Standard
+Article L.
+ 112-1 emphasizes that copyright protection extends to all intellectual
+ works, regardless of their genre, form of expression, merit, or purpose.
+ This inclusive approach ensures broad protection for creators.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+genre
+\series default
+ is the category of artistic composition to which the work in question belongs.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+form of expression
+\series default
+ is the creative process or technique used within this genre.
+\end_layout
+
+\begin_layout Standard
+The boundary between technical know-how and creative expression poses challenges
+ to IP law, illustrated by varying court decisions on whether a perfume's
+ scent can be copyrighted.
+ The Paris Court of Appeal and the Cour de Cassation have diverged in their
+ rulings, highlighting the complexities of defining what constitutes a protectab
+le work.
+\end_layout
+
+\begin_layout Paragraph
+Merit and public morals
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Merit
+\series default
+: IP protection is not contingent on a work's aesthetic value.
+ Video games, for instance, have been recognized for legal protection as
+ original intellectual creations regardless of artistic merit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Public morals
+\series default
+: protection extends to works without regard to their conformity to public
+ morals.
+ However, the law remains sensitive to the public interest and moral standards.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Manual copies
+\series default
+: the Cour de Cassation has ruled that manual reproductions of artworks
+ can qualify as derivative works eligible for copyright protection, emphasizing
+ the personal touch involved in such reproductions.
+ For instance, copies made in a museum are considered a lawful activity
+ as long as the work is not sold as an original work of art and it is compulsory
+ to use a canvas of a special size.
+\end_layout
+
+\begin_layout Paragraph
+Purpose and the Unity of Art principle
+\end_layout
+
+\begin_layout Standard
+The distinction between pure art is often blurred, leading to debates over
+ what qualifies for protection.
+ The principle of the 
+\series bold
+Unity of Art
+\series default
+ advocates for a broad interpretation, extending copyright proection to
+ a wide range of creations, from functional objects like bottle openers
+ to traditional art forms like statues.
 \end_layout
 
 \begin_layout Subsubsection
 Application of the Protection Criterion
 \end_layout
 
+\begin_layout Standard
+Article L.
+ 112-2 of the French IP Code provides an indicative list of protected works,
+ but protection is not limited to this list.
+\end_layout
+
+\begin_layout Paragraph
+Staging of performing arts events
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General rule
+\series default
+: the staging of performing arts events is typically not considered a work
+ eligible for copyright protection because such events are often viewed
+ as performances rather than creative works in themselves.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Exception
+\series default
+: a director who significantly modifies or adds original elements to hiw
+ own work can transform a performance into a protectable work.
+\end_layout
+
+\begin_layout Paragraph
+Collections
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General rule
+\series default
+: collections or series or works that are not inter-related are generally
+ not considered individual works of copyright.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The Schlumpf affair
+\series default
+: this case highlighted the complexity of determining copright eligibility
+ for collections.
+ This case involved a controversy over the collection of vintage automobiles
+ by Fritz Schlumpf, one of the most prominent car collections in the world.
+ The legal disputes primarily focused on issues of ownership, classification
+ of the collection as cultural heritage, and the rights associated with
+ the collection.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Contrasting case
+\series default
+: the Henri Langlois cinema museum case offered an opposite solution, recognizin
+g certain collections as protectable under copyright law.
+ Unlike the Schlumpf Affair, which centered around ownership and heritage
+ classification, issues around the cinema museum could touch upon copyright
+ considerations, especially concerning the protection of film archives,
+ promotional materials, and other items that involve creative expression.
+\end_layout
+
+\begin_layout Paragraph
+Language and computer science
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Language
+\series default
+: the borrowing of extensive portions from scholarly works on specific languages
+, like the example involving Cajun and Hermann languages, demonstrates the
+ challenges in protecting language-based works when they lack original expressio
+n.
+ However, inventions like the creative narrative in 
+\emph on
+Clockwork Orange
+\emph default
+, can qualify for protection if they embody original creative expression.
+ This is a novel by Anthony Burgess, adapted into a film by Stanley Kubrick.
+ The work is known for its inventive language (Nadsat) and its exploration
+ of themes like free will, violence, and societal control.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Computer science
+\series default
+: generally, the field is seen as technical and not eligible for copyright.
+\end_layout
+
+\begin_layout Paragraph
+Exceptional consideration of work's purpose
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General rule
+\series default
+: documents intended for widespread public circulation are usually not protected
+ to ensure access to information.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Annotations
+\series default
+: in contrast, original annotations or commentary accompanying such documents
+ can be protected, highlighting the importance of creative expression over
+ the informational content.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Speeches
+\series default
+: both general speeches and those in legal settings may receive protection,
+ albeit with certain limitations to balance freedom of expression and informatio
+n dissemination.
+\end_layout
+
+\begin_layout Paragraph
+Visual arts: composition and expression
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Handmade copies
+\series default
+: reproductions of artworks, if created by hand, can be considered derivative
+ works eligible for proteciton, emphasizing the role of the artist's personal
+ touch.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Expression vs.
+ Composition
+\series default
+: the law often distinguishes between the 
+\emph on
+expression
+\emph default
+ of ideas (protected) and the 
+\emph on
+composition
+\emph default
+ of ideas (not protected), underscoring the principle that copyright protects
+ the form of expression rather than the idea itself.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For example, consider a recipe for a cake:
+\end_layout
+
+\begin_layout Itemize
+Composition: the list of ingredients for the cake and the basic steps represents
+ the composition.
+ This aspect is generally not copyrightable because it pertains to the idea
+ or functional aspect of making a cake.
+\end_layout
+
+\begin_layout Itemize
+Expression: the way the recipe is written, including the narrative style,
+ unique instructions, personal anecdotes, or creative presentation in a
+ cookbook, constitutes the expression.
+ This can be copyrighted because it reflects the author's original way of
+ expressing the idea of making a cake.
+\end_layout
+
+\end_deeper
 \begin_layout Subsection
 Application of the Criterion of Originality: Special Cases
 \end_layout
@@ -5226,80 +5614,1282 @@ Application of the Criterion of Originality: Special Cases
 Photographic Works
 \end_layout
 
+\begin_layout Itemize
+Pre-1985 view: originality was often tied to the artistic merit of the photograp
+h, leading to conflicts with the broader principles of copyright law, which
+ seeks to protect the expression of ideas rather than their artistic value
+ or merit.
+\end_layout
+
+\begin_layout Itemize
+Post-1985 view (Lang Act): this legislation clarified that the sole criterion
+ for the copyright protection of photographs ir originality, emphasizing
+ the photographer's personal creative choices, such as angle, lighting,
+ and composition, over the subject matter itself.
+\end_layout
+
+\begin_layout Itemize
+Controversy over artwork photos: new debates have arisen regarding the copyright
+ability of photographs of artworks, especially when such photographs attempt
+ to replicate the original works as faithfully as possible without adding
+ any personal creative contribution.
+ When they are original, they are considered derivative works.
+\end_layout
+
+\begin_layout Standard
+For example, a photograph capturing a unique moment or perspective, such
+ as a specific lighting effect or angle on a common subject, can demonstrate
+ the photographer's personal stamp, making it eligible for copyright protection.
+\end_layout
+
 \begin_layout Subsubsection
 Titles
+\end_layout
+
+\begin_layout Itemize
+Article L.
+ 112-4 IPC: titles can be protected under copyright, unfair competition,
+ and trademark law, depending on their originality, distinctiveness, and
+ potentional confusion with existing titles.
+\end_layout
+
+\begin_layout Itemize
+Originality and distinctiveness: the protection of titles hinges on their
+ ability to reflect the author's personal creativity.
+ Given the brevity of titles, this often involves assessing their unconventional
+ aspects or how they contribute to the work's identity.
+\end_layout
+
+\begin_layout Itemize
+Translations: the originality of translations, including titles, is evaluated
+ based on whether they offer a ltieral rendering of the original or incorporate
+ creative choices that distinguish them as new, original works.
+\end_layout
+
+\begin_layout Standard
+For example, a title like 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+The Unbearable Lightness of Being
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ reflects the author's personal creativity and is distinctive enough to
+ be protected under copyright law.
 \end_layout
 
 \begin_layout Subsubsection
 Derivative Works, Collections and Databases
 \end_layout
 
+\begin_layout Itemize
+Degree of originality: the focus is on the originality manifested either
+ in the selection and arrangement of the contents (for collections and databases
+) or in the adaptations and transformations made to existing works (for
+ derivative works).
+\end_layout
+
+\begin_layout Itemize
+Legal evolution: the law has evolved to recognize that the originality criterion
+ can be met by the original selection or arrangement of materials within
+ a collection or database, as seen in changes to Article L.
+ 112-3.
+ Port-1998, for copyright to apply, the collection or database must exhibit
+ originality in the choice or presentation of its contents.
+\end_layout
+
+\begin_layout Standard
+For example, an anthology of poems selected and arranged in a manner that
+ reflects the compiler's unique vision or perspective on the theme, thereby
+ qualifying as an original work due to the originality in selection and
+ presentation.
+\end_layout
+
 \begin_layout Subsection
 Authorship and Ownership of the Rights
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Authorship
+\series default
+ refers to the creation and original expression found in the work, attributing
+ the work to the individual or group who conceived it.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Ownership
+\series default
+ pertains to the bundle of rights associated with the work, including the
+ right to reproduce, distribute, perform, display, or create derivative
+ works.
+ 
+\end_layout
+
+\begin_layout Standard
+While authorship is inalienable and permanently tied to the creator, ownership
+ of rights can be transferred or licensed to others.
+\end_layout
+
+\begin_layout Standard
+Ownership belongs to the author 
+\emph on
+Ab Initio
+\emph default
+, meaning that from the moment of creation, ownership of the rights to a
+ work inherently belongs to the author.
+ This principle affirms the personal connection between a creator and their
+ creation, ensuring the creator's initial control over how the work is used.
 \end_layout
 
 \begin_layout Subsubsection
 Principles
 \end_layout
 
+\begin_layout Standard
+According to Article L.
+ 111-1, only natural persons can be recognized as authors, emphasizing the
+ requirement for a 
+\begin_inset Quotes eld
+\end_inset
+
+minimum of freedom of creation
+\begin_inset Quotes erd
+\end_inset
+
+ that allows individuals to express their personality through their works.
+\end_layout
+
+\begin_layout Standard
+A contractual agreement cannot alter the status of an individual as the
+ author of a work.
+ This status is inherent and protected by law, regardless of any agreements
+ concerning the transfer of ownership rights.
+\end_layout
+
 \begin_layout Subsubsection
 Presumptions
+\end_layout
+
+\begin_layout Itemize
+Legal fact and simple presumption (Article L.
+ 113-1): the law provides for a simple presumption that the person under
+ whose name the work is published is the author, barring evidence to the
+ contrary.
+ This presumption facilitates the enforcement of copyright and the attribution
+ of authorship.
+\end_layout
+
+\begin_layout Itemize
+Judicial presumption for legal entities: since 1993, a judicial presumption
+ allows legal entities to act as the owners of copyright for works published
+ under their name, particularly in cases of exploitation.
+ This presumption addresses the practical aspects of copyright enforcement,
+ especially concerning third-party infringers, but does not negate the principal
+ that only natural persons can be authors.
 \end_layout
 
 \begin_layout Subsubsection
 Special Cases
 \end_layout
 
+\begin_layout Standard
+IP law encounters unique challenges when addressing works that involve collabora
+tion or non-traditional forms of creation and attribution.
+\end_layout
+
+\begin_layout Paragraph
+Work designed by one artist and produced by another person
+\end_layout
+
+\begin_layout Standard
+During the interwar period, Dunand, an artist, designed decorative items
+ for large liners.
+ While Dunand conceived and designed these items, they were physically produced
+ by technicians who had no creative freedom in their execution.
+ In this scenario, Dunand retains the copyright for his original designs,
+ as the creative force behind the work.
+ This emphasizes the distinction between the conception of a work and its
+ material execution, with copyright protection extending to the creative
+ idea and design rather than the manual labor of production.
+\end_layout
+
+\begin_layout Paragraph
+Derivative works: the role of the engraver
+\end_layout
+
+\begin_layout Standard
+An engraver who transposes a drawing or a painting into an engraving does
+ more than merely reproduce the original work; they interpret and recreate
+ it, thus producing a derivative work.
+ This process involves creativity and personal input that can qualify the
+ resulting engraving as a new, copyrighted work.
+\end_layout
+
+\begin_layout Paragraph
+Material execution: the Renoir/Guino affair
+\end_layout
+
+\begin_layout Standard
+This case highliths the significance of material execution in determining
+ copyright.
+ When a work is conceived by one person but executed by another, legal and
+ doctrinal debates arise regarding who holds the copyright.
+ In the Renoir/Guino affair, sculptures conceived by Renoir and executed
+ by Guino raised questions about the attribution of copyright, illustrating
+ how collaborative works challenge traditional notions of authorsgip and
+ ownership.
+\end_layout
+
+\begin_layout Paragraph
+Anonymous works or works published under a pseudonym
+\end_layout
+
+\begin_layout Itemize
+Author's choice and responsibility: authors may choose to publish works
+ anonymously or under a pseudonym, which can complicate copyright attribution.
+ If the author's identity is not disclosed, the responsibility lies with
+ the author or their representatives to maintain secrecy.
+\end_layout
+
+\begin_layout Itemize
+Calculation of rights: for anonymous or pseudonymous works, copyright duration
+ is typically set at 70 years from the date of publication, unless the author's
+ identity is revealed earlier.
+ This ensures that the works remain protected while accounting for the uncertain
+ty regarding the author's identity.
+\end_layout
+
 \begin_layout Subsubsection
 The Author's Status: Paid Employee, Civil Servant or Working To Order
+\end_layout
+
+\begin_layout Standard
+The underlying principle in all these scenarios is that copyright rights
+ inherently belong to the author from the moment of creation, with specific
+ legal nuances based on the context.
+\end_layout
+
+\begin_layout Paragraph
+Employment contract
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General rule (Article L.
+ 111-1)
+\series default
+: the mere existence of an employment contract does not automatically transfer
+ copyright from the author to the mployer, ensuring that authors retain
+ their rights unless explicitly transferred through an agreement.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Collective work exception
+\series default
+: the rights to works created as part of a collective effort may be presumed
+ to belong to the employer, especially when the work's creation is within
+ the scope of employment duties and intended as a collective project.
+\end_layout
+
+\begin_layout Standard
+For example, a graphic designer employed by an advertising agency creates
+ artwork for a campaign.
+ While the agency may own the physical designs, copyright remains with the
+ designer unless explicitly transferred.
+\end_layout
+
+\begin_layout Paragraph
+Commissioning contract
+\end_layout
+
+\begin_layout Itemize
+Cour de Cassation ruling: echoing the principle, any transfer of copyright
+ principles in the context of a commissioned work must be explicitly agreed
+ upon in a contract.
+\end_layout
+
+\begin_layout Itemize
+Ownership VS materialization: while the physical medium of a work can be
+ owned by the commissioning party, the IP rights remain with the author
+ unless specifically transferred.
+\end_layout
+
+\begin_layout Standard
+For example, an author is commissioned to write a novel for a publishing
+ house.
+ The copyright belongs to the author, and specific rights to publish and
+ distribute the book would need to be contractually transferred to the publisher.
+\end_layout
+
+\begin_layout Paragraph
+Public officials or civil servants
+\end_layout
+
+\begin_layout Itemize
+Pre-2006 position: traditionally, public officials were not entitled to
+ copyright over works created as part of their official duties.
+\end_layout
+
+\begin_layout Itemize
+2006 legal reform: introduced nuances to this rule, allowing for exceptions
+ (though no exception is defined) where public officials could retain copyright
+ on their works, with particular emphasis on situations where their professional
+ duties do not inherently involve creating copyrightable works.
+\end_layout
+
+\begin_layout Standard
+For example, a researcher employed by a government agency develops a new
+ analytical method.
+ The copyright rights associated to this method are public.
+\end_layout
+
+\begin_layout Paragraph
+Collective works
+\end_layout
+
+\begin_layout Standard
+A collective work is characterized by contributions from multiple authors
+ who work under the incitative and direction of a person or entity that
+ publishes the work under its name.
+ In such cases, copyright rights may belong to the publisher or commissioning
+ entity, recognizing their role in organizing, financing, and managing the
+ creation and publication of the work.
+\end_layout
+
+\begin_layout Standard
+Even in this context, the individual authors' moral rights remain protected.
+\end_layout
+
+\begin_layout Standard
+For example, a publisher commissions a series of essays from various authors
+ and publishes them as a single volume under the publisher's name.
+ The publisher may hold the copyright for the collection as a collective
+ work, while individual authors retain rights to their respective essays.
 \end_layout
 
 \begin_layout Subsubsection
 Works Created by Several Authors
 \end_layout
 
+\begin_layout Standard
+A work of joint authorship involves the creative contributions of several
+ natural persons, classified not by the extent of each person's contribution
+ but by the collective effort towards a common project.
+\end_layout
+
+\begin_layout Standard
+For example, an interview may typically credit the journalist as the author.
+ However, if the interviewee significantly shapes the content or presentation,
+ as in the case provided, they can also be considered a joint author.
+\end_layout
+
+\begin_layout Standard
+The regime, according to Article L.
+ 113-3, states that rights to the work are shared among co-authors, requiring
+ unanimity for decisions regarding exploitation and defense of the work.
+ Each co-author retains moral rights over their contribution and the work
+ as a whole.
+\end_layout
+
+\begin_layout Paragraph
+Duration of legal protection
+\end_layout
+
+\begin_layout Standard
+The general rule, according to Article L.
+ 123-2, states that the copyright term for works of joint authorship lasts
+ until 70 years after the death of the last surviving co-author, ensuring
+ extended protection.
+\end_layout
+
+\begin_layout Standard
+A special regime applies, considering specific roles (e.g., scriptwriter,
+ director, composer) as co-authors, with the term determined by the death
+ of the last co-author from a pre-established list.
+\end_layout
+
+\begin_layout Paragraph
+Works under one's name
+\end_layout
+
+\begin_layout Standard
+Works created under the initiative and name of a publisher or legal entity,
+ where individual contributions merge into the collective work, making it
+ difficult to attribute distinct rights to any one author.
+\end_layout
+
+\begin_layout Standard
+Jurisprudence differentiates between contributions to a collective work
+ and independent works, requiring explicit transfer of rights for elements
+ not inherently part of the collective creation.
+\end_layout
+
+\begin_layout Paragraph
+Remuneration of the author
+\end_layout
+
+\begin_layout Standard
+Typically, authors contributing to a work of joint authorship are entitled
+ to remuneration proportional to their contribution.
+\end_layout
+
+\begin_layout Standard
+For certain types of works, like dictionaries and periodicals, flat-rate
+ payments can be established, acknowledging the standardized nature of contribut
+ions to these collective works.
+\end_layout
+
+\begin_layout Paragraph
+Authors' legal rights over their contributions
+\end_layout
+
+\begin_layout Standard
+Contributors must be able to identify their contributions, which can be
+ exploited separately, provided this does not affect the overall exploitation
+ of the joint work.
+\end_layout
+
+\begin_layout Standard
+While the collective work's purpose cannot be altered without consent, individua
+l contributors retain moral rights over their contributions, ensuring respect
+ for their personal connection to the work.
+\end_layout
+
+\begin_layout Subsubsection
+Composite or derivative works
+\end_layout
+
+\begin_layout Standard
+Composite or derivative works represents a significant category within intellect
+ual property law, involving the creation of new works that incorporate pre-exist
+ing ones without the original author's collaboration.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Composite work (article L.
+ 113-2)
+\series default
+: a new creation that includes a pre-existing work, either through transformatio
+n (intellectual incorporation) or by including the material as is (material
+ incorporation), without the participation of the original author.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rights and Ownership (article L.
+ 113-4)
+\series default
+: while the composite work is the property of the author who produced it,
+ this ownership respects the rights of the original author.
+ The original author retains the exclusive and absolute right to authorize
+ or forbid the use of their work within the new creation, typically receiving
+ compensation for its use.
+\end_layout
+
+\begin_layout Standard
+Some examples:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+La cage aux folles
+\emph default
+ case: an Italian producer obtained the international film rights for this
+ film, with the exception that the play could not be directly adapted into
+ an English-language film produced in USA.
+ When the play was later adapted into a Broadway musical, which was then
+ adapted into a film, the Italian producer argued that this constituted
+ a direct adaptation of the original play, violating the agreement.
+ The Cour de Cassation ruled in favor of the Italian producer, highlighting
+ the nuanced interpretation of adaptation rights.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+La Tosca
+\emph default
+ case: the Italian publishers who held the rights to this opera, which was
+ based on the play, sold the film adaptation rights without seeking permission
+ from the original author's heirs for this new form of adaptation.
+ The Court ruled that the permission granted by the original author was
+ limited and did not extend to film adaptations, ilustrating that each new
+ adaptation form might require explicit authorization from the copyright
+ holder.
+\end_layout
+
+\begin_layout Standard
+While adaptations may take liberties with the original material, there is
+ a legal and moral expectation that they respect the spirit and substance
+ of the original work.
+ However, case law has shown a liberal stance towards adaptations, as demonstrat
+ed by the adaptations of 
+\emph on
+Fantômas
+\emph default
+ and 
+\emph on
+Le Petit Prince
+\emph default
+, where significant changes were deemed to respect the original spirit,
+ though not without controversy.
+\end_layout
+
+\begin_layout Paragraph
+Status of the author of the composite work
+\end_layout
+
+\begin_layout Standard
+The individual who adapts a pre-existing work into a new form is considered
+ the sole author of the composite work, with specific provisions for audiovisual
+ productions recognizing the collective nature of such creations.
+\end_layout
+
+\begin_layout Standard
+The protection of the composite work follows common law provisions, lasting
+ 70 years after the death of the last surviving author.
+ Notably, agreements can limit the period during which an adaptation is
+ authorized, affecting the duration of the exploitation rights.
+\end_layout
+
+\begin_layout Paragraph
+Final considerations
+\end_layout
+
+\begin_layout Itemize
+Creative freedom VS rights of the original author: while there is considerable
+ creative freedom in making adaptations, it's crucial to negotiate and respect
+ the rights and expectations of the original author, including compensatory
+ agreements and adherence to the original work's spirit.
+\end_layout
+
+\begin_layout Itemize
+Legal agreements: explicit agreements detailing the scope of adaptation
+ rights and any limitations on the exploitation of the composite work are
+ essential to prevent legal disputes and ensure that all parties' rights
+ are protected.
+\end_layout
+
+\begin_layout Itemize
+Moral rights: the case law underscores the importance of balancing the adapter's
+ creative expression with the need to respect the original work's integrity.
+\end_layout
+
 \begin_layout Subsection
 The Exclusive Right of the Author Over His or Her Work
+\end_layout
+
+\begin_layout Standard
+The exclusive rights of authors over their works are an important issue
+ of copyright law, granting creators control over how their works are used,
+ distributed, and modified.
+\end_layout
+
+\begin_layout Standard
+There are two aspects:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unfinished works
+\series default
+: authors have exclusive rights over their unfinished works, protecting
+ them from unauthorized use, publication, or distribution.
+ This ensures that authors can control the completion and release of their
+ works according to their vision and timing.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Distinction between tangible and intangible ownership
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Article L.
+ 111-2 establishes that the ownership of a work is distinct from the ownership
+ of the material object in which the work is materialized.
+ For example, owning a painting physically does not grant the owner copyright
+ over the artistic work itseld.
+\end_layout
+
+\begin_layout Itemize
+Article L.
+ 111-3 addresses situations where an author needs access to the original
+ work, that is in the possession of another party for the purpose of exploiting
+ the work.
+ If the holder of the physical object refuses access and this refusal constitute
+s manifest abuse, legal sanctions can be applied to ensure the author's
+ rights are respected.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+For works that are published posthumously or long after their creation,
+ there is an additional protection period.
+ Works published for the first time after the end ot the copyright monopoly
+ are granted an additional monopoly of 25 years.
+ This extension aims to protect the interests of the authors or their heirs,
+ encouraging the publication of previously unnplublished works.
 \end_layout
 
 \begin_layout Subsection
 Moral Right
 \end_layout
 
+\begin_layout Standard
+Moral rights represent the personal and perpetual connection between an
+ author and their work, reflecting an aspect of the author's personality
+ rather than their pecuniary interests.
+ Unlike patrimonial rights, moral rights safeguard the personal and reputational
+ interests of authors in their works.
+\end_layout
+
+\begin_layout Standard
+Moral rights are not about ethical or moral behavior but concern the protection
+ of the author's personal relationship with their work.
+\end_layout
+
+\begin_layout Standard
+These rights defend the non-financial interests of authors, ensuring respect
+ for their creation and integrity.
+\end_layout
+
 \begin_layout Subsubsection
 Characters Involved
+\end_layout
+
+\begin_layout Itemize
+Article L.
+ 121-1 states that moral rights are inherently linked to the author as an
+ individual, underscoring the work as an extension of the author's personality.
+ These rights are perpetual, even passing to the heirs, and are inalienable,
+ meaning they cannot be transferred or renounced.
+\end_layout
+
+\begin_layout Itemize
+There is an exception for works of joint authorship, in which certain moral
+ rights can be attributed to the publisher.
+\end_layout
+
+\begin_layout Standard
+The principal characteristics of moral rights are that they are inalienable
+ and perpetual.
+\end_layout
+
+\begin_layout Standard
+Moral rights are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Paternal right
+\series default
+: authors have the right to be recognized as the creator of the work.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disclosure right
+\series default
+: authors have the right to decide when or if their work is published.
+\end_layout
+
+\begin_layout Paragraph
+Legal proceedings and enforcement
+\end_layout
+
+\begin_layout Itemize
+Exercise of rights: authors are free to exercise their moral rights without
+ limitation, including initiating legal actions to defend these rights.
+\end_layout
+
+\begin_layout Itemize
+Abuse of rights: while authors have broad discretion in exercising their
+ moral rights, heirs may face accusations of abusing these rights.
+\end_layout
+
+\begin_layout Paragraph
+Enforceability and devolution
+\end_layout
+
+\begin_layout Itemize
+Perpetual right: the perpetual nature of moral rights means they persist
+ indefinitely, not subbject to waiver or loss through non-use.
+\end_layout
+
+\begin_layout Itemize
+Devolution system: Articles L.
+ 121-1 and 2 outline how moral rights may be managed after the author's
+ death, including provisions for the court to make decisions in the interest
+ of preserving the authpr's legacy in cases where there are no direct heirs
+ of the heirs intentions are unclear.
 \end_layout
 
 \begin_layout Subsubsection
 The Attributes of Moral Rights
 \end_layout
 
+\begin_layout Paragraph
+Right to disclose the work (Article L.
+ 121-2)
+\end_layout
+
+\begin_layout Standard
+This right allows the author exclusively to decide when, how, and if their
+ work should be made public.
+ It encompasses various forms of making the work available to the public,
+ including publishing, public exhibition and theatrical performances.
+\end_layout
+
+\begin_layout Standard
+The decision to disclose a work directly affects its copyright status and,
+ by extension, its property rights.
+\end_layout
+
+\begin_layout Standard
+The author's intention to disclose must be explicit.
+ Depositing manuscripts in archives or entrusting paintings to a gallery
+ without explicit intent for public exhibition does not consitute discloure.
+\end_layout
+
+\begin_layout Standard
+The right of disclosure is absolute, but nuances exist, such as the possibility
+ of new disclosures if the form of expression changes significantly.
+\end_layout
+
+\begin_layout Paragraph
+Right of disclosure and commissioning contract
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+whistler jurisdprudence
+\series default
+ refers to the principle that ownership of a commissioned work transfers
+ to the commissioner only upon the work's completion and delivery.
+ If an author refuses to disclose a commissioned work, legal and monetary
+ implications are considered, focusing on the duty to complete the commission
+ and the potential for damages.
+\end_layout
+
+\begin_layout Paragraph
+Right to the respect of the name, paternity, and integrity of the work (Article
+ L.
+ 121-1)
+\end_layout
+
+\begin_layout Standard
+Authors have the right to be recognized as the creators of their work and
+ to protect the work from any alterations that could harm their reputation
+ or the work's integrity.
+\end_layout
+
+\begin_layout Standard
+These moral rights can limit how a work is used or modified, regardless
+ of who holds the economic rights, with certain allowances for criticism
+ and adaptation.
+\end_layout
+
+\begin_layout Standard
+Thile moral rights protect the work's integrity, they do not prevent legitimate
+ criticism or commentary.
+\end_layout
+
+\begin_layout Paragraph
+Right of withdrawal or reconsideration
+\end_layout
+
+\begin_layout Standard
+This right allows the author to retract their work from the public domain
+ or modify it after publication, under the condition that any damage to
+ the licensee or assignee is compensated.
+\end_layout
+
+\begin_layout Standard
+If an author decides to re-exploit the work, the original licensee or assignee
+ may have a priority right to be the first to exploit the new version under
+ the initially agreed conditions.
+\end_layout
+
 \begin_layout Subsection
 Patrimonial Rights
 \end_layout
 
+\begin_layout Standard
+Patrimonial rights allow authors to derive financial benefit from their
+ works through the exclusive control over reproduction, distribution, and
+ other forms of exploitation.
+ These rights are fundamental to copyright law, enabling creators to authorize
+ or prohibit the use of their works in various ways.
+\end_layout
+
 \begin_layout Subsubsection
-Principle
+Principle of Exclusive Right
+\end_layout
+
+\begin_layout Standard
+The author possesses the exclusive right to exploit their work in any form
+ and to gain financial rewards from such exploitation.
+ This encompasses both the right to authorize specific uses of the work
+ and the right to prohibit other from exploiting it without permission.
+\end_layout
+
+\begin_layout Standard
+While inherently individual, the management of these rights can be collectively
+ organized, especially concerning rights that are difficult to enforce on
+ an individual basis.
+\end_layout
+
+\begin_layout Standard
+There are two main powers originally granted by the code, and a third added
+ one:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Right of reproduction
+\series default
+: defined as the material fixation of the work allowing it to be communicated
+ to the public indirectly.
+ This includes digital reproduction on computer systems, temporary copies,
+ and partial reproductions, subject to authorial consent unless exceptions
+ apply (e.g., quotations or educational use).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Right of public performance
+\series default
+: involves the right to control the public presentation of the work, whether
+ through physical performance, broadcasting, or digital streaming.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Right of resale
+\series default
+: entitles the author to a percentage of the sale price each time the work
+ is resold, providing ongoing benefits from the work's circulation in the
+ art market.
 \end_layout
 
 \begin_layout Subsubsection
 The Right of Reproduction
 \end_layout
 
+\begin_layout Standard
+The 
+\series bold
+EU definition
+\series default
+ encompasses the comprehensive right to authorize or prohibit any form of
+ reproduction, highlighting the breadth of control authors have over their
+ creations.
+ The law also specifies certain situations where reproduction does not require
+ the author's permission, such as for educational or research purposes,
+ maintaining a balance between copyright protection and public interest.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Adaptation rights
+\series default
+: these rights are closely linked to moral rights, ensuring that adaptations
+ respect the original work's integrity and that authors control how their
+ work is transformed or adapted.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Right of destination
+\series default
+: authors must authorize any change in the use of their work, such as converting
+ a novel into a screenplay or changing the format from physical to digital,
+ ensuring control over the work's exploitation across different mediums
+ and contexts.
+\end_layout
+
+\begin_layout Paragraph
+Collective management (Article L.
+ 122-10)
+\end_layout
+
+\begin_layout Standard
+The law mandates the automatic transfer of reprographic reproduction rights
+ to a collective management organization, facilitating the efficient management
+ and enforcement of these rights, particularly in contexts like photocopying,
+ where individual enforcement is impractical.
+\end_layout
+
 \begin_layout Subsubsection
 The Right of Public Performance
+\end_layout
+
+\begin_layout Standard
+This right encompasses any form of dissemination that makes the work accessible
+ to people beyond a private circle.
+ 
+\end_layout
+
+\begin_layout Standard
+The key aspects of this right are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Broad definition (Article L.
+ 122-2)
+\series default
+: this right covers the communication of the work by any means, including
+ live performances, broadcasting, and digital streaming.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Potential audience
+\series default
+: the definition of public performance includes situations where the audience
+ is merely potential, expanding the scope of what constitutes a public communica
+tion.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+New public
+\series default
+: any act that targets a new audicence or public is considered a new act
+ of public performance, necessitating authorization from the rights holder.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Online availability
+\series default
+: making a work available online is deemed a public performance because
+ it allows potential access by a broad audience.
 \end_layout
 
 \begin_layout Subsubsection
 Exceptions to Exploitations Rights
 \end_layout
 
+\begin_layout Standard
+With the transposition of the EU Directive in 2006, the scope of exception
+ to exploitation rights, including the right of public performance, has
+ expanded, balancing copyright protection with fundamental freedom and fair
+ use.
+\end_layout
+
+\begin_layout Standard
+The conditions for exceptions are:
+\end_layout
+
+\begin_layout Itemize
+No interference with normal exploitation: exception must not disrupt the
+ typical market exploitation of the work.
+\end_layout
+
+\begin_layout Itemize
+No prejudice to the author's interests: they should not unjustly harm the
+ author's legitimate interests.
+\end_layout
+
+\begin_layout Itemize
+Published works: generally, the work must have been made publicly available.
+\end_layout
+
+\begin_layout Standard
+Some specific exceptions are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Private copies
+\series default
+: this exception applies to copies made for personal, non-commercial use.
+ This does not extend to software programs and databases, and only a single
+ copy is permitted.
+ Also, the original work from which the copy is made must be legally acquired,
+ adhering to the principle 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+fraus omnia corrumpit
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ (fraud corrupts everything).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Short quotations
+\series default
+: allowed when justifiable by critical, debate, educational, scientific,
+ or intructional nature.
+ The quotations must not infringe upon the moral rights of the author, and
+ the length of the quotation must be considered in relation to the size
+ of the original and derivative works and the purpose of its inclusion.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Works that can be quoted include literary texts, articles, reports, and
+ portions of musical compositions, provided the quotations are used within
+ a context that justifies their inclusion, such as academic works, criticism,
+ or news reporting.
+ The work being quoted must be adequately attributed to its original author,
+ respecting the right of paternity.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Resale Rights
 \end_layout
 
+\begin_layout Standard
+Resale rights, historically unique to certain jurisdictions like France,
+ have seen broader adoption internationally, including in the US, Germany,
+ and other countries, due to efforts toward harmonization within the EU.
+ However, the regulation of these rights has been critized for its negotiation
+ and implementation inconsistencies.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Resale rights
+\series default
+ entitle the original artist to a percentage of the sale price each time
+ their work is resold on the art market.
+ This applies particularly to graphic and visual arts, including original
+ works.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+Roding Jurisprudence
+\series default
+ clarifies that original works eligible for resale rights include those
+ made directly by the artist or limited copies produced under the artist's
+ supervision.
+ This ensures artists continue to benefit from the increasing value of their
+ works over time.
+\end_layout
+
 \begin_layout Subsubsection
 Agreements to Exploit the Work
+\end_layout
+
+\begin_layout Standard
+The exploitation of an author's work through various means, such as public
+ performance, publication, or audiovisual production, requires explicit
+ and personal consent from the author, typically mandated to be in writing
+ to ensure clarity and enforceability.
+\end_layout
+
+\begin_layout Standard
+The key requirements and principles are:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Written consent (Article L.
+ 131-2)
+\series default
+: consent for agreements related to significant forms of exploitation must
+ be documented in writing, detailing the rights being assigned and the scope
+ of the agreement.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Restrictive interpretation
+\series default
+: rights assigned through contracts are interpreted restrictively, with
+ any ambiguities resolved in favor of the author.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Independence of rights (Articles L.
+ 111-3 and L.
+ 122-7 CPI)
+\series default
+: the transfer of IP rights is distinct from the transfer of the physical
+ medium, and transferring one exploitation right does not imply the transfer
+ of the others.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Specification of terms
+\series default
+: contracts must specify the duation, scope, type of exploitation, and geographi
+c location to be valid.
+ Absence of a time period or failure to delineate the scope renders the
+ contract void.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Audiovisual adaptation
+\series default
+: rights concerning audiovisual adaptations require a reparate agreement,
+ emphasizing the specificity needed in cotnracts regarding different forms
+ of exploitation.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Future works (Article L.
+ 131-6)
+\series default
+: the law prohibits agreements that transfer rights to future works in a
+ broad or unspecified manner, protecting authors from exploitative practices.
+\end_layout
+
+\begin_layout Subsection
+Questions
+\end_layout
+
+\begin_layout Subsubsection
+Short Questions
+\end_layout
+
+\begin_layout Exercise
+What is a substantive law?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+In what cases IP law cannot be applied?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the definition of originality?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the indifference in IP law?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+How is the IP law applied in the case of an anonymous work?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the difference between authorship and ownership?
+\end_layout
+
+\begin_layout Subsubsection
+Long Questions
+\end_layout
+
+\begin_layout Exercise
+What is a protected work?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is the difference between authorship and ownership?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Patrimonial rights VS moral rights
 \end_layout
 
 \begin_layout Standard
@@ -5395,6 +6985,52 @@ Managing the Property Right - Proprietor
 
 \begin_layout Subsubsection
 Managing the Property Right - Challenger
+\end_layout
+
+\begin_layout Subsection
+Questions
+\end_layout
+
+\begin_layout Subsubsection
+Long Questions
+\end_layout
+
+\begin_layout Exercise
+What is the process of getting a patent?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What is a patent and how does it protect an invention?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are the criteria for patentability and what are some examples of non-patent
+ability?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+What are the limits on patent protection?
 \end_layout
 
 \begin_layout Standard
