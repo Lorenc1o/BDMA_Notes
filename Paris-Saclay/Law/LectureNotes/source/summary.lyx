@@ -6907,6 +6907,97 @@ Industrial Property
 What's A Patent
 \end_layout
 
+\begin_layout Standard
+A patent is an immaterial title of private property granted by one or more
+ states, providing a temporary monopoly on a novel and inventive invention.
+ In exchange for this monopoly, the invention is published, making the details
+ available to the public.
+ The creation of a patent involves filing and examination processes, with
+ a standard lifetime of 20 years.
+ Patent law varies by country but operates within a broader intelelctual
+ property (IP) toolbox that includes patents, utility models, design patents,
+ trademarks, copyright, and protections for printed circuit borad topographies
+ and databases, as well as animal and vegetal production processes.
+\end_layout
+
+\begin_layout Paragraph
+Patent VS Trademark
+\end_layout
+
+\begin_layout Standard
+Patents grant a temporary monopoly on technical inventions that meet criteria
+ of novelty, inventiveness, and industrial applicability.
+\end_layout
+
+\begin_layout Standard
+Trademarks protect distinctive names, logos, or symbols used to identify
+ products or services, offering an unlimited renewable lifetime, country-depende
+nt.
+\end_layout
+
+\begin_layout Paragraph
+Obtaining and exploiting a patent
+\end_layout
+
+\begin_layout Standard
+The process includes filing an application, which is then examined for novelty,
+ inventive step, and industrial applicability.
+ Once granted, the patent holder has the exclusive right to exploit the
+ invention, which includes manufacturing, selling, or licensing the patented
+ product or process.
+\end_layout
+
+\begin_layout Paragraph
+Other kinds of industrial property
+\end_layout
+
+\begin_layout Itemize
+Utility model: a simplified patent.
+ This protects inventions without requiring strong inventive steps, with
+ shorther protection term than patents.
+\end_layout
+
+\begin_layout Itemize
+Design model: protects the aesthetic aspects or appearance of a product,
+ not its technical features.
+\end_layout
+
+\begin_layout Itemize
+Printed circuit board topographies and databases: specific protections for
+ the design of circuit boards and the organization of databases.
+\end_layout
+
+\begin_layout Itemize
+Animal and vegetal production processes: special categories for agricultural
+ innovations.
+\end_layout
+
+\begin_layout Paragraph
+Territorial validity
+\end_layout
+
+\begin_layout Itemize
+France: governed by the Code de la Propriété Intellectuelle (CPI), covering
+ various forms of IP.
+\end_layout
+
+\begin_layout Itemize
+Europe: The European Patent Convention (EPC) and the Unitary Patent Court
+ (UPC) system provide frameworks for European patents and the upcoming unitary
+ patent system.
+\end_layout
+
+\begin_layout Itemize
+USA: patents are governed by Title 35 of the US Code, with criteria focusing
+ on utility, novelty, and non-obviousness.
+\end_layout
+
+\begin_layout Itemize
+WTO: the Trade-Related Aspects of Intellectual Property Rights (TRIPS) agreement
+s set minimum standards for IP protection, including patents, applicable
+ to member states.
+\end_layout
+
 \begin_layout Subsection
 Object of the Patent Application
 \end_layout
@@ -6915,20 +7006,154 @@ Object of the Patent Application
 Patentability
 \end_layout
 
+\begin_layout Standard
+Patentability criteria ensure that only inventions meeting specific standards
+ can be protected by patentes.
+ These criteria are designed to promote genuine innovation and contribute
+ to technological advancement.
+\end_layout
+
+\begin_layout Standard
+To be patentable, the work must be:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Technical invention
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Possess 
+\series bold
+industrial application
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Novel
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Involve an 
+\series bold
+inventive step
+\series default
+ (non-obviousness).
+\end_layout
+
 \begin_layout Subsubsection
 Invention
+\end_layout
+
+\begin_layout Standard
+The subject matter of the patent must be a technical innovation.
+ This can be a product, process, or any new and useful improvement thereof,
+ capable of industrial application.
+\end_layout
+
+\begin_layout Standard
+For example, a new type of battery with improved energy efficiency or a
+ novel method for prifying water using less energy.
+\end_layout
+
+\begin_layout Standard
+There are several kinds of inventions:
+\end_layout
+
+\begin_layout Itemize
+New solution to a known technical problem: innovations that provide new
+ ways to address existing technical challenges.
+\end_layout
+
+\begin_layout Itemize
+Selecting an optimal solution: choosing the most effective solution from
+ a range of known options based on new criteria or considerations.
+\end_layout
+
+\begin_layout Itemize
+Identifying a new technical effect: discovering previously unknown benefits
+ or effects or a known method, device, or system.
+\end_layout
+
+\begin_layout Itemize
+Formulating a new technical problem: recognizing and defining a previously
+ unaddressed technical issue that requires a novel solution.
 \end_layout
 
 \begin_layout Subsubsection
 Industrial Application
 \end_layout
 
+\begin_layout Standard
+The invention must be useful; it has to have a practical application in
+ any field of industry, including agriculture, fisheries, and services.
+\end_layout
+
+\begin_layout Standard
+Certain fields might be excluded from patentability due to ethical reasons,
+ lack of industrial applicability, or being mere abstract concepts.
+\end_layout
+
+\begin_layout Standard
+For example, a machine that automates a specific manufacturing process is
+ patentable due to its direct industrial application.
+\end_layout
+
+\begin_layout Paragraph
+Invention + Industrial Application
+\end_layout
+
+\begin_layout Standard
+The combination of having a technical solution to a problem or identifying
+ a new technical problem with the requirement for industrial applicability
+ ensures that patents are granted to innovations that offer practical technical
+ improvements and are capable of being used in industrial settings.
+\end_layout
+
 \begin_layout Subsubsection
 Novelty
 \end_layout
 
+\begin_layout Standard
+The invention must be new or novel, meaning it cannot be part of the state
+ of the art.
+ State of the art includes anything that has been publicly disclosed, published,
+ or otherwise made available to the public anywhere in the world before
+ the filing date.
+\end_layout
+
+\begin_layout Standard
+For example, an electronic device featuring a never-before-seen combination
+ of functionalities.
+\end_layout
+
 \begin_layout Subsubsection
 Inventive Step
+\end_layout
+
+\begin_layout Standard
+The invention must involve an inventive step, making it not obvious to a
+ person skilled in the art.
+ This criterion assesses whether the invention is a sufficient advance over
+ what is already known.
+ A person skilled in the art is a technician, in the technical field of
+ the invention, that holds standard knowledge of the fields, and some knowledge
+ in fields close to it, and with access to all documents that are available
+ in the state of the art.
+\end_layout
+
+\begin_layout Standard
+For example, a new method for conducting wireless communication that significant
+ly reduces signal interference, which would not have been obvious to professiona
+ls in the field.
 \end_layout
 
 \begin_layout Subsubsection
