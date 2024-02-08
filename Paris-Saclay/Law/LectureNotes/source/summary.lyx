@@ -7160,56 +7160,583 @@ ls in the field.
 Non-Patentability
 \end_layout
 
+\begin_layout Standard
+In Europe, the EPC and national laws, like CPI, outline specific categories
+ of inventions that are not eligible for patent protection.
+ This non-patentability stems from various reasons, including the nature
+ of the invention, moral considerations, and the aim to protect public interests.
+\end_layout
+
+\begin_layout Paragraph
+Non-Inventions
+\end_layout
+
+\begin_layout Itemize
+Aesthetic creations: items that are purely artistic or aesthetic in nature
+ are not considered inventions under patent law because they do not possess
+ a technical character or industrial application.
+\end_layout
+
+\begin_layout Itemize
+Mental acts: ideas, business methods, and social practices are not patentable
+ as they do not translate into a technical solution to a technical problem.
+\end_layout
+
+\begin_layout Paragraph
+Non-Patentable Fields (Non-Industrial)
+\end_layout
+
+\begin_layout Itemize
+Medical field (Articles L.
+ 611-16 / EPC: Article 53): methods for treatment by surgery or therapy
+ and diagnostic methods practiced on the human or animal body are excluded
+ from patentability to ensure that medical and veterinary professionals
+ can freely use their skills and knowledge for the benefit of all.
+\end_layout
+
+\begin_layout Itemize
+Biological field and human body (Articles L.
+ 611-18 and 19 / EPC: Article 53-R29): the human body at various stages
+ of formation and development, and the simple discovery of one of its elements,
+ including the sequence or partial sequence of a gene, cannot be patented.
+ However, an application of a gene sequence for industrial purposes can
+ be patented.
+\end_layout
+
+\begin_layout Paragraph
+Specific Exclusions
+\end_layout
+
+\begin_layout Itemize
+Computer programs (Article L.
+ 611-10 / EPC: Article 52): software or computer programs are not patentable
+ to the extent that the patent application relates to the software alone,
+ rather than a technical process or method involving the software.
+\end_layout
+
+\begin_layout Itemize
+Biological matter: certain biological processes and uses of biological material
+ are excluded from patentability, such as cloning human beings, modifying
+ the germ line genetic identity of humans, and using human embryos for indutrial
+ purposes.
+ Processes that cause suffering to animals without substantial medical benefit
+ are also excluded.
+\end_layout
+
+\begin_layout Paragraph
+Software inventions
+\end_layout
+
+\begin_layout Itemize
+Variations by country: while the US initially had few restrictions on patenting
+ software inventions, Europe maintaints a more stringent approach, focusing
+ on the technical contribution of the software.
+\end_layout
+
+\begin_layout Itemize
+Patentability criteria: in Europe, software can be part of a patentable
+ invention if it serves a technical purpose or solves a technical problem,
+ especially in the context of electronic data processing methods.
+\end_layout
+
+\begin_layout Itemize
+Authoring right: the creation of software code is protected under copyright
+ law as an authoring right, emphasizing the distinction between copyright
+ and patent protection.
+\end_layout
+
 \begin_layout Subsection
 Rights Conferred by the Patent
+\end_layout
+
+\begin_layout Standard
+The grant of a patent confers specific rights to the patent holder, balancing
+ the inventor's interests with public welfare.
+ These rights delineate who can exploit the invention and under what conditions,
+ encouraging innovation while ensuring that technological advancements benefit
+ society.
 \end_layout
 
 \begin_layout Subsubsection
 Property of Who?
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Moral right
+\series default
+: remains with the inventor, recognizing their contribution and ensuring
+ they are credited for their invention.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Patrimonial rights
+\series default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Initially belong to the inventor.
+\end_layout
+
+\begin_layout Itemize
+In the context of employment, rights may be assigned to the employer if
+ the invention is made in the course of the employee's duties and if there's
+ a specific agreement regarding the assignment of rights.
+\end_layout
+
+\begin_layout Itemize
+For independent contractors or unspecified contracts, rights typically remain
+ with the inventor unless an agreement states otherwise.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Rights of the Patentee
 \end_layout
 
+\begin_layout Standard
+Patents provide a 
+\series bold
+right to forbid
+\series default
+ others from making, using, selling, or distributing the patented invention
+ without permission.
+ This right is territorial, applying only within the countries where the
+ patent is granted.
+\end_layout
+
+\begin_layout Paragraph
+Why grant exclusivity?
+\end_layout
+
+\begin_layout Itemize
+Incentive for innovation: the exclusivity serves as an incentive for inventors
+ to invest time and resources into developing new inventions by offering
+ the possibility of financial return upon disclosure of the invention to
+ the public (usually after 18 months from filing).
+\end_layout
+
+\begin_layout Itemize
+Limited right: the exclusivity is subject to specific criteria for patentability
+, exceptions to patent rights, and a limited lifetime (typically 20 years),
+ after which the invention enters the public domain.
+\end_layout
+
+\begin_layout Itemize
+Disputed right: the exclusivity can conflict with principles of commercial
+ freedom and the ethos of open-source software, reflecting ongoing debates
+ about the balance between private rights and public access.
+\end_layout
+
+\begin_layout Paragraph
+Limits of protection
+\end_layout
+
+\begin_layout Itemize
+Product limits: a patented product can only be protected from unauthorized
+ use, manufacture, or sale once; after it's sold, the patentee's control
+ over that specific item ends (exhaustion of rights).
+\end_layout
+
+\begin_layout Itemize
+Monopoly limits:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Private use and experimentation on the patented product for non-commercial
+ purposes are generally exempt from patent infringement.
+\end_layout
+
+\begin_layout Itemize
+Compulsory licenses may be granted by the state in cases of public interes,
+ such as addressing shortages, reducing high prices, or promoting competition.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Obtaining the Property
 \end_layout
 
+\begin_layout Standard
+Obtaining patent protection is a structured process that involves several
+ key steps, each critical to securing and defining the legal protections
+ afforded by a patent.
+\end_layout
+
+\begin_layout Enumerate
+Applying for a patent
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Preparation and filing: preparation of a comprehensive patent application
+ that includes a detailed description of the invention, claims that define
+ the scope of protection sought, and any relevant drawings or annexes.
+ This application is then filed with the patent office in the country or
+ countries where protection is desired.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Sustaining examination
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Requesting examination: after filing, the application undergoes an examination
+ process where the patent office assesses whether the invention meets the
+ criteria for patentability, including novelty, inventive step, and industrial
+ applicability.
+\end_layout
+
+\begin_layout Enumerate
+Responding to office actions: the applicant may need to respond to queries
+ or objections from the patent office, known as office actions, which might
+ require amending the applicaiton to clarify the invention's novelty or
+ inventive step.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Maintaining the patent
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Annuities payments: once granted, the patent holder must pay periodic fees,
+ known as annuities, to maintain the patent's validity for its full term,
+ typicaly up to 20 years.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Defining the Protection
 \end_layout
 
-\begin_layout Subsection
-The Patent Document
+\begin_layout Standard
+The protection a patent offers is defined through the application and examinatio
+n process, particularly in the drafting of claims and the detailed description
+ of the invention.
 \end_layout
 
-\begin_layout Subsubsection
-Specification
+\begin_layout Paragraph
+Structure of a patent document
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Itemize
+
+\series bold
+Background
+\series default
+: sets the context by discussing state of the art and the technical field
+ to which the invention belongs, highlighting existing problems or limitations.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Summary
+\series default
+: provides a generic exposition of the invention, outlining its objectives
+ and the technical solutions proposed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Detailed description
+\series default
+: describes in detail the preferred embodiments of the invention, often
+ supported by drawings or diagrams, to enable a person skilled in the art
+ to replicate the invention.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
 Claims
+\series default
+: the most critical part of the patent document, defining the scope of protectio
+n sought by delineating the novel aspects of the invention.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Drawings and annexes
+\series default
+: visual representations of the invention and any additional material like
+ DNA sequences or program code that supports the detailed description.
 \end_layout
 
 \begin_layout Subsubsection
 Multi-National Granting Processes: Timelines
 \end_layout
 
+\begin_layout Standard
+If we want to file a patent in multiple countries, there are several considerati
+ons to take into account.
+\end_layout
+
+\begin_layout Standard
+For instance, let's say we file a patent in France.
+ From the day of the filing, we have a period of one year until the 
+\series bold
+priority date 
+\series default
+is reached.
+ Until the priority date, we can file the patent in other countries, or
+ multi-national patent forms.
+\end_layout
+
+\begin_layout Standard
+After 18 months of the filing, the application is published.
+\end_layout
+
+\begin_layout Standard
+After this, the examination periods in Europe and other countries can begin,
+ as well as the preliminary examination for international applications under
+ PTC.
+\end_layout
+
+\begin_layout Standard
+After 24 months, the patent can be granted in France.
+\end_layout
+
+\begin_layout Standard
+After 30 months, the patent can be granted in other countries, as well as
+ in selected EU countries under European applications.
+\end_layout
+
+\begin_layout Standard
+Also, the national phases of the internation application can begin, including
+ national examination and later granting.
+\end_layout
+
+\begin_layout Standard
+During all this time, the annuities must be paid for each different application
+ process.
+\end_layout
+
 \begin_layout Subsubsection
 Costs
 \end_layout
 
+\begin_layout Itemize
+Preparing and filing
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Attorney fees: these can be significant, as they cover the professional
+ services of drafting and preparing the patent application.
+ This typically includes a patentability search, drafting the specification
+ and claims, and preparing drawings.
+\end_layout
+
+\begin_layout Itemize
+Filing fees: paid to the patent office at the time of filing the application.
+ These fees vary depending on the country and the size of the applicant
+ entity.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Extending abroad
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+National phase entry fees: costs associated with entering the national phase
+ of each country where protection is sought after an international PCT applicati
+on.
+\end_layout
+
+\begin_layout Itemize
+Translation costs: if extending protection to countries with different languages
+, translations of the patent application will be required, which can be
+ a significant expense.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Deadlines
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+12 months: the cost of filing a patent applicaiton in other countries or
+ regions, claiming priority from the first application, within one year
+ of the initial filing.
+\end_layout
+
+\begin_layout Itemize
+30 months: additional costs incurred for entering the regional phase of
+ PCT applications.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Examination
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Examination fees: charged by the patent office to conduct a substantive
+ examination of the patent application to determine if it meets the patentabilit
+y criteria.
+\end_layout
+
+\begin_layout Itemize
+Response to office actions: additional attorney fees may be incurred to
+ respond to objections or requests made by the patent office during examination.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Granting
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Grant fees: once a patent is allowed, some jurisdictions require a fee to
+ finalize the grant of the patent.
+\end_layout
+
+\begin_layout Itemize
+EP national validation: in Europe, after grant by the Europan Patent Office,
+ additional fees are required to validate the patent in each member state
+ where protection is sought.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Maintaining or renewal
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Annual renewal fees: annuities paid to keep the patent in force after it
+ has been granted, typically on an annual basis.
+ They usually increase over the life of the patent.
+\end_layout
+
+\end_deeper
 \begin_layout Subsection
 Enforcing the Property Rights of Patents
+\end_layout
+
+\begin_layout Standard
+Patent rights provide the patent holder with legal means to enforce their
+ exclusive rights to an invention.
+ Enforcing these rights often involves monitoring the market, identifying
+ potential ingringement, and takinf appropriate legal actions to stop unauthoriz
+ed use.
 \end_layout
 
 \begin_layout Subsubsection
 Managing the Property Right - Proprietor
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Defense
+\series default
+: the patent owner must actively defend their patent, which includes several
+ steps:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Detecting infringement: monitoring the market for products or processes
+ that may infringe on the patented invention.
+\end_layout
+
+\begin_layout Itemize
+Notifying: contacting the alleged infringer to notify them of the patent
+ and the potential infringement, often through a cease and desists letter.
+\end_layout
+
+\begin_layout Itemize
+Judicial action: if the infringement persists, the patent owner can initiate
+ legal processings to enforce their rights.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Infringement action: legal proceedings can be initiated to seek remedies
+ such as injunctions to stop the infringement, monetary damages, and sometimes
+ the destruction of infringing goods.
+\end_layout
+
+\begin_layout Itemize
+Defending the patent: suring legal proceedings, the patent owner must be
+ prepared to defend the validity of their patent, as it may be challenged
+ by the alleged infringer.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Country dependent: enforcement mechanisms and legal procedures vary by country,
+ requiring an understanding of local patent laws and judicial processes.
+\end_layout
+
+\begin_layout Itemize
+Stakes/risks: the benefits of enforcing a patent include protecting market
+ share and revenue streams, while the risks include the potential for the
+ patent to be invalidated during legal proceedings.
+\end_layout
+
+\end_deeper
 \begin_layout Subsubsection
 Managing the Property Right - Challenger
+\end_layout
+
+\begin_layout Itemize
+Information problem - cost: parties interested in entering a market with
+ a new product or process must perform due diligence to ensure that they
+ are not infringing on existing patens, which often involves significant
+ costs related to patent searches and legal advice.
+\end_layout
+
+\begin_layout Itemize
+Manufacturing/importing: companies need to be cautious when manufacturing
+ or importing goods that may be covered by patents to avoid infringement.
+\end_layout
+
+\begin_layout Itemize
+OEM: original equipment manufacturers must endure that the products they
+ manufacture for other companies do not infringe on patents.
+\end_layout
+
+\begin_layout Itemize
+Subcontractors: companies using subcontractors must ensure that any products
+ or processes used do not infringe on patents, which may require contracts
+ with indemnity clauses.
+\end_layout
+
+\begin_layout Itemize
+Retailers: retailers selling products must also be wary of patent infringement
+ issues, which could lead to legal action against them.
+\end_layout
+
+\begin_layout Itemize
+Contract/warranties: agreements involving the manufacture, supply, or sale
+ of products should include warranties against patent infringement to protect
+ against liability.
+\end_layout
+
+\begin_layout Itemize
+Stakes/risks: the risks for a challenger include potential legal action
+ for patent infringement and associated costs, while the stakes involve
+ being able to oeprate in the market and offer new products or services.
 \end_layout
 
 \begin_layout Subsection
