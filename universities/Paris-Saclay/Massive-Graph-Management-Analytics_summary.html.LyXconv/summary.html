@@ -73,7 +73,7 @@ course
 notes
 by
 Seghouani,
-<span class="cite">[<a href="#XSeghouani2023">3</a>]</span>,
+<span class="cite">[<a href="#XSeghouani2023">4</a>]</span>,
 so
 I
 won’t
@@ -127,6 +127,10 @@ used.
 <br/>  <span class="subsectionToc">7.1 <a href="#x1-510007.1" id="QQ2-1-51">k-Clique</a></span>
 <br/>  <span class="subsectionToc">7.2 <a href="#x1-520007.2" id="QQ2-1-52">k-Core</a></span>
 <br/>  <span class="subsectionToc">7.3 <a href="#x1-530007.3" id="QQ2-1-53">Community Detection Problem</a></span>
+<br/> <span class="sectionToc">8 <a href="#x1-580008" id="QQ2-1-59">Models of Influence and Diffusion</a></span>
+<br/>  <span class="subsectionToc">8.1 <a href="#x1-590008.1" id="QQ2-1-60">Introduction</a></span>
+<br/>  <span class="subsectionToc">8.2 <a href="#x1-620008.2" id="QQ2-1-63">Influence and Diffusion Models</a></span>
+<br/>  <span class="subsectionToc">8.3 <a href="#x1-670008.3" id="QQ2-1-68">Influence Maximization Problem Formulation</a></span>
 </div>
 <!--l. 129--><p class="noindent">
 <h3 class="sectionHead"><span class="titlemark">1   </span> <a id="x1-20001"></a>Introduction</h3>
@@ -3511,8 +3515,349 @@ highest betweenness value. It goes as:
 </p></li>
 <li class="enumerate" id="x1-57008x2">
 <!--l. 4246--><p class="noindent">Repeat until all edges are gone. Stop when it splits in 2 components. The output is a dendogram.</p></li></ol>
-<!--l. 4249--><p class="noindent">
-<h3 class="likesectionHead"><a id="x1-580007.3.4"></a>References</h3>
+<!--l. 4250--><p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">8   </span> <a id="x1-580008"></a>Models of Influence and Diffusion</h3>
+<!--l. 4252--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">8.1   </span> <a id="x1-590008.1"></a>Introduction</h4>
+<!--l. 4254--><p class="noindent">B. Ryan and N. Gross published <span class="ecti-1000">Acceptance and Diffusion of Hybrid Corn Seed in two communities </span><span class="cite">[<a href="#XRyanGross1943">3</a>]</span> in 1943. In this
+paper, they studied the information effect and the adoption of technology between 1924 and 1940. They found out
+that:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4259--><p class="noindent">The diffusion pattern was made up of three periods:
+         <ol class="enumerate1">
+<li class="enumerate" id="x1-59002x1">
+<!--l. 4261--><p class="noindent">Long period of slow initial growth
+         </p></li>
+<li class="enumerate" id="x1-59004x2">
+<!--l. 4262--><p class="noindent">Rapid rise in adoption
+         </p></li>
+<li class="enumerate" id="x1-59006x3">
+<!--l. 4263--><p class="noindent">Brief decline as the most resistant adopters accepted the new technology</p></li></ol>
+</p></li>
+<li class="itemize">
+<!--l. 4265--><p class="noindent">They classified the different subjects as innovators, early adopters, early majority, late majority, and
+     laggards.</p></li></ul>
+<!--l. 4268--><p class="noindent">This information is shown here:
+                                                                                            
+                                                                                            
+<div class="center">
+<!--l. 4269--><p class="noindent">
+<!--l. 4270--><p class="noindent"><img alt="PIC" src="44_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado26.png"/>
+</p></p></div>
+<!--l. 4273--><p class="noindent">This idea has been studied multiple times in different areas:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4275--><p class="noindent">Studying and modelling the spread of beliefs or ideas or informaiton (rumours, news) or virus. This
+     represents an active research area in fields like economics, epidemiology, social science,...
+     </p></li>
+<li class="itemize">
+<!--l. 4278--><p class="noindent">Influence models have been studied for uears:
+         <ul class="itemize2">
+<li class="itemize">
+<!--l. 4280--><p class="noindent">Original mathematical models: Schelling and Granovetter
+         </p></li>
+<li class="itemize">
+<!--l. 4281--><p class="noindent">Viral marketing strategies modelled by Domingos and Richardson
+         </p></li>
+<li class="itemize">
+<!--l. 4282--><p class="noindent">Network coordination games</p></li></ul>
+</p></li>
+<li class="itemize">
+<!--l. 4284--><p class="noindent">Studying diseases or contagions. The most commonly used epidemic models are the SIR (Susceptible-Infected-Recovered)
+     and the SIS (Susceptible-Infected-Susceptible).
+     </p></li>
+<li class="itemize">
+<!--l. 4286--><p class="noindent">Influence of the social environment on health: behaviors such as eating, practicing physical activities, drug use and
+     seeking medical follow up.</p></li></ul>
+<!--l. 4291--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.1.1   </span> <a id="x1-600008.1.1"></a>Compartmental Models in Epidemiology</h5>
+<!--l. 4293--><p class="noindent">General models for infectuous diseases from human to human have been modeled since the Spanish flu in 1918. Relevant
+applications have been to SIDA and more recently to COVID 19.
+<!--l. 4297--><p class="noindent">The epidemiological models are based on 2 concepts:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4299--><p class="noindent">There are compartments to divide individuals
+     </p></li>
+<li class="itemize">
+<!--l. 4300--><p class="noindent">Rules specify the rate of transition between compartments, like the force of infection.</p></li></ul>
+<!--l. 4303--><p class="noindent">There are variants with or without the dynamics of birth and death, immunity periods, etc
+<!--l. 4306--><p class="noindent">SIR is the simplest predictive model, and recovery confers lasting resistance, with death being negligible. The three
+compartments are:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4309--><p class="noindent">S: number of susceptible individuals. When a susceptible and an infectious individual come into contact,
+     the susceptible individual contracts the disease and transitions to the infectious compartment.
+     </p></li>
+<li class="itemize">
+<!--l. 4312--><p class="noindent">I: number of infectious individuals.
+     </p></li>
+<li class="itemize">
+<!--l. 4313--><p class="noindent">R: number of removed and immune individuals. Also called recovered or resistant.</p></li></ul>
+<!--l. 4316--><p class="noindent">Now, <span class="cmmi-10">S</span><img align="middle" alt="(t)" class="left" src="summary526x.png"/><span class="cmmi-10">,I</span><img align="middle" alt="(t)" class="left" src="summary527x.png"/> and <span class="cmmi-10">R</span><img align="middle" alt="(t)" class="left" src="summary528x.png"/> are functions defined to study the dynamic in a short infectious period. Let’s define the rest
+of the variables:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4320--><p class="noindent"><span class="cmmi-10">N </span>is the total population.
+     </p></li>
+<li class="itemize">
+<!--l. 4321--><p class="noindent"><span class="cmmi-10">β </span>is the average number of contacts per person per time.
+     </p></li>
+<li class="itemize">
+<!--l. 4322--><p class="noindent">Therefore, <img align="middle" alt="-β
+N" class="frac" src="summary529x.png"/> is the transmission parameter.
+     </p></li>
+<li class="itemize">
+<!--l. 4323--><p class="noindent">The transition rate between I and R, <span class="cmmi-10">γ</span>, represents the rate at which individuals recover from the disease.
+     </p></li>
+<li class="itemize">
+<!--l. 4325--><p class="noindent"><img align="middle" alt="dI
+dt" class="frac" src="summary530x.png"/> is the incidence in terms of infections.
+     </p></li>
+<li class="itemize">
+<!--l. 4326--><p class="noindent">We impose that the population remains constant:
+<div class="math-display">
+<img alt="dS   dI   dR
+dt-+ dt + dt-= 0.
+" class="math-display" src="summary531x.png"/></div>
+</p></li></ul>
+<!--l. 4331--><p class="noindent">The SIR system can be expresed using the following differential equation system:
+<div class="math-display">
+<img alt="(| dS = - β-⋅S ⋅I
+{ ddtI   βN
+|( ddtR = N ⋅S ⋅I - γI
+  dt = - γI
+" class="math-display" src="summary532x.png"/></div>
+<!--l. 4340--><p class="noindent">The <span class="ecbx-1000">Gillespie algorithm </span>is used to simulate chemical or biochemical systems. It is a stochastic simulator algorithm
+that generates a statistically correct trajectory of a stochastic equation system for which the reaction rates are
+known.
+<!--l. 4345--><p class="noindent">The SIR model has many variants, that have been developed over the years:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4348--><p class="noindent">Models without immunity after recovery (SIS). This tries to model illnesses like the common cold, which
+     does not confer any long-lasting immunity.
+     </p></li>
+<li class="itemize">
+<!--l. 4351--><p class="noindent">Immunity lasts only for a short period of time (SIRS).
+     </p></li>
+<li class="itemize">
+<!--l. 4352--><p class="noindent">There exists a latent period of the disease (Exposed), where the person is not yet infectious (SEIS or
+     SEIR).
+     </p></li>
+<li class="itemize">
+<!--l. 4354--><p class="noindent">Infants can be born with maternally derived immunity (MSIR).
+     </p></li>
+<li class="itemize">
+<!--l. 4355--><p class="noindent">Model differentiates between Recovered and Deceased (SIRD).
+     </p></li>
+<li class="itemize">
+<!--l. 4356--><p class="noindent">Vaccinated susceptible population (SIRV).</p></li></ul>
+<!--l. 4359--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.1.2   </span> <a id="x1-610008.1.2"></a>Challenges in Social Networks</h5>
+<!--l. 4361--><p class="noindent">Diffusion models are used to identify the way information is transmitted in a network. So:
+                                                                                            
+                                                                                            
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4364--><p class="noindent">How to model the information diffusion process in a social network?
+     </p></li>
+<li class="itemize">
+<!--l. 4365--><p class="noindent">How to identify the influencers (nodes which transmit more information)? Which kind of graph-based
+     measures can be used?
+     </p></li>
+<li class="itemize">
+<!--l. 4367--><p class="noindent">How to maximise the influence?
+     </p></li>
+<li class="itemize">
+<!--l. 4368--><p class="noindent">How to minimise or stop the influence (which links to remove)?</p></li></ul>
+<!--l. 4370--><p class="noindent">From the computer science perspective, we need to develop fast and efficient algorithms on large networks.
+<!--l. 4373--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">8.2   </span> <a id="x1-620008.2"></a>Influence and Diffusion Models</h4>
+<!--l. 4375--><p class="noindent">These can be <span class="ecbx-1000">probabilistic models</span>. The probability that someone becomes activated based on its activated <span class="cmmi-10">n</span>
+neighbours is
+<div class="math-display">
+<img alt="                n
+P (n ) = 1- (1- p) ,
+" class="math-display" src="summary533x.png"/></div>
+<!--l. 4380--><p class="noindent">where <span class="cmmi-10">p </span>is the activation probability of a neihbour and <span class="cmmi-10">n </span>is the number of activated neighbours. The
+intuition here is that the more neighbours are activated, the higher probability that you will become
+activated.
+<!--l. 4385--><p class="noindent">But they can also be <span class="ecbx-1000">threshold models</span>. In this case, nothing happens until the threshold is reached:
+<div class="math-display">
+<img alt="P (b) = δ (b &gt; b) .
+" class="math-display" src="summary534x.png"/></div>
+<!--l. 4391--><p class="noindent">In both cases, the main idea is to define a diffusion process on the network, originating from a set seed <span class="cmmi-10">S</span>. The expected
+number of activated nodes at the end is the influence of <span class="cmmi-10">S</span>, <span class="cmmi-10">σ</span><img align="middle" alt="(S)" class="left" src="summary535x.png"/>.
+                                                                                            
+                                                                                            
+<!--l. 4395--><p class="noindent">The network is represented as a directed graph, <span class="cmmi-10">G </span><span class="cmr-10">= </span><img align="middle" alt="(V, E)" class="left" src="summary536x.png"/>, where individual ndoes are active or inactive. The process
+is thus defined as:
+     <ul class="itemize1">
+<li class="itemize">
+<!--l. 4399--><p class="noindent">Start with initial set of active seed nodes, <span class="cmmi-10">S</span>.
+     </p></li>
+<li class="itemize">
+<!--l. 4400--><p class="noindent">Run <span class="cmmi-10">t </span>steps and finish when there are no more possible activations.</p></li></ul>
+<!--l. 4403--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.2.1   </span> <a id="x1-630008.2.1"></a>Independent Cascade Model</h5>
+<!--l. 4405--><p class="noindent">In the cascade model, when node <span class="cmmi-10">u </span>becomes active, it is given a single chance to activate each currently inactive
+neighbour <span class="cmmi-10">v</span>, with a probability of success of <span class="cmmi-10">p</span><sub><span class="cmmi-7">u,v</span></sub>.
+<!--l. 4409--><p class="noindent">This probability is independent of the history. If <span class="cmmi-10">u </span>succeeds, then <span class="cmmi-10">v </span>will be active in step <span class="cmmi-10">t </span><span class="cmr-10">+ 1</span>, but whether or not <span class="cmmi-10">u</span>
+succeeds, it cannot make any further attempts to activate <span class="cmmi-10">v </span>in subsequent rounds.
+<!--l. 4414--><p class="noindent">If <span class="cmmi-10">v </span>has multiple newly activated neighbours, their attempts are sequenced in an arbitrary order.
+<!--l. 4417--><p class="noindent">For example, see the following diffusion process:
+<div class="center">
+<!--l. 4418--><p class="noindent">
+<!--l. 4419--><p class="noindent"><img alt="PIC" src="45_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado27.png"/>
+</p></p></div>
+<!--l. 4422--><p class="noindent">Let now <span class="cmmi-10">D</span><sub><span class="cmmi-7">t</span></sub> be the set of active nodes at step <span class="cmmi-10">t</span>. For <span class="cmmi-10">v </span><span class="cmsy-10">∈ </span><span class="cmmi-10">N</span><img align="middle" alt="(Dt)" class="left" src="summary537x.png"/>, its probability of being active at <span class="cmmi-10">t </span><span class="cmr-10">+ 1</span>
+is
+<div class="math-display">
+<img alt="p  (t+ 1) = 1-    ∏    (1 - p  ).
+ v                         u,v
+              u∈N(v)∩Dt
+" class="math-display" src="summary538x.png"/></div>
+<!--l. 4427--><p class="noindent">The sets <span class="cmmi-10">I</span><sub><span class="cmmi-7">t</span></sub> and <span class="cmmi-10">S</span><sub><span class="cmmi-7">t</span></sub> follow the following iterative definition:
+<div class="math-display">
+<img alt="I0 = S,
+" class="math-display" src="summary539x.png"/></div>
+<!--l. 4431--><p class="noindent">
+<div class="math-display">
+<img alt="S0 = V \ I0,
+" class="math-display" src="summary540x.png"/></div>
+<!--l. 4434--><p class="noindent">
+<div class="math-display">
+<img alt="S   = S \ I  ,
+ t+1   t   t+1
+" class="math-display" src="summary541x.png"/></div>
+<!--l. 4437--><p class="noindent">where <span class="cmmi-10">I</span><sub><span class="cmmi-7">t</span><span class="cmr-7">+1</span></sub> is obtained from <span class="cmmi-10">S</span><sub><span class="cmmi-7">t</span></sub> and <span class="cmmi-10">I</span><sub><span class="cmmi-7">t</span></sub> as explained before.
+<!--l. 4440--><p class="noindent">Then, the set of all infected nodes throughout the contagion process originating at <span class="cmmi-10">S </span>is
+<div class="math-display">
+<img alt="I(S) = ∪t≥0It,
+" class="math-display" src="summary542x.png"/></div>
+<!--l. 4445--><p class="noindent">and the expectation is taken over the random infection attempts from the infected nodes, as
+<div class="math-display">
+<img alt="σ (S ) = E [|I(S)|].
+" class="math-display" src="summary543x.png"/></div>
+<!--l. 4450--><p class="noindent">However, there is still something that we need to sort out: how to define <span class="cmmi-10">p</span><sub><span class="cmmi-7">u,v</span></sub>.
+<!--l. 4453--><p class="noindent">A commonly used approach is to assign to each edge <img align="middle" alt="(u,v)" class="left" src="summary544x.png"/> the probability <span class="cmmi-10">p</span><sub><span class="cmmi-7">u,v</span></sub> <span class="cmr-10">=</span> <img align="middle" alt="-1
+d-v" class="frac" src="summary545x.png"/> (note that we consider the
+directed edges).
+<!--l. 4457--><p class="noindent">Some studies propose to learn influence probabilities from data, for example studying the propagation actions in social
+networks, such as replies, forwards, etc.
+<!--l. 4461--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.2.2   </span> <a id="x1-640008.2.2"></a>Threshold Model</h5>
+<!--l. 4463--><p class="noindent">In this case, we consider, for each node <span class="cmmi-10">u</span>, the proportion <span class="cmmi-10">p </span>of active neighbours, and <img align="middle" alt="(1- p)" class="left" src="summary546x.png"/> of inactive ones. To
+become activated, node <span class="cmmi-10">u </span>needs to verify
+<div class="math-display">
+<img alt="ρ ⋅p⋅du &gt; γ ⋅(1- p)⋅du,
+" class="math-display" src="summary547x.png"/></div>
+<!--l. 4469--><p class="noindent">so the threshold to accept is
+<div class="math-display">
+<img alt="    --γ--
+p &gt; ρ +γ ,
+" class="math-display" src="summary548x.png"/></div>
+<!--l. 4473--><p class="noindent">where <span class="cmmi-10">ρ </span>is the reward (weight) of active nodes and <span class="cmmi-10">γ </span>is the reward of inactive nodes. The model applies this rule in
+cascade until there are no more possible activations.
+<!--l. 4477--><p class="noindent">For example, if <span class="cmmi-10">ρ </span><span class="cmr-10">= 3 </span>and <span class="cmmi-10">γ </span><span class="cmr-10">= 2</span>, the threshold is <img align="middle" alt="25" class="frac" src="summary549x.png"/>. It would go as follows:
+<div class="center">
+<!--l. 4479--><p class="noindent">
+<!--l. 4480--><p class="noindent"><img alt="PIC" src="46_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado28.png"/>
+</p></p></div>
+<!--l. 4483--><p class="noindent"><span class="paragraphHead"><a id="x1-650008.2.2"></a><span class="ecbx-1000">The Linear Threshold Model</span></span>
+In this case, each node <span class="cmmi-10">v </span>is influenced by each incoming active neighbour <span class="cmmi-10">u</span>, according to a weight <span class="cmmi-10">w</span><sub><span class="cmmi-7">u,v</span></sub>, so
+that
+<div class="math-display">
+<img alt=" ∑
+      wu,v ≤ 1.
+u∈N (v)
+" class="math-display" src="summary550x.png"/></div>
+<!--l. 4490--><p class="noindent">Each <span class="cmmi-10">v </span>has a random acceptance threshold <span class="cmmi-10">θ </span><span class="cmsy-10">~<img alt="U" class="10x-x-55" src="cmsy10-55.png"/></span><img align="middle" alt="[0,1]" class="left" src="summary551x.png"/>, which represents the fraction of <span class="cmmi-10">v</span>’s neighbours that must
+become active in order for <span class="cmmi-10">v </span>to become active.
+<!--l. 4494--><p class="noindent">Given random thresholds, and an initial set of active nodes, <span class="cmmi-10">S</span><sub><span class="cmr-7">0</span></sub>, with all the other nodes inactive, the diffusion process
+unfolds in discrete steps: in step <span class="cmmi-10">t</span>, all nodes that were active in step <span class="cmmi-10">t</span><span class="cmsy-10">- </span><span class="cmr-10">1 </span>remain active, and activate any node <span class="cmmi-10">v </span>such
+that the total weight of its active neighbours is at least <span class="cmmi-10">θ</span><sub><span class="cmmi-7">v</span></sub>:
+<div class="math-display">
+<img alt=" ∑
+     wu,v ≥ θv.
+u∈N(v)
+" class="math-display" src="summary552x.png"/></div>
+<!--l. 4502--><p class="noindent">A possible way to define <span class="cmmi-10">w</span><sub><span class="cmmi-7">u,v</span></sub> is by taking into account the degree of <span class="cmmi-10">v</span>, as <span class="cmmi-10">w</span><sub><span class="cmmi-7">u,v</span></sub> <span class="cmr-10">=</span> <img align="middle" alt="-1
+dv" class="frac" src="summary553x.png"/>.
+<!--l. 4505--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.2.3   </span> <a id="x1-660008.2.3"></a>Cascades and Clusters</h5>
+<!--l. 4507--><p class="noindent">Homophily can often serve as a barrier to diffusion, by making it hard for innovations to arrive from outside
+communities. This means that we can use the structure of a network to analyze the success or failure of a
+cascade.
+<!--l. 4512--><p class="noindent">A <span class="ecbx-1000">cluster of density </span><span class="cmmi-10">δ </span>is a set of nodes such that each node in the set has at least a <span class="cmmi-10">δ </span>fraction of its network
+neighbours in the set. For the cascade process to enter the cluster, the threshold should be smaller than
+<span class="cmr-10">1 </span><span class="cmsy-10">- </span><span class="cmmi-10">δ</span>.
+                                                                                            
+                                                                                            
+<!--l. 4517--><p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">8.3   </span> <a id="x1-670008.3"></a>Influence Maximization Problem Formulation</h4>
+<!--l. 4519--><p class="noindent">Given <span class="cmmi-10">G </span><span class="cmr-10">= </span><img align="middle" alt="(V,E)" class="left" src="summary554x.png"/>, let <span class="cmmi-10">σ </span>be a function such that <span class="cmmi-10">σ </span><span class="cmr-10">: </span><span class="cmmi-10">S </span><span class="cmsy-10">→ </span><span class="msbm-10">ℕ </span>maps a set of nodes <span class="cmmi-10">S </span><span class="cmsy-10">∈ </span><span class="cmmi-10">V </span>to their influence value <span class="cmmi-10">σ</span><img align="middle" alt="(S)" class="left" src="summary555x.png"/>, i.e.,
+the expected number of activated nodes in a diffusion process.
+<!--l. 4524--><p class="noindent">The <span class="ecbx-1000">influence maximization problem </span>asks:
+<!--l. 4526--><p class="noindent">For a given budget, <span class="cmmi-10">k</span>, find a set of <span class="cmmi-10">k </span>nodes, <span class="cmmi-10">S</span>, with objective
+<div class="math-display">
+<img alt="max σ (S).
+|S|≤k
+" class="math-display" src="summary556x.png"/></div>
+<!--l. 4531--><p class="noindent">Solving this problem is NP-hard, so we need to leverage approximate methods.
+<!--l. 4534--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.3.1   </span> <a id="x1-680008.3.1"></a>Greedy Framework</h5>
+<!--l. 4536--><p class="noindent">The approximation by greedy algorithm consists in iteratively adding nodes to <span class="cmmi-10">S </span>by maximizing the marginal gain in
+each step:
+<!--l. 4539-->
+<div class="lstlisting" id="listing-19"><span class="label"><a id="x1-68001r1"></a><span class="ecrm-0500">1</span></span><span style="color:#000000"><span class="ectt-0800">greedy_max_influence</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">G</span></span><span style="color:#000000"><span class="ectt-0800">=(</span></span><span style="color:#000000"><span class="ectt-0800">V</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800">E</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">,</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">k</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800">:</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-68002r2"></a><span class="ecrm-0500">2</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">{}</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-68003r3"></a><span class="ecrm-0500">3</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">i</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">range</span></span><span style="color:#000000"><span class="ectt-0800">(1,</span></span><span style="color:#000000"><span class="ectt-0800">k</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">do</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-68004r4"></a><span class="ecrm-0500">4</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">u</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">argmax_u</span></span><span style="color:#000000"><span class="ectt-0800">([</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sigma</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800">.</span></span><span style="color:#000000"><span class="ectt-0800">union</span></span><span style="color:#000000"><span class="ectt-0800">({</span></span><span style="color:#000000"><span class="ectt-0800">u</span></span><span style="color:#000000"><span class="ectt-0800">})</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">-</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">sigma</span></span><span style="color:#000000"><span class="ectt-0800">(</span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800">)</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">for</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">u</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">in</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">V</span></span><span style="color:#000000"><span class="ectt-0800">-</span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800">])</span></span><span class="ectt-0800"> </span><br/>
+<span class="label"><a id="x1-68005r5"></a><span class="ecrm-0500">5</span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800"> </span><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">=</span></span><span style="color:#000000"><span class="ectt-0800"> </span></span><span style="color:#000000"><span class="ectt-0800">S</span></span><span style="color:#000000"><span class="ectt-0800">.</span></span><span style="color:#000000"><span class="ectt-0800">union</span></span><span style="color:#000000"><span class="ectt-0800">({</span></span><span style="color:#000000"><span class="ectt-0800">u</span></span><span style="color:#000000"><span class="ectt-0800">})</span></span></div>
+<!--l. 4548--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">8.3.2   </span> <a id="x1-690008.3.2"></a>Submodular Functions</h5>
+<!--l. 4550--><p class="noindent">A set function <span class="cmmi-10">f </span>is <span class="ecbx-1000">submodular </span>if for any sets <span class="cmmi-10">R </span><span class="cmsy-10">⊂ </span><span class="cmmi-10">T </span>and <span class="cmsy-10">∀</span><span class="cmmi-10">v</span><img alt="∕∈" class="notin" src="summary557x.png"/><span class="cmmi-10">T,R</span>, it holds
+<div class="math-display">
+<img alt="f (R ∪ {v})- f (R) ≥ f (T ∪{v}) - f (T).
+" class="math-display" src="summary558x.png"/></div>
+<!--l. 4555--><p class="noindent">These functions represents functions of <span class="ecbx-1000">diminishing returns</span>: the marginal gain from adding an element to a set <span class="cmmi-10">R </span>is
+at least as high as the marginal gain from adding the same element to a superset of <span class="cmmi-10">R</span>.
+<!--l. 4560--><p class="noindent">It also implies the monotonicity of <span class="cmmi-10">f</span>, <span class="cmmi-10">f</span><img align="middle" alt="(R ∪ {v})" class="left" src="summary559x.png"/> <span class="cmsy-10">≥ </span><span class="cmmi-10">f</span><img align="middle" alt="(R)" class="left" src="summary560x.png"/>.
+                                                                                            
+                                                                                            
+<div class="tcolorbox tcolorbox" id="tcolobox-24">
+<div class="tcolorbox-title">
+</div>
+<div class="tcolorbox-content"><div class="newtheorem">
+<!--l. 4563--><p class="noindent"><span class="head">
+<a id="x1-69001r1"></a>
+<span class="ecbx-1000">Theorem 8.1.</span> </span><span class="ecti-1000">For a non-negative, monotone, submodular funciton </span><span class="cmmi-10">f</span><span class="ecti-1000">, let </span><span class="cmmi-10">S </span><span class="ecti-1000">be a set of size </span><span class="cmmi-10">k </span><span class="ecti-1000">obtained</span>
+<span class="ecti-1000">by selecting elements one at a time, each time choosing an element that provides the largest marginal</span>
+<span class="ecti-1000">increase in the function value.</span>
+<!--l. 4569--><p class="noindent"><span class="ecti-1000">Let </span><span class="cmmi-10">S</span><sup><span class="cmsy-7">*</span></sup> <span class="ecti-1000">be a set that maximizes the value of </span><span class="cmmi-10">f </span><span class="ecti-1000">over all </span><span class="cmmi-10">k</span><span class="ecti-1000">-element sets.</span>
+<!--l. 4572--><p class="noindent"><span class="ecti-1000">Then</span>
+<div class="math-display">
+<img alt="       [    (    1)k]
+f (S) ≥ 1 -  1- --    f (S*).
+                k
+" class="math-display" src="summary561x.png"/></div>
+<!--l. 4576--><p class="noindent"><span class="ecti-1000">In other words, </span><span class="cmmi-10">S </span><span class="ecti-1000">provides a </span><img align="middle" alt="(   1)
+ 1- e" class="left" src="summary562x.png"/> <span class="cmr-10">=</span> <span class="cmr-10">lim</span><sub><span class="cmmi-7">k</span><span class="cmsy-7">→∞</span></sub><span class="cmr-10">1 </span><span class="cmsy-10">-</span><img align="middle" alt="(    1)
+ 1 - k" class="left" src="summary563x.png"/><sup><span class="cmmi-7">k</span></sup> <span class="ecti-1000">approximation of the optimal value.</span>
+</p></p></p></p></div>
+<!--l. 4578--><p class="noindent">
+</p></div>
+</div>
+<!--l. 4581--><p class="noindent">It can be proven that <span class="cmmi-10">σ</span><img align="middle" alt="(⋅)" class="left" src="summary564x.png"/> is a submodular function, and therefore, when we use the greedy approach, obtaining a set <span class="cmmi-10">S</span>,
+it must be
+<div class="math-display">
+<img alt="      (     )
+           1      *
+σ(S) ≥  1- e  σ (S  ).
+" class="math-display" src="summary565x.png"/></div>
+<!--l. 4588--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-700008.3.2"></a>References</h3>
 <!--l. 1--><p class="noindent">
 <div class="thebibliography">
 <p class="bibitem"><span class="biblabel">
@@ -3524,7 +3869,11 @@ highest betweenness value. It goes as:
    community structure of complex networks in nature and society. <span class="ecti-1000">Nature</span>, 435(7043):814–818, 2005.
    </p>
 <p class="bibitem"><span class="biblabel">
- [3]<span class="bibsp">   </span></span><a id="XSeghouani2023"></a>NacÃ<span class="tcrm-1000">©</span>ra Seghouani. Massive graph management and analytics. Lecture Notes.
+ [3]<span class="bibsp">   </span></span><a id="XRyanGross1943"></a>Bryce Ryan and Neal C. Gross.  The diffusion of hybrid seed corn in two iowa communities.  <span class="ecti-1000">Rural</span>
+<span class="ecti-1000">Sociology</span>, 8(1):15, 1943.
+   </p>
+<p class="bibitem"><span class="biblabel">
+ [4]<span class="bibsp">   </span></span><a id="XSeghouani2023"></a>NacÃ<span class="tcrm-1000">©</span>ra Seghouani. Massive graph management and analytics. Lecture Notes.
 </p>
 </div>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
