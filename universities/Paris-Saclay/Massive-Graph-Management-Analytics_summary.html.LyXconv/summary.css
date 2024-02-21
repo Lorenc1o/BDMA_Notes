@@ -198,6 +198,11 @@ table.multline, table.multline-star {width:100%;}
 td.gather {text-align:center; }
 table.gather {width:100%;}
 div.gather-star {text-align:center;}
+.uline{ text-decoration:underline; }
+.uuline{ text-decoration:underline; }
+span.sout {text-decoration: line-through }
+span.xout {text-decoration: line-through }
+span.uwave {text-decoration:underline }
 .lstlisting .label{margin-right:0.5em; }
 div.lstlisting{font-family: monospace,monospace; white-space: nowrap; margin-top:0.5em; margin-bottom:0.5em; }
 div.lstinputlisting{ font-family: monospace,monospace; white-space: nowrap; }
@@ -293,5 +298,204 @@ div.lstinputlisting{ font-family: monospace,monospace; white-space: nowrap; }
 #tcolobox-19 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 #tcolobox-20 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
 #tcolobox-20 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-21 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-21 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#tcolobox-22 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-22 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
+#TBL-25-1{border-left: 1px solid black;}
+#TBL-25-1{border-right:1px solid black;}
+#TBL-25-2{border-right:1px solid black;}
+#TBL-25-3{border-right:1px solid black;}
+#TBL-25-4{border-right:1px solid black;}
+#TBL-25-5{border-right:1px solid black;}
+#TBL-25-6{border-right:1px solid black;}
+#TBL-25-7{border-right:1px solid black;}
+#TBL-25-8{border-right:1px solid black;}
+#TBL-25-9{border-right:1px solid black;}
+#TBL-25-10{border-right:1px solid black;}
+#TBL-25-11{border-right:1px solid black;}
+#TBL-25-12{border-right:1px solid black;}
+#TBL-25-13{border-right:1px solid black;}
+#TBL-25-14{border-right:1px solid black;}
+#TBL-25-15{border-right:1px solid black;}
+#TBL-25-16{border-right:1px solid black;}
+#TBL-25-17{border-right:1px solid black;}
+#TBL-25-18{border-right:1px solid black;}
+#TBL-25-19{border-right:1px solid black;}
+#TBL-25-20{border-right:1px solid black;}
+#TBL-25-21{border-right:1px solid black;}
+#TBL-25-22{border-right:1px solid black;}
+#TBL-25-23{border-right:1px solid black;}
+#TBL-25-24{border-right:1px solid black;}
+#TBL-25-25{border-right:1px solid black;}
+#TBL-25-26{border-right:1px solid black;}
+#TBL-26-1{border-left: 1px solid black;}
+#TBL-26-1{border-right:1px solid black;}
+#TBL-26-2{border-right:1px solid black;}
+#TBL-26-3{border-right:1px solid black;}
+#TBL-26-4{border-right:1px solid black;}
+#TBL-26-5{border-right:1px solid black;}
+#TBL-26-6{border-right:1px solid black;}
+#TBL-26-7{border-right:1px solid black;}
+#TBL-26-8{border-right:1px solid black;}
+#TBL-27-1{border-left: 1px solid black;}
+#TBL-27-1{border-right:1px solid black;}
+#TBL-27-2{border-right:1px solid black;}
+#TBL-27-3{border-right:1px solid black;}
+#TBL-27-4{border-right:1px solid black;}
+#TBL-27-5{border-right:1px solid black;}
+#TBL-27-6{border-right:1px solid black;}
+#TBL-27-7{border-right:1px solid black;}
+#TBL-27-8{border-right:1px solid black;}
+#TBL-27-9{border-right:1px solid black;}
+#TBL-27-10{border-right:1px solid black;}
+#TBL-27-11{border-right:1px solid black;}
+#TBL-27-12{border-right:1px solid black;}
+#TBL-27-13{border-right:1px solid black;}
+#TBL-27-14{border-right:1px solid black;}
+#TBL-27-15{border-right:1px solid black;}
+#TBL-27-16{border-right:1px solid black;}
+#TBL-27-17{border-right:1px solid black;}
+#TBL-27-18{border-right:1px solid black;}
+#TBL-27-19{border-right:1px solid black;}
+#TBL-27-20{border-right:1px solid black;}
+#TBL-27-21{border-right:1px solid black;}
+#TBL-27-22{border-right:1px solid black;}
+#TBL-27-23{border-right:1px solid black;}
+#TBL-27-24{border-right:1px solid black;}
+#TBL-27-25{border-right:1px solid black;}
+#TBL-27-26{border-right:1px solid black;}
+span#textcolor1{color:#00FF00}
+span#textcolor2{color:#FF0000}
+span#textcolor3{color:#FF0000}
+span#textcolor4{color:#00FF00}
+#TBL-28-1{border-left: 1px solid black;}
+#TBL-28-1{border-right:1px solid black;}
+#TBL-28-2{border-right:1px solid black;}
+#TBL-28-3{border-right:1px solid black;}
+#TBL-28-4{border-right:1px solid black;}
+#TBL-28-5{border-right:1px solid black;}
+#TBL-28-6{border-right:1px solid black;}
+#TBL-28-7{border-right:1px solid black;}
+#TBL-28-8{border-right:1px solid black;}
+span#textcolor5{color:#FF0000}
+span#textcolor6{color:#FF0000}
+span#textcolor7{color:#00FF00}
+#TBL-29-1{border-left: 1px solid black;}
+#TBL-29-1{border-right:1px solid black;}
+#TBL-29-2{border-right:1px solid black;}
+span#textcolor8{color:#00FF00}
+span#textcolor9{color:#00FF00}
+#TBL-30-1{border-left: 1px solid black;}
+#TBL-30-1{border-right:1px solid black;}
+#TBL-30-2{border-right:1px solid black;}
+#TBL-30-3{border-right:1px solid black;}
+#TBL-30-4{border-right:1px solid black;}
+#TBL-30-5{border-right:1px solid black;}
+#TBL-30-6{border-right:1px solid black;}
+#TBL-30-7{border-right:1px solid black;}
+#TBL-30-8{border-right:1px solid black;}
+#TBL-30-9{border-right:1px solid black;}
+#TBL-30-10{border-right:1px solid black;}
+#TBL-30-11{border-right:1px solid black;}
+#TBL-30-12{border-right:1px solid black;}
+#TBL-30-13{border-right:1px solid black;}
+#TBL-30-14{border-right:1px solid black;}
+#TBL-30-15{border-right:1px solid black;}
+#TBL-30-16{border-right:1px solid black;}
+#TBL-30-17{border-right:1px solid black;}
+#TBL-30-18{border-right:1px solid black;}
+#TBL-30-19{border-right:1px solid black;}
+#TBL-30-20{border-right:1px solid black;}
+#TBL-30-21{border-right:1px solid black;}
+#TBL-30-22{border-right:1px solid black;}
+#TBL-30-23{border-right:1px solid black;}
+#TBL-30-24{border-right:1px solid black;}
+#TBL-30-25{border-right:1px solid black;}
+#TBL-30-26{border-right:1px solid black;}
+span#textcolor10{color:#000000}
+span#textcolor11{color:#000000}
+span#textcolor12{color:#00FF00}
+span#textcolor13{color:#FF0000}
+span#textcolor14{color:#FF0000}
+span#textcolor15{color:#000000}
+span#textcolor16{color:#00FF00}
+#TBL-31-1{border-left: 1px solid black;}
+#TBL-31-1{border-right:1px solid black;}
+#TBL-31-2{border-right:1px solid black;}
+#TBL-31-3{border-right:1px solid black;}
+#TBL-31-4{border-right:1px solid black;}
+#TBL-31-5{border-right:1px solid black;}
+#TBL-31-6{border-right:1px solid black;}
+#TBL-31-7{border-right:1px solid black;}
+#TBL-31-8{border-right:1px solid black;}
+span#textcolor17{color:#FF0000}
+span#textcolor18{color:#FF0000}
+span#textcolor19{color:#00FF00}
+span#textcolor20{color:#00FF00}
+#TBL-32-1{border-left: 1px solid black;}
+#TBL-32-1{border-right:1px solid black;}
+#TBL-32-2{border-right:1px solid black;}
+#TBL-32-3{border-right:1px solid black;}
+span#textcolor21{color:#00FF00}
+span#textcolor22{color:#00FF00}
+#TBL-33-1{border-left: 1px solid black;}
+#TBL-33-1{border-right:1px solid black;}
+#TBL-33-2{border-right:1px solid black;}
+#TBL-33-3{border-right:1px solid black;}
+#TBL-33-4{border-right:1px solid black;}
+#TBL-33-5{border-right:1px solid black;}
+#TBL-33-6{border-right:1px solid black;}
+#TBL-33-7{border-right:1px solid black;}
+#TBL-33-8{border-right:1px solid black;}
+#TBL-33-9{border-right:1px solid black;}
+#TBL-33-10{border-right:1px solid black;}
+#TBL-33-11{border-right:1px solid black;}
+#TBL-33-12{border-right:1px solid black;}
+#TBL-33-13{border-right:1px solid black;}
+#TBL-33-14{border-right:1px solid black;}
+#TBL-33-15{border-right:1px solid black;}
+#TBL-33-16{border-right:1px solid black;}
+#TBL-33-17{border-right:1px solid black;}
+#TBL-33-18{border-right:1px solid black;}
+#TBL-33-19{border-right:1px solid black;}
+#TBL-33-20{border-right:1px solid black;}
+#TBL-33-21{border-right:1px solid black;}
+#TBL-33-22{border-right:1px solid black;}
+#TBL-33-23{border-right:1px solid black;}
+#TBL-33-24{border-right:1px solid black;}
+#TBL-33-25{border-right:1px solid black;}
+#TBL-33-26{border-right:1px solid black;}
+span#textcolor23{color:#000000}
+span#textcolor24{color:#000000}
+span#textcolor25{color:#000000}
+span#textcolor26{color:#00FF00}
+span#textcolor27{color:#FF0000}
+span#textcolor28{color:#FF0000}
+span#textcolor29{color:#000000}
+span#textcolor30{color:#000000}
+span#textcolor31{color:#000000}
+span#textcolor32{color:#00FF00}
+#TBL-34-1{border-left: 1px solid black;}
+#TBL-34-1{border-right:1px solid black;}
+#TBL-34-2{border-right:1px solid black;}
+#TBL-34-3{border-right:1px solid black;}
+#TBL-34-4{border-right:1px solid black;}
+#TBL-34-5{border-right:1px solid black;}
+#TBL-34-6{border-right:1px solid black;}
+#TBL-34-7{border-right:1px solid black;}
+#TBL-34-8{border-right:1px solid black;}
+span#textcolor33{color:#FF0000}
+span#textcolor34{color:#FF0000}
+span#textcolor35{color:#00FF00}
+#TBL-35-1{border-left: 1px solid black;}
+#TBL-35-1{border-right:1px solid black;}
+#TBL-35-2{border-right:1px solid black;}
+#TBL-35-3{border-right:1px solid black;}
+#TBL-35-4{border-right:1px solid black;}
+span#textcolor36{color:#00FF00}
+span#textcolor37{color:#00FF00}
+#tcolobox-23 .tcolorbox-title{color: #FFFFFF; background-color: #404040;}
+#tcolobox-23 .tcolorbox-content{color: #000000; background-color: #F2F2F2; border: 1px solid #404040;}
 /* end css.sty */
 
