@@ -15177,6 +15177,406 @@ This algorithm is widely used for large networks, because it is efficient
 \end_layout
 
 \begin_layout Standard
+In more precise terms,
+\series bold
+ 
+\series default
+the 
+\series bold
+phase 1
+\series default
+ goes as follows: what is 
+\begin_inset Formula $\Delta Q$
+\end_inset
+
+ if we move a node 
+\begin_inset Formula $v$
+\end_inset
+
+ from 
+\begin_inset Formula $C_{J}$
+\end_inset
+
+ to 
+\begin_inset Formula $C_{I}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\Delta Q_{C_{J}\overset{v}{\rightarrow}C_{I}}=\Delta Q_{C_{J}\setminus\left\{ v\right\} }+\Delta Q_{C_{I}\cup\left\{ v\right\} }.
+\]
+
+\end_inset
+
+ But how can we derive 
+\begin_inset Formula $\Delta Q_{C_{I}\cup\left\{ v\right\} }$
+\end_inset
+
+? The key here is that the gain in modularity does not depend on the original
+ community of 
+\begin_inset Formula $v$
+\end_inset
+
+.
+ It can easily be computed by moving an isolated node 
+\begin_inset Formula $v$
+\end_inset
+
+ into 
+\begin_inset Formula $C_{I}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\Delta Q_{C_{I}\cup\left\{ v\right\} }=Q_{C_{I}\cup\left\{ v\right\} }-\left[Q_{C_{I}}+Q_{\left\{ v\right\} }\right],
+\]
+
+\end_inset
+
+ and therefore
+\begin_inset Formula 
+\[
+\Delta Q_{C_{J}\cup\left\{ v\right\} }=\left[\frac{\sum_{in}+2\cdot d_{v,in}}{2m}-\left(\frac{\sum_{in+out}+d_{v}}{2m}\right)^{2}\right]-\left[\frac{\sum_{in}}{2m}-\left(\frac{\sum_{in+out}}{2m}\right)^{2}-\left(\frac{d_{v}}{2m}\right)^{2}\right].
+\]
+
+\end_inset
+
+ On the other side, 
+\begin_inset Formula 
+\[
+\Delta Q_{C_{J}\setminus\left\{ v\right\} }=\left[Q_{C_{J}\setminus\left\{ v\right\} }+Q_{\left\{ v\right\} }\right]-Q_{C_{J}},
+\]
+
+\end_inset
+
+ so
+\begin_inset Formula 
+\[
+\Delta Q_{C_{J}\setminus\left\{ v\right\} }=\left[\frac{\sum_{in}-2\cdot d_{v,in}}{2m}-\left(\frac{\sum_{in+out}-d_{v}}{2m}\right)^{2}-\left(\frac{d_{v}}{2m}\right)^{2}\right]-\left[\frac{\sum_{in}}{2m}-\left(\frac{\sum_{in+out}}{2m}\right)^{2}\right].
+\]
+
+\end_inset
+
+ Therefore, the gain only depends on 
+\begin_inset Formula $d_{v,in}$
+\end_inset
+
+ and 
+\begin_inset Formula $C$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The complete algorithm is:
+\end_layout
+
+\begin_layout Enumerate
+For each node 
+\begin_inset Formula $v$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute modularity gain from removing 
+\begin_inset Formula $v$
+\end_inset
+
+ from its community and placing it in the community of its neighbours.
+\end_layout
+
+\begin_layout Enumerate
+Place 
+\begin_inset Formula $v$
+\end_inset
+
+ in the community that maximizes 
+\begin_inset Formula $\Delta Q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+One iteration is achieved for all the nodes in a sequential manner.
+\end_layout
+
+\begin_layout Enumerate
+Repeat the procedure sequentially to all nodes until no more improvement
+ (local maximum of modularity).
+\end_layout
+
+\begin_layout Enumerate
+The output of this phase depends on the order in which nodes are considered.
+ Research shows that this does not significantly affect the overall modularity.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Nodes from communities are grouped into super nodes.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Links between nodes of the same community 
+\begin_inset Formula $c$
+\end_inset
+
+ are represented by self-loops weighted by adding up the links between these
+ nodes: 
+\begin_inset Formula $c$
+\end_inset
+
+ has a loop edge with weight 
+\begin_inset Formula 
+\[
+w=\sum_{v_{i},v_{j}\in c}A_{i,j}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Links between communities are weighted by adding up the links between community'
+s nodes.
+ Each 
+\begin_inset Formula $\left(c_{i},c_{j}\right)$
+\end_inset
+
+ has a link with weight
+\begin_inset Formula 
+\[
+w=\sum_{v_{i}\in c_{i},v_{j}\in c_{j}}A_{i,j}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Walktrap Approach
+\end_layout
+
+\begin_layout Standard
+This other approach is based on random walks.
+ The idea is to consider a random walk on a graph, in which at each time
+ step, we move to neighbours uniformly at random:
+\begin_inset Formula 
+\[
+P_{ij}=\frac{A_{ij}}{d_{i}},\ P=D^{-1}A,
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula $P_{ij}^{t}$
+\end_inset
+
+ represents the probability to get from 
+\begin_inset Formula $i$
+\end_inset
+
+ to 
+\begin_inset Formula $j$
+\end_inset
+
+ in 
+\begin_inset Formula $t$
+\end_inset
+
+ steps.
+\end_layout
+
+\begin_layout Standard
+We would think that two nodes 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ that lie in the same community should have a high 
+\begin_inset Formula $P_{ij}^{t}$
+\end_inset
+
+, as well as similar 
+\begin_inset Formula $P_{ik}^{t}\sim P_{jk}^{t}$
+\end_inset
+
+, for different 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Therefore, we can define a distance (or similarity) between nodes, as
+\begin_inset Formula 
+\[
+r_{ij}\left(t\right)=\sqrt{\sum_{k=1}^{n}\frac{\left(P_{ik}^{t}-P_{jk}^{t}\right)^{2}}{d_{k}}}=\left\Vert D^{-\frac{1}{2}}P_{i}^{t}-D^{-\frac{1}{2}}P_{j}^{t}\right\Vert .
+\]
+
+\end_inset
+
+ In addition, we approximate the computation by
+\begin_inset Formula 
+\[
+P_{ik}^{t}\sim\frac{N_{ik}}{N_{i}},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $N_{ik}$
+\end_inset
+
+ is the number of walks starting at 
+\begin_inset Formula $i$
+\end_inset
+
+ and passing through 
+\begin_inset Formula $k$
+\end_inset
+
+, and 
+\begin_inset Formula $N_{i}$
+\end_inset
+
+ is the number of walks starting from 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The approach goes as follows:
+\end_layout
+
+\begin_layout Enumerate
+Assign each node to its own community.
+\end_layout
+
+\begin_layout Enumerate
+Compute the distance between adjacent nodes, 
+\begin_inset Formula $r_{ij}\left(t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Choose the two closest communities and merge them.
+\end_layout
+
+\begin_layout Enumerate
+Update the distance between communities, as
+\begin_inset Formula 
+\[
+r_{c_{1},c_{2}}\left(t\right)=\sqrt{\sum_{k=1}^{n}\frac{\left(P_{c_{1}k}^{t}-P_{c_{2}k}^{t}\right)^{2}}{d_{k}}}=\left\Vert D^{-\frac{1}{2}}P_{c_{1}}^{t}-D^{-\frac{1}{2}}P_{c_{2}}^{t}\right\Vert ,
+\]
+
+\end_inset
+
+ where
+\begin_inset Formula 
+\[
+P_{ck}^{t}=\frac{1}{\left|c\right|}\sum_{i\in c}P_{ik}^{t}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Finish when there is only one community.
+\end_layout
+
+\begin_layout Subsubsection
+Girvan-Newman Approach
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Edge betweenness
+\series default
+ of 
+\begin_inset Formula $e$
+\end_inset
+
+ is the fraction of shortest paths between all nodes 
+\begin_inset Formula $s$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+ going through edge 
+\begin_inset Formula $e$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+ebt\left(e\right)=\sum_{s\neq t}\frac{n_{s,t}^{e}}{n_{s,t}}.
+\]
+
+\end_inset
+
+ In this case, we focus on edges that connect communities, and construct
+ them by progressively removing edges with the highest betweenness value.
+ It goes as:
+\end_layout
+
+\begin_layout Enumerate
+For all 
+\begin_inset Formula $e\in E$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute 
+\begin_inset Formula $ebt\left(e\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Remove the edge 
+\begin_inset Formula $e$
+\end_inset
+
+ with largets 
+\begin_inset Formula $ebt\left(e\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Repeat until all edges are gone.
+ Stop when it splits in 2 components.
+ The output is a dendogram.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
