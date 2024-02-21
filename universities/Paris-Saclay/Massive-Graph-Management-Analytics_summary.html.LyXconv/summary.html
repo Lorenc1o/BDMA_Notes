@@ -3354,8 +3354,165 @@ communities. A sample visualization is the following:
 <!--l. 4128--><p class="noindent">
 <!--l. 4129--><p class="noindent"><img alt="PIC" src="43_home_runner_work_BDMA_Notes_BDMA_Notes_Paris___ment-Analytics_LectureNotes_source_pegado25.png"/>
 </p></p></div>
-<!--l. 4132--><p class="noindent">
-<h3 class="likesectionHead"><a id="x1-560007.3.2"></a>References</h3>
+<!--l. 4132--><p class="noindent">In more precise terms, the <span class="ecbx-1000">phase 1 </span>goes as follows: what is <span class="cmr-10">Δ</span><span class="cmmi-10">Q </span>if we move a node <span class="cmmi-10">v </span>from <span class="cmmi-10">C</span><sub><span class="cmmi-7">J</span></sub> to <span class="cmmi-10">C</span><sub><span class="cmmi-7">I</span></sub>:
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="ΔQCJ  v→CI = ΔQCJ \{v} + ΔQCI ∪{v}.
+" class="math-display" src="summary508x.png"/></div>
+<!--l. 4137--><p class="noindent">But how can we derive <span class="cmr-10">Δ</span><span class="cmmi-10">Q</span><sub><span class="cmmi-7">C</span><sub><span class="cmmi-5">I</span></sub><span class="cmsy-7">∪</span><img align="middle" alt="{v}" class="left" src="summary509x.png"/></sub>? The key here is that the gain in modularity does not depend on the original
+community of <span class="cmmi-10">v</span>. It can easily be computed by moving an isolated node <span class="cmmi-10">v </span>into <span class="cmmi-10">C</span><sub><span class="cmmi-7">I</span></sub>:
+<div class="math-display">
+<img alt="                    [         ]
+ΔQCI ∪{v} = QCI∪{v} - QCI +Q {v},
+" class="math-display" src="summary510x.png"/></div>
+<!--l. 4144--><p class="noindent">and therefore
+<div class="math-display">
+<img alt="           [∑             ( ∑          )2]  [ ∑     ( ∑      )2  (    )2]
+ΔQC  ∪{v} =  --in+2-⋅dv,in-   --in+out+dv-    -  --in--   --in+out  -   dv-    .
+    J            2m             2m            2m        2m         2m
+" class="math-display" src="summary511x.png"/></div>
+<!--l. 4148--><p class="noindent">On the other side,
+<div class="math-display">
+<img alt="           [             ]
+ΔQCJ \{v} =  QCJ\{v} + Q{v} - QCJ,
+" class="math-display" src="summary512x.png"/></div>
+<!--l. 4152--><p class="noindent">so
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="           [∑             ( ∑          )2  (    )2]  [ ∑     ( ∑      )2]
+ΔQ       =  --in- 2-⋅dv,in--  --in+out--dv-  -   dv-   -   --in--   --in+out   .
+   CJ\{v}        2m              2m           2m        2m        2m
+" class="math-display" src="summary513x.png"/></div>
+<!--l. 4156--><p class="noindent">Therefore, the gain only depends on <span class="cmmi-10">d</span><sub><span class="cmmi-7">v,in</span></sub> and <span class="cmmi-10">C</span>.
+<!--l. 4158--><p class="noindent">The complete algorithm is:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-55010x1">
+<!--l. 4160--><p class="noindent">For each node <span class="cmmi-10">v</span>:
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-55012x1">
+<!--l. 4162--><p class="noindent">Compute modularity gain from removing <span class="cmmi-10">v </span>from its community and placing it in the community of
+         its neighbours.
+         </p></li>
+<li class="enumerate" id="x1-55014x2">
+<!--l. 4164--><p class="noindent">Place <span class="cmmi-10">v </span>in the community that maximizes <span class="cmr-10">Δ</span><span class="cmmi-10">Q</span>.
+         </p></li>
+<li class="enumerate" id="x1-55016x3">
+<!--l. 4165--><p class="noindent">One iteration is achieved for all the nodes in a sequential manner.
+         </p></li>
+<li class="enumerate" id="x1-55018x4">
+<!--l. 4166--><p class="noindent">Repeat  the  procedure  sequentially  to  all  nodes  until  no  more  improvement  (local  maximum  of
+         modularity).
+         </p></li>
+<li class="enumerate" id="x1-55020x5">
+<!--l. 4168--><p class="noindent">The output of this phase depends on the order in which nodes are considered. Research shows that
+         this does not significantly affect the overall modularity.</p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-55022x2">
+<!--l. 4172--><p class="noindent">Nodes from communities are grouped into super nodes.
+         <ol class="enumerate2">
+<li class="enumerate" id="x1-55024x1">
+<!--l. 4174--><p class="noindent">Links between nodes of the same community <span class="cmmi-10">c </span>are represented by self-loops weighted by adding up
+         the links between these nodes: <span class="cmmi-10">c </span>has a loop edge with weight
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="     ∑
+w =       Ai,j.
+    vi,vj∈c
+" class="math-display" src="summary514x.png"/></div>
+</p></li>
+<li class="enumerate" id="x1-55026x2">
+<!--l. 4180--><p class="noindent">Links between communities are weighted by adding up the links between community’s nodes. Each
+         <img align="middle" alt="(ci,cj)" class="left" src="summary515x.png"/> has a link with weight
+<div class="math-display">
+<img alt="      ∑
+w =         Ai,j.
+    vi∈ci,vj∈cj
+" class="math-display" src="summary516x.png"/></div>
+</p></li></ol>
+</p></li></ol>
+<!--l. 4189--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">7.3.3   </span> <a id="x1-560007.3.3"></a>Walktrap Approach</h5>
+<!--l. 4191--><p class="noindent">This other approach is based on random walks. The idea is to consider a random walk on a graph, in which at each time
+step, we move to neighbours uniformly at random:
+<div class="math-display">
+<img alt="     Aij
+Pij =-d-, P = D -1A,
+       i
+" class="math-display" src="summary517x.png"/></div>
+<!--l. 4197--><p class="noindent">and <span class="cmmi-10">P</span><sub><span class="cmmi-7">ij</span></sub><sup><span class="cmmi-7">t</span></sup> represents the probability to get from <span class="cmmi-10">i </span>to <span class="cmmi-10">j </span>in <span class="cmmi-10">t </span>steps.
+<!--l. 4200--><p class="noindent">We would think that two nodes <span class="cmmi-10">i </span>and <span class="cmmi-10">j </span>that lie in the same community should have a high <span class="cmmi-10">P</span><sub><span class="cmmi-7">ij</span></sub><sup><span class="cmmi-7">t</span></sup>, as well as
+similar <span class="cmmi-10">P</span><sub><span class="cmmi-7">ik</span></sub><sup><span class="cmmi-7">t</span></sup> <span class="cmsy-10">~ </span><span class="cmmi-10">P</span><sub><span class="cmmi-7">jk</span></sub><sup><span class="cmmi-7">t</span></sup>, for different <span class="cmmi-10">k</span>. Therefore, we can define a distance (or similarity) between nodes,
+as
+                                                                                            
+                                                                                            
+<div class="math-display">
+<img alt="       ┌ ---------------
+       ││  n (P t - Pt)2   ∥               ∥
+rij(t) = │∘ ∑ ---ik----jk---= ∥∥D - 12P t- D- 12Pt∥∥.
+         k=1     dk             i        j
+" class="math-display" src="summary518x.png"/></div>
+<!--l. 4207--><p class="noindent">In addition, we approximate the computation by
+<div class="math-display">
+<img alt="P t~  Nik,
+ ik   Ni
+" class="math-display" src="summary519x.png"/></div>
+<!--l. 4211--><p class="noindent">where <span class="cmmi-10">N</span><sub><span class="cmmi-7">ik</span></sub> is the number of walks starting at <span class="cmmi-10">i </span>and passing through <span class="cmmi-10">k</span>, and <span class="cmmi-10">N</span><sub><span class="cmmi-7">i</span></sub> is the number of walks starting from
+<span class="cmmi-10">i</span>.
+<!--l. 4214--><p class="noindent">The approach goes as follows:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-56002x1">
+<!--l. 4216--><p class="noindent">Assign each node to its own community.
+     </p></li>
+<li class="enumerate" id="x1-56004x2">
+<!--l. 4217--><p class="noindent">Compute the distance between adjacent nodes, <span class="cmmi-10">r</span><sub><span class="cmmi-7">ij</span></sub><img align="middle" alt="(t)" class="left" src="summary520x.png"/>.
+     </p></li>
+<li class="enumerate" id="x1-56006x3">
+<!--l. 4218--><p class="noindent">Choose the two closest communities and merge them.
+     </p></li>
+<li class="enumerate" id="x1-56008x4">
+<!--l. 4219--><p class="noindent">Update the distance between communities, as
+<div class="math-display">
+<img alt="         ┌ ----------------
+         ││ ∑n (Pctk - Pctk)2 ∥∥   1        1   ∥∥
+rc1,c2 (t) = ∘  ---1-d---2---= ∥D -2Pct1 - D -2P tc2∥,
+           k=1      k
+" class="math-display" src="summary521x.png"/></div>
+<!--l. 4223--><p class="noindent">where
+<div class="math-display">
+<img alt="Pt = -1 ∑  Pt.
+ ck  |c|i∈c ik
+" class="math-display" src="summary522x.png"/></div>
+</p></p></li>
+<li class="enumerate" id="x1-56010x5">
+<!--l. 4227--><p class="noindent">Finish when there is only one community.</p></li></ol>
+<!--l. 4230--><p class="noindent">
+<h5 class="subsubsectionHead"><span class="titlemark">7.3.4   </span> <a id="x1-570007.3.4"></a>Girvan-Newman Approach</h5>
+<!--l. 4232--><p class="noindent"><span class="ecbx-1000">Edge betweenness </span>of <span class="cmmi-10">e </span>is the fraction of shortest paths between all nodes <span class="cmmi-10">s </span>and <span class="cmmi-10">t </span>going through edge
+<span class="cmmi-10">e</span>:
+<div class="math-display">
+<img alt="       ∑  nes,t
+ebt(e) =   ns,t.
+       s⁄=t
+" class="math-display" src="summary523x.png"/></div>
+<!--l. 4237--><p class="noindent">In this case, we focus on edges that connect communities, and construct them by progressively removing edges with the
+highest betweenness value. It goes as:
+     <ol class="enumerate1">
+<li class="enumerate" id="x1-57002x1">
+<!--l. 4241--><p class="noindent">For all <span class="cmmi-10">e </span><span class="cmsy-10">∈ </span><span class="cmmi-10">E</span>
+<ol class="enumerate2">
+<li class="enumerate" id="x1-57004x1">
+<!--l. 4243--><p class="noindent">Compute <span class="cmmi-10">ebt</span><img align="middle" alt="(e)" class="left" src="summary524x.png"/>
+</p></li>
+<li class="enumerate" id="x1-57006x2">
+<!--l. 4244--><p class="noindent">Remove the edge <span class="cmmi-10">e </span>with largets <span class="cmmi-10">ebt</span><img align="middle" alt="(e)" class="left" src="summary525x.png"/></p></li></ol>
+</p></li>
+<li class="enumerate" id="x1-57008x2">
+<!--l. 4246--><p class="noindent">Repeat until all edges are gone. Stop when it splits in 2 components. The output is a dendogram.</p></li></ol>
+<!--l. 4249--><p class="noindent">
+<h3 class="likesectionHead"><a id="x1-580007.3.4"></a>References</h3>
 <!--l. 1--><p class="noindent">
 <div class="thebibliography">
 <p class="bibitem"><span class="biblabel">
@@ -3370,4 +3527,4 @@ communities. A sample visualization is the following:
  [3]<span class="bibsp">   </span></span><a id="XSeghouani2023"></a>NacÃ<span class="tcrm-1000">©</span>ra Seghouani. Massive graph management and analytics. Lecture Notes.
 </p>
 </div>
-</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></body></html>
