@@ -1,8 +1,8 @@
 % Encoding: UTF-8
 
-@Unpublished{Seghouani2023,
-  author = {Seghouani, Nacéra},
-  title  = {Massive Graph Management and Analytics},
+@Unpublished{Mayag2023,
+  author = {Mayag, Brice},
+  title  = {Decision Modeling},
   note   = {Lecture Notes},
 }
 
@@ -38,30 +38,6 @@
   pages     = {386--408},
   doi       = {10.1037/h0042519},
   publisher = {American Psychological Association ({APA})},
-}
-
-@Misc{leskovec2008community,
-  author        = {Jure Leskovec and Kevin J. Lang and Anirban Dasgupta and Michael W. Mahoney},
-  title         = {Community Structure in Large Networks: Natural Cluster Sizes and the Absence of Large Well-Defined Clusters},
-  year          = {2008},
-  archiveprefix = {arXiv},
-  eprint        = {0810.1355},
-  primaryclass  = {cs.DS},
-}
-
-@Article{Palla2005,
-  author   = {Palla, Gergely and Derényi, Imre and Farkas, Illés and Vicsek, Tamás},
-  title    = {Uncovering the overlapping community structure of complex networks in nature and society},
-  journal  = {Nature},
-  year     = {2005},
-  volume   = {435},
-  number   = {7043},
-  pages    = {814--818},
-  issn     = {1476-4687},
-  abstract = {A network is a network — be it between words (those associated with ‘bright’ in this case) or protein structures.},
-  date     = {2005/06/01},
-  doi      = {10.1038/nature03607},
-  url      = {https://doi.org/10.1038/nature03607},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

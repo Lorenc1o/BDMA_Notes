@@ -15118,9 +15118,7 @@ Note that if there is only one community, then
 \end_layout
 
 \begin_layout Standard
-Now, finding the optimal value for modularity is impractical, because it
- needs to go through all possible combinations of the nodes into communities,
- and so the 
+Now, the 
 \series bold
 Louvain method
 \series default
@@ -15146,36 +15144,10 @@ The identified communities are aggregated into super-nodes, to build a new
 
 \begin_deeper
 \begin_layout Enumerate
-This phase is repeated until there is only one super node, the whole graph.
+This phase is repeated until there is only one super node, the whole graph
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-This algorithm is widely used for large networks, because it is efficient
- and produces high dense communities.
- It has a complexity of 
-\begin_inset Formula $O\left(n\log n\right)$
-\end_inset
-
- in time, and can be used on weighted graphs.
- In addition, it provides hierarchical communities, allowing us to define
- the level of detail of the communities, and also to obtain subcommunities
- within communities.
- A sample visualization is the following:
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Graphics
-	filename pegado25.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
