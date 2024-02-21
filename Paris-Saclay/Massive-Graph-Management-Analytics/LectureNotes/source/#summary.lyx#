@@ -15482,11 +15482,1129 @@ Choose the two closest communities and merge them.
 Update the distance between communities, as
 \begin_inset Formula 
 \[
-r_{c_{1},c_{2}}\left(t\right)=\sqrt{\sum_{k=1}^{n}\frac{\left(P_{c_{1}k}^{t}-P\right)}{}}
+r_{c_{1},c_{2}}\left(t\right)=\sqrt{\sum_{k=1}^{n}\frac{\left(P_{c_{1}k}^{t}-P_{c_{2}k}^{t}\right)^{2}}{d_{k}}}=\left\Vert D^{-\frac{1}{2}}P_{c_{1}}^{t}-D^{-\frac{1}{2}}P_{c_{2}}^{t}\right\Vert ,
 \]
 
 \end_inset
 
+ where
+\begin_inset Formula 
+\[
+P_{ck}^{t}=\frac{1}{\left|c\right|}\sum_{i\in c}P_{ik}^{t}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Finish when there is only one community.
+\end_layout
+
+\begin_layout Subsubsection
+Girvan-Newman Approach
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Edge betweenness
+\series default
+ of 
+\begin_inset Formula $e$
+\end_inset
+
+ is the fraction of shortest paths between all nodes 
+\begin_inset Formula $s$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+ going through edge 
+\begin_inset Formula $e$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+ebt\left(e\right)=\sum_{s\neq t}\frac{n_{s,t}^{e}}{n_{s,t}}.
+\]
+
+\end_inset
+
+ In this case, we focus on edges that connect communities, and construct
+ them by progressively removing edges with the highest betweenness value.
+ It goes as:
+\end_layout
+
+\begin_layout Enumerate
+For all 
+\begin_inset Formula $e\in E$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute 
+\begin_inset Formula $ebt\left(e\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Remove the edge 
+\begin_inset Formula $e$
+\end_inset
+
+ with largets 
+\begin_inset Formula $ebt\left(e\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Repeat until all edges are gone.
+ Stop when it splits in 2 components.
+ The output is a dendogram.
+\end_layout
+
+\begin_layout Section
+Models of Influence and Diffusion
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+B.
+ Ryan and N.
+ Gross published 
+\emph on
+Acceptance and Diffusion of Hybrid Corn Seed in two communities
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RyanGross1943"
+literal "false"
+
+\end_inset
+
+ in 1943.
+ In this paper, they studied the information effect and the adoption of
+ technology between 1924 and 1940.
+ They found out that:
+\end_layout
+
+\begin_layout Itemize
+The diffusion pattern was made up of three periods:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Long period of slow initial growth
+\end_layout
+
+\begin_layout Enumerate
+Rapid rise in adoption
+\end_layout
+
+\begin_layout Enumerate
+Brief decline as the most resistant adopters accepted the new technology
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+They classified the different subjects as innovators, early adopters, early
+ majority, late majority, and laggards.
+\end_layout
+
+\begin_layout Standard
+This information is shown here:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado26.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This idea has been studied multiple times in different areas:
+\end_layout
+
+\begin_layout Itemize
+Studying and modelling the spread of beliefs or ideas or informaiton (rumours,
+ news) or virus.
+ This represents an active research area in fields like economics, epidemiology,
+ social science,...
+\end_layout
+
+\begin_layout Itemize
+Influence models have been studied for uears:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Original mathematical models: Schelling and Granovetter
+\end_layout
+
+\begin_layout Itemize
+Viral marketing strategies modelled by Domingos and Richardson
+\end_layout
+
+\begin_layout Itemize
+Network coordination games
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Studying diseases or contagions.
+ The most commonly used epidemic models are the SIR (Susceptible-Infected-Recove
+red) and the SIS (Susceptible-Infected-Susceptible).
+\end_layout
+
+\begin_layout Itemize
+Influence of the social environment on health: behaviors such as eating,
+ practicing physical activities, drug use and seeking medical follow up.
+\end_layout
+
+\begin_layout Subsubsection
+Compartmental Models in Epidemiology
+\end_layout
+
+\begin_layout Standard
+General models for infectuous diseases from human to human have been modeled
+ since the Spanish flu in 1918.
+ Relevant applications have been to SIDA and more recently to COVID 19.
+\end_layout
+
+\begin_layout Standard
+The epidemiological models are based on 2 concepts:
+\end_layout
+
+\begin_layout Itemize
+There are compartments to divide individuals
+\end_layout
+
+\begin_layout Itemize
+Rules specify the rate of transition between compartments, like the force
+ of infection.
+\end_layout
+
+\begin_layout Standard
+There are variants with or without the dynamics of birth and death, immunity
+ periods, etc
+\end_layout
+
+\begin_layout Standard
+SIR is the simplest predictive model, and recovery confers lasting resistance,
+ with death being negligible.
+ The three compartments are:
+\end_layout
+
+\begin_layout Itemize
+S: number of susceptible individuals.
+ When a susceptible and an infectious individual come into contact, the
+ susceptible individual contracts the disease and transitions to the infectious
+ compartment.
+\end_layout
+
+\begin_layout Itemize
+I: number of infectious individuals.
+\end_layout
+
+\begin_layout Itemize
+R: number of removed and immune individuals.
+ Also called recovered or resistant.
+\end_layout
+
+\begin_layout Standard
+Now, 
+\begin_inset Formula $S\left(t\right),I\left(t\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $R\left(t\right)$
+\end_inset
+
+ are functions defined to study the dynamic in a short infectious period.
+ Let's define the rest of the variables:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $N$
+\end_inset
+
+ is the total population.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta$
+\end_inset
+
+ is the average number of contacts per person per time.
+\end_layout
+
+\begin_layout Itemize
+Therefore, 
+\begin_inset Formula $\frac{\beta}{N}$
+\end_inset
+
+ is the transmission parameter.
+\end_layout
+
+\begin_layout Itemize
+The transition rate between I and R, 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, represents the rate at which individuals recover from the disease.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\frac{dI}{dt}$
+\end_inset
+
+ is the incidence in terms of infections.
+\end_layout
+
+\begin_layout Itemize
+We impose that the population remains constant:
+\begin_inset Formula 
+\[
+\frac{dS}{dt}+\frac{dI}{dt}+\frac{dR}{dt}=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The SIR system can be expresed using the following differential equation
+ system:
+\begin_inset Formula 
+\[
+\begin{cases}
+\frac{dS}{dt}=-\frac{\beta}{N}\cdot S\cdot I\\
+\frac{dI}{dt}=\frac{\beta}{N}\cdot S\cdot I-\gamma I\\
+\frac{dR}{dt}=-\gamma I
+\end{cases}
+\]
+
+\end_inset
+
+ The 
+\series bold
+Gillespie algorithm
+\series default
+ is used to simulate chemical or biochemical systems.
+ It is a stochastic simulator algorithm that generates a statistically correct
+ trajectory of a stochastic equation system for which the reaction rates
+ are known.
+\end_layout
+
+\begin_layout Standard
+The SIR model has many variants, that have been developed over the years:
+\end_layout
+
+\begin_layout Itemize
+Models without immunity after recovery (SIS).
+ This tries to model illnesses like the common cold, which does not confer
+ any long-lasting immunity.
+\end_layout
+
+\begin_layout Itemize
+Immunity lasts only for a short period of time (SIRS).
+\end_layout
+
+\begin_layout Itemize
+There exists a latent period of the disease (Exposed), where the person
+ is not yet infectious (SEIS or SEIR).
+\end_layout
+
+\begin_layout Itemize
+Infants can be born with maternally derived immunity (MSIR).
+\end_layout
+
+\begin_layout Itemize
+Model differentiates between Recovered and Deceased (SIRD).
+\end_layout
+
+\begin_layout Itemize
+Vaccinated susceptible population (SIRV).
+\end_layout
+
+\begin_layout Subsubsection
+Challenges in Social Networks
+\end_layout
+
+\begin_layout Standard
+Diffusion models are used to identify the way information is transmitted
+ in a network.
+ So:
+\end_layout
+
+\begin_layout Itemize
+How to model the information diffusion process in a social network?
+\end_layout
+
+\begin_layout Itemize
+How to identify the influencers (nodes which transmit more information)?
+ Which kind of graph-based measures can be used?
+\end_layout
+
+\begin_layout Itemize
+How to maximise the influence?
+\end_layout
+
+\begin_layout Itemize
+How to minimise or stop the influence (which links to remove)?
+\end_layout
+
+\begin_layout Standard
+From the computer science perspective, we need to develop fast and efficient
+ algorithms on large networks.
+\end_layout
+
+\begin_layout Subsection
+Influence and Diffusion Models
+\end_layout
+
+\begin_layout Standard
+These can be 
+\series bold
+probabilistic models
+\series default
+.
+ The probability that someone becomes activated based on its activated 
+\begin_inset Formula $n$
+\end_inset
+
+ neighbours is
+\begin_inset Formula 
+\[
+P\left(n\right)=1-\left(1-p\right)^{n},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $p$
+\end_inset
+
+ is the activation probability of a neihbour and 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of activated neighbours.
+ The intuition here is that the more neighbours are activated, the higher
+ probability that you will become activated.
+\end_layout
+
+\begin_layout Standard
+But they can also be 
+\series bold
+threshold models
+\series default
+.
+ In this case, nothing happens until the threshold is reached:
+\begin_inset Formula 
+\[
+P\left(b\right)=\delta\left(b>b\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In both cases, the main idea is to define a diffusion process on the network,
+ originating from a set seed 
+\begin_inset Formula $S$
+\end_inset
+
+.
+ The expected number of activated nodes at the end is the influence of 
+\begin_inset Formula $S$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma\left(S\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The network is represented as a directed graph, 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, where individual ndoes are active or inactive.
+ The process is thus defined as:
+\end_layout
+
+\begin_layout Itemize
+Start with initial set of active seed nodes, 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Run 
+\begin_inset Formula $t$
+\end_inset
+
+ steps and finish when there are no more possible activations.
+\end_layout
+
+\begin_layout Subsubsection
+Independent Cascade Model
+\end_layout
+
+\begin_layout Standard
+In the cascade model, when node 
+\begin_inset Formula $u$
+\end_inset
+
+ becomes active, it is given a single chance to activate each currently
+ inactive neighbour 
+\begin_inset Formula $v$
+\end_inset
+
+, with a probability of success of 
+\begin_inset Formula $p_{u,v}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This probability is independent of the history.
+ If 
+\begin_inset Formula $u$
+\end_inset
+
+ succeeds, then 
+\begin_inset Formula $v$
+\end_inset
+
+ will be active in step 
+\begin_inset Formula $t+1$
+\end_inset
+
+, but whether or not 
+\begin_inset Formula $u$
+\end_inset
+
+ succeeds, it cannot make any further attempts to activate 
+\begin_inset Formula $v$
+\end_inset
+
+ in subsequent rounds.
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $v$
+\end_inset
+
+ has multiple newly activated neighbours, their attempts are sequenced in
+ an arbitrary order.
+\end_layout
+
+\begin_layout Standard
+For example, see the following diffusion process:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado27.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let now 
+\begin_inset Formula $D_{t}$
+\end_inset
+
+ be the set of active nodes at step 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $v\in N\left(D_{t}\right)$
+\end_inset
+
+, its probability of being active at 
+\begin_inset Formula $t+1$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+p_{v}\left(t+1\right)=1-\prod_{u\in N\left(v\right)\cap D_{t}}\left(1-p_{u,v}\right).
+\]
+
+\end_inset
+
+ The sets 
+\begin_inset Formula $I_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ follow the following iterative definition:
+\begin_inset Formula 
+\[
+I_{0}=S,
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+S_{0}=V\setminus I_{0},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+S_{t+1}=S_{t}\setminus I_{t+1},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $I_{t+1}$
+\end_inset
+
+ is obtained from 
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $I_{t}$
+\end_inset
+
+ as explained before.
+\end_layout
+
+\begin_layout Standard
+Then, the set of all infected nodes throughout the contagion process originating
+ at 
+\begin_inset Formula $S$
+\end_inset
+
+ is
+\begin_inset Formula 
+\[
+I\left(S\right)=\cup_{t\geq0}I_{t},
+\]
+
+\end_inset
+
+ and the expectation is taken over the random infection attempts from the
+ infected nodes, as
+\begin_inset Formula 
+\[
+\sigma\left(S\right)=\mathbb{E}\left[\left|I\left(S\right)\right|\right].
+\]
+
+\end_inset
+
+ However, there is still something that we need to sort out: how to define
+ 
+\begin_inset Formula $p_{u,v}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A commonly used approach is to assign to each edge 
+\begin_inset Formula $\left(u,v\right)$
+\end_inset
+
+ the probability 
+\begin_inset Formula $p_{u,v}=\frac{1}{d_{v}^{-}}$
+\end_inset
+
+ (note that we consider the directed edges).
+\end_layout
+
+\begin_layout Standard
+Some studies propose to learn influence probabilities from data, for example
+ studying the propagation actions in social networks, such as replies, forwards,
+ etc.
+\end_layout
+
+\begin_layout Subsubsection
+Threshold Model
+\end_layout
+
+\begin_layout Standard
+In this case, we consider, for each node 
+\begin_inset Formula $u$
+\end_inset
+
+, the proportion 
+\begin_inset Formula $p$
+\end_inset
+
+ of active neighbours, and 
+\begin_inset Formula $\left(1-p\right)$
+\end_inset
+
+ of inactive ones.
+ To become activated, node 
+\begin_inset Formula $u$
+\end_inset
+
+ needs to verify
+\begin_inset Formula 
+\[
+\rho\cdot p\cdot d_{u}>\gamma\cdot\left(1-p\right)\cdot d_{u},
+\]
+
+\end_inset
+
+ so the threshold to accept is
+\begin_inset Formula 
+\[
+p>\frac{\gamma}{\rho+\gamma},
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the reward (weight) of active nodes and 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ is the reward of inactive nodes.
+ The model applies this rule in cascade until there are no more possible
+ activations.
+\end_layout
+
+\begin_layout Standard
+For example, if 
+\begin_inset Formula $\rho=3$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma=2$
+\end_inset
+
+, the threshold is 
+\begin_inset Formula $\frac{2}{5}$
+\end_inset
+
+.
+ It would go as follows:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename pegado28.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+The Linear Threshold Model
+\end_layout
+
+\begin_layout Standard
+In this case, each node 
+\begin_inset Formula $v$
+\end_inset
+
+ is influenced by each incoming active neighbour 
+\begin_inset Formula $u$
+\end_inset
+
+, according to a weight 
+\begin_inset Formula $w_{u,v}$
+\end_inset
+
+, so that
+\begin_inset Formula 
+\[
+\sum_{u\in N\left(v\right)}w_{u,v}\leq1.
+\]
+
+\end_inset
+
+ Each 
+\begin_inset Formula $v$
+\end_inset
+
+ has a random acceptance threshold 
+\begin_inset Formula $\theta\sim\mathcal{U}\left[0,1\right]$
+\end_inset
+
+, which represents the fraction of 
+\begin_inset Formula $v$
+\end_inset
+
+'s neighbours that must become active in order for 
+\begin_inset Formula $v$
+\end_inset
+
+ to become active.
+\end_layout
+
+\begin_layout Standard
+Given random thresholds, and an initial set of active nodes, 
+\begin_inset Formula $S_{0}$
+\end_inset
+
+, with all the other nodes inactive, the diffusion process unfolds in discrete
+ steps: in step 
+\begin_inset Formula $t$
+\end_inset
+
+, all nodes that were active in step 
+\begin_inset Formula $t-1$
+\end_inset
+
+ remain active, and activate any node 
+\begin_inset Formula $v$
+\end_inset
+
+ such that the total weight of its active neighbours is at least 
+\begin_inset Formula $\theta_{v}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\sum_{u\in N\left(v\right)}w_{u,v}\geq\theta_{v}.
+\]
+
+\end_inset
+
+ A possible way to define 
+\begin_inset Formula $w_{u,v}$
+\end_inset
+
+ is by taking into account the degree of 
+\begin_inset Formula $v$
+\end_inset
+
+, as 
+\begin_inset Formula $w_{u,v}=\frac{1}{d_{v}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Cascades and Clusters
+\end_layout
+
+\begin_layout Standard
+Homophily can often serve as a barrier to diffusion, by making it hard for
+ innovations to arrive from outside communities.
+ This means that we can use the structure of a network to analyze the success
+ or failure of a cascade.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+cluster of density 
+\begin_inset Formula $\delta$
+\end_inset
+
+ 
+\series default
+is a set of nodes such that each node in the set has at least a 
+\begin_inset Formula $\delta$
+\end_inset
+
+ fraction of its network neighbours in the set.
+ For the cascade process to enter the cluster, the threshold should be smaller
+ than 
+\begin_inset Formula $1-\delta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Influence Maximization Problem Formulation
+\end_layout
+
+\begin_layout Standard
+Given 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, let 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ be a function such that 
+\begin_inset Formula $\sigma:S\rightarrow\mathbb{N}$
+\end_inset
+
+ maps a set of nodes 
+\begin_inset Formula $S\in V$
+\end_inset
+
+ to their influence value 
+\begin_inset Formula $\sigma\left(S\right)$
+\end_inset
+
+, i.e., the expected number of activated nodes in a diffusion process.
+\end_layout
+
+\begin_layout Standard
+The 
+\series bold
+influence maximization problem
+\series default
+ asks:
+\end_layout
+
+\begin_layout Standard
+For a given budget, 
+\begin_inset Formula $k$
+\end_inset
+
+, find a set of 
+\begin_inset Formula $k$
+\end_inset
+
+ nodes, 
+\begin_inset Formula $S$
+\end_inset
+
+, with objective
+\begin_inset Formula 
+\[
+\max_{\left|S\right|\leq k}\sigma\left(S\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Solving this problem is NP-hard, so we need to leverage approximate methods.
+\end_layout
+
+\begin_layout Subsubsection
+Greedy Framework
+\end_layout
+
+\begin_layout Standard
+The approximation by greedy algorithm consists in iteratively adding nodes
+ to 
+\begin_inset Formula $S$
+\end_inset
+
+ by maximizing the marginal gain in each step:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+greedy_max_influence(G=(V,E), k):
+\end_layout
+
+\begin_layout Plain Layout
+
+	S = {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	for i in range(1,k) do
+\end_layout
+
+\begin_layout Plain Layout
+
+		u = argmax_u([ sigma(S.union({u})) - sigma(S) for u in V-S])
+\end_layout
+
+\begin_layout Plain Layout
+
+		S = S.union({u})
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Submodular Functions
+\end_layout
+
+\begin_layout Standard
+A set function 
+\begin_inset Formula $f$
+\end_inset
+
+ is 
+\series bold
+submodular
+\series default
+ if for any sets 
+\begin_inset Formula $R\subset T$
+\end_inset
+
+ and 
+\begin_inset Formula $\forall v\notin T,R$
+\end_inset
+
+, it holds
+\begin_inset Formula 
+\[
+f\left(R\cup\left\{ v\right\} \right)-f\left(R\right)\geq f\left(T\cup\left\{ v\right\} \right)-f\left(T\right).
+\]
+
+\end_inset
+
+ These functions represents functions of 
+\series bold
+diminishing returns
+\series default
+: the marginal gain from adding an element to a set 
+\begin_inset Formula $R$
+\end_inset
+
+ is at least as high as the marginal gain from adding the same element to
+ a superset of 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It also implies the monotonicity of 
+\begin_inset Formula $f$
+\end_inset
+
+, 
+\begin_inset Formula $f\left(R\cup\left\{ v\right\} \right)\geq f\left(R\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Color Box
+status open
+
+\begin_layout Theorem
+For a non-negative, monotone, submodular funciton 
+\begin_inset Formula $f$
+\end_inset
+
+, let 
+\begin_inset Formula $S$
+\end_inset
+
+ be a set of size 
+\begin_inset Formula $k$
+\end_inset
+
+ obtained by selecting elements one at a time, each time choosing an element
+ that provides the largest marginal increase in the function value.
+\end_layout
+
+\begin_layout Theorem
+Let 
+\begin_inset Formula $S^{*}$
+\end_inset
+
+ be a set that maximizes the value of 
+\begin_inset Formula $f$
+\end_inset
+
+ over all 
+\begin_inset Formula $k$
+\end_inset
+
+-element sets.
+\end_layout
+
+\begin_layout Theorem
+Then
+\begin_inset Formula 
+\[
+f\left(S\right)\geq\left[1-\left(1-\frac{1}{k}\right)^{k}\right]f\left(S^{*}\right).
+\]
+
+\end_inset
+
+ In other words, 
+\begin_inset Formula $S$
+\end_inset
+
+ provides a 
+\begin_inset Formula $\left(1-\frac{1}{e}\right)=\lim_{k\rightarrow\infty}1-\left(1-\frac{1}{k}\right)^{k}$
+\end_inset
+
+ approximation of the optimal value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
